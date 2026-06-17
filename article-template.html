@@ -3,206 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Understanding 48V Off-Grid Architecture | Omni-Terrain</title>
-    <meta name="description" content="A deep dive into why 48V systems are the gold standard for high-yield off-grid solar and overland setups.">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <title>48V Solar Architecture | Omni-Terrain</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        tech: ['Rajdhani', 'sans-serif'],
-                    },
-                    colors: {
-                        omni: {
-                            dark: '#050507',
-                            card: 'rgba(255, 255, 255, 0.03)',
-                            border: 'rgba(255, 255, 255, 0.08)',
-                            cyan: '#00f0ff',
-                            orange: '#ff5e00',
-                        }
-                    },
-                    backgroundImage: {
-                        'grid-pattern': "linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)",
-                    }
-                }
-            }
-        }
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #050507; }
-        .bg-grid { background-size: 40px 40px; }
-        .glass-panel {
-            background: rgba(20, 20, 25, 0.6);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        
-        /* Custom styling for the generated article content to make it highly readable */
-        .prose h2 { font-family: 'Rajdhani', sans-serif; font-size: 2rem; font-weight: 700; color: #fff; margin-top: 2.5rem; margin-bottom: 1rem; letter-spacing: 0.05em; }
-        .prose h3 { font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 600; color: #e5e7eb; margin-top: 2rem; margin-bottom: 0.75rem; }
-        .prose p { margin-bottom: 1.5rem; line-height: 1.8; color: #9ca3af; font-size: 1.125rem; }
-        .prose ul { margin-bottom: 1.5rem; list-style-type: disc; padding-left: 1.5rem; color: #9ca3af; line-height: 1.8; font-size: 1.125rem; }
-        .prose li { margin-bottom: 0.5rem; }
-        .prose strong { color: #fff; font-weight: 600; }
-        
-        /* Custom Table Styling for Technical Comparisons */
-        .prose table { width: 100%; margin-bottom: 2rem; border-collapse: collapse; text-align: left; }
-        .prose th { background-color: rgba(0, 240, 255, 0.1); color: #00f0ff; padding: 1rem; border: 1px solid rgba(255, 255, 255, 0.1); font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; tracking-wider; }
-        .prose td { padding: 1rem; border: 1px solid rgba(255, 255, 255, 0.05); color: #d1d5db; }
-        .prose tr:nth-child(even) { background-color: rgba(255, 255, 255, 0.02); }
+        body { font-family: 'Inter', sans-serif; background-color: #0a0a0a; color: #e5e5e5; }
+        .neon-text { text-shadow: 0 0 10px rgba(0, 240, 255, 0.5); }
     </style>
 </head>
+<body class="antialiased selection:bg-[#00f0ff] selection:text-black">
 
-<body class="text-gray-300 font-sans antialiased overflow-x-hidden selection:bg-omni-cyan selection:text-black relative">
-
-    <!-- Background Grid -->
-    <div class="fixed inset-0 z-[-1] bg-grid-pattern bg-grid pointer-events-none opacity-40"></div>
-    <div class="fixed top-0 left-0 w-full h-full bg-gradient-to-b from-[#050507] via-[#050507]/90 to-[#050507] z-[-1] pointer-events-none"></div>
-
-    <!-- Navigation (Same as homepage for consistency) -->
-    <nav class="fixed top-0 left-0 w-full z-50 glass-panel border-b border-omni-border">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <a href="index.html" class="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity">
-                    <i class="fa-solid fa-layer-group text-omni-cyan text-2xl"></i>
-                    <span class="font-tech text-3xl font-bold text-white tracking-widest">OMNI<span class="text-omni-cyan">-</span>TERRAIN</span>
-                </a>
-                <div class="hidden md:flex space-x-8">
-                    <a href="index.html#systems" class="text-sm font-medium uppercase tracking-wider text-gray-400 hover:text-omni-cyan transition-colors">Systems</a>
-                    <a href="index.html#research" class="text-sm font-medium uppercase tracking-wider text-omni-cyan transition-colors">Research Database</a>
-                </div>
+    <!-- FIXED NAVIGATION BAR -->
+    <nav class="fixed top-0 left-0 w-full z-50 bg-[#0a0a0a]/80 backdrop-blur-md border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-black tracking-widest text-white flex items-center gap-2">
+                <svg class="w-6 h-6 text-[#00f0ff]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                OMNI-TERRAIN
+            </a>
+            <div class="hidden md:flex gap-8 text-sm font-semibold tracking-widest text-gray-400">
+                <a href="index.html" class="hover:text-[#00f0ff] transition-colors">HOME</a>
+                <a href="#" class="hover:text-[#00f0ff] transition-colors">SYSTEMS</a>
+                <a href="#" class="text-[#00f0ff]">RESEARCH</a>
             </div>
         </div>
     </nav>
 
-    <main class="pt-32 pb-20 relative z-10">
-        <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <!-- Breadcrumbs & Meta -->
-            <div class="mb-8">
-                <div class="flex items-center gap-2 text-sm font-tech tracking-widest text-gray-500 mb-6 uppercase">
-                    <a href="index.html" class="hover:text-omni-cyan transition-colors">Home</a>
-                    <span>/</span>
-                    <a href="#" class="hover:text-omni-cyan transition-colors">Research</a>
-                    <span>/</span>
-                    <span class="text-omni-orange">Solar Architecture</span>
-                </div>
-                
-                <h1 class="font-tech text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-6 leading-tight">
-                    Understanding 48V Off-Grid Architecture: The Gold Standard for High-Yield Systems
-                </h1>
-                
-                <div class="flex items-center gap-6 border-b border-omni-border pb-8">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-omni-cyan/20 flex items-center justify-center border border-omni-cyan/30">
-                            <i class="fa-solid fa-microchip text-omni-cyan"></i>
-                        </div>
-                        <div>
-                            <p class="text-white font-medium text-sm">PRP Engineering Team</p>
-                            <p class="text-gray-500 text-xs">Updated: June 18, 2026</p>
-                        </div>
-                    </div>
-                    <div class="text-gray-500 text-sm flex items-center gap-2">
-                        <i class="fa-regular fa-clock"></i> 8 min read
-                    </div>
-                </div>
+    <!-- MAIN ARTICLE CONTENT -->
+    <main class="pt-32 pb-20 px-6 max-w-4xl mx-auto">
+        
+        <!-- Affiliate Disclosure -->
+        <div class="mb-8 p-4 bg-gray-900 border border-gray-800 rounded-lg text-xs text-gray-400 leading-relaxed">
+            <strong class="text-gray-300">FTC Disclosure:</strong> Omni-Terrain is a reader-supported technical research hub. When you purchase through links on our site, we may earn an affiliate commission at no additional cost to you.
+        </div>
+
+        <!-- Article Header -->
+        <header class="mb-12">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="px-3 py-1 bg-[#00f0ff]/10 text-[#00f0ff] text-xs font-bold uppercase tracking-wider rounded border border-[#00f0ff]/20">Off-Grid Solar</span>
+                <span class="text-sm text-gray-500 font-mono">Updated: 2026</span>
             </div>
+            <h1 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight tracking-tight">48V Hybrid Architecture: Server Rack Integration Guide</h1>
+            <p class="text-xl text-gray-400 leading-relaxed">A deep dive into replacing legacy 12V systems with high-yield 48V LiFePO4 server rack batteries and split-phase hybrid inverters.</p>
+        </header>
 
-            <!-- Featured Image Placeholder -->
-            <div class="w-full h-[400px] rounded-xl bg-gray-900 border border-omni-border mb-12 flex items-center justify-center overflow-hidden relative group">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
-                <img src="https://placehold.co/1200x600/1a1a1a/00f0ff?text=48V+Wiring+Schematic" alt="48V Wiring Schematic" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500">
-                <p class="absolute bottom-4 left-6 z-20 text-xs font-tech tracking-widest text-omni-cyan">FIG 1. STANDARD 48V SERVER RACK CONFIGURATION</p>
-            </div>
+        <!-- Feature Image with Unsplash Integration -->
+        <div class="relative w-full h-[400px] mb-16 rounded-xl overflow-hidden group bg-gray-900 border border-gray-800">
+            <!-- REAL UNSPLASH IMAGE -->
+            <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=80" alt="48V Solar Setup" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500">
+            <div class="absolute bottom-4 right-4 bg-black/80 px-3 py-1 text-xs font-mono text-[#00f0ff] border border-[#00f0ff]/30 backdrop-blur">FIG 1: 48V ARRAY</div>
+        </div>
 
-            <!-- The Content (Prose) -->
-            <div class="prose max-w-none">
-                <p>When designing a high-ticket off-grid solar system for a remote cabin or a heavy-duty overland rig, the first major technical decision you face is voltage. While 12V systems dominate the entry-level RV market, and 24V bridges the gap, <strong>48V architecture has become the undisputed gold standard</strong> for high-yield, premium integrations.</p>
+        <!-- Article Body -->
+        <article class="prose prose-invert prose-lg max-w-none">
+            <h2 class="text-2xl font-bold text-white mb-4 border-b border-gray-800 pb-2">The Death of 12V Systems</h2>
+            <p class="mb-6 text-gray-300">For decades, off-grid cabins and overland vehicles relied on daisy-chained 12V lead-acid arrays. The voltage drop over long cable runs required massive, expensive copper wiring. Moving to a native 48V architecture reduces amperage by a factor of four, allowing for thinner gauge wire, less heat generation, and significantly higher efficiency.</p>
 
-                <p>In this technical briefing, we break down exactly why stepping up to 48V reduces costs in heavy copper wiring, drastically improves inverter efficiency, and future-proofs your energy independence.</p>
+            <h3 class="text-xl font-bold text-white mb-3 mt-10">Component Specifications</h3>
+            <p class="mb-6 text-gray-300">When sourcing a tier-one system, integration between the Battery Management System (BMS) and the hybrid inverter is critical for closed-loop communication.</p>
 
-                <h2>1. The Physics of Amperage and Wire Gauge</h2>
-                <p>To understand the 48V advantage, we must look at Ohm's Law and the Watt's Law formula: <code>Watts = Volts × Amps</code>. If your off-grid cabin requires a 6,000-watt load (running an AC unit, well pump, and refrigerator simultaneously), the amperage drawn from your battery bank changes violently depending on your system's voltage.</p>
-                
-                <ul>
-                    <li><strong>At 12V:</strong> 6,000W / 12V = <strong>500 Amps</strong></li>
-                    <li><strong>At 24V:</strong> 6,000W / 24V = <strong>250 Amps</strong></li>
-                    <li><strong>At 48V:</strong> 6,000W / 48V = <strong>125 Amps</strong></li>
-                </ul>
-
-                <p>Pushing 500 amps through a 12V system requires massively thick, incredibly expensive 4/0 AWG copper cables. Furthermore, high amperage generates extreme heat, increasing the risk of terminal failure. By running a 48V system, you drop the current to a manageable 125 amps, allowing for thinner, cheaper wiring and significantly reducing thermal energy loss.</p>
-
-                <h2>2. Inverter Efficiency & Surge Capacity</h2>
-                <p>High-ticket hybrid inverters (like those from Victron Energy or Growatt) operate substantially more efficiently at 48V. Converting DC battery power to 120V/240V AC household power requires stepping up the voltage. Stepping 48V up to 120V is a much smaller "jump" than stepping 12V up to 120V.</p>
-
-                <table>
+            <!-- Technical Data Table -->
+            <div class="overflow-x-auto mb-10">
+                <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr>
-                            <th>Specification</th>
-                            <th>Premium 12V System</th>
-                            <th>Premium 48V System</th>
+                        <tr class="border-b border-gray-700 bg-gray-900">
+                            <th class="p-4 text-sm font-semibold text-[#00f0ff] uppercase tracking-wider">Component</th>
+                            <th class="p-4 text-sm font-semibold text-[#00f0ff] uppercase tracking-wider">Recommended Spec</th>
+                            <th class="p-4 text-sm font-semibold text-[#00f0ff] uppercase tracking-wider">Advantage</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Max Practical Inverter Size</strong></td>
-                            <td>3,000 Watts</td>
-                            <td>12,000+ Watts</td>
+                    <tbody class="text-gray-300">
+                        <tr class="border-b border-gray-800 hover:bg-gray-900/50 transition-colors">
+                            <td class="p-4 font-mono text-sm">Inverter</td>
+                            <td class="p-4">12kW Split-Phase Hybrid</td>
+                            <td class="p-4 text-sm">Runs 240V appliances natively.</td>
                         </tr>
-                        <tr>
-                            <td><strong>Copper Wiring Cost</strong></td>
-                            <td>Very High (4/0 AWG required)</td>
-                            <td>Low (2 AWG or 4 AWG)</td>
+                        <tr class="border-b border-gray-800 hover:bg-gray-900/50 transition-colors">
+                            <td class="p-4 font-mono text-sm">Battery</td>
+                            <td class="p-4">100Ah 48V LiFePO4 Server Rack</td>
+                            <td class="p-4 text-sm">Built-in BMS, 5kWh density per slot.</td>
                         </tr>
-                        <tr>
-                            <td><strong>Solar Charge Controller Limit</strong></td>
-                            <td>~1,200W per controller</td>
-                            <td>~5,000W+ per controller</td>
-                        </tr>
-                        <tr>
-                            <td><strong>System Scalability</strong></td>
-                            <td>Severely Limited</td>
-                            <td>Infinite (Server Rack Stacking)</td>
+                        <tr class="hover:bg-gray-900/50 transition-colors">
+                            <td class="p-4 font-mono text-sm">Charge Controller</td>
+                            <td class="p-4">Dual MPPT 600V</td>
+                            <td class="p-4 text-sm">Allows long series arrays without clipping.</td>
                         </tr>
                     </tbody>
                 </table>
+            </div>
 
-                <h2>3. The Server Rack Battery Revolution</h2>
-                <p>The industry has shifted entirely toward 48V LiFePO4 (Lithium Iron Phosphate) server rack batteries. These units typically offer 5.12kWh of storage per battery and slide perfectly into standardized heavy-duty server racks. By utilizing 48V, you can parallel link up to 16 of these batteries without creating a dangerous wiring nightmare.</p>
-
-                <div class="mt-12 p-6 rounded-lg glass-panel border border-omni-cyan/30 bg-omni-cyan/5">
-                    <h3 class="!mt-0 !mb-2 text-omni-cyan font-tech tracking-wider text-xl uppercase">Omni-Terrain Recommended Setup</h3>
-                    <p class="!text-sm !mb-4">For flawless 48V integration, our engineering team recommends pairing the <strong>Victron Quattro 48/5000</strong> with EG4-LL Lithium server rack batteries.</p>
-                    <button class="px-6 py-3 bg-omni-cyan text-black font-tech font-bold tracking-wider rounded hover:bg-white transition-colors">
-                        VIEW VICTRON 48V SPECS <i class="fa-solid fa-arrow-right ml-2"></i>
-                    </button>
-                    <p class="text-[10px] text-gray-500 mt-4 leading-tight"><em>Disclaimer: Links provided may be affiliate links. PRP Xpert LLC earns a commission on qualifying technical equipment purchases at no additional cost to you.</em></p>
-                </div>
-
+            <!-- Call to Action (Affiliate Link Placeholder) -->
+            <div class="my-12 p-8 bg-gradient-to-r from-gray-900 to-black border border-[#00f0ff]/20 rounded-xl text-center relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1 h-full bg-[#00f0ff]"></div>
+                <h3 class="text-2xl font-black text-white mb-2 tracking-wide">Ready to Upgrade?</h3>
+                <p class="text-gray-400 mb-6 text-sm">Check real-time pricing and availability on our recommended tier-one 48V systems.</p>
+                <a href="#" class="inline-block px-8 py-4 bg-[#00f0ff] text-black font-bold uppercase tracking-widest text-sm hover:bg-white hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all duration-300">
+                    View Approved Vendors
+                </a>
             </div>
         </article>
     </main>
 
-    <footer class="border-t border-omni-border bg-[#020203] py-12 relative z-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="flex items-center justify-center gap-3 mb-6">
-                <i class="fa-solid fa-layer-group text-gray-500 text-xl"></i>
-                <span class="font-tech text-xl font-bold text-gray-400 tracking-widest">OMNI-TERRAIN</span>
-            </div>
-            <p class="text-xs text-gray-600 mb-2">&copy; 2026 Omni-Terrain Systems. All rights reserved.</p>
-            <p class="text-xs text-gray-600">Operated by <span class="font-bold text-gray-400">PRP Xpert LLC</span>, Wyoming, USA.</p>
+    <!-- FOOTER -->
+    <footer class="border-t border-gray-900 bg-black py-12 text-center mt-20">
+        <div class="flex items-center justify-center gap-2 mb-4">
+            <svg class="w-5 h-5 text-gray-700" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            <span class="text-xl font-black tracking-widest text-gray-600">OMNI-TERRAIN</span>
+        </div>
+        <p class="text-sm text-gray-600">Operated by PRP Xpert LLC, Wyoming, USA.</p>
+        <div class="mt-4 flex justify-center gap-6 text-xs text-gray-700 font-semibold tracking-wider">
+            <a href="#" class="hover:text-gray-400">PRIVACY</a>
+            <a href="#" class="hover:text-gray-400">TERMS</a>
+            <a href="#" class="hover:text-gray-400">DISCLOSURE</a>
         </div>
     </footer>
-
 </body>
 </html>
