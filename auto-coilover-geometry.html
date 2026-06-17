@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coilover Spring Rates & Track Geometry | Omni-Terrain</title>
+    <meta name="description" content="Technical telemetry analysis of aftermarket coilover spring rates vs OEM suspension geometry.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        tech: ['Rajdhani', 'sans-serif'],
+                    },
+                    colors: {
+                        omni: {
+                            dark: '#050507',
+                            card: 'rgba(255, 255, 255, 0.03)',
+                            border: 'rgba(255, 255, 255, 0.08)',
+                            cyan: '#00f0ff',
+                            orange: '#ff5e00',
+                            red: '#ef4444',
+                        }
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)",
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #050507; }
+        .bg-grid { background-size: 40px 40px; }
+        .glass-panel {
+            background: rgba(20, 20, 25, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .prose h2 { font-family: 'Rajdhani', sans-serif; font-size: 2rem; font-weight: 700; color: #fff; margin-top: 2.5rem; margin-bottom: 1rem; letter-spacing: 0.05em; }
+        .prose h3 { font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 600; color: #e5e7eb; margin-top: 2rem; margin-bottom: 0.75rem; }
+        .prose p { margin-bottom: 1.5rem; line-height: 1.8; color: #9ca3af; font-size: 1.125rem; }
+        .prose ul { margin-bottom: 1.5rem; list-style-type: disc; padding-left: 1.5rem; color: #9ca3af; line-height: 1.8; font-size: 1.125rem; }
+        .prose li { margin-bottom: 0.5rem; }
+        .prose strong { color: #fff; font-weight: 600; }
+        .prose table { width: 100%; margin-bottom: 2rem; border-collapse: collapse; text-align: left; }
+        .prose th { background-color: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 1rem; border: 1px solid rgba(255, 255, 255, 0.1); font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; }
+        .prose td { padding: 1rem; border: 1px solid rgba(255, 255, 255, 0.05); color: #d1d5db; }
+        .prose tr:nth-child(even) { background-color: rgba(255, 255, 255, 0.02); }
+    </style>
+</head>
+
+<body class="text-gray-300 font-sans antialiased overflow-x-hidden selection:bg-omni-red selection:text-white relative">
+
+    <div class="fixed inset-0 z-[-1] bg-grid-pattern bg-grid pointer-events-none opacity-40"></div>
+    <div class="fixed top-0 left-0 w-full h-full bg-gradient-to-b from-[#050507] via-[#050507]/90 to-[#050507] z-[-1] pointer-events-none"></div>
+
+    <nav class="fixed top-0 left-0 w-full z-50 glass-panel border-b border-omni-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity">
+                    <i class="fa-solid fa-layer-group text-omni-cyan text-2xl"></i>
+                    <span class="font-tech text-3xl font-bold text-white tracking-widest">OMNI<span class="text-omni-cyan">-</span>TERRAIN</span>
+                </a>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html#systems" class="text-sm font-medium uppercase tracking-wider text-gray-400 hover:text-omni-cyan transition-colors">Systems</a>
+                    <a href="index.html#research" class="text-sm font-medium uppercase tracking-wider text-omni-cyan transition-colors">Research Database</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 relative z-10">
+        <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="mb-8">
+                <div class="flex items-center gap-2 text-sm font-tech tracking-widest text-gray-500 mb-6 uppercase">
+                    <a href="index.html" class="hover:text-omni-cyan transition-colors">Home</a>
+                    <span>/</span>
+                    <a href="#" class="hover:text-omni-cyan transition-colors">Research</a>
+                    <span>/</span>
+                    <span class="text-omni-red">Auto Performance</span>
+                </div>
+                
+                <h1 class="font-tech text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-6 leading-tight">
+                    Coilover Spring Rates: OEM vs Aftermarket Track Geometry
+                </h1>
+                
+                <div class="flex items-center gap-6 border-b border-omni-border pb-8">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-omni-red/20 flex items-center justify-center border border-omni-red/30">
+                            <i class="fa-solid fa-gauge-high text-omni-red"></i>
+                        </div>
+                        <div>
+                            <p class="text-white font-medium text-sm">PRP Engineering Team</p>
+                            <p class="text-gray-500 text-xs">Updated: June 18, 2026</p>
+                        </div>
+                    </div>
+                    <div class="text-gray-500 text-sm flex items-center gap-2">
+                        <i class="fa-regular fa-clock"></i> 8 min read
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full h-[400px] rounded-xl bg-gray-900 border border-omni-border mb-12 flex items-center justify-center overflow-hidden relative group">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+                <img src="https://placehold.co/1200x600/1a1a1a/ef4444?text=Suspension+Telemetry+Data" alt="Suspension Telemetry Data" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500">
+                <p class="absolute bottom-4 left-6 z-20 text-xs font-tech tracking-widest text-omni-red">FIG 1. DAMPENING REBOUND CURVE ANALYSIS</p>
+            </div>
+
+            <div class="prose max-w-none">
+                <p>Upgrading a vehicle's suspension from OEM MacPherson struts to a fully adjustable true-coilover system is not just about lowering the ride height—it is about fundamentally altering the chassis' Roll Center and roll-moment geometry to maximize tire contact patches under lateral load.</p>
+
+                <p>In this engineering breakdown, we explore why linear spring rates in premium aftermarket kits outperform OEM progressive springs during track conditions.</p>
+
+                <h2>1. Progressive vs. Linear Spring Rates</h2>
+                <p>OEM manufacturers are obsessed with NVH (Noise, Vibration, and Harshness). To keep the daily commute comfortable, they use <strong>progressive springs</strong>. These springs are soft at the top of their travel to absorb bumps, but get stiffer as they compress.</p>
+                <p>The problem? Unpredictability. Mid-corner, if you hit a dip, the spring rate rapidly changes, unsettling the chassis and breaking traction.</p>
+                <p>Premium high-ticket coilovers (like BC Racing or KW Suspensions) use <strong>linear springs</strong>. If a spring is rated at 8kg/mm, it takes exactly 8kg to compress it one millimeter, and exactly 16kg to compress it two millimeters. This mathematical predictability allows drivers to tune their dampening to perfection.</p>
+
+                <h2>2. Independent Ride Height Adjustment</h2>
+                <p>Cheap "lowering springs" compress the shock absorber piston simply by being shorter, reducing your suspension travel and leading to "bottoming out."</p>
+                <p>True high-performance coilovers feature an adjustable lower mount. This allows you to thread the entire shock body down into the lower cup. You lower the car's center of gravity <em>without</em> losing a single millimeter of shock travel or altering the spring preload.</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Dynamics</th>
+                            <th>OEM Suspension</th>
+                            <th>Premium Coilover System</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Spring Type</strong></td>
+                            <td>Progressive (Unpredictable)</td>
+                            <td>Linear (Mathematically Predictable)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dampening Tuning</strong></td>
+                            <td>Fixed Factory Valving</td>
+                            <td>1-36 Clicks (Compression & Rebound)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Camber Plate</strong></td>
+                            <td>Fixed Rubber Top Mount</td>
+                            <td>Pillowball Mount (Adjustable Degrees)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="mt-12 p-6 rounded-lg glass-panel border border-omni-red/30 bg-omni-red/5">
+                    <h3 class="!mt-0 !mb-2 text-omni-red font-tech tracking-wider text-xl uppercase">Omni-Terrain Recommendation</h3>
+                    <p class="!text-sm !mb-4">For overland rigs handling heavy payloads or track cars requiring precise corner balancing, upgrading to a true linear-rate coilover system is the single most critical chassis modification available.</p>
+                    <button class="px-6 py-3 bg-omni-red text-white font-tech font-bold tracking-wider rounded hover:bg-white hover:text-black transition-colors">
+                        VIEW SUSPENSION SPECS <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </button>
+                    <p class="text-[10px] text-gray-500 mt-4 leading-tight"><em>Disclaimer: Links provided may be affiliate links. PRP Xpert LLC earns a commission on qualifying technical equipment purchases at no additional cost to you.</em></p>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <footer class="border-t border-omni-border bg-[#020203] py-12 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="flex items-center justify-center gap-3 mb-6">
+                <i class="fa-solid fa-layer-group text-gray-500 text-xl"></i>
+                <span class="font-tech text-xl font-bold text-gray-400 tracking-widest">OMNI-TERRAIN</span>
+            </div>
+            <p class="text-xs text-gray-600 mb-2">&copy; 2026 Omni-Terrain Systems. All rights reserved.</p>
+            <p class="text-xs text-gray-600">Operated by <span class="font-bold text-gray-400">PRP Xpert LLC</span>, Wyoming, USA.</p>
+        </div>
+    </footer>
+</body>
+</html>
