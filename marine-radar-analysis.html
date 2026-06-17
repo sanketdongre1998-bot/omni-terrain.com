@@ -3,188 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Garmin vs Simrad: Solid State Doppler Radar | Omni-Terrain</title>
-    <meta name="description" content="A deep technical comparison of Garmin Fantom and Simrad Halo solid-state doppler marine radars.">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <title>Marine Radar Analysis | Omni-Terrain</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        tech: ['Rajdhani', 'sans-serif'],
-                    },
-                    colors: {
-                        omni: {
-                            dark: '#050507',
-                            card: 'rgba(255, 255, 255, 0.03)',
-                            border: 'rgba(255, 255, 255, 0.08)',
-                            cyan: '#00f0ff',
-                            orange: '#ff5e00',
-                        }
-                    },
-                    backgroundImage: {
-                        'grid-pattern': "linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)",
-                    }
-                }
-            }
-        }
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #050507; }
-        .bg-grid { background-size: 40px 40px; }
-        .glass-panel {
-            background: rgba(20, 20, 25, 0.6);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .prose h2 { font-family: 'Rajdhani', sans-serif; font-size: 2rem; font-weight: 700; color: #fff; margin-top: 2.5rem; margin-bottom: 1rem; letter-spacing: 0.05em; }
-        .prose h3 { font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 600; color: #e5e7eb; margin-top: 2rem; margin-bottom: 0.75rem; }
-        .prose p { margin-bottom: 1.5rem; line-height: 1.8; color: #9ca3af; font-size: 1.125rem; }
-        .prose ul { margin-bottom: 1.5rem; list-style-type: disc; padding-left: 1.5rem; color: #9ca3af; line-height: 1.8; font-size: 1.125rem; }
-        .prose li { margin-bottom: 0.5rem; }
-        .prose strong { color: #fff; font-weight: 600; }
-        .prose table { width: 100%; margin-bottom: 2rem; border-collapse: collapse; text-align: left; }
-        .prose th { background-color: rgba(0, 240, 255, 0.1); color: #00f0ff; padding: 1rem; border: 1px solid rgba(255, 255, 255, 0.1); font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; }
-        .prose td { padding: 1rem; border: 1px solid rgba(255, 255, 255, 0.05); color: #d1d5db; }
-        .prose tr:nth-child(even) { background-color: rgba(255, 255, 255, 0.02); }
+        body { font-family: 'Inter', sans-serif; background-color: #0a0a0a; color: #e5e5e5; }
     </style>
 </head>
+<body class="antialiased selection:bg-[#00f0ff] selection:text-black">
 
-<body class="text-gray-300 font-sans antialiased overflow-x-hidden selection:bg-omni-cyan selection:text-black relative">
-
-    <div class="fixed inset-0 z-[-1] bg-grid-pattern bg-grid pointer-events-none opacity-40"></div>
-    <div class="fixed top-0 left-0 w-full h-full bg-gradient-to-b from-[#050507] via-[#050507]/90 to-[#050507] z-[-1] pointer-events-none"></div>
-
-    <nav class="fixed top-0 left-0 w-full z-50 glass-panel border-b border-omni-border">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <a href="index.html" class="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity">
-                    <i class="fa-solid fa-layer-group text-omni-cyan text-2xl"></i>
-                    <span class="font-tech text-3xl font-bold text-white tracking-widest">OMNI<span class="text-omni-cyan">-</span>TERRAIN</span>
-                </a>
-                <div class="hidden md:flex space-x-8">
-                    <a href="index.html#systems" class="text-sm font-medium uppercase tracking-wider text-gray-400 hover:text-omni-cyan transition-colors">Systems</a>
-                    <a href="index.html#research" class="text-sm font-medium uppercase tracking-wider text-omni-cyan transition-colors">Research Database</a>
-                </div>
+    <!-- FIXED NAVIGATION BAR -->
+    <nav class="fixed top-0 left-0 w-full z-50 bg-[#0a0a0a]/80 backdrop-blur-md border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-black tracking-widest text-white flex items-center gap-2">
+                <svg class="w-6 h-6 text-[#00f0ff]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                OMNI-TERRAIN
+            </a>
+            <div class="hidden md:flex gap-8 text-sm font-semibold tracking-widest text-gray-400">
+                <a href="index.html" class="hover:text-[#00f0ff] transition-colors">HOME</a>
+                <a href="#" class="hover:text-[#00f0ff] transition-colors">SYSTEMS</a>
+                <a href="#" class="text-[#00f0ff]">RESEARCH</a>
             </div>
         </div>
     </nav>
 
-    <main class="pt-32 pb-20 relative z-10">
-        <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <div class="mb-8">
-                <div class="flex items-center gap-2 text-sm font-tech tracking-widest text-gray-500 mb-6 uppercase">
-                    <a href="index.html" class="hover:text-omni-cyan transition-colors">Home</a>
-                    <span>/</span>
-                    <a href="#" class="hover:text-omni-cyan transition-colors">Research</a>
-                    <span>/</span>
-                    <span class="text-omni-cyan">Marine Electronics</span>
-                </div>
-                
-                <h1 class="font-tech text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-6 leading-tight">
-                    Garmin Fantom vs Simrad Halo: Solid State Doppler Radar Analysis
-                </h1>
-                
-                <div class="flex items-center gap-6 border-b border-omni-border pb-8">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-omni-cyan/20 flex items-center justify-center border border-omni-cyan/30">
-                            <i class="fa-solid fa-anchor text-omni-cyan"></i>
-                        </div>
-                        <div>
-                            <p class="text-white font-medium text-sm">PRP Engineering Team</p>
-                            <p class="text-gray-500 text-xs">Updated: June 18, 2026</p>
-                        </div>
-                    </div>
-                    <div class="text-gray-500 text-sm flex items-center gap-2">
-                        <i class="fa-regular fa-clock"></i> 11 min read
-                    </div>
-                </div>
+    <!-- MAIN ARTICLE CONTENT -->
+    <main class="pt-32 pb-20 px-6 max-w-4xl mx-auto">
+        <div class="mb-8 p-4 bg-gray-900 border border-gray-800 rounded-lg text-xs text-gray-400 leading-relaxed">
+            <strong class="text-gray-300">FTC Disclosure:</strong> Omni-Terrain is a reader-supported technical research hub. When you purchase through links on our site, we may earn an affiliate commission at no additional cost to you.
+        </div>
+
+        <header class="mb-12">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="px-3 py-1 bg-[#00f0ff]/10 text-[#00f0ff] text-xs font-bold uppercase tracking-wider rounded border border-[#00f0ff]/20">Marine Electronics</span>
+                <span class="text-sm text-gray-500 font-mono">Updated: 2026</span>
             </div>
+            <h1 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight tracking-tight">Solid-State Doppler Radar vs. Traditional Magnetron Systems</h1>
+            <p class="text-xl text-gray-400 leading-relaxed">Evaluating target separation, startup times, and NMEA 2000 integration protocols for offshore navigation redundancy.</p>
+        </header>
 
-            <div class="w-full h-[400px] rounded-xl bg-gray-900 border border-omni-border mb-12 flex items-center justify-center overflow-hidden relative group">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
-                <img src="https://placehold.co/1200x600/1a1a1a/00f0ff?text=Doppler+Radar+Overlay" alt="Doppler Radar Overlay" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500">
-                <p class="absolute bottom-4 left-6 z-20 text-xs font-tech tracking-widest text-omni-cyan">FIG 1. DOPPLER TARGET TRACKING ON MFD</p>
-            </div>
+        <div class="relative w-full h-[400px] mb-16 rounded-xl overflow-hidden group bg-gray-900 border border-gray-800">
+            <!-- REAL UNSPLASH IMAGE -->
+            <img src="https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&w=1200&q=80" alt="Marine Electronics" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500">
+            <div class="absolute bottom-4 right-4 bg-black/80 px-3 py-1 text-xs font-mono text-[#00f0ff] border border-[#00f0ff]/30 backdrop-blur">FIG 1: HELM MFD NETWORK</div>
+        </div>
 
-            <div class="prose max-w-none">
-                <p>For decades, marine radar relied on magnetron technology—a system that required a warm-up period, emitted high levels of radiation, and struggled with short-range target resolution. Today, the high-ticket marine electronics market is entirely dominated by <strong>Solid-State Doppler Radar</strong>.</p>
+        <article class="prose prose-invert prose-lg max-w-none">
+            <h2 class="text-2xl font-bold text-white mb-4 border-b border-gray-800 pb-2">The Shift to Solid-State</h2>
+            <p class="mb-6 text-gray-300">Traditional magnetron pulse radars have long been the industry standard, known for raw power and long-range weather detection. However, modern solid-state Doppler radars (pulse compression) offer instantaneous startup times, significantly lower power consumption, and superior close-range target separation—critical for navigating tight marinas at night.</p>
 
-                <p>In this technical breakdown, we analyze the two apex predators of the marine radar space: The Garmin Fantom series and the Simrad Halo series. Both utilize pulse compression technology, but their approach to doppler target processing differs significantly.</p>
+            <h3 class="text-xl font-bold text-white mb-3 mt-10">Data Protocol Integration</h3>
+            <p class="mb-6 text-gray-300">The radar dome must communicate flawlessly with the Multi-Function Display (MFD). Modern systems utilize Ethernet for high-bandwidth radar imagery and NMEA 2000 backbones for overlaying heading sensor data.</p>
 
-                <h2>1. The Power of MotionScope™ vs. VelocityTrack™</h2>
-                <p>Doppler radar's primary advantage is its ability to instantly highlight moving targets based on their velocity relative to your vessel. This drastically reduces the cognitive load on the captain during low-visibility navigation.</p>
-                
-                <ul>
-                    <li><strong>Garmin Fantom (MotionScope™):</strong> Garmin's algorithm uses the Doppler effect to paint moving targets in contrasting colors. Targets moving toward you are highlighted in bright red (danger), while targets moving away are painted green (safe). It is incredibly aggressive and highly visible.</li>
-                    <li><strong>Simrad Halo (VelocityTrack™):</strong> Simrad takes a slightly more nuanced approach. Their color scaling is dynamic based on speed. It provides a highly detailed, softer color gradient that some captains prefer for heavy harbor traffic to avoid "screen clutter."</li>
-                </ul>
-
-                <h2>2. Beamwidth and Target Resolution</h2>
-                <p>A radar's horizontal beamwidth dictates its ability to separate two distinct targets that are close together at a distance. The smaller the degree, the sharper the "knife edge" of the radar pulse.</p>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Specification</th>
-                            <th>Garmin Fantom 24x Dome</th>
-                            <th>Simrad Halo24 Dome</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Horizontal Beamwidth</strong></td>
-                            <td>3.7°</td>
-                            <td>3.9°</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Rotation Speed</strong></td>
-                            <td>Up to 60 RPM (Dynamic)</td>
-                            <td>Up to 60 RPM (Dynamic)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Max Range</strong></td>
-                            <td>48 Nautical Miles</td>
-                            <td>48 Nautical Miles</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Power Consumption (Max)</strong></td>
-                            <td>~30 Watts</td>
-                            <td>~29 Watts</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="mt-12 p-6 rounded-lg glass-panel border border-omni-cyan/30 bg-omni-cyan/5">
-                    <h3 class="!mt-0 !mb-2 text-omni-cyan font-tech tracking-wider text-xl uppercase">Omni-Terrain Recommendation</h3>
-                    <p class="!text-sm !mb-4">If your primary goal is collision avoidance in heavy fog or night navigation, the aggressive red/green target painting of the <strong>Garmin Fantom</strong> is mathematically superior for instant threat detection.</p>
-                    <button class="px-6 py-3 bg-omni-cyan text-black font-tech font-bold tracking-wider rounded hover:bg-white transition-colors">
-                        CHECK GARMIN PRICING <i class="fa-solid fa-arrow-right ml-2"></i>
-                    </button>
-                    <p class="text-[10px] text-gray-500 mt-4 leading-tight"><em>Disclaimer: Links provided may be affiliate links. PRP Xpert LLC earns a commission on qualifying technical equipment purchases at no additional cost to you.</em></p>
-                </div>
+            <div class="my-12 p-8 bg-gradient-to-r from-gray-900 to-black border border-[#00f0ff]/20 rounded-xl text-center relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1 h-full bg-[#00f0ff]"></div>
+                <h3 class="text-2xl font-black text-white mb-2 tracking-wide">Upgrade Your Helm</h3>
+                <p class="text-gray-400 mb-6 text-sm">Compare technical specs and pricing on tier-one solid-state marine radar domes.</p>
+                <a href="#" class="inline-block px-8 py-4 bg-[#00f0ff] text-black font-bold uppercase tracking-widest text-sm hover:bg-white transition-all duration-300">
+                    View Marine Systems
+                </a>
             </div>
         </article>
     </main>
 
-    <footer class="border-t border-omni-border bg-[#020203] py-12 relative z-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="flex items-center justify-center gap-3 mb-6">
-                <i class="fa-solid fa-layer-group text-gray-500 text-xl"></i>
-                <span class="font-tech text-xl font-bold text-gray-400 tracking-widest">OMNI-TERRAIN</span>
-            </div>
-            <p class="text-xs text-gray-600 mb-2">&copy; 2026 Omni-Terrain Systems. All rights reserved.</p>
-            <p class="text-xs text-gray-600">Operated by <span class="font-bold text-gray-400">PRP Xpert LLC</span>, Wyoming, USA.</p>
-        </div>
+    <footer class="border-t border-gray-900 bg-black py-12 text-center mt-20">
+        <p class="text-sm text-gray-600">Operated by PRP Xpert LLC, Wyoming, USA.</p>
     </footer>
 </body>
 </html>
