@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Relations | Omni-Terrain</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], tech: ['Rajdhani', 'sans-serif'] },
+                    colors: { omni: { cyan: '#00f0ff', border: 'rgba(255, 255, 255, 0.08)' } }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #050507; color: #a1a1aa; }
+        .glass-panel { background: rgba(20, 20, 25, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .omni-input { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 0.5rem; padding: 0.75rem 1rem; width: 100%; transition: all 0.3s ease; }
+        .omni-input:focus { outline: none; border-color: #00f0ff; box-shadow: 0 0 10px rgba(0, 240, 255, 0.2); }
+    </style>
+</head>
+
+<body class="font-sans antialiased selection:bg-omni-cyan selection:text-black">
+
+    <nav class="fixed top-0 left-0 w-full z-50 glass-panel border-b border-omni-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="flex items-center gap-3 cursor-pointer">
+                    <i class="fa-solid fa-layer-group text-omni-cyan text-2xl"></i>
+                    <span class="font-tech text-3xl font-bold text-white tracking-widest">OMNI<span class="text-omni-cyan">-</span>TERRAIN</span>
+                </a>
+                <div class="hidden md:flex space-x-10 items-center">
+                    <a href="index.html#systems" class="text-sm font-medium uppercase tracking-wider text-gray-300 hover:text-omni-cyan transition-colors">Integrations</a>
+                    <a href="index.html#research" class="text-sm font-medium uppercase tracking-wider text-gray-300 hover:text-omni-cyan transition-colors">Affiliate Network</a>
+                    <div class="relative group flex items-center">
+                        <span class="text-sm font-medium uppercase tracking-wider text-gray-500 cursor-help">Direct Store</span>
+                        <span class="absolute -top-4 -right-6 bg-omni-cyan/10 text-omni-cyan text-[9px] font-bold px-2 py-0.5 rounded border border-omni-cyan/30">Q3 LAUNCH</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+        
+        <div class="mb-12">
+            <h1 class="font-tech text-4xl md:text-5xl font-bold text-white tracking-widest mb-4 uppercase">Vendor & Operations Portal</h1>
+            <p class="text-omni-cyan text-sm font-mono uppercase tracking-wider">Secure Communication Gateway</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            
+            <div class="lg:col-span-1 space-y-6">
+                <div class="glass-panel p-6 rounded-xl border-l-2 border-l-omni-cyan">
+                    <h3 class="text-white font-bold mb-2 uppercase tracking-wide text-sm">Corporate Entity</h3>
+                    <p class="text-sm text-gray-400 font-mono">PRP Xpert LLC</p>
+                    <p class="text-sm text-gray-400 font-mono">Wyoming, United States</p>
+                </div>
+
+                <div class="glass-panel p-6 rounded-xl">
+                    <h3 class="text-white font-bold mb-2 uppercase tracking-wide text-sm">Direct Inquiries</h3>
+                    <ul class="space-y-4 text-sm text-gray-400">
+                        <li><strong class="text-omni-cyan">B2B Wholesale:</strong><br>vendor@omni-terrain.com</li>
+                        <li><strong class="text-omni-cyan">Affiliate Relations:</strong><br>partners@omni-terrain.com</li>
+                        <li><strong class="text-omni-cyan">Legal & Compliance:</strong><br>legal@omni-terrain.com</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 glass-panel p-8 rounded-xl relative">
+                <div class="absolute top-0 right-0 p-4 opacity-20"><i class="fa-solid fa-lock text-4xl"></i></div>
+                <h2 class="text-2xl font-bold text-white mb-6">Submit Transmission</h2>
+                
+                <form class="space-y-6" onsubmit="event.preventDefault();">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Authorized Representative</label>
+                            <input type="text" class="omni-input" placeholder="Full Name">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Corporate Entity / Brand</label>
+                            <input type="text" class="omni-input" placeholder="Company Name">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Routing Department</label>
+                        <select class="omni-input appearance-none">
+                            <option>Wholesale Catalog Application</option>
+                            <option>Affiliate Network Integration</option>
+                            <option>Technical Documentation Support</option>
+                            <option>Legal / DMCA Inquiry</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Transmission Data</label>
+                        <textarea class="omni-input h-32" placeholder="Detail your inquiry here..."></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full bg-omni-cyan text-black font-bold uppercase tracking-widest text-sm py-4 rounded-lg hover:bg-white transition-colors duration-300">
+                        Initialize Transmission
+                    </button>
+                </form>
+
+                <p class="text-[10px] text-gray-600 mt-6 text-center max-w-lg mx-auto">
+                    COMPLIANCE NOTICE: This portal is for B2B operations and vendor relations. Do not transmit sensitive financial data (PCI/Credit Card numbers) through this form. All IP addresses and transmission metadata are logged per our standard corporate security protocols.
+                </p>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="border-t border-omni-border bg-[#020203] py-8 text-center mt-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <p class="text-xs text-gray-600">&copy; 2026 PRP Xpert LLC, Wyoming, USA. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
