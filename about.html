@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corporate Overview | Omni-Terrain</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], tech: ['Rajdhani', 'sans-serif'] },
+                    colors: { omni: { cyan: '#00f0ff', border: 'rgba(255, 255, 255, 0.08)' } }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #050507; color: #a1a1aa; }
+        .glass-panel { background: rgba(20, 20, 25, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+    </style>
+</head>
+
+<body class="font-sans antialiased selection:bg-omni-cyan selection:text-black">
+
+    <nav class="fixed top-0 left-0 w-full z-50 glass-panel border-b border-omni-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="flex items-center gap-3 cursor-pointer">
+                    <i class="fa-solid fa-layer-group text-omni-cyan text-2xl"></i>
+                    <span class="font-tech text-3xl font-bold text-white tracking-widest">OMNI<span class="text-omni-cyan">-</span>TERRAIN</span>
+                </a>
+                <div class="hidden md:flex space-x-10 items-center">
+                    <a href="index.html#systems" class="text-sm font-medium uppercase tracking-wider text-gray-300 hover:text-omni-cyan transition-colors">Integrations</a>
+                    <a href="index.html#research" class="text-sm font-medium uppercase tracking-wider text-gray-300 hover:text-omni-cyan transition-colors">Affiliate Network</a>
+                    <div class="relative group flex items-center">
+                        <span class="text-sm font-medium uppercase tracking-wider text-gray-500 cursor-help">Direct Store</span>
+                        <span class="absolute -top-4 -right-6 bg-omni-cyan/10 text-omni-cyan text-[9px] font-bold px-2 py-0.5 rounded border border-omni-cyan/30">Q3 LAUNCH</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+        
+        <div class="mb-16 text-center">
+            <h1 class="font-tech text-4xl md:text-5xl font-bold text-white tracking-widest mb-4 uppercase">Corporate Operations</h1>
+            <p class="text-omni-cyan text-sm font-mono uppercase tracking-wider">Entity: PRP Xpert LLC | Operational Base: Wyoming, USA</p>
+            <div class="h-px w-full max-w-2xl mx-auto bg-gradient-to-r from-transparent via-omni-cyan to-transparent mt-8 opacity-30"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+            <div class="glass-panel p-8 rounded-xl relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1 h-full bg-omni-cyan"></div>
+                <h2 class="text-2xl font-bold text-white mb-4">Our Directives</h2>
+                <p class="leading-relaxed text-sm mb-4">
+                    Omni-Terrain operates at the intersection of high-voltage mobile architectures, marine navigation, and overland automotive performance. We serve as a critical bridge between legacy tier-one manufacturers and the modern off-grid system integrator.
+                </p>
+                <p class="leading-relaxed text-sm">
+                    Rather than relying on fragmented retail environments, our team analyzes, cross-references, and integrates component data to build reliable, high-yield power and performance systems.
+                </p>
+            </div>
+
+            <div class="space-y-6">
+                <div class="glass-panel p-6 rounded-xl flex gap-4 items-start">
+                    <i class="fa-solid fa-microchip text-omni-cyan text-xl mt-1"></i>
+                    <div>
+                        <h3 class="text-white font-bold mb-1">Technical Research Division</h3>
+                        <p class="text-xs leading-relaxed text-gray-400">Publishing strict architectural guidelines, telemetry analysis, and integration protocols for 48V+ LiFePO4 systems and NMEA 2000 marine networks.</p>
+                    </div>
+                </div>
+                <div class="glass-panel p-6 rounded-xl flex gap-4 items-start">
+                    <i class="fa-solid fa-network-wired text-omni-cyan text-xl mt-1"></i>
+                    <div>
+                        <h3 class="text-white font-bold mb-1">B2B Procurement & Distribution</h3>
+                        <p class="text-xs leading-relaxed text-gray-400">Leveraging digital middleware to syndicate millions of high-quality components across integrated marketplaces, ensuring dynamic inventory flow and rapid fulfillment.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="border-t border-omni-border pt-12">
+            <h2 class="text-xl font-bold text-white mb-4 text-center">Corporate Governance & Safety</h2>
+            <p class="text-sm text-center max-w-3xl mx-auto leading-relaxed mb-8">
+                Operating within high-stakes environments requires uncompromising compliance. PRP Xpert LLC partners exclusively with authorized distributors. We mandate that all schematics provided via our technical division be executed by certified ABYC marine electricians or ASE-certified technicians.
+            </p>
+        </div>
+    </main>
+
+    <footer class="border-t border-omni-border bg-[#020203] py-8 text-center mt-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex items-center justify-center gap-3 mb-4">
+                <i class="fa-solid fa-layer-group text-gray-500"></i>
+                <span class="font-tech text-xl font-bold text-gray-500 tracking-widest">OMNI-TERRAIN</span>
+            </div>
+            <p class="text-xs text-gray-600">&copy; 2026 PRP Xpert LLC, Wyoming, USA. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
