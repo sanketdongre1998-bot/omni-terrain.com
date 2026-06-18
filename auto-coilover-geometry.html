@@ -3,77 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auto Suspension Geometry | Omni-Terrain</title>
+    <title>Suspension 101 | Omni-Terrain</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'], tech: ['Rajdhani', 'sans-serif'] }, colors: { omni: { cyan: '#00f0ff', border: 'rgba(255, 255, 255, 0.08)' } } } } }
+    </script>
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #0a0a0a; color: #e5e5e5; }
+        body { background-color: #050507; color: #e5e5e5; }
+        .glass-panel { background: rgba(20, 20, 25, 0.6); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .glow-text { text-shadow: 0 0 20px rgba(0, 240, 255, 0.3); }
     </style>
 </head>
-<body class="antialiased selection:bg-[#00f0ff] selection:text-black">
+<body class="font-sans antialiased selection:bg-omni-cyan selection:text-black">
 
-    <nav class="fixed top-0 left-0 w-full z-50 bg-[#0a0a0a]/80 backdrop-blur-md border-b border-gray-800">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="index.html" class="text-2xl font-black tracking-widest text-white flex items-center gap-2">
-                <svg class="w-6 h-6 text-[#00f0ff]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                OMNI-TERRAIN
-            </a>
-            <div class="hidden md:flex gap-8 text-sm font-semibold tracking-widest text-gray-400">
-                <a href="index.html" class="hover:text-[#00f0ff] transition-colors">HOME</a>
-                <a href="#" class="hover:text-[#00f0ff] transition-colors">SYSTEMS</a>
-                <a href="#" class="text-[#00f0ff]">RESEARCH</a>
+    <nav class="fixed top-0 left-0 w-full z-50 glass-panel border-b border-omni-border transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="flex items-center gap-3 cursor-pointer group">
+                    <i class="fa-solid fa-layer-group text-omni-cyan text-2xl group-hover:rotate-12 transition-transform duration-300"></i>
+                    <span class="font-tech text-3xl font-bold text-white tracking-widest glow-text">OMNI<span class="text-omni-cyan">-</span>TERRAIN</span>
+                </a>
+                <div class="hidden md:flex space-x-10 items-center">
+                    <a href="index.html#systems" class="text-sm font-medium uppercase tracking-wider text-gray-300 hover:text-omni-cyan transition-colors">Start Here</a>
+                    <a href="index.html#research" class="text-sm font-medium uppercase tracking-wider text-gray-300 hover:text-omni-cyan transition-colors">Education Hub</a>
+                    <div class="relative group flex items-center">
+                        <span class="text-sm font-medium uppercase tracking-wider text-gray-500 cursor-help">Direct Store</span>
+                        <span class="absolute -top-4 -right-6 bg-omni-cyan/10 text-omni-cyan text-[9px] font-bold px-2 py-0.5 rounded border border-omni-cyan/30">Q3 LAUNCH</span>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
 
-    <main class="pt-32 pb-20 px-6 max-w-4xl mx-auto">
+    <main class="pt-32 pb-20 px-6 max-w-3xl mx-auto">
         <div class="mb-8 p-4 bg-gray-900 border border-gray-800 rounded-lg text-xs text-gray-400 leading-relaxed">
-            <strong class="text-gray-300">FTC Disclosure:</strong> Omni-Terrain is a reader-supported technical research hub. When you purchase through links on our site, we may earn an affiliate commission at no additional cost to you.
+            <strong class="text-gray-300">FTC Disclosure:</strong> Omni-Terrain is a reader-supported hub. When you buy through links on our site, we may earn an affiliate commission at no cost to you.
         </div>
 
         <header class="mb-12">
             <div class="flex items-center gap-3 mb-4">
-                <span class="px-3 py-1 bg-[#00f0ff]/10 text-[#00f0ff] text-xs font-bold uppercase tracking-wider rounded border border-[#00f0ff]/20">Auto Performance</span>
-                <span class="text-sm text-gray-500 font-mono">Updated: 2026</span>
+                <span class="px-3 py-1 bg-omni-cyan/10 text-omni-cyan text-xs font-bold uppercase tracking-wider rounded border border-omni-cyan/20">Off-Road Upgrades</span>
             </div>
-            <h1 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight tracking-tight">Coilover Valving & Spring Rate Telemetry</h1>
-            <p class="text-xl text-gray-400 leading-relaxed">Analyzing digressive vs. linear valving profiles for optimal tire contact patch during high-G track cornering and overland articulation.</p>
+            <h1 class="font-tech text-4xl md:text-5xl font-bold text-white mb-6 leading-tight tracking-tight uppercase">Suspension 101: Lifting Your Rig Properly</h1>
+            <p class="text-xl text-gray-400 leading-relaxed">Stop suffering from a bumpy ride. Learn the simple basics of shocks and springs to achieve the perfect balance on and off-road.</p>
         </header>
 
         <div class="relative w-full h-[400px] mb-16 rounded-xl overflow-hidden group bg-gray-900 border border-gray-800">
-            <img src="https://images.unsplash.com/photo-1580274455015-866428d09bc7?auto=format&fit=crop&w=1200&q=80" alt="Auto Performance Suspension" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500">
-            <div class="absolute bottom-4 right-4 bg-black/80 px-3 py-1 text-xs font-mono text-[#00f0ff] border border-[#00f0ff]/30 backdrop-blur">FIG 1: SUSPENSION KINEMATICS</div>
+            <img src="https://images.unsplash.com/photo-1580274455015-866428d09bc7?auto=format&fit=crop&w=1200&q=80" alt="Suspension Upgrade" class="w-full h-full object-cover opacity-60">
         </div>
 
         <article class="prose prose-invert prose-lg max-w-none">
-            <h2 class="text-2xl font-bold text-white mb-4 border-b border-gray-800 pb-2">The Valving Curve</h2>
-            <p class="mb-6 text-gray-300">Off-the-shelf suspension kits often feature progressive valving, which provides a comfortable street ride but becomes unpredictable at the limit. For track applications and heavy overland rigs, digressive valving offers stiff low-speed damping (reducing body roll during corner entry) while blowing off during high-speed shaft movements (like hitting a curb or washboard dirt roads).</p>
+            <h2 class="text-2xl font-bold text-white mb-4">Why Cheap Lift Kits Ruin Your Ride</h2>
+            <p class="mb-6 text-gray-300">If you just slap cheap "spacer blocks" on your truck to make it look taller, you will ruin how it drives. To do it right, you need proper <strong>coilovers</strong> (a shock absorber with a spring wrapped around it) designed for the extra weight of your gear.</p>
+            
+            <h3 class="text-xl font-bold text-white mb-3 mt-10">The Magic of Good Shocks</h3>
+            <p class="mb-6 text-gray-300">When you buy a high-quality set of shocks, they do something amazing: they stay stiff when you take a corner on the highway so you don't flip over, but they instantly soften up when you hit a pothole or a dirt road. This gives you a smooth ride no matter where you drive.</p>
 
-            <h3 class="text-xl font-bold text-white mb-3 mt-10">Spring Rate Selection</h3>
-            <p class="mb-6 text-gray-300">A high-quality damper is useless if paired with the wrong spring rate. Spring rates must be calculated based on the vehicle's unsprung weight, motion ratio, and intended use case.</p>
-
-            <div class="my-12 p-8 bg-gradient-to-r from-gray-900 to-black border border-[#00f0ff]/20 rounded-xl text-center relative overflow-hidden">
-                <div class="absolute top-0 left-0 w-1 h-full bg-[#00f0ff]"></div>
-                <h3 class="text-2xl font-black text-white mb-2 tracking-wide">Optimize Your Handling</h3>
-                <p class="text-gray-400 mb-6 text-sm">Review our approved list of fully adjustable, track-tested coilover systems.</p>
-                <a href="#" class="inline-block px-8 py-4 bg-[#00f0ff] text-black font-bold uppercase tracking-widest text-sm hover:bg-white transition-all duration-300">
-                    View Performance Parts
+            <div class="my-12 p-8 bg-gray-900 border border-omni-cyan/30 rounded-xl text-center relative overflow-hidden">
+                <h3 class="text-2xl font-bold text-white mb-2">Optimize Your Handling</h3>
+                <p class="text-gray-400 mb-6 text-sm">Review our approved list of complete, easy-to-install suspension lift kits.</p>
+                <a href="#" class="inline-block px-8 py-4 bg-omni-cyan text-black font-bold uppercase tracking-widest text-sm rounded-lg hover:bg-white transition-all duration-300">
+                    View Lift Kits
                 </a>
             </div>
         </article>
     </main>
-
-    <footer class="border-t border-gray-900 bg-black py-12 text-center mt-20">
-        <div class="flex items-center justify-center gap-2 mb-4">
-            <svg class="w-5 h-5 text-gray-700" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-            <span class="text-xl font-black tracking-widest text-gray-600">OMNI-TERRAIN</span>
-        </div>
-        <p class="text-sm text-gray-600">Operated by PRP Xpert LLC, Wyoming, USA.</p>
-        <div class="mt-4 flex justify-center gap-6 text-xs text-gray-700 font-semibold tracking-wider">
-            <a href="#" class="hover:text-gray-400">PRIVACY</a>
-            <a href="#" class="hover:text-gray-400">TERMS</a>
-            <a href="#" class="hover:text-gray-400">DISCLOSURE</a>
-        </div>
-    </footer>
 </body>
 </html>
