@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Omni-Terrain | Simplifying Off-Grid Integrations</title>
+    <title>Omni-Terrain | Off-Grid Systems Made Simple</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,126 +23,153 @@
         }
     </script>
     <style>
-        body { background-color: #050507; color: #a1a1aa; }
-        .glass-panel { background: rgba(20, 20, 25, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        body { background-color: #050507; color: #a1a1aa; overflow-x: hidden; }
+        .glass-panel { background: rgba(20, 20, 25, 0.6); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
         .glow-text { text-shadow: 0 0 20px rgba(0, 240, 255, 0.3); }
+        .card-hover-effect { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-hover-effect:hover { transform: translateY(-8px); box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.15); border-color: rgba(0, 240, 255, 0.3); }
     </style>
 </head>
 
 <body class="font-sans antialiased selection:bg-omni-cyan selection:text-black">
 
-    <nav class="fixed top-0 left-0 w-full z-50 glass-panel border-b border-omni-border">
+    <nav class="fixed top-0 left-0 w-full z-50 glass-panel border-b border-omni-border transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
-                <a href="index.html" class="flex items-center gap-3 cursor-pointer">
-                    <i class="fa-solid fa-layer-group text-omni-cyan text-2xl"></i>
+                <a href="index.html" class="flex items-center gap-3 cursor-pointer group">
+                    <i class="fa-solid fa-layer-group text-omni-cyan text-2xl group-hover:rotate-12 transition-transform duration-300"></i>
                     <span class="font-tech text-3xl font-bold text-white tracking-widest glow-text">OMNI<span class="text-omni-cyan">-</span>TERRAIN</span>
                 </a>
                 <div class="hidden md:flex space-x-10 items-center">
-                    <a href="#systems" class="text-sm font-medium uppercase tracking-wider text-gray-300 hover:text-omni-cyan transition-colors">Integrations</a>
+                    <a href="#systems" class="text-sm font-medium uppercase tracking-wider text-gray-300 hover:text-omni-cyan transition-colors">Start Here</a>
                     <a href="#research" class="text-sm font-medium uppercase tracking-wider text-gray-300 hover:text-omni-cyan transition-colors">Education Hub</a>
                     <div class="relative group flex items-center">
-                        <span class="text-sm font-medium uppercase tracking-wider text-gray-500 cursor-help">Shop</span>
-                        <span class="absolute -top-4 -right-6 bg-omni-cyan/10 text-omni-cyan text-[9px] font-bold px-2 py-0.5 rounded border border-omni-cyan/30">Q3 LAUNCH</span>
+                        <span class="text-sm font-medium uppercase tracking-wider text-gray-500 cursor-help">Direct Store</span>
+                        <span class="absolute -top-4 -right-6 bg-omni-cyan/10 text-omni-cyan text-[9px] font-bold px-2 py-0.5 rounded border border-omni-cyan/30 animate-pulse">Q3 LAUNCH</span>
                     </div>
                 </div>
             </div>
         </div>
     </nav>
 
-    <header class="relative pt-40 pb-20 overflow-hidden border-b border-omni-border">
-        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-omni-cyan/10 via-[#050507] to-[#050507] opacity-50"></div>
-        <div class="max-w-7xl mx-auto px-4 relative z-10 text-center">
-            <span class="inline-block px-3 py-1 bg-omni-cyan/10 border border-omni-cyan/20 text-omni-cyan text-xs font-bold uppercase tracking-widest rounded mb-6">Learn, Build, Explore</span>
-            <h1 class="font-tech text-5xl md:text-7xl font-extrabold text-white mb-6 tracking-tight uppercase">
-                Off-Grid Systems <span class="text-transparent bg-clip-text bg-gradient-to-r from-omni-cyan to-blue-500">Made Simple</span>
+    <header class="relative pt-40 pb-20 md:pt-48 md:pb-32 overflow-hidden border-b border-omni-border">
+        <!-- Background glows -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-omni-cyan/10 rounded-full blur-[120px] opacity-50 pointer-events-none"></div>
+        
+        <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+            <span class="inline-block px-4 py-1.5 bg-omni-cyan/10 border border-omni-cyan/20 text-omni-cyan text-xs font-bold uppercase tracking-widest rounded-full mb-8">Learn • Build • Explore</span>
+            
+            <h1 class="font-tech text-5xl md:text-7xl font-extrabold text-white mb-6 tracking-tight uppercase leading-tight">
+                Off-Grid Systems <br/>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-omni-cyan to-blue-500 glow-text">Made Simple</span>
             </h1>
-            <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto font-light leading-relaxed mb-10">
-                We take the guesswork out of complex builds. Whether you are outfitting an overland rig, a marine vessel, or setting up a remote cabin, we provide the easy-to-follow blueprints and premium components you need to power your journey with confidence.
+            
+            <p class="text-lg md:text-xl text-gray-300 font-light leading-relaxed mb-10 max-w-2xl mx-auto">
+                We take the guesswork out of complex vehicle and marine builds. Get the step-by-step blueprints and premium components you need to power your journey with absolute confidence.
             </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#systems" class="px-8 py-4 bg-omni-cyan text-black font-bold uppercase tracking-widest text-sm rounded-lg hover:bg-white hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all duration-300">Choose Your Build</a>
+                <a href="#research" class="px-8 py-4 bg-transparent border border-gray-600 text-white font-bold uppercase tracking-widest text-sm rounded-lg hover:border-omni-cyan hover:text-omni-cyan transition-all duration-300">Read The Guides</a>
+            </div>
         </div>
     </header>
 
     <main>
-        <section id="systems" class="py-24 bg-[#08080a]">
-            <div class="max-w-7xl mx-auto px-4">
+        <section id="systems" class="py-24 bg-[#08080a] relative">
+            <div class="max-w-7xl mx-auto px-4 relative z-10">
                 <div class="text-center mb-16">
-                    <h2 class="font-tech text-3xl font-bold text-white uppercase tracking-widest mb-2">What Are You Building?</h2>
-                    <div class="h-px w-24 bg-omni-cyan mx-auto opacity-50"></div>
-                    <p class="text-sm text-gray-500 mt-4 max-w-2xl mx-auto">Select your focus area below. We partner with top-tier brands to bring you the best parts, completely demystified.</p>
+                    <h2 class="font-tech text-3xl md:text-4xl font-bold text-white uppercase tracking-widest mb-4">What Are You Building?</h2>
+                    <div class="h-px w-24 bg-gradient-to-r from-transparent via-omni-cyan to-transparent mx-auto mb-6"></div>
+                    <p class="text-base text-gray-400 max-w-2xl mx-auto leading-relaxed">Select your project below. We break down exactly what parts you need and how to install them, so you can stop researching and start building.</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <!-- Automotive -->
-                    <div class="glass-panel p-8 rounded-xl border-t-2 border-t-omni-cyan hover:-translate-y-2 transition-transform duration-300">
-                        <i class="fa-solid fa-truck-monster text-4xl text-omni-cyan mb-6"></i>
+                    <div class="glass-panel p-8 rounded-2xl card-hover-effect relative overflow-hidden group">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-omni-cyan to-transparent opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="bg-[#0f0f13] w-16 h-16 rounded-xl flex items-center justify-center mb-6 border border-gray-800 group-hover:border-omni-cyan/50 transition-colors">
+                            <i class="fa-solid fa-truck-monster text-2xl text-omni-cyan"></i>
+                        </div>
                         <h3 class="text-xl font-bold text-white mb-3 uppercase tracking-wide">Overland Auto</h3>
-                        <p class="text-sm text-gray-400 leading-relaxed">No more confusing suspension setups. We guide you through selecting the perfect lift kits, lighting, and recovery gear to make your truck truly trail-ready.</p>
+                        <p class="text-sm text-gray-400 leading-relaxed mb-6">No more confusing suspension setups. We guide you through selecting the perfect lift kits, lighting, and recovery gear to make your truck truly trail-ready.</p>
+                        <span class="text-omni-cyan text-xs font-bold tracking-widest uppercase flex items-center gap-2 group-hover:translate-x-2 transition-transform duration-300">Explore Parts <i class="fa-solid fa-arrow-right"></i></span>
                     </div>
 
                     <!-- Marine -->
-                    <div class="glass-panel p-8 rounded-xl border-t-2 border-t-blue-500 hover:-translate-y-2 transition-transform duration-300">
-                        <i class="fa-solid fa-anchor text-4xl text-blue-500 mb-6"></i>
+                    <div class="glass-panel p-8 rounded-2xl card-hover-effect relative overflow-hidden group">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="bg-[#0f0f13] w-16 h-16 rounded-xl flex items-center justify-center mb-6 border border-gray-800 group-hover:border-blue-500/50 transition-colors">
+                            <i class="fa-solid fa-anchor text-2xl text-blue-500"></i>
+                        </div>
                         <h3 class="text-xl font-bold text-white mb-3 uppercase tracking-wide">Marine Offshore</h3>
-                        <p class="text-sm text-gray-400 leading-relaxed">Boat electronics shouldn't require an engineering degree. Discover easy-to-install radars, depth finders, and marine-safe wiring for a safer time on the water.</p>
+                        <p class="text-sm text-gray-400 leading-relaxed mb-6">Boat electronics shouldn't require an engineering degree. Discover easy-to-install radars, depth finders, and marine-safe wiring for a safer time on the water.</p>
+                        <span class="text-blue-500 text-xs font-bold tracking-widest uppercase flex items-center gap-2 group-hover:translate-x-2 transition-transform duration-300">Explore Parts <i class="fa-solid fa-arrow-right"></i></span>
                     </div>
 
                     <!-- Solar (The High-Ticket Bridge) -->
-                    <div class="glass-panel p-8 rounded-xl border-t-2 border-t-yellow-500 hover:-translate-y-2 transition-transform duration-300 relative overflow-hidden">
-                        <div class="absolute -right-6 -top-6 bg-yellow-500/10 w-24 h-24 rounded-full blur-xl"></div>
-                        <i class="fa-solid fa-solar-panel text-4xl text-yellow-500 mb-6"></i>
-                        <h3 class="text-xl font-bold text-white mb-3 uppercase tracking-wide">Mobile Power Solutions</h3>
-                        <p class="text-sm text-gray-400 leading-relaxed">The heart of any modern adventure. Learn exactly how to size and install safe, powerful lithium battery banks and solar arrays for your van, boat, or cabin.</p>
+                    <div class="glass-panel p-8 rounded-2xl card-hover-effect relative overflow-hidden group border-gray-700">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-yellow-500 to-transparent opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="absolute -right-10 -top-10 bg-yellow-500/10 w-32 h-32 rounded-full blur-2xl group-hover:bg-yellow-500/20 transition-colors"></div>
+                        <div class="bg-[#0f0f13] w-16 h-16 rounded-xl flex items-center justify-center mb-6 border border-gray-800 group-hover:border-yellow-500/50 transition-colors relative z-10">
+                            <i class="fa-solid fa-solar-panel text-2xl text-yellow-500"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3 uppercase tracking-wide relative z-10">Mobile Solar Power</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed mb-6 relative z-10">The heart of any modern adventure. Learn exactly how to size and install safe, powerful lithium battery banks and solar arrays for your van, boat, or cabin.</p>
+                        <span class="text-yellow-500 text-xs font-bold tracking-widest uppercase flex items-center gap-2 group-hover:translate-x-2 transition-transform duration-300 relative z-10">Explore Systems <i class="fa-solid fa-arrow-right"></i></span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="research" class="py-24">
+        <section id="research" class="py-24 relative">
             <div class="max-w-7xl mx-auto px-4">
-                <div class="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-omni-border pb-6">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-12 pb-6">
                     <div>
                         <h2 class="font-tech text-3xl font-bold text-white uppercase tracking-widest mb-2">The Education Hub</h2>
-                        <p class="text-sm text-gray-500 font-mono">Step-by-step guides and system blueprints for beginners.</p>
+                        <p class="text-base text-gray-400">Clear, step-by-step guides so you can build like a pro.</p>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Solar Article -->
                     <a href="article-template.html" class="block group">
-                        <div class="bg-black border border-omni-border rounded-lg overflow-hidden h-full">
-                            <div class="h-48 bg-gray-900 relative overflow-hidden">
-                                <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=800&q=80" alt="Solar" class="w-full h-full object-cover opacity-50 group-hover:opacity-80 transition-opacity">
-                                <div class="absolute top-4 left-4 bg-omni-cyan/20 px-2 py-1 text-[10px] text-omni-cyan font-bold border border-omni-cyan/50 backdrop-blur-sm">SOLAR POWER 101</div>
+                        <div class="glass-panel rounded-2xl overflow-hidden h-full card-hover-effect">
+                            <div class="h-52 bg-gray-900 relative overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=800&q=80" alt="Solar Guide" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                                <div class="absolute top-4 left-4 bg-black/60 px-3 py-1 text-[10px] text-omni-cyan font-bold border border-omni-cyan/30 rounded backdrop-blur-md">SOLAR 101</div>
                             </div>
-                            <div class="p-6">
-                                <h3 class="text-white font-bold text-lg mb-2 group-hover:text-omni-cyan transition-colors">The Beginner's Guide to 48V Solar</h3>
-                                <p class="text-xs text-gray-500 leading-relaxed">Why everyone is upgrading from 12V to 48V, and exactly how you can do it safely to power your big appliances.</p>
+                            <div class="p-8">
+                                <h3 class="text-white font-bold text-xl mb-3 group-hover:text-omni-cyan transition-colors">The Beginner's Guide to 48V Solar Setup</h3>
+                                <p class="text-sm text-gray-400 leading-relaxed">Why everyone is upgrading from 12V to 48V, and exactly how you can do it safely to run your fridge, AC, and lights.</p>
                             </div>
                         </div>
                     </a>
 
+                    <!-- Marine Article -->
                     <a href="marine-radar-analysis.html" class="block group">
-                        <div class="bg-black border border-omni-border rounded-lg overflow-hidden h-full">
-                            <div class="h-48 bg-gray-900 relative overflow-hidden">
-                                <img src="https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&w=800&q=80" alt="Radar" class="w-full h-full object-cover opacity-50 group-hover:opacity-80 transition-opacity">
-                                <div class="absolute top-4 left-4 bg-omni-cyan/20 px-2 py-1 text-[10px] text-omni-cyan font-bold border border-omni-cyan/50 backdrop-blur-sm">MARINE ELECTRONICS</div>
+                        <div class="glass-panel rounded-2xl overflow-hidden h-full card-hover-effect">
+                            <div class="h-52 bg-gray-900 relative overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&w=800&q=80" alt="Marine Electronics" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                                <div class="absolute top-4 left-4 bg-black/60 px-3 py-1 text-[10px] text-omni-cyan font-bold border border-omni-cyan/30 rounded backdrop-blur-md">MARINE GUIDES</div>
                             </div>
-                            <div class="p-6">
-                                <h3 class="text-white font-bold text-lg mb-2 group-hover:text-omni-cyan transition-colors">Marine Radar Explained Simply</h3>
-                                <p class="text-xs text-gray-500 leading-relaxed">Don't get lost in the jargon. We break down the difference between Solid-State and Magnetron radars so you can choose the right one.</p>
+                            <div class="p-8">
+                                <h3 class="text-white font-bold text-xl mb-3 group-hover:text-omni-cyan transition-colors">Marine Radar Explained Simply</h3>
+                                <p class="text-sm text-gray-400 leading-relaxed">Don't get lost in the jargon. We break down what you actually need to know to buy the right radar for safe night boating.</p>
                             </div>
                         </div>
                     </a>
 
+                    <!-- Auto Article -->
                     <a href="auto-coilover-geometry.html" class="block group">
-                        <div class="bg-black border border-omni-border rounded-lg overflow-hidden h-full">
-                            <div class="h-48 bg-gray-900 relative overflow-hidden">
-                                <img src="https://images.unsplash.com/photo-1580274455015-866428d09bc7?auto=format&fit=crop&w=800&q=80" alt="Suspension" class="w-full h-full object-cover opacity-50 group-hover:opacity-80 transition-opacity">
-                                <div class="absolute top-4 left-4 bg-omni-cyan/20 px-2 py-1 text-[10px] text-omni-cyan font-bold border border-omni-cyan/50 backdrop-blur-sm">OFF-ROAD UPGRADES</div>
+                        <div class="glass-panel rounded-2xl overflow-hidden h-full card-hover-effect">
+                            <div class="h-52 bg-gray-900 relative overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1580274455015-866428d09bc7?auto=format&fit=crop&w=800&q=80" alt="Suspension Upgrade" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                                <div class="absolute top-4 left-4 bg-black/60 px-3 py-1 text-[10px] text-omni-cyan font-bold border border-omni-cyan/30 rounded backdrop-blur-md">OFF-ROAD UPGRADES</div>
                             </div>
-                            <div class="p-6">
-                                <h3 class="text-white font-bold text-lg mb-2 group-hover:text-omni-cyan transition-colors">Suspension 101: Upgrading Your Rig</h3>
-                                <p class="text-xs text-gray-500 leading-relaxed">Understand the basics of spring rates and shocks to achieve the perfect balance of on-road comfort and off-road capability.</p>
+                            <div class="p-8">
+                                <h3 class="text-white font-bold text-xl mb-3 group-hover:text-omni-cyan transition-colors">Suspension 101: Lifting Your Rig Properly</h3>
+                                <p class="text-sm text-gray-400 leading-relaxed">Stop suffering from a bumpy ride. Learn the simple basics of shocks and springs to achieve the perfect balance on and off-road.</p>
                             </div>
                         </div>
                     </a>
@@ -151,44 +178,43 @@
         </section>
     </main>
 
-    <footer class="border-t border-omni-border bg-[#020203] pt-16 pb-8">
-        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-10 mb-12 border-b border-omni-border pb-12">
+    <footer class="border-t border-omni-border bg-[#020203] pt-20 pb-10 mt-12 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16 relative z-10">
             <div class="col-span-1 md:col-span-2">
-                <a href="index.html" class="flex items-center gap-2 mb-4">
-                    <i class="fa-solid fa-layer-group text-omni-cyan text-xl"></i>
-                    <span class="font-tech text-2xl font-bold text-white tracking-widest">OMNI-TERRAIN</span>
+                <a href="index.html" class="flex items-center gap-3 mb-6">
+                    <i class="fa-solid fa-layer-group text-omni-cyan text-2xl"></i>
+                    <span class="font-tech text-3xl font-bold text-white tracking-widest">OMNI-TERRAIN</span>
                 </a>
                 <p class="text-sm text-gray-500 max-w-sm mb-6 leading-relaxed">
                     Making off-grid power, marine integration, and overland vehicle modification accessible and safe. A property of PRP Xpert LLC.
                 </p>
-                <div class="flex gap-4">
-                    <a href="contact.html" class="text-gray-500 hover:text-omni-cyan transition-colors"><i class="fa-solid fa-envelope"></i></a>
-                    <a href="#" class="text-gray-500 hover:text-omni-cyan transition-colors"><i class="fa-brands fa-linkedin"></i></a>
+                <div class="flex gap-5">
+                    <a href="contact.html" class="text-gray-500 hover:text-omni-cyan transition-colors"><i class="fa-solid fa-envelope text-xl"></i></a>
                 </div>
             </div>
             
             <div>
-                <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-xs">Corporate</h4>
-                <ul class="space-y-3 text-sm text-gray-500">
-                    <li><a href="about.html" class="hover:text-omni-cyan transition-colors">About Us</a></li>
-                    <li><a href="contact.html" class="hover:text-omni-cyan transition-colors">Vendor Inquiries</a></li>
+                <h4 class="text-white font-bold mb-6 uppercase tracking-wider text-xs">Corporate</h4>
+                <ul class="space-y-4 text-sm text-gray-500">
+                    <li><a href="about.html" class="hover:text-white transition-colors">About Operations</a></li>
+                    <li><a href="contact.html" class="hover:text-white transition-colors">Vendor Inquiries</a></li>
                     <li><span class="text-gray-700 cursor-not-allowed">Direct Store (Q3)</span></li>
                 </ul>
             </div>
 
             <div>
-                <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-xs">Legal</h4>
-                <ul class="space-y-3 text-sm text-gray-500">
-                    <li><a href="compliance.html" class="hover:text-omni-cyan transition-colors">Terms of Service</a></li>
-                    <li><a href="compliance.html" class="hover:text-omni-cyan transition-colors">Privacy Policy</a></li>
-                    <li><a href="compliance.html" class="hover:text-omni-cyan transition-colors">Affiliate Disclosure</a></li>
+                <h4 class="text-white font-bold mb-6 uppercase tracking-wider text-xs">Legal & Compliance</h4>
+                <ul class="space-y-4 text-sm text-gray-500">
+                    <li><a href="compliance.html" class="hover:text-white transition-colors">Terms of Service</a></li>
+                    <li><a href="compliance.html" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                    <li><a href="compliance.html" class="hover:text-white transition-colors">Affiliate Disclosure</a></li>
                 </ul>
             </div>
         </div>
         
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <p class="text-xs text-gray-600">&copy; 2026 PRP Xpert LLC. Wyoming, United States. All rights reserved.</p>
-            <p class="text-[10px] text-gray-700 mt-2 max-w-2xl mx-auto">This portal is intended for educational purposes and authorized B2B wholesale relations. Always consult certified professionals when executing high-voltage electrical installations or major automotive modifications.</p>
+        <div class="max-w-7xl mx-auto px-4 text-center border-t border-gray-800 pt-8 relative z-10">
+            <p class="text-xs text-gray-600 font-mono tracking-wider">&copy; 2026 PRP Xpert LLC. Wyoming, United States. All rights reserved.</p>
+            <p class="text-[10px] text-gray-700 mt-4 max-w-3xl mx-auto leading-relaxed">This portal provides educational overviews and B2B procurement channels. High-voltage architecture and structural vehicle modifications carry inherent risks. Always consult certified marine ABYC electricians or ASE master mechanics before installation.</p>
         </div>
     </footer>
 
