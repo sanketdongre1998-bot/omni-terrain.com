@@ -79,6 +79,13 @@
     .nav-links a:after{content:"";position:absolute;left:0;bottom:-7px;width:100%;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:.2s}
     .nav-links a:hover:after{transform:scaleX(1)}
     .header-actions{display:flex;gap:11px;align-items:center;justify-content:flex-end;justify-self:end}
+    .header-contact{
+      display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:0 13px;
+      border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--navy);
+      font-size:.67rem;font-weight:800;letter-spacing:.04em;transition:.2s
+    }
+    .header-contact:hover{border-color:var(--gold);color:var(--gold)}
+    .menu-btn{width:auto!important;min-width:58px;padding:0 11px;border-radius:999px!important;font-size:.64rem;font-weight:800}
     .icon-btn{width:38px;height:38px;border:1px solid var(--line);border-radius:50%;background:#fff;display:grid;place-items:center;color:#405168;transition:.2s}
     .icon-btn:hover{border-color:var(--gold);color:var(--navy)}
     .menu-btn{display:none}
@@ -418,7 +425,7 @@
   <div class="announcement">
     <div class="container">
       <span><strong>OMNI TERRAIN:</strong> Clear gear. Better journeys. No confusing jargon.</span>
-      <a href="#call-order">Need help ordering? Talk to us →</a>
+      <a href="contact-and-order-help.html#call-support">Need help ordering? Talk to us →</a>
     </div>
   </div>
 
@@ -433,27 +440,28 @@
       </a>
 
       <nav class="nav-links">
-        <a href="#start">Start Here</a>
-        <a href="#collections">Collections</a>
+        <a href="index.html#start">Start Here</a>
+        <a href="index.html#collections">Collections</a>
         <a href="how-it-works.html">How We Help</a>
         <a href="buyer-guides.html">Guides</a>
-        <a href="#call-order">Call & Order</a>
-        <a href="#suppliers">Suppliers</a>
+        <a href="about-omni-terrain.html">About</a>
+        <a href="suppliers-and-brands.html#partnership">Suppliers</a>
       </nav>
 
       <div class="header-actions">
-        <button class="icon-btn desktop-only" id="searchNotice" aria-label="Search">⌕</button>
-        <a class="icon-btn desktop-only" href="mailto:support@omni-terrain.com" aria-label="Email support">✉</a>
-        <button class="icon-btn menu-btn" id="menuToggle" aria-label="Open menu">☰</button>
+        <a class="header-contact desktop-only" href="contact-and-order-help.html#request-help">Contact</a>
+        <button class="icon-btn menu-btn" id="menuToggle" aria-label="Open menu">Menu</button>
       </div>
     </div>
     <div class="mobile-nav" id="mobileNav">
-      <a href="#start">Start Here</a>
-      <a href="#collections">Collections</a>
+      <a href="index.html#start">Start Here</a>
+      <a href="index.html#collections">Collections</a>
       <a href="how-it-works.html">How We Help</a>
       <a href="buyer-guides.html">Buyer Guides</a>
-      <a href="#call-order">Call & Order</a>
-      <a href="#suppliers">For Suppliers</a>
+            <a href="about-omni-terrain.html">About OMNI</a>
+      <a href="about-omni-terrain.html">About</a>
+      <a href="suppliers-and-brands.html#partnership">For Suppliers</a>
+      <a href="about-omni-terrain.html">About OMNI</a>
       <a href="#faq">FAQ</a>
       <a href="mailto:support@omni-terrain.com">Contact Support</a>
     </div>
@@ -519,7 +527,7 @@
             <b>Prefer talking to a person before you order?</b>
             <span>Call-and-order help is available. Our Sales Support Team helps customers take the next step.</span>
           </div>
-          <a href="#call-order">See call &amp; order help →</a>
+          <a href="contact-and-order-help.html#call-support">See call &amp; order help →</a>
         </div>
       </div>
     </section>
@@ -809,7 +817,7 @@
           <article class="faq reveal d1">
             <button><span>Can I get help before I buy something?</span><span>+</span></button>
             <div class="faq-panel"><p>Yes. For an early question about a product category or guide, email <a href="mailto:support@omni-terrain.com">support@omni-terrain.com</a>
-            <a href="#call-order">Request a call from our team</a>. As live products are added, each page will also include the important details to check before ordering.</p></div>
+            <a href="contact-and-order-help.html#call-support">Request a call from our team</a>. As live products are added, each page will also include the important details to check before ordering.</p></div>
           </article>
           <article class="faq reveal d2">
             <button><span>What is the difference between a direct product and recommended gear?</span><span>+</span></button>
@@ -865,7 +873,7 @@
             <a href="#start">Boat & Water</a>
             <a href="#start">RV & Off-Grid</a>
             <a href="how-it-works.html">How OMNI Helps</a>
-            <a href="#call-order">Call & Order Help</a>
+            <a href="contact-and-order-help.html#call-support">Call & Order Help</a>
           </div>
         </div>
         <div>
@@ -873,6 +881,7 @@
           <div class="footer-links">
             <a href="buyer-guides.html">Buyer Guides</a>
             <a href="buyer-guides.html#recommendations">Recommended Gear</a>
+            <a href="contact-and-order-help.html#request-help">Contact & Order Help</a>
             <a href="#faq">Questions & Answers</a>
             <a href="#contact">The OMNI Dispatch</a>
           </div>
@@ -932,10 +941,6 @@
       const email = document.getElementById('email').value;
       document.getElementById('signupNote').textContent = `Thank you. ${email} is ready to be connected to your email platform before launch.`;
       event.target.reset();
-    });
-
-    document.getElementById('searchNotice').addEventListener('click', () => {
-      alert('Product search will be connected when the first approved supplier catalog is added.');
     });
   </script>
 </body>
