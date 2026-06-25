@@ -42,7 +42,7 @@
     .section{padding:94px 0}
     .section.white{background:#fff}
     .section.navy{background:var(--navy);color:#fff}
-    .section-header{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-bottom:32px}
+    .section-header{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,470px);justify-content:space-between;align-items:end;gap:32px;margin-bottom:32px}
     .section-title{font:800 clamp(2.55rem,4.8vw,4.7rem)/.82 "Barlow Condensed",sans-serif;letter-spacing:-.035em;text-transform:uppercase;margin:10px 0 0}
     .section-title em{color:var(--gold);font-style:normal}
     .section-copy{max-width:470px;color:var(--muted);font-size:.92rem;line-height:1.76;margin:0}
@@ -66,19 +66,19 @@
 
     header{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.94);backdrop-filter:blur(18px);border-bottom:1px solid var(--line);transition:.25s}
     header.scrolled{box-shadow:0 8px 28px rgba(7,26,48,.08)}
-    .header-main{min-height:90px;display:grid;grid-template-columns:auto 1fr auto;gap:28px;align-items:center;padding:12px 0}
-    .brand{display:inline-flex;align-items:center;min-width:max-content;position:relative}
+    .header-main{min-height:90px;display:grid;grid-template-columns:250px 1fr 250px;gap:22px;align-items:center;padding:12px 0}
+    .brand{display:inline-flex;align-items:center;min-width:max-content;position:relative;justify-self:start}
     .wordmark{display:grid;grid-template-columns:auto auto;grid-template-rows:auto auto;column-gap:11px;row-gap:3px;align-items:end;position:relative;padding:2px 0 8px;white-space:nowrap;line-height:1}
     .wordmark:after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:99px;background:linear-gradient(90deg,var(--gold) 0 27%,transparent 27% 33%,var(--gold) 33% 68%,transparent 68% 74%,var(--gold) 74% 100%);opacity:.95}
     .wordmark-main{grid-column:1;grid-row:1;color:var(--navy);font:700 2.35rem/.66 "Teko",sans-serif;letter-spacing:.10em;text-transform:uppercase;transform:skewX(-4deg)}
     .wordmark-main .terrain-o{display:inline;letter-spacing:0;margin:0}
     .wordmark-sub{grid-column:2;grid-row:1;color:var(--gold);font:800 .88rem/.9 "Barlow Condensed",sans-serif;letter-spacing:.19em;text-transform:uppercase;padding:0 0 2px 11px;border-left:1px solid rgba(198,154,80,.75)}
     .wordmark-meta{grid-column:1 / -1;grid-row:2;position:static;color:var(--muted);font:500 .43rem/1 "DM Mono",monospace;letter-spacing:.17em;text-transform:uppercase;white-space:nowrap}
-    .nav-links{display:flex;justify-content:center;align-items:center;gap:25px;font-size:.77rem;font-weight:750;color:#405168}
+    .nav-links{display:flex;justify-content:center;align-items:center;gap:25px;font-size:.77rem;font-weight:750;color:#405168;justify-self:center;white-space:nowrap}
     .nav-links a{position:relative}
     .nav-links a:after{content:"";position:absolute;left:0;bottom:-7px;width:100%;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:.2s}
     .nav-links a:hover:after{transform:scaleX(1)}
-    .header-actions{display:flex;gap:11px;align-items:center}
+    .header-actions{display:flex;gap:11px;align-items:center;justify-content:flex-end;justify-self:end}
     .icon-btn{width:38px;height:38px;border:1px solid var(--line);border-radius:50%;background:#fff;display:grid;place-items:center;color:#405168;transition:.2s}
     .icon-btn:hover{border-color:var(--gold);color:var(--navy)}
     .menu-btn{display:none}
@@ -147,7 +147,7 @@
     .call-ribbon{
       margin-top:16px;
       display:grid;
-      grid-template-columns:45px 1fr auto;
+      grid-template-columns:45px minmax(0,1fr) auto;
       align-items:center;
       gap:14px;
       padding:16px 19px;
@@ -164,7 +164,7 @@
     }
     .call-ribbon b{display:block;color:var(--navy);font-size:.78rem}
     .call-ribbon span{display:block;margin-top:3px;color:#667082;font-size:.69rem;line-height:1.5}
-    .call-ribbon a{color:var(--navy);font-size:.72rem;font-weight:800;white-space:nowrap}
+    .call-ribbon a{color:var(--navy);font-size:.72rem;font-weight:800;white-space:nowrap;align-self:center}
     .call-ribbon a:hover{color:var(--gold)}
 
     .call-order-grid{
@@ -174,11 +174,15 @@
       align-items:stretch;
     }
     .call-order-card{
+      min-height:100%;
       border-radius:23px;
       padding:35px;
       background:#fff;
       border:1px solid var(--line);
       box-shadow:var(--shadow);
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-start;
     }
     .call-order-card.dark{
       position:relative;
@@ -238,7 +242,8 @@
       display:flex;
       gap:11px;
       flex-wrap:wrap;
-      margin-top:23px;
+      margin-top:auto;
+      padding-top:23px;
     }
     .call-details{
       display:grid;
@@ -381,6 +386,12 @@
     .d1{transition-delay:.10s}.d2{transition-delay:.20s}.d3{transition-delay:.30s}
 
     /* responsive */
+
+    @media(max-width:1180px) and (min-width:741px){
+      .header-main{grid-template-columns:auto 1fr auto;gap:16px}
+      .header-actions{min-width:auto}
+    }
+
     @media(max-width:1100px){
       .nav-links{display:none}.menu-btn{display:grid}
       .hero-grid{grid-template-columns:1fr}.hero-side{grid-template-columns:1fr 1fr}.hero-card.guide,.hero-card.guide .card-inner{min-height:285px;height:285px}.hero-card.story{min-height:285px}
@@ -513,7 +524,7 @@
           <div class="call-ribbon-icon">☎</div>
           <div>
             <b>Prefer talking to a person before you order?</b>
-            <span>Call-and-order help is available. Abby handles sales calls and helps customers take the next step.</span>
+            <span>Call-and-order help is available. Our Sales Support Team helps customers take the next step.</span>
           </div>
           <a href="#call-order">See call &amp; order help →</a>
         </div>
@@ -657,14 +668,14 @@
             <span class="eyebrow">Call and order help</span>
             <h2 class="section-title">Want to talk first?<br><em>We are here.</em></h2>
           </div>
-          <p class="section-copy">Some purchases are easier when you can speak to a person. Abby handles OMNI TERRAIN sales calls and can help you understand the next step before you place an order.</p>
+          <p class="section-copy">Some purchases are easier when you can speak to a person. Our OMNI TERRAIN Sales Support Team can help you understand the next step before you place an order.</p>
         </div>
 
         <div class="call-order-grid">
           <article class="call-order-card dark reveal">
-            <span class="eyebrow" style="color:var(--gold-light)">Talk to Abby</span>
-            <h3>Call. Ask. Order with confidence.</h3>
-            <p>Tell us what you are trying to do. Abby can help you understand the product, check the important details, and guide you through the order process in a simple way.</p>
+            <span class="eyebrow" style="color:var(--gold-light)">Talk to our Sales Support Team</span>
+            <h3>Talk. Ask. Order with confidence.</h3>
+            <p>Tell us what you are trying to do. Our Sales Support Team can help you understand the product, check the important details, and guide you through the order process in a simple way.</p>
 
             <div class="call-steps">
               <div class="call-step"><b>01 / TALK</b><span>Tell us about your vehicle, boat, RV or power setup.</span></div>
@@ -673,7 +684,7 @@
             </div>
 
             <div class="call-actions">
-              <a class="button primary" href="mailto:support@omni-terrain.com?subject=Call%20Request%20-%20I%20Want%20Help%20Placing%20an%20Order">Request a call from Abby →</a>
+              <a class="button primary" href="mailto:support@omni-terrain.com?subject=Call%20Request%20-%20I%20Want%20Help%20Placing%20an%20Order">Request a call from our team →</a>
               <a class="button ghost" href="mailto:support@omni-terrain.com?subject=Product%20Question%20Before%20Ordering">Email a question</a>
             </div>
           </article>
@@ -805,7 +816,7 @@
           <article class="faq reveal d1">
             <button><span>Can I get help before I buy something?</span><span>+</span></button>
             <div class="faq-panel"><p>Yes. For an early question about a product category or guide, email <a href="mailto:support@omni-terrain.com">support@omni-terrain.com</a>
-            <a href="#call-order">Request a call from Abby</a>. As live products are added, each page will also include the important details to check before ordering.</p></div>
+            <a href="#call-order">Request a call from our team</a>. As live products are added, each page will also include the important details to check before ordering.</p></div>
           </article>
           <article class="faq reveal d2">
             <button><span>What is the difference between a direct product and recommended gear?</span><span>+</span></button>
