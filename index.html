@@ -98,11 +98,11 @@
     .hero h1 em{color:var(--gold-light);font-style:normal}
     .hero-copy{max-width:530px;color:#e3eaf2;font-size:.96rem;line-height:1.76}
     .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:25px}
-    .hero-badges{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:730px}
-    .hero-badge{padding:15px;background:rgba(7,26,48,.75);border:1px solid rgba(255,255,255,.16);border-radius:14px;backdrop-filter:blur(10px);transition:.2s}
+    .hero-badges{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:760px;margin-top:34px;align-items:stretch}
+    .hero-badge{padding:18px 18px 16px;background:rgba(7,26,48,.78);border:1px solid rgba(255,255,255,.18);border-radius:16px;backdrop-filter:blur(10px);transition:.2s;display:block}
     .hero-badge:hover{transform:translateY(-3px);background:rgba(7,26,48,.94)}
-    .hero-badge span{display:block;color:var(--gold-light);font-size:1.12rem;margin-bottom:8px}
-    .hero-badge b{display:block;font-size:.76rem}
+    .hero-badge .hero-badge-mark{display:inline-flex;align-items:center;justify-content:center;min-width:54px;padding:5px 8px;border-radius:999px;border:1px solid rgba(230,209,164,.28);background:rgba(230,209,164,.10);color:var(--gold-light);font:500 .54rem/1 "DM Mono",monospace;letter-spacing:.13em;text-transform:uppercase;margin-bottom:12px}
+    .hero-badge b{display:block;font-size:.8rem}
     .hero-badge small{display:block;margin-top:4px;color:#d0dbe7;line-height:1.45;font-size:.66rem}
 
     .hero-side{display:grid;gap:18px}
@@ -124,9 +124,9 @@
 
     /* Header support strip */
     .highlights{margin-top:18px;display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border:1px solid var(--line);border-radius:17px;overflow:hidden;box-shadow:var(--shadow)}
-    .highlight{padding:19px 17px;border-right:1px solid var(--line);display:flex;gap:12px}
+    .highlight{padding:19px 17px;border-right:1px solid var(--line);display:block;position:relative}
     .highlight:last-child{border:0}
-    .highlight-icon{color:var(--gold);font-size:1.1rem}
+    .highlight-label{display:inline-block;margin-bottom:10px;padding-bottom:7px;border-bottom:2px solid rgba(198,154,80,.45);color:var(--navy);font:500 .54rem/1 "DM Mono",monospace;letter-spacing:.13em;text-transform:uppercase}
     .highlight b{display:block;font-size:.74rem}
     .highlight span{display:block;margin-top:5px;color:var(--muted);font-size:.67rem;line-height:1.5}
 
@@ -135,7 +135,7 @@
     .start-card{border:1px solid var(--line);background:#fff;border-radius:20px;padding:25px;transition:.25s;position:relative;overflow:hidden}
     .start-card:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
     .start-card:after{content:"";position:absolute;right:-22px;bottom:-35px;width:110px;height:110px;border:18px solid rgba(198,154,80,.11);border-radius:50%}
-    .start-icon{width:43px;height:43px;border-radius:11px;background:var(--soft-blue);color:var(--navy);display:grid;place-items:center;font-size:1.25rem}
+    .start-tag{display:inline-flex;align-items:center;justify-content:center;min-width:46px;height:30px;padding:0 10px;border-radius:999px;background:var(--soft-blue);border:1px solid rgba(23,34,53,.08);color:var(--navy);font:600 .58rem/1 "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase}
     .start-card h3{margin:18px 0 9px;font:800 2rem/.85 "Barlow Condensed",sans-serif;letter-spacing:-.02em;text-transform:uppercase}
     .start-card p{margin:0;max-width:330px;color:var(--muted);font-size:.8rem;line-height:1.7}
     .start-card .mini-list{display:grid;gap:7px;margin-top:16px;color:#49566a;font-size:.72rem}
@@ -145,9 +145,9 @@
 
     /* Call and order */
     .call-ribbon{
-      margin-top:16px;
+      margin-top:18px;
       display:grid;
-      grid-template-columns:45px minmax(0,1fr) auto;
+      grid-template-columns:minmax(0,1fr) auto;
       align-items:center;
       gap:14px;
       padding:16px 19px;
@@ -156,13 +156,7 @@
       border-radius:15px;
       box-shadow:var(--shadow);
     }
-    .call-ribbon-icon{
-      width:40px;height:40px;border-radius:50%;
-      display:grid;place-items:center;
-      color:#fff;background:var(--navy);
-      font-size:1rem;
-    }
-    .call-ribbon b{display:block;color:var(--navy);font-size:.78rem}
+        .call-ribbon b{display:block;color:var(--navy);font-size:.78rem}
     .call-ribbon span{display:block;margin-top:3px;color:#667082;font-size:.69rem;line-height:1.5}
     .call-ribbon a{color:var(--navy);font-size:.72rem;font-weight:800;white-space:nowrap;align-self:center}
     .call-ribbon a:hover{color:var(--gold)}
@@ -406,13 +400,13 @@
       .header-main{min-height:76px;grid-template-columns:auto 1fr auto;gap:12px;padding:11px 0}
       .wordmark{column-gap:7px;row-gap:2px;padding-bottom:7px}.wordmark-main{font-size:1.65rem;letter-spacing:.08em}.wordmark-sub{font-size:.62rem;letter-spacing:.13em;padding-left:7px;padding-bottom:1px}.wordmark-meta{font-size:.35rem;letter-spacing:.10em}
       .header-actions .desktop-only{display:none}.menu-btn{display:grid}
-      .hero{padding-top:15px}.hero-main,.hero-content{min-height:600px}.hero-content{padding:31px 24px}.hero h1{font-size:clamp(3.4rem,15vw,5.2rem);line-height:.76}.hero-copy{font-size:.82rem}.hero-badges{grid-template-columns:1fr}
+      .hero{padding-top:15px}.hero-main,.hero-content{min-height:600px}.hero-content{padding:31px 24px}.hero h1{font-size:clamp(3.4rem,15vw,5.2rem);line-height:.76}.hero-copy{font-size:.82rem}.hero-badges{grid-template-columns:1fr;gap:14px;margin-top:26px}
       .hero-side{grid-template-columns:1fr}.hero-card.guide,.hero-card.guide .card-inner{height:270px;min-height:270px}.hero-card.story{min-height:230px}
       .highlights{grid-template-columns:1fr}.highlight{border-right:0;border-bottom:1px solid var(--line)}.highlight:last-child{border-bottom:0}
       .section{padding:66px 0}.section-header{display:block}.section-copy{margin-top:16px}
       .start-grid,.systems,.model-grid,.call-order-grid{grid-template-columns:1fr}.system-card:last-child{grid-column:auto}.system-card{min-height:365px}
       .plain-grid{grid-template-columns:1fr}.plain-image{min-height:300px}
-      .call-ribbon{grid-template-columns:40px 1fr}.call-ribbon a{grid-column:2;justify-self:start;margin-top:2px}
+      .call-ribbon{grid-template-columns:1fr}.call-ribbon a{justify-self:start;margin-top:4px}
       .call-order-card{padding:27px 22px}.call-steps{grid-template-columns:1fr}.call-step{padding:12px 0}
       .guide-grid{grid-template-columns:1fr}.guide-feature{min-height:400px}.guide-card{display:grid;grid-template-columns:38% 1fr}.guide-image{height:auto}.guide-body{padding:15px}
       .partner-box,.newsletter-box{padding:32px 23px}.signup{flex-direction:column}
@@ -483,13 +477,13 @@
 
               <div class="hero-badges">
                 <a class="hero-badge" href="#collections">
-                  <span>⌁</span><b>Drive & Tow</b><small>Helpful gear for your vehicle, towing setup and road trips.</small>
+                  <span class="hero-badge-mark">Road</span><b>Drive & Tow</b><small>Helpful gear for your vehicle, towing setup and road trips.</small>
                 </a>
                 <a class="hero-badge" href="#collections">
-                  <span>⌇</span><b>Boat & Water</b><small>Simple help with power, pumps, navigation and marine gear.</small>
+                  <span class="hero-badge-mark">Water</span><b>Boat & Water</b><small>Simple help with power, pumps, navigation and marine gear.</small>
                 </a>
                 <a class="hero-badge" href="#collections">
-                  <span>☀</span><b>RV & Off-Grid</b><small>Clear advice for solar, batteries, charging and power systems.</small>
+                  <span class="hero-badge-mark">Power</span><b>RV & Off-Grid</b><small>Clear advice for solar, batteries, charging and power systems.</small>
                 </a>
               </div>
             </div>
@@ -515,13 +509,12 @@
         </div>
 
         <div class="highlights reveal d2">
-          <div class="highlight"><span class="highlight-icon">✦</span><div><b>Simple words</b><span>We explain what each product does before you buy.</span></div></div>
-          <div class="highlight"><span class="highlight-icon">◇</span><div><b>Clear choices</b><span>We show who a product is good for and what to check.</span></div></div>
-          <div class="highlight"><span class="highlight-icon">⌁</span><div><b>Honest labels</b><span>Direct products and outside recommendations stay clearly separate.</span></div></div>
-          <div class="highlight"><span class="highlight-icon">◌</span><div><b>Real people</b><span>Need help? You can email our team before or after an order.</span></div></div>
+          <div class="highlight"><span class="highlight-label">Simple</span><div><b>Simple words</b><span>We explain what each product does before you buy.</span></div></div>
+          <div class="highlight"><span class="highlight-label">Clear</span><div><b>Clear choices</b><span>We show who a product is good for and what to check.</span></div></div>
+          <div class="highlight"><span class="highlight-label">Honest</span><div><b>Honest labels</b><span>Direct products and outside recommendations stay clearly separate.</span></div></div>
+          <div class="highlight"><span class="highlight-label">Support</span><div><b>Real people</b><span>Need help? You can email our team before or after an order.</span></div></div>
         </div>
         <div class="call-ribbon reveal d3">
-          <div class="call-ribbon-icon">☎</div>
           <div>
             <b>Prefer talking to a person before you order?</b>
             <span>Call-and-order help is available. Our Sales Support Team helps customers take the next step.</span>
@@ -543,7 +536,7 @@
 
         <div class="start-grid">
           <article class="start-card reveal">
-            <div class="start-icon">🚙</div>
+            <div class="start-tag">Road</div>
             <h3>Drive, tow or travel</h3>
             <p>Building a better vehicle setup for road trips, towing, work or weekend travel? Start with practical gear that improves safety, control and comfort.</p>
             <div class="mini-list">
@@ -555,7 +548,7 @@
           </article>
 
           <article class="start-card reveal d1">
-            <div class="start-icon">🛥</div>
+            <div class="start-tag">Water</div>
             <h3>Spend time on water</h3>
             <p>Buying for a boat can feel technical. We will make marine power, pumps, navigation and basic systems easier to understand before you choose.</p>
             <div class="mini-list">
@@ -567,7 +560,7 @@
           </article>
 
           <article class="start-card reveal d2">
-            <div class="start-icon">☀</div>
+            <div class="start-tag">Power</div>
             <h3>Power your RV or cabin</h3>
             <p>Planning off-grid power? We will explain solar, batteries, inverters and charging in a simple order so you can build slowly and wisely.</p>
             <div class="mini-list">
