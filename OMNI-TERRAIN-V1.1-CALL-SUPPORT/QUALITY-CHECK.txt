@@ -1,0 +1,12 @@
+OMNI TERRAIN — V1.1 CALL SUPPORT CHECK
+
+Phone added: (307) 533-0570
+Pages with phone call links: 16
+Pages with sticky mobile call bar: 16
+Broken internal HTML links found: 0
+
+Included:
+- Desktop Call Support button
+- Sticky mobile Call Product Support button
+- High-ticket call CTA on product-page preview
+- High-ticket support section on the contact page

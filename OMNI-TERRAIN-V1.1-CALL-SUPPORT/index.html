@@ -1,0 +1,980 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="OMNI TERRAIN makes automotive, marine, RV and solar buying simple with clear products, plain-English guides and honest recommendations. Operated by PRP Xpert LLC.">
+  <meta name="theme-color" content="#071a30">
+  <title>OMNI TERRAIN | Clear Gear. Better Journeys.</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Teko:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --navy:#071a30;
+      --navy-2:#102d4d;
+      --navy-3:#1c496f;
+      --gold:#c69a50;
+      --gold-light:#e6d1a4;
+      --cream:#f7f5f1;
+      --white:#ffffff;
+      --ink:#172235;
+      --muted:#687588;
+      --line:#e7e1d8;
+      --green:#24725a;
+      --soft-blue:#edf3f8;
+      --radius:24px;
+      --shadow:0 22px 55px rgba(7,26,48,.10);
+      --shadow-dark:0 26px 60px rgba(5,15,30,.28);
+      --max:1400px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--cream);color:var(--ink);font-family:Manrope,Arial,sans-serif;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    button,input{font:inherit}
+    button{cursor:pointer}
+    .container{width:min(var(--max),calc(100% - 40px));margin:0 auto}
+    .eyebrow{font:500 .64rem/1 "DM Mono",monospace;letter-spacing:.15em;text-transform:uppercase;color:var(--gold)}
+    .section{padding:94px 0}
+    .section.white{background:#fff}
+    .section.navy{background:var(--navy);color:#fff}
+    .section-header{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,470px);justify-content:space-between;align-items:end;gap:32px;margin-bottom:32px}
+    .section-title{font:800 clamp(2.55rem,4.8vw,4.7rem)/.82 "Barlow Condensed",sans-serif;letter-spacing:-.035em;text-transform:uppercase;margin:10px 0 0}
+    .section-title em{color:var(--gold);font-style:normal}
+    .section-copy{max-width:470px;color:var(--muted);font-size:.92rem;line-height:1.76;margin:0}
+    .section.navy .section-copy{color:#c3d0df}
+    .button{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 18px;border-radius:11px;font-size:.74rem;font-weight:800;letter-spacing:.045em;transition:.25s}
+    .button.primary{background:linear-gradient(120deg,#b98741,#dfc897);color:#fff;box-shadow:0 11px 25px rgba(0,0,0,.14)}
+    .button.primary:hover{transform:translateY(-2px);filter:brightness(1.06)}
+    .button.ghost{border:1px solid rgba(255,255,255,.42);background:rgba(255,255,255,.05);color:#fff}
+    .button.ghost:hover{background:#fff;color:var(--navy)}
+    .button.dark{background:var(--navy);color:#fff}
+    .button.dark:hover{background:var(--gold)}
+    .text-link{display:inline-flex;align-items:center;gap:9px;font-size:.74rem;font-weight:800;color:var(--navy)}
+    .text-link:hover{color:var(--gold)}
+
+    /* Header */
+    .announcement{background:var(--navy);color:#dae4ef}
+    .announcement .container{min-height:38px;display:flex;justify-content:space-between;align-items:center;gap:20px;font-size:.72rem}
+    .announcement strong{color:var(--gold-light)}
+    .announcement a{font-size:.7rem}
+    .announcement a:hover{color:#fff}
+
+    header{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.94);backdrop-filter:blur(18px);border-bottom:1px solid var(--line);transition:.25s}
+    header.scrolled{box-shadow:0 8px 28px rgba(7,26,48,.08)}
+    .header-main{min-height:90px;display:grid;grid-template-columns:250px 1fr 250px;gap:22px;align-items:center;padding:12px 0}
+    .brand{display:inline-flex;align-items:center;min-width:max-content;position:relative;justify-self:start}
+    .wordmark{display:grid;grid-template-columns:auto auto;grid-template-rows:auto auto;column-gap:11px;row-gap:3px;align-items:end;position:relative;padding:2px 0 8px;white-space:nowrap;line-height:1}
+    .wordmark:after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:99px;background:linear-gradient(90deg,var(--gold) 0 27%,transparent 27% 33%,var(--gold) 33% 68%,transparent 68% 74%,var(--gold) 74% 100%);opacity:.95}
+    .wordmark-main{grid-column:1;grid-row:1;color:var(--navy);font:700 2.35rem/.66 "Teko",sans-serif;letter-spacing:.10em;text-transform:uppercase;transform:skewX(-4deg)}
+    .wordmark-main .terrain-o{display:inline;letter-spacing:0;margin:0}
+    .wordmark-sub{grid-column:2;grid-row:1;color:var(--gold);font:800 .88rem/.9 "Barlow Condensed",sans-serif;letter-spacing:.19em;text-transform:uppercase;padding:0 0 2px 11px;border-left:1px solid rgba(198,154,80,.75)}
+    .wordmark-meta{grid-column:1 / -1;grid-row:2;position:static;color:var(--muted);font:500 .43rem/1 "DM Mono",monospace;letter-spacing:.17em;text-transform:uppercase;white-space:nowrap}
+    .nav-links{display:flex;justify-content:center;align-items:center;gap:25px;font-size:.77rem;font-weight:750;color:#405168;justify-self:center;white-space:nowrap}
+    .nav-links a{position:relative}
+    .nav-links a:after{content:"";position:absolute;left:0;bottom:-7px;width:100%;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:.2s}
+    .nav-links a:hover:after{transform:scaleX(1)}
+    .header-actions{display:flex;gap:11px;align-items:center;justify-content:flex-end;justify-self:end}
+    .header-contact{
+      display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:0 13px;
+      border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--navy);
+      font-size:.67rem;font-weight:800;letter-spacing:.04em;transition:.2s
+    }
+    .header-contact:hover{border-color:var(--gold);color:var(--gold)}
+    .menu-btn{width:auto!important;min-width:58px;padding:0 11px;border-radius:999px!important;font-size:.64rem;font-weight:800}
+    .icon-btn{width:38px;height:38px;border:1px solid var(--line);border-radius:50%;background:#fff;display:grid;place-items:center;color:#405168;transition:.2s}
+    .icon-btn:hover{border-color:var(--gold);color:var(--navy)}
+    .menu-btn{display:none}
+    .mobile-nav{display:none;background:var(--navy);padding:8px 20px 18px}
+    .mobile-nav.open{display:grid;gap:9px}
+    .mobile-nav a{color:#fff;border-bottom:1px solid rgba(255,255,255,.10);padding:10px 0;font-size:.85rem}
+
+    /* Hero */
+    .hero{padding:24px 0 0;background:var(--cream)}
+    .hero-grid{display:grid;grid-template-columns:1.52fr .82fr;gap:18px}
+    .hero-main{position:relative;min-height:628px;overflow:hidden;border-radius:var(--radius);isolation:isolate;color:#fff;box-shadow:var(--shadow-dark)}
+    .hero-main:before{content:"";position:absolute;inset:0;z-index:-2;background:linear-gradient(90deg,rgba(4,15,29,.91) 0%,rgba(4,15,29,.63) 44%,rgba(4,15,29,.12) 72%),url("https://images.unsplash.com/photo-1504215680853-026ed2a45def?auto=format&fit=crop&w=1900&q=88") center/cover no-repeat;transform:scale(1.04);animation:slowzoom 15s ease-in-out infinite alternate}
+    .hero-main:after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(circle at 79% 25%,rgba(224,200,151,.34),transparent 20%),linear-gradient(115deg,transparent 0 57%,rgba(255,255,255,.09) 57% 57.2%,transparent 57.2%)}
+    @keyframes slowzoom{to{transform:scale(1.12) translateX(-1.5%)}}
+    .hero-content{min-height:628px;padding:51px;display:flex;flex-direction:column;justify-content:space-between}
+    .hero h1{max-width:700px;margin:17px 0 15px;font:800 clamp(4rem,7.2vw,7.2rem)/.76 "Barlow Condensed",sans-serif;letter-spacing:-.035em;text-transform:uppercase}
+    .hero h1 em{color:var(--gold-light);font-style:normal}
+    .hero-copy{max-width:530px;color:#e3eaf2;font-size:.96rem;line-height:1.76}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:25px}
+    .hero-badges{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:760px;margin-top:34px;align-items:stretch}
+    .hero-badge{padding:18px 18px 16px;background:rgba(7,26,48,.78);border:1px solid rgba(255,255,255,.18);border-radius:16px;backdrop-filter:blur(10px);transition:.2s;display:block}
+    .hero-badge:hover{transform:translateY(-3px);background:rgba(7,26,48,.94)}
+    .hero-badge .hero-badge-mark{display:inline-flex;align-items:center;justify-content:center;min-width:54px;padding:5px 8px;border-radius:999px;border:1px solid rgba(230,209,164,.28);background:rgba(230,209,164,.10);color:var(--gold-light);font:500 .54rem/1 "DM Mono",monospace;letter-spacing:.13em;text-transform:uppercase;margin-bottom:12px}
+    .hero-badge b{display:block;font-size:.8rem}
+    .hero-badge small{display:block;margin-top:4px;color:#d0dbe7;line-height:1.45;font-size:.66rem}
+
+    .hero-side{display:grid;gap:18px}
+    .hero-card{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:var(--radius);background:#fff;box-shadow:var(--shadow)}
+    .hero-card.guide{min-height:358px;color:#fff;background:#102842}
+    .hero-card.guide:before{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,15,28,.88),rgba(4,15,28,.02) 70%),url("https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=900&q=86") center/cover no-repeat;transition:.6s}
+    .hero-card.guide:hover:before{transform:scale(1.07)}
+    .hero-card .card-inner{position:relative;z-index:1;padding:27px;height:100%;display:flex;flex-direction:column;justify-content:flex-end}
+    .hero-card.guide .card-inner{height:358px}
+    .hero-card h2{margin:10px 0;font:800 2.45rem/.84 "Barlow Condensed",sans-serif;letter-spacing:-.025em;text-transform:uppercase}
+    .hero-card p{margin:0;color:#e0e9f2;font-size:.8rem;line-height:1.7}
+    .hero-card a{display:inline-flex;margin-top:15px;font-size:.72rem;font-weight:800;color:var(--gold-light)}
+    .hero-card.story{min-height:252px;background:linear-gradient(150deg,#fff,#f0e8d7);padding:27px}
+    .hero-card.story:after{content:"";position:absolute;right:-35px;bottom:-55px;width:180px;height:180px;border:28px solid rgba(198,154,80,.14);border-radius:50%}
+    .quote{position:relative;color:var(--gold);font:700 4.2rem/.58 "Teko",sans-serif}
+    .hero-card.story h3{position:relative;margin:17px 0 10px;max-width:310px;font:800 1.72rem/.92 "Barlow Condensed",sans-serif;letter-spacing:-.025em;text-transform:uppercase}
+    .hero-card.story p{position:relative;color:var(--muted);font-size:.76rem}
+    .hero-card.story a{position:relative;color:var(--navy)}
+
+    /* Header support strip */
+    .highlights{margin-top:18px;display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border:1px solid var(--line);border-radius:17px;overflow:hidden;box-shadow:var(--shadow)}
+    .highlight{padding:19px 17px;border-right:1px solid var(--line);display:block;position:relative}
+    .highlight:last-child{border:0}
+    .highlight-label{display:inline-block;margin-bottom:10px;padding-bottom:7px;border-bottom:2px solid rgba(198,154,80,.45);color:var(--navy);font:500 .54rem/1 "DM Mono",monospace;letter-spacing:.13em;text-transform:uppercase}
+    .highlight b{display:block;font-size:.74rem}
+    .highlight span{display:block;margin-top:5px;color:var(--muted);font-size:.67rem;line-height:1.5}
+
+    /* Start here */
+    .start-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}
+    .start-card{border:1px solid var(--line);background:#fff;border-radius:20px;padding:25px;transition:.25s;position:relative;overflow:hidden}
+    .start-card:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
+    .start-card:after{content:"";position:absolute;right:-22px;bottom:-35px;width:110px;height:110px;border:18px solid rgba(198,154,80,.11);border-radius:50%}
+    .start-tag{display:inline-flex;align-items:center;justify-content:center;min-width:46px;height:30px;padding:0 10px;border-radius:999px;background:var(--soft-blue);border:1px solid rgba(23,34,53,.08);color:var(--navy);font:600 .58rem/1 "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase}
+    .start-card h3{margin:18px 0 9px;font:800 2rem/.85 "Barlow Condensed",sans-serif;letter-spacing:-.02em;text-transform:uppercase}
+    .start-card p{margin:0;max-width:330px;color:var(--muted);font-size:.8rem;line-height:1.7}
+    .start-card .mini-list{display:grid;gap:7px;margin-top:16px;color:#49566a;font-size:.72rem}
+    .start-card .mini-list span:before{content:"•";color:var(--gold);font-weight:800;margin-right:8px}
+    .start-card a{position:relative;display:inline-flex;margin-top:20px;font-size:.72rem;font-weight:800;color:var(--navy)}
+
+
+    /* Call and order */
+    .call-ribbon{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns:minmax(0,1fr) auto;
+      align-items:center;
+      gap:14px;
+      padding:16px 19px;
+      border:1px solid #dfcfac;
+      background:linear-gradient(90deg,#fffaf0,#f6eddb);
+      border-radius:15px;
+      box-shadow:var(--shadow);
+    }
+        .call-ribbon b{display:block;color:var(--navy);font-size:.78rem}
+    .call-ribbon span{display:block;margin-top:3px;color:#667082;font-size:.69rem;line-height:1.5}
+    .call-ribbon a{color:var(--navy);font-size:.72rem;font-weight:800;white-space:nowrap;align-self:center}
+    .call-ribbon a:hover{color:var(--gold)}
+
+    .call-order-grid{
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:18px;
+      align-items:stretch;
+    }
+    .call-order-card{
+      min-height:100%;
+      border-radius:23px;
+      padding:35px;
+      background:#fff;
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-start;
+    }
+    .call-order-card.dark{
+      position:relative;
+      overflow:hidden;
+      color:#fff;
+      background:
+        linear-gradient(110deg,rgba(7,26,48,.98),rgba(7,26,48,.80) 58%,rgba(7,26,48,.35)),
+        url("https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=84") center/cover;
+      box-shadow:var(--shadow-dark);
+    }
+    .call-order-card.dark:after{
+      content:"";
+      position:absolute;
+      width:270px;height:270px;border-radius:50%;
+      right:-95px;bottom:-120px;
+      border:43px solid rgba(230,209,164,.16);
+    }
+    .call-order-card > *{position:relative;z-index:1}
+    .call-order-card h3{
+      margin:12px 0 12px;
+      font:800 clamp(2.5rem,4.2vw,4.25rem)/.82 "Barlow Condensed",sans-serif;
+      letter-spacing:-.03em;
+      text-transform:uppercase;
+    }
+    .call-order-card p{
+      max-width:560px;
+      margin:0;
+      color:var(--muted);
+      font-size:.84rem;
+      line-height:1.75;
+    }
+    .call-order-card.dark p{color:#d5e0eb}
+    .call-steps{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:11px;
+      margin-top:24px;
+    }
+    .call-step{
+      padding:14px 12px;
+      border-top:1px solid rgba(255,255,255,.25);
+    }
+    .call-step b{
+      display:block;
+      color:var(--gold-light);
+      font:500 .62rem/1 "DM Mono",monospace;
+      letter-spacing:.12em;
+    }
+    .call-step span{
+      display:block;
+      margin-top:8px;
+      color:#e1e8f0;
+      font-size:.70rem;
+      line-height:1.55;
+    }
+    .call-actions{
+      display:flex;
+      gap:11px;
+      flex-wrap:wrap;
+      margin-top:auto;
+      padding-top:23px;
+    }
+    .call-details{
+      display:grid;
+      gap:12px;
+      margin-top:18px;
+    }
+    .call-detail{
+      display:grid;
+      grid-template-columns:34px 1fr;
+      gap:11px;
+      align-items:start;
+      padding-bottom:12px;
+      border-bottom:1px solid var(--line);
+    }
+    .call-detail:last-child{border-bottom:0;padding-bottom:0}
+    .call-detail i{
+      width:30px;height:30px;
+      display:grid;place-items:center;
+      border-radius:50%;
+      background:var(--soft-blue);
+      color:var(--navy);
+      font-style:normal;
+      font-size:.82rem;
+    }
+    .call-detail b{display:block;font-size:.77rem}
+    .call-detail span{display:block;color:var(--muted);font-size:.72rem;line-height:1.55;margin-top:3px}
+    .call-note{
+      margin-top:20px;
+      padding:12px 14px;
+      border-left:3px solid var(--gold);
+      background:#f7f2e7;
+      color:#5e5c5b;
+      font-size:.72rem;
+      line-height:1.65;
+    }
+
+    /* Collection cards */
+    .systems{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}
+    .system-card{position:relative;min-height:480px;overflow:hidden;border-radius:22px;color:#fff;isolation:isolate;display:flex;align-items:flex-end;padding:28px;box-shadow:var(--shadow-dark);transition:.35s}
+    .system-card:hover{transform:translateY(-7px)}
+    .system-card:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(3,13,26,.95),rgba(3,13,26,.04) 75%)}
+    .system-card:after{content:"";position:absolute;inset:0;z-index:-2;background:center/cover no-repeat;transition:.7s cubic-bezier(.2,.8,.2,1)}
+    .system-card:hover:after{transform:scale(1.08)}
+    .system-card.road:after{background-image:url("https://images.unsplash.com/photo-1504215680853-026ed2a45def?auto=format&fit=crop&w=1100&q=85")}
+    .system-card.water:after{background-image:url("https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1100&q=85")}
+    .system-card.power:after{background-image:url("https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1100&q=85")}
+    .system-index{position:absolute;top:25px;left:25px;color:var(--gold-light);font:500 .63rem/1 "DM Mono",monospace;letter-spacing:.15em}
+    .system-card h3{margin:0;font:800 clamp(3rem,5vw,4.8rem)/.76 "Barlow Condensed",sans-serif;letter-spacing:-.035em;text-transform:uppercase}
+    .system-card p{margin:13px 0 16px;color:#e0e8f0;max-width:315px;font-size:.8rem;line-height:1.68}
+    .system-tags{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 20px}
+    .system-tags span{border:1px solid rgba(255,255,255,.26);background:rgba(255,255,255,.09);border-radius:999px;padding:6px 8px;font-size:.61rem;color:#f5f7fb}
+    .system-card a{display:inline-flex;align-items:center;gap:8px;color:var(--gold-light);font-size:.72rem;font-weight:800}
+
+    /* Clear shopping model */
+    .model-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+    .model-card{border:1px solid var(--line);border-radius:22px;padding:31px;background:#fff;transition:.25s}
+    .model-card:hover{box-shadow:var(--shadow);transform:translateY(-3px)}
+    .model-number{font:700 4.65rem/.62 "Teko",sans-serif;letter-spacing:.04em;color:var(--gold-light)}
+    .model-card h3{margin:18px 0 10px;font:800 2rem/.84 "Barlow Condensed",sans-serif;letter-spacing:-.025em;text-transform:uppercase}
+    .model-card p{margin:0;color:var(--muted);font-size:.82rem;line-height:1.72}
+    .model-card ul{margin:18px 0 0;padding:0;list-style:none;display:grid;gap:9px}
+    .model-card li{color:#48566a;font-size:.75rem;line-height:1.45}
+    .model-card li:before{content:"—";color:var(--gold);font-weight:800;margin-right:8px}
+
+    /* Plain English section */
+    .plain-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:38px;align-items:center}
+    .plain-image{min-height:510px;border-radius:24px;overflow:hidden;background:linear-gradient(0deg,rgba(4,15,29,.24),rgba(4,15,29,.03)),url("https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?auto=format&fit=crop&w=1200&q=86") center/cover;box-shadow:var(--shadow-dark)}
+    .plain-list{display:grid;gap:13px;margin-top:25px}
+    .plain-point{display:grid;grid-template-columns:40px 1fr;gap:14px;border-top:1px solid rgba(255,255,255,.20);padding-top:14px}
+    .plain-point i{width:34px;height:34px;border:1px solid rgba(230,209,164,.6);border-radius:50%;display:grid;place-items:center;color:var(--gold-light);font-style:normal}
+    .plain-point b{display:block;font-size:.81rem}
+    .plain-point span{display:block;margin-top:4px;color:#c8d4e0;font-size:.76rem;line-height:1.6}
+
+    /* Buying guide / journal */
+    .guide-grid{display:grid;grid-template-columns:1.2fr .8fr .8fr;gap:17px}
+    .guide-feature{position:relative;min-height:470px;overflow:hidden;border-radius:22px;color:#fff;isolation:isolate;display:flex;align-items:flex-end;padding:32px;box-shadow:var(--shadow-dark)}
+    .guide-feature:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(4,15,29,.94),rgba(4,15,29,.05) 75%)}
+    .guide-feature:after{content:"";position:absolute;inset:0;z-index:-2;background:url("https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?auto=format&fit=crop&w=1200&q=86") center/cover no-repeat;transition:.8s}
+    .guide-feature:hover:after{transform:scale(1.07)}
+    .guide-feature h3{margin:10px 0;font:800 clamp(2.5rem,4vw,4rem)/.82 "Barlow Condensed",sans-serif;letter-spacing:-.035em;text-transform:uppercase}
+    .guide-feature p{margin:0;color:#e2e9f1;line-height:1.68;font-size:.82rem;max-width:500px}
+    .guide-feature a{display:inline-flex;margin-top:18px;color:var(--gold-light);font-size:.73rem;font-weight:800}
+    .guide-card{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff;transition:.25s}
+    .guide-card:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
+    .guide-image{height:206px;background:#eef1f2 center/cover no-repeat}
+    .guide-body{padding:20px}
+    .guide-body h3{margin:8px 0;font:800 1.6rem/.9 "Barlow Condensed",sans-serif;letter-spacing:-.025em;text-transform:uppercase}
+    .guide-body p{margin:0;color:var(--muted);font-size:.76rem;line-height:1.65}
+    .guide-body a{display:inline-flex;margin-top:13px;color:var(--gold);font-size:.7rem;font-weight:800}
+    .disclosure{margin-top:18px;padding:16px 18px;border-radius:13px;background:#f7f2e7;color:#5b5b5e;font-size:.74rem;line-height:1.65}
+    .disclosure b{color:var(--navy)}
+
+    /* Supplier section */
+    .partner-box{position:relative;overflow:hidden;border-radius:25px;padding:50px;background:linear-gradient(105deg,rgba(7,26,48,.98),rgba(7,26,48,.75) 62%,rgba(7,26,48,.25)),url("https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1600&q=84") center/cover;color:#fff;box-shadow:var(--shadow-dark)}
+    .partner-box:after{content:"";position:absolute;right:-80px;bottom:-120px;width:350px;height:350px;border:65px solid rgba(230,209,164,.16);border-radius:50%}
+    .partner-content{position:relative;z-index:1;max-width:735px}
+    .partner-content h2{margin:10px 0 11px;font:800 clamp(2.9rem,5.1vw,5.2rem)/.82 "Barlow Condensed",sans-serif;letter-spacing:-.035em;text-transform:uppercase}
+    .partner-content p{margin:0;color:#d9e3ec;max-width:650px;font-size:.86rem;line-height:1.76}
+    .partner-points{display:flex;flex-wrap:wrap;gap:9px;margin:20px 0}
+    .partner-points span{border:1px solid rgba(255,255,255,.24);border-radius:999px;padding:7px 10px;background:rgba(255,255,255,.07);font-size:.66rem}
+    .partner-contact{margin:15px 0 0;color:#e1e9f1;font-size:.72rem;line-height:1.75}
+    .partner-contact a{color:var(--gold-light);font-weight:800}
+
+    /* FAQ */
+    .faq-list{display:grid;gap:10px}
+    .faq{border:1px solid var(--line);border-radius:14px;background:#fff;overflow:hidden}
+    .faq button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;border:0;background:#fff;padding:19px 20px;text-align:left;color:var(--ink);font-size:.82rem;font-weight:800}
+    .faq button span:last-child{color:var(--gold);font-size:1.2rem}
+    .faq-panel{max-height:0;overflow:hidden;transition:max-height .3s ease}
+    .faq-panel p{margin:0;padding:0 20px 19px;color:var(--muted);font-size:.78rem;line-height:1.72}
+    .faq.open .faq-panel{max-height:190px}
+
+    /* Newsletter and footer */
+    .newsletter{padding:80px 0;background:#fff}
+    .newsletter-box{position:relative;overflow:hidden;border-radius:25px;padding:48px;background:linear-gradient(100deg,rgba(7,26,48,.98),rgba(7,26,48,.76) 54%,rgba(7,26,48,.28)),url("https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1600&q=85") center/cover;color:#fff;box-shadow:var(--shadow-dark)}
+    .newsletter-box:after{content:"";position:absolute;right:-70px;top:-90px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(230,209,164,.38),transparent 68%)}
+    .newsletter-inner{position:relative;z-index:1;max-width:685px}
+    .newsletter h2{margin:10px 0;font:800 clamp(2.8rem,5vw,5rem)/.82 "Barlow Condensed",sans-serif;letter-spacing:-.035em;text-transform:uppercase}
+    .newsletter p{margin:0;color:#d7e1ea;font-size:.85rem;line-height:1.7}
+    .signup{display:flex;gap:10px;max-width:550px;margin-top:23px}
+    .signup input{flex:1;min-width:0;border:0;border-radius:10px;padding:14px 15px;outline:0;font-size:.8rem}
+    .signup button{border:0;border-radius:10px;padding:14px 17px;background:linear-gradient(120deg,#b98741,#dfc897);color:#fff;font-size:.72rem;font-weight:800}
+    .signup-note{min-height:20px;margin-top:10px;color:var(--gold-light);font-size:.68rem}
+    footer{background:#061526;color:#fff;padding:54px 0 22px}
+    .footer-grid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:32px}
+    .footer-wordmark .wordmark-main{color:#fff}
+    .footer-wordmark .wordmark-sub{color:var(--gold-light);border-left-color:rgba(230,209,164,.72)}
+    .footer-wordmark .wordmark-meta{color:#b7c8d8}
+    .footer-wordmark .wordmark:after{background:linear-gradient(90deg,var(--gold-light) 0 27%,transparent 27% 33%,var(--gold-light) 33% 68%,transparent 68% 74%,var(--gold-light) 74% 100%)}
+    .footer-copy{margin-top:16px;max-width:330px;color:#adc0d2;font-size:.77rem;line-height:1.7}
+    .footer-heading{font:500 .61rem/1 "DM Mono",monospace;letter-spacing:.15em;text-transform:uppercase;color:var(--gold-light);margin-bottom:15px}
+    .footer-links{display:grid;gap:9px}
+    .footer-links a{color:#d5e0eb;font-size:.76rem}
+    .footer-links a:hover{color:var(--gold-light)}
+    .footer-bottom{border-top:1px solid rgba(255,255,255,.11);margin-top:38px;padding-top:17px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:#9fb1c2;font-size:.64rem}
+
+    /* motion */
+    .reveal{opacity:0;transform:translateY(25px);transition:opacity .7s ease,transform .7s cubic-bezier(.22,.75,.28,1)}
+    .reveal.visible{opacity:1;transform:none}
+    .d1{transition-delay:.10s}.d2{transition-delay:.20s}.d3{transition-delay:.30s}
+
+    /* responsive */
+
+    @media(max-width:1180px) and (min-width:741px){
+      .header-main{grid-template-columns:auto 1fr auto;gap:16px}
+      .header-actions{min-width:auto}
+    }
+
+    @media(max-width:1100px){
+      .nav-links{display:none}.menu-btn{display:grid}
+      .hero-grid{grid-template-columns:1fr}.hero-side{grid-template-columns:1fr 1fr}.hero-card.guide,.hero-card.guide .card-inner{min-height:285px;height:285px}.hero-card.story{min-height:285px}
+      .highlights{grid-template-columns:repeat(2,1fr)}.highlight:nth-child(2){border-right:0}.highlight:nth-child(n+3){border-top:1px solid var(--line)}
+      .systems{grid-template-columns:1fr 1fr}.system-card:last-child{grid-column:span 2}
+      .guide-grid{grid-template-columns:1.1fr .9fr}.guide-feature{grid-row:span 2}
+      .footer-grid{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:740px){
+      .container{width:min(100% - 30px,var(--max))}
+      .announcement .container{justify-content:center;text-align:center}.announcement a{display:none}
+      .header-main{min-height:76px;grid-template-columns:auto 1fr auto;gap:12px;padding:11px 0}
+      .wordmark{column-gap:7px;row-gap:2px;padding-bottom:7px}.wordmark-main{font-size:1.65rem;letter-spacing:.08em}.wordmark-sub{font-size:.62rem;letter-spacing:.13em;padding-left:7px;padding-bottom:1px}.wordmark-meta{font-size:.35rem;letter-spacing:.10em}
+      .header-actions .desktop-only{display:none}.menu-btn{display:grid}
+      .hero{padding-top:15px}.hero-main,.hero-content{min-height:600px}.hero-content{padding:31px 24px}.hero h1{font-size:clamp(3.4rem,15vw,5.2rem);line-height:.76}.hero-copy{font-size:.82rem}.hero-badges{grid-template-columns:1fr;gap:14px;margin-top:26px}
+      .hero-side{grid-template-columns:1fr}.hero-card.guide,.hero-card.guide .card-inner{height:270px;min-height:270px}.hero-card.story{min-height:230px}
+      .highlights{grid-template-columns:1fr}.highlight{border-right:0;border-bottom:1px solid var(--line)}.highlight:last-child{border-bottom:0}
+      .section{padding:66px 0}.section-header{display:block}.section-copy{margin-top:16px}
+      .start-grid,.systems,.model-grid,.call-order-grid{grid-template-columns:1fr}.system-card:last-child{grid-column:auto}.system-card{min-height:365px}
+      .plain-grid{grid-template-columns:1fr}.plain-image{min-height:300px}
+      .call-ribbon{grid-template-columns:1fr}.call-ribbon a{justify-self:start;margin-top:4px}
+      .call-order-card{padding:27px 22px}.call-steps{grid-template-columns:1fr}.call-step{padding:12px 0}
+      .guide-grid{grid-template-columns:1fr}.guide-feature{min-height:400px}.guide-card{display:grid;grid-template-columns:38% 1fr}.guide-image{height:auto}.guide-body{padding:15px}
+      .partner-box,.newsletter-box{padding:32px 23px}.signup{flex-direction:column}
+      .footer-grid{grid-template-columns:1fr}.footer-bottom{font-size:.59rem}
+    }
+  
+    /* FINAL PREVIEW QA: switch to the tested mobile menu before desktop links can crowd. */
+    @media (max-width:1180px){
+      .nav-links,.desktop-only{display:none!important}
+      .menu-btn{display:inline-flex!important;align-items:center;justify-content:center}
+      .header-main{grid-template-columns:auto 1fr auto!important;gap:12px!important}
+    }
+
+  
+    /* Call support conversion CTA */
+    .mobile-call-bar{display:none}
+    @media(max-width:760px){
+      body{padding-bottom:76px}
+      .mobile-call-bar{display:flex;position:fixed;z-index:90;left:12px;right:12px;bottom:12px;min-height:54px;align-items:center;justify-content:center;border-radius:14px;background:#071a30;box-shadow:0 16px 34px rgba(7,26,48,.28)}
+      .mobile-call-bar a{display:flex;width:100%;min-height:54px;align-items:center;justify-content:center;color:#fff;font:800 .78rem/1 Manrope,Arial,sans-serif;letter-spacing:.035em}
+      .mobile-call-bar strong{color:#e6d1a4;margin-left:7px}
+    }
+
+  </style>
+
+  <link rel="canonical" href="https://omni-terrain.com/">
+  <meta name="robots" content="index,follow">
+  <meta property="og:site_name" content="OMNI TERRAIN">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="OMNI TERRAIN | Clear Gear. Better Journeys.">
+  <meta property="og:description" content="OMNI TERRAIN makes automotive, marine, RV and solar buying simple with clear products, plain-English guides and honest recommendations. Operated by PRP Xpert LLC.">
+  <meta property="og:url" content="https://omni-terrain.com/">
+  <meta name="twitter:card" content="summary">
+
+</head>
+<body>
+  <div class="announcement">
+    <div class="container">
+      <span><strong>OMNI TERRAIN:</strong> Clear gear. Better journeys. No confusing jargon.</span>
+      <a href="contact-and-order-help.html#call-support">Need help ordering? Talk to us →</a>
+    </div>
+  </div>
+
+  <header id="header">
+    <div class="container header-main">
+      <a class="brand" href="index.html" aria-label="OMNI TERRAIN home">
+        <span class="wordmark">
+          <span class="wordmark-main">OMNI</span>
+          <span class="wordmark-sub">Terrain</span>
+          <span class="wordmark-meta">Road / Water / Power</span>
+        </span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a class="active" aria-current="page" href="index.html#start">Start Here</a>
+        <a href="automotive.html">Automotive</a>
+        <a href="marine.html">Marine</a>
+        <a href="rv-solar.html">RV &amp; Solar</a>
+        <a href="how-it-works.html">How We Help</a>
+        <a href="buyer-guides.html">Guides</a>
+        <a href="about-omni-terrain.html">About</a>
+      </nav>
+      <div class="header-actions">
+        <a class="contact-link header-contact desktop-only" href="tel:+13075330570" aria-label="Call Product Support at (307) 533-0570">Call Support</a>
+        <button class="menu-btn" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">Menu</button>
+      </div>
+    </div>
+    <div class="mobile-nav" id="mobileNav">
+      <a href="index.html">Home</a>
+      <a href="automotive.html">Automotive</a>
+      <a href="marine.html">Marine</a>
+      <a href="rv-solar.html">RV &amp; Solar</a>
+      <a href="how-it-works.html">How We Help</a>
+      <a href="buyer-guides.html">Buyer Guides</a>
+      <a href="about-omni-terrain.html">About OMNI</a>
+      <a href="suppliers-and-brands.html#partnership">For Suppliers</a>
+      <a href="contact-and-order-help.html#request-help">Contact &amp; Order Help</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <article class="hero-main reveal">
+            <div class="hero-content">
+              <div>
+                <span class="eyebrow" style="color:var(--gold-light)">Gear should be easy to understand</span>
+                <h1>Know what<br>you need.<br><em>Then go.</em></h1>
+                <p class="hero-copy">OMNI TERRAIN helps you understand automotive, marine and off-grid power gear in simple words. We explain what a product does, who it is for and what you should check before you spend your money.</p>
+                <div class="hero-actions">
+                  <a class="button primary" href="#start">Help me start →</a>
+                  <a class="button ghost" href="buyer-guides.html">Read simple guides ↗</a>
+                </div>
+              </div>
+
+              <div class="hero-badges">
+                <a class="hero-badge" href="automotive.html">
+                  <span class="hero-badge-mark">Road</span><b>Drive & Tow</b><small>Helpful gear for your vehicle, towing setup and road trips.</small>
+                </a>
+                <a class="hero-badge" href="marine.html">
+                  <span class="hero-badge-mark">Water</span><b>Boat & Water</b><small>Simple help with power, pumps, navigation and marine gear.</small>
+                </a>
+                <a class="hero-badge" href="rv-solar.html">
+                  <span class="hero-badge-mark">Power</span><b>RV & Off-Grid</b><small>Clear advice for solar, batteries, charging and power systems.</small>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <aside class="hero-side">
+            <article class="hero-card guide reveal d1">
+              <div class="card-inner">
+                <span class="eyebrow" style="color:var(--gold-light)">Start with a guide</span>
+                <h2>Not sure what to buy? Start here first.</h2>
+                <p>Our guides will break down big decisions into simple steps, so you can buy with more confidence.</p>
+                <a href="buyer-guides.html">See our guides →</a>
+              </div>
+            </article>
+
+            <article class="hero-card story reveal d2">
+              <div class="quote">“</div>
+              <h3>We want this site to feel like helpful advice from someone you trust.</h3>
+              <p>No pressure. No confusing words. Just clear information and useful gear.</p>
+              <a href="how-it-works.html">How we keep it simple →</a>
+            </article>
+          </aside>
+        </div>
+
+        <div class="highlights reveal d2">
+          <div class="highlight"><span class="highlight-label">Simple</span><div><b>Simple words</b><span>We explain what each product does before you buy.</span></div></div>
+          <div class="highlight"><span class="highlight-label">Clear</span><div><b>Clear choices</b><span>We show who a product is good for and what to check.</span></div></div>
+          <div class="highlight"><span class="highlight-label">Honest</span><div><b>Honest labels</b><span>Direct products and outside recommendations stay clearly separate.</span></div></div>
+          <div class="highlight"><span class="highlight-label">Support</span><div><b>Real people</b><span>Need help? You can email our team before or after an order.</span></div></div>
+        </div>
+        <div class="call-ribbon reveal d3">
+          <div>
+            <b>Prefer talking to a person before you order?</b>
+            <span>Call-and-order help is available. Our Sales Support Team helps customers take the next step.</span>
+          </div>
+          <a href="contact-and-order-help.html#call-support">See call &amp; order help →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section white" id="start">
+      <div class="container">
+        <div class="section-header reveal">
+          <div>
+            <span class="eyebrow">Start here</span>
+            <h2 class="section-title">What are you trying<br>to <em>do?</em></h2>
+          </div>
+          <p class="section-copy">You do not need to know the technical name of everything. Start with your plan. We will help you understand the gear that may fit it.</p>
+        </div>
+
+        <div class="start-grid">
+          <article class="start-card reveal">
+            <div class="start-tag">Road</div>
+            <h3>Drive, tow or travel</h3>
+            <p>Building a better vehicle setup for road trips, towing, work or weekend travel? Start with practical gear that improves safety, control and comfort.</p>
+            <div class="mini-list">
+              <span>Towing and trailer support</span>
+              <span>Lighting and electrical upgrades</span>
+              <span>Travel, cargo and road accessories</span>
+            </div>
+            <a href="automotive.html">Explore road gear →</a>
+          </article>
+
+          <article class="start-card reveal d1">
+            <div class="start-tag">Water</div>
+            <h3>Spend time on water</h3>
+            <p>Buying for a boat can feel technical. We will make marine power, pumps, navigation and basic systems easier to understand before you choose.</p>
+            <div class="mini-list">
+              <span>Battery and charging systems</span>
+              <span>Pumps and water essentials</span>
+              <span>Navigation and boat electronics</span>
+            </div>
+            <a href="marine.html">Explore marine gear →</a>
+          </article>
+
+          <article class="start-card reveal d2">
+            <div class="start-tag">Power</div>
+            <h3>Power your RV or cabin</h3>
+            <p>Planning off-grid power? We will explain solar, batteries, inverters and charging in a simple order so you can build slowly and wisely.</p>
+            <div class="mini-list">
+              <span>Solar and charge controllers</span>
+              <span>Batteries and battery monitoring</span>
+              <span>Inverters and mobile power</span>
+            </div>
+            <a href="#collections">Explore off-grid power →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="collections">
+      <div class="container">
+        <div class="section-header reveal">
+          <div>
+            <span class="eyebrow">The collections</span>
+            <h2 class="section-title">Three simple paths.<br><em>One helpful store.</em></h2>
+          </div>
+          <p class="section-copy">We are building focused collections instead of trying to sell everything. That lets us make better guides, clearer product pages and more useful recommendations.</p>
+        </div>
+
+        <div class="systems">
+          <article class="system-card road reveal">
+            <span class="system-index">01 / ROAD</span>
+            <div>
+              <h3>Automotive</h3>
+              <p>New aftermarket gear for vehicles, towing, trips and everyday work. We will explain fitment and use cases in plain language.</p>
+              <div class="system-tags"><span>Towing</span><span>Lighting</span><span>Electrical</span><span>Travel</span></div>
+              <a href="automotive.html">Explore automotive gear →</a>
+            </div>
+          </article>
+
+          <article class="system-card water reveal d1">
+            <span class="system-index">02 / WATER</span>
+            <div>
+              <h3>Marine</h3>
+              <p>New marine products for boats and water systems. We will focus on easy-to-understand choices for real use on the water.</p>
+              <div class="system-tags"><span>Battery</span><span>Pumps</span><span>Navigation</span><span>Deck Gear</span></div>
+              <a href="marine.html">Explore marine gear →</a>
+            </div>
+          </article>
+
+          <article class="system-card power reveal d2">
+            <span class="system-index">03 / POWER</span>
+            <div>
+              <h3>RV & Solar</h3>
+              <p>New products for mobile power, solar and off-grid use. We will help you understand the system before you buy a piece of it.</p>
+              <div class="system-tags"><span>Inverters</span><span>Solar</span><span>Charging</span><span>Monitoring</span></div>
+              <a href="mailto:ops@omni-terrain.com?subject=RV%20and%20Solar%20Product%20Request">Ask about RV & solar gear →</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section white" id="how-it-works">
+      <div class="container">
+        <div class="section-header reveal">
+          <div>
+            <span class="eyebrow">How OMNI helps</span>
+            <h2 class="section-title">We keep the buying<br>process <em>clear.</em></h2>
+          </div>
+          <p class="section-copy">There are two simple ways to use OMNI TERRAIN. We tell you exactly which one you are looking at, so you always know where you are buying from.</p>
+        </div>
+
+        <div class="model-grid">
+          <article class="model-card reveal">
+            <span class="model-number">01</span>
+            <h3>Shop direct</h3>
+            <p>These are products sold through OMNI TERRAIN and our approved suppliers. When a product is live, its page should make the important details easy to find.</p>
+            <ul>
+              <li>What the product does and who it is for</li>
+              <li>Important fitment or setup notes</li>
+              <li>Price, availability, shipping and support details</li>
+            </ul>
+          </article>
+
+          <article class="model-card reveal d1">
+            <span class="model-number">02</span>
+            <h3>Recommended gear</h3>
+            <p>Sometimes the best item for a guide is not yet in our own store. In that case, we may recommend a trusted outside option and clearly say that the link goes elsewhere.</p>
+            <ul>
+              <li>Helpful comparisons for expensive purchases</li>
+              <li>Clear links to the seller you will buy from</li>
+              <li>Simple affiliate disclosure near the recommendation</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section white" id="call-order">
+      <div class="container">
+        <div class="section-header reveal">
+          <div>
+            <span class="eyebrow">Call and order help</span>
+            <h2 class="section-title">Want to talk first?<br><em>We are here.</em></h2>
+          </div>
+          <p class="section-copy">Some purchases are easier when you can speak to a person. Our OMNI TERRAIN Sales Support Team can help you understand the next step before you place an order.</p>
+        </div>
+
+        <div class="call-order-grid">
+          <article class="call-order-card dark reveal">
+            <span class="eyebrow" style="color:var(--gold-light)">Talk to our Sales Support Team</span>
+            <h3>Talk. Ask. Order with confidence.</h3>
+            <p>Tell us what you are trying to do. Our Sales Support Team can help you understand the product, check the important details, and guide you through the order process in a simple way.</p>
+
+            <div class="call-steps">
+              <div class="call-step"><b>01 / TALK</b><span>Tell us about your vehicle, boat, RV or power setup.</span></div>
+              <div class="call-step"><b>02 / CHECK</b><span>We review the product details and what you should confirm first.</span></div>
+              <div class="call-step"><b>03 / ORDER</b><span>We guide you to the right secure way to complete your order.</span></div>
+            </div>
+
+            <div class="call-actions">
+              <a class="button primary" href="mailto:support@omni-terrain.com?subject=Call%20Request%20-%20I%20Want%20Help%20Placing%20an%20Order">Request a call from our team →</a>
+              <a class="button ghost" href="mailto:support@omni-terrain.com?subject=Product%20Question%20Before%20Ordering">Email a question</a>
+            </div>
+          </article>
+
+          <article class="call-order-card reveal d1">
+            <span class="eyebrow">Before you call</span>
+            <h3>What helps us help you faster</h3>
+            <p>You do not need to know every technical detail. These simple points help us understand what you need and give better guidance.</p>
+
+            <div class="call-details">
+              <div class="call-detail"><i>1</i><div><b>Tell us your goal</b><span>For example: “I want more power in my RV,” “I need a trailer brake controller,” or “I need help choosing a marine charger.”</span></div></div>
+              <div class="call-detail"><i>2</i><div><b>Keep key details nearby</b><span>For vehicle fitment, model year and trim can help. For boats or RV power, basic battery, voltage or equipment details can help.</span></div></div>
+              <div class="call-detail"><i>3</i><div><b>Ask anything you are unsure about</b><span>We would rather explain a simple point before you buy than leave you guessing after.</span></div></div>
+            </div>
+
+            <div class="call-note">
+              <b>Safe ordering:</b> For your protection, do not send card details by email. When live ordering is active, payment should be completed through a secure checkout or secure payment link.
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section navy">
+      <div class="container plain-grid">
+        <div class="reveal">
+          <span class="eyebrow" style="color:var(--gold-light)">Our promise</span>
+          <h2 class="section-title">Plain words.<br><em>Useful answers.</em></h2>
+          <p class="section-copy">Buying automotive, marine or power equipment can be confusing. Our goal is to make every live product page and guide answer the questions you would naturally ask a helpful friend.</p>
+
+          <div class="plain-list">
+            <div class="plain-point"><i>1</i><div><b>What does this do?</b><span>We will explain the job of the product without hiding behind technical jargon.</span></div></div>
+            <div class="plain-point"><i>2</i><div><b>Is it right for me?</b><span>We will show common use cases, compatibility notes and the kind of buyer it suits.</span></div></div>
+            <div class="plain-point"><i>3</i><div><b>What should I check first?</b><span>We will point out the measurements, power needs, fitment or setup details that matter before ordering.</span></div></div>
+            <div class="plain-point"><i>4</i><div><b>Where am I buying from?</b><span>We will clearly label products sold by OMNI and recommendations that go to another seller.</span></div></div>
+          </div>
+        </div>
+        <div class="plain-image reveal d1" aria-label="Off-grid travel landscape"></div>
+      </div>
+    </section>
+
+    <section class="section white" id="journal">
+      <div class="container">
+        <div class="section-header reveal">
+          <div>
+            <span class="eyebrow">The terrain journal</span>
+            <h2 class="section-title">Helpful guides before<br>the <em>big spend.</em></h2>
+          </div>
+          <p class="section-copy">High-ticket purchases deserve a little homework. Our guide section is being built to make that homework simple, useful and easy to read.</p>
+        </div>
+
+        <div class="guide-grid">
+          <article class="guide-feature reveal">
+            <div>
+              <span class="eyebrow" style="color:var(--gold-light)">RV & solar / simple guide</span>
+              <h3>How to plan off-grid power without getting lost.</h3>
+              <p>A plain-English starting guide for solar, batteries, charging and inverters. You will learn what each part does and the order in which to think about your setup.</p>
+              <a href="mailto:ops@omni-terrain.com?subject=Off-Grid%20Power%20Guide%20Request">Ask for this guide →</a>
+            </div>
+          </article>
+
+          <article class="guide-card reveal d1">
+            <div class="guide-image" style="background-image:url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=900&q=84')"></div>
+            <div class="guide-body">
+              <span class="eyebrow">Marine / easy comparison</span>
+              <h3>How to choose a marine battery charger.</h3>
+              <p>We will cover the few things that matter most: how many batteries you have, charging speed, safety and installation.</p>
+              <a href="mailto:ops@omni-terrain.com?subject=Marine%20Battery%20Charger%20Guide%20Request">Ask for this guide →</a>
+            </div>
+          </article>
+
+          <article class="guide-card reveal d2">
+            <div class="guide-image" style="background-image:url('https://images.unsplash.com/photo-1515923256482-1c04580b477c?auto=format&fit=crop&w=900&q=84')"></div>
+            <div class="guide-body">
+              <span class="eyebrow">Road / simple checklist</span>
+              <h3>What to check before upgrading a towing setup.</h3>
+              <p>A simple list of the most important things to check before you buy towing, braking, electrical or lighting gear.</p>
+              <a href="mailto:ops@omni-terrain.com?subject=Towing%20Setup%20Guide%20Request">Ask for this guide →</a>
+            </div>
+          </article>
+        </div>
+
+        <div class="disclosure reveal">
+          <b>About recommendations:</b> Some future guides may include affiliate links to products sold by another company. If you buy through one of those links, OMNI TERRAIN may earn a commission at no extra cost to you. We will clearly tell you when a link is an affiliate link.
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="suppliers">
+      <div class="container">
+        <div class="partner-box reveal">
+          <div class="partner-content">
+            <span class="eyebrow" style="color:var(--gold-light)">For suppliers and brands</span>
+            <h2>Let’s help more people choose with confidence.</h2>
+            <p>OMNI TERRAIN is the customer-facing brand operated by PRP Xpert LLC, a Wyoming-based eCommerce business. We are building focused U.S. collections in automotive aftermarket, marine, RV and solar products. We value accurate product data, clear marketplace permissions, dependable fulfillment and long-term relationships.</p>
+            <div class="partner-points">
+              <span>New products only</span>
+              <span>Automotive</span>
+              <span>Marine</span>
+              <span>RV & Solar</span>
+              <span>Amazon · eBay · Shopify</span>
+            </div>
+            <a href="mailto:procurement@omni-terrain.com?subject=Supplier%20Partnership%20Inquiry" class="button primary">Talk to procurement →</a>
+            <p class="partner-contact">
+              Supplier partnerships: <a href="mailto:procurement@omni-terrain.com">procurement@omni-terrain.com</a><br>
+              Operations: <a href="mailto:ops@omni-terrain.com">ops@omni-terrain.com</a> &nbsp;•&nbsp;
+              Director’s office: <a href="mailto:director@omni-terrain.com">director@omni-terrain.com</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section white" id="faq">
+      <div class="container">
+        <div class="section-header reveal">
+          <div>
+            <span class="eyebrow">Questions people will ask</span>
+            <h2 class="section-title">Simple answers.<br><em>No hiding.</em></h2>
+          </div>
+          <p class="section-copy">We want the website to answer basic questions before visitors have to email us. These answers will grow as live products and supplier policies are added.</p>
+        </div>
+
+        <div class="faq-list">
+          <article class="faq reveal">
+            <button><span>What does OMNI TERRAIN sell?</span><span>+</span></button>
+            <div class="faq-panel"><p>OMNI TERRAIN is being built around new automotive, marine, RV and solar products. We are focused on helpful gear for vehicles, boats and off-grid power—not used parts or random general products.</p></div>
+          </article>
+          <article class="faq reveal d1">
+            <button><span>Can I get help before I buy something?</span><span>+</span></button>
+            <div class="faq-panel"><p>Yes. For an early question about a product category or guide, email <a href="mailto:support@omni-terrain.com">support@omni-terrain.com</a>
+            <a href="contact-and-order-help.html#call-support">Request a call from our team</a>. As live products are added, each page will also include the important details to check before ordering.</p></div>
+          </article>
+          <article class="faq reveal d2">
+            <button><span>What is the difference between a direct product and recommended gear?</span><span>+</span></button>
+            <div class="faq-panel"><p>A direct product is sold through OMNI TERRAIN and its approved suppliers. Recommended gear may take you to another seller because OMNI does not yet sell that item directly. We will label that clearly and disclose affiliate links.</p></div>
+          </article>
+          <article class="faq reveal d3">
+            <button><span>Where will live products ship from?</span><span>+</span></button>
+            <div class="faq-panel"><p>Shipping origin, handling time and delivery estimates will be shown on every live product page once supplier fulfillment is active. OMNI is building its catalog with U.S.-based suppliers and distribution partners for U.S. customers.</p></div>
+          </article>
+          <article class="faq reveal">
+            <button><span>Who is behind OMNI TERRAIN?</span><span>+</span></button>
+            <div class="faq-panel"><p>OMNI TERRAIN is operated by PRP Xpert LLC, a Wyoming limited liability company. The team is building supplier relationships, product research, ecommerce operations and customer support behind the brand.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="newsletter" id="contact">
+      <div class="container">
+        <div class="newsletter-box reveal">
+          <div class="newsletter-inner">
+            <span class="eyebrow" style="color:var(--gold-light)">The OMNI dispatch</span>
+            <h2>Clear advice for your next trip.</h2>
+            <p>Get simple guides, product updates and useful ideas for your vehicle, boat, RV or off-grid setup. No daily noise.</p>
+            <form class="signup" id="signupForm">
+              <input id="email" type="email" required placeholder="Your email address">
+              <button type="submit">Join the dispatch →</button>
+            </form>
+            <div class="signup-note" id="signupNote"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a class="brand footer-wordmark" href="index.html" aria-label="OMNI TERRAIN home">
+            <span class="wordmark">
+              <span class="wordmark-main">OMNI</span>
+              <span class="wordmark-sub">Terrain</span>
+              <span class="wordmark-meta">Road / Water / Power</span>
+            </span>
+          </a>
+          <p class="footer-copy">A helpful home for automotive, marine, RV and solar gear. We make the hard parts easier to understand before you buy.</p>
+        </div>
+        <div>
+          <div class="footer-heading">Collections</div>
+          <div class="footer-links">
+            <a href="automotive.html">Automotive</a>
+            <a href="marine.html">Marine</a>
+            <a href="rv-solar.html">RV &amp; Solar</a>
+            <a href="how-it-works.html">How OMNI Helps</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-heading">Helpful links</div>
+          <div class="footer-links">
+            <a href="buyer-guides.html">Buyer Guides</a>
+            <a href="product-page-template.html">Product Page Preview</a>
+            <a href="shipping-delivery-policy.html">Shipping &amp; Delivery</a>
+            <a href="returns-refunds-policy.html">Returns &amp; Refunds</a>
+            <a href="privacy-policy.html">Privacy Policy</a>
+            <a href="terms-conditions.html">Terms &amp; Conditions</a>
+            <a href="affiliate-disclosure.html">Affiliate Disclosure</a>
+            <a href="suppliers-and-brands.html#partnership">For Suppliers</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-heading">Talk to us</div>
+          <div class="footer-links">
+            <a href="mailto:support@omni-terrain.com">support@omni-terrain.com</a>
+            <a href="mailto:ops@omni-terrain.com">ops@omni-terrain.com</a>
+            <a href="mailto:procurement@omni-terrain.com">procurement@omni-terrain.com</a>
+            <a href="contact-and-order-help.html#request-help">Contact &amp; order help</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 OMNI TERRAIN. All rights reserved.</span>
+        <span>OMNI TERRAIN is operated by <strong>PRP Xpert LLC</strong>, Wyoming, USA.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 30), {passive:true});
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileNav = document.getElementById('mobileNav');
+    menuToggle.addEventListener('click', () => mobileNav.classList.toggle('open'));
+    mobileNav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => mobileNav.classList.remove('open')));
+
+    document.querySelectorAll('.faq').forEach(faq => {
+      faq.querySelector('button').addEventListener('click', () => {
+        const open = faq.classList.contains('open');
+        document.querySelectorAll('.faq').forEach(item => {
+          item.classList.remove('open');
+          item.querySelector('button span:last-child').textContent = '+';
+        });
+        if(!open){
+          faq.classList.add('open');
+          faq.querySelector('button span:last-child').textContent = '−';
+        }
+      });
+    });
+
+    document.getElementById('signupForm').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const email = document.getElementById('email').value;
+      document.getElementById('signupNote').textContent = `Thank you. ${email} is ready to be connected to your email platform before launch.`;
+      event.target.reset();
+    });
+  </script>
+
+  <div class="mobile-call-bar" aria-label="Call product support">
+    <a href="tel:+13075330570">Call Product Support <strong>(307) 533-0570</strong></a>
+  </div>
+
+</body>
+</html>
