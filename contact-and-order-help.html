@@ -1,0 +1,638 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Contact OMNI TERRAIN for product questions, order help, sales support and supplier enquiries.">
+  <meta name="theme-color" content="#071a30">
+  <title>Contact & Order Help | OMNI TERRAIN</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Teko:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --navy:#071a30;
+      --navy-2:#102d4d;
+      --navy-3:#1c496f;
+      --gold:#c69a50;
+      --gold-light:#e6d1a4;
+      --cream:#f7f5f1;
+      --white:#ffffff;
+      --ink:#172235;
+      --muted:#687588;
+      --line:#e7e1d8;
+      --soft-blue:#edf3f8;
+      --green:#24725a;
+      --radius:24px;
+      --shadow:0 22px 55px rgba(7,26,48,.10);
+      --shadow-dark:0 26px 60px rgba(5,15,30,.28);
+      --max:1400px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--cream);color:var(--ink);font-family:Manrope,Arial,sans-serif;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    button,input,textarea,select{font:inherit}
+    button{cursor:pointer}
+    .container{width:min(var(--max),calc(100% - 40px));margin:0 auto}
+    .eyebrow{font:500 .64rem/1 "DM Mono",monospace;letter-spacing:.15em;text-transform:uppercase;color:var(--gold)}
+    .section{padding:92px 0}
+    .section.white{background:#fff}
+    .section.navy{background:var(--navy);color:#fff}
+    .section-header{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,470px);align-items:end;gap:32px;margin-bottom:33px}
+    .section-title{font:800 clamp(2.55rem,4.8vw,4.7rem)/.82 "Barlow Condensed",sans-serif;letter-spacing:-.035em;text-transform:uppercase;margin:10px 0 0}
+    .section-title em{color:var(--gold);font-style:normal}
+    .section-copy{margin:0;color:var(--muted);font-size:.92rem;line-height:1.76}
+    .section.navy .section-copy{color:#c4d0dd}
+    .button{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 18px;border-radius:11px;font-size:.74rem;font-weight:800;letter-spacing:.045em;transition:.25s}
+    .button.primary{background:linear-gradient(120deg,#b98741,#dfc897);color:#fff;box-shadow:0 11px 25px rgba(0,0,0,.14)}
+    .button.primary:hover{transform:translateY(-2px);filter:brightness(1.06)}
+    .button.ghost{border:1px solid rgba(255,255,255,.42);background:rgba(255,255,255,.05);color:#fff}
+    .button.ghost:hover{background:#fff;color:var(--navy)}
+    .button.dark{background:var(--navy);color:#fff}
+    .button.dark:hover{background:var(--gold)}
+
+    /* Header */
+    .announcement{background:var(--navy);color:#dae4ef}
+    .announcement .container{min-height:38px;display:flex;justify-content:space-between;align-items:center;gap:20px;font-size:.72rem}
+    .announcement strong{color:var(--gold-light)}
+    .announcement a{font-size:.70rem}
+    .announcement a:hover{color:#fff}
+    header{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.94);backdrop-filter:blur(18px);border-bottom:1px solid var(--line);transition:.25s}
+    header.scrolled{box-shadow:0 8px 28px rgba(7,26,48,.08)}
+    .header-main{min-height:90px;display:grid;grid-template-columns:250px 1fr 250px;gap:22px;align-items:center;padding:12px 0}
+    .brand{display:inline-flex;align-items:center;min-width:max-content;position:relative;justify-self:start}
+    .wordmark{display:grid;grid-template-columns:auto auto;grid-template-rows:auto auto;column-gap:11px;row-gap:3px;align-items:end;position:relative;padding:2px 0 8px;white-space:nowrap;line-height:1}
+    .wordmark:after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:99px;background:linear-gradient(90deg,var(--gold) 0 27%,transparent 27% 33%,var(--gold) 33% 68%,transparent 68% 74%,var(--gold) 74% 100%);opacity:.95}
+    .wordmark-main{grid-column:1;grid-row:1;color:var(--navy);font:700 2.35rem/.66 "Teko",sans-serif;letter-spacing:.10em;text-transform:uppercase;transform:skewX(-4deg)}
+    .wordmark-sub{grid-column:2;grid-row:1;color:var(--gold);font:800 .88rem/.9 "Barlow Condensed",sans-serif;letter-spacing:.19em;text-transform:uppercase;padding:0 0 2px 11px;border-left:1px solid rgba(198,154,80,.75)}
+    .wordmark-meta{grid-column:1 / -1;grid-row:2;color:var(--muted);font:500 .43rem/1 "DM Mono",monospace;letter-spacing:.17em;text-transform:uppercase;white-space:nowrap}
+    .nav-links{display:flex;justify-content:center;align-items:center;gap:25px;font-size:.77rem;font-weight:750;color:#405168;justify-self:center;white-space:nowrap}
+    .nav-links a{position:relative}
+    .nav-links a.active{color:var(--navy)}
+    .nav-links a:after{content:"";position:absolute;left:0;bottom:-7px;width:100%;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:.2s}
+    .nav-links a:hover:after,.nav-links a.active:after{transform:scaleX(1)}
+    .header-actions{display:flex;gap:11px;align-items:center;justify-content:flex-end;justify-self:end}
+    .header-contact{
+      display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:0 13px;
+      border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--navy);
+      font-size:.67rem;font-weight:800;letter-spacing:.04em;transition:.2s
+    }
+    .header-contact:hover{border-color:var(--gold);color:var(--gold)}
+    .menu-btn{width:auto!important;min-width:58px;padding:0 11px;border-radius:999px!important;font-size:.64rem;font-weight:800}
+    .icon-btn{width:38px;height:38px;border:1px solid var(--line);border-radius:50%;background:#fff;display:grid;place-items:center;color:#405168;transition:.2s}
+    .icon-btn:hover{border-color:var(--gold);color:var(--navy)}
+    .menu-btn{display:none}
+    .mobile-nav{display:none;background:var(--navy);padding:8px 20px 18px}
+    .mobile-nav.open{display:grid;gap:9px}
+    .mobile-nav a{color:#fff;border-bottom:1px solid rgba(255,255,255,.10);padding:10px 0;font-size:.85rem}
+
+    /* Hero */
+    .page-hero{position:relative;overflow:hidden;color:#fff;background:#071a30}
+    .page-hero:before{
+      content:"";position:absolute;inset:0;
+      background:
+        linear-gradient(90deg,rgba(4,15,29,.95) 0%,rgba(4,15,29,.75) 43%,rgba(4,15,29,.22) 78%),
+        url("https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=2000&q=86") center/cover;
+    }
+    .page-hero:after{
+      content:"";position:absolute;right:-130px;bottom:-170px;width:500px;height:500px;border:74px solid rgba(230,209,164,.15);border-radius:50%;
+    }
+    .hero-inner{position:relative;z-index:1;min-height:570px;display:grid;grid-template-columns:1.15fr .85fr;align-items:end;gap:46px;padding:125px 0 58px}
+    .crumbs{font:500 .62rem/1 "DM Mono",monospace;letter-spacing:.13em;text-transform:uppercase;color:#d6e0eb}
+    .crumbs a{color:var(--gold-light)}
+    .hero-title{margin:18px 0 15px;font:800 clamp(4.2rem,8vw,8rem)/.76 "Barlow Condensed",sans-serif;letter-spacing:-.035em;text-transform:uppercase}
+    .hero-title em{font-style:normal;color:var(--gold-light)}
+    .hero-text{max-width:640px;color:#dce6ef;font-size:1rem;line-height:1.76}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:25px}
+    .hero-side-card{align-self:end;padding:26px;border-radius:19px;background:rgba(5,18,34,.63);border:1px solid rgba(255,255,255,.17);backdrop-filter:blur(14px)}
+    .hero-side-card .label{font:500 .62rem/1 "DM Mono",monospace;letter-spacing:.14em;color:var(--gold-light);text-transform:uppercase}
+    .hero-side-card h2{margin:13px 0 11px;font:800 2.35rem/.84 "Barlow Condensed",sans-serif;letter-spacing:-.025em;text-transform:uppercase}
+    .hero-side-card p{margin:0;color:#d5e0eb;font-size:.78rem;line-height:1.7}
+    .hero-side-card hr{border:0;border-top:1px solid rgba(255,255,255,.20);margin:18px 0}
+    .hero-side-card small{color:#c2d0de;font-size:.70rem;line-height:1.55}
+
+    /* Help choices */
+    .help-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}
+    .help-card{border:1px solid var(--line);border-radius:20px;background:#fff;padding:27px;min-height:275px;transition:.25s;position:relative;overflow:hidden}
+    .help-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+    .help-card:after{content:"";position:absolute;right:-28px;bottom:-42px;width:120px;height:120px;border:19px solid rgba(198,154,80,.12);border-radius:50%}
+    .help-tag{display:inline-flex;align-items:center;height:29px;padding:0 10px;border-radius:999px;background:var(--soft-blue);color:var(--navy);font:500 .55rem/1 "DM Mono",monospace;letter-spacing:.13em;text-transform:uppercase}
+    .help-card h3{margin:19px 0 10px;font:800 2rem/.85 "Barlow Condensed",sans-serif;letter-spacing:-.02em;text-transform:uppercase}
+    .help-card p{position:relative;margin:0;color:var(--muted);font-size:.80rem;line-height:1.72}
+    .help-card a{position:relative;display:inline-flex;margin-top:19px;font-size:.72rem;font-weight:800;color:var(--navy)}
+    .help-card a:hover{color:var(--gold)}
+
+    /* Call support */
+    .call-layout{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;align-items:stretch}
+    .call-main{position:relative;overflow:hidden;border-radius:23px;padding:36px;color:#fff;background:linear-gradient(110deg,rgba(7,26,48,.98),rgba(7,26,48,.80) 58%,rgba(7,26,48,.35)),url("https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=84") center/cover;box-shadow:var(--shadow-dark)}
+    .call-main:after{content:"";position:absolute;width:270px;height:270px;border-radius:50%;right:-95px;bottom:-120px;border:43px solid rgba(230,209,164,.16)}
+    .call-main > *{position:relative;z-index:1}
+    .call-main h2{margin:12px 0 12px;font:800 clamp(2.7rem,4.5vw,4.4rem)/.82 "Barlow Condensed",sans-serif;letter-spacing:-.03em;text-transform:uppercase}
+    .call-main p{max-width:590px;margin:0;color:#d7e2ed;font-size:.84rem;line-height:1.75}
+    .call-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-top:25px}
+    .call-step{padding:14px 12px;border-top:1px solid rgba(255,255,255,.25)}
+    .call-step b{display:block;color:var(--gold-light);font:500 .62rem/1 "DM Mono",monospace;letter-spacing:.12em}
+    .call-step span{display:block;margin-top:8px;color:#e1e8f0;font-size:.70rem;line-height:1.55}
+    .call-actions{display:flex;gap:11px;flex-wrap:wrap;margin-top:26px}
+    .call-aside{border-radius:23px;padding:34px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow)}
+    .call-aside h3{margin:12px 0;font:800 2.1rem/.84 "Barlow Condensed",sans-serif;letter-spacing:-.02em;text-transform:uppercase}
+    .call-aside p{margin:0;color:var(--muted);font-size:.80rem;line-height:1.72}
+    .call-detail{display:grid;grid-template-columns:35px 1fr;gap:11px;align-items:start;padding:14px 0;border-bottom:1px solid var(--line)}
+    .call-detail:last-child{border-bottom:0}
+    .call-detail i{width:31px;height:31px;display:grid;place-items:center;border-radius:50%;background:var(--soft-blue);color:var(--navy);font-style:normal;font:500 .60rem/1 "DM Mono",monospace}
+    .call-detail b{display:block;font-size:.76rem}
+    .call-detail span{display:block;margin-top:4px;color:var(--muted);font-size:.72rem;line-height:1.58}
+    .safe-note{margin-top:18px;padding:13px 14px;border-left:3px solid var(--gold);background:#f7f2e7;color:#5f5e5b;font-size:.72rem;line-height:1.65}
+
+    /* Contact form */
+    .contact-layout{display:grid;grid-template-columns:.88fr 1.12fr;gap:38px;align-items:start}
+    .contact-side{position:sticky;top:120px}
+    .contact-side h3{margin:11px 0 13px;font:800 clamp(2.6rem,4.6vw,4.4rem)/.82 "Barlow Condensed",sans-serif;letter-spacing:-.03em;text-transform:uppercase}
+    .contact-side p{margin:0;color:var(--muted);font-size:.84rem;line-height:1.75}
+    .contact-list{display:grid;gap:11px;margin-top:26px}
+    .contact-row{padding-top:12px;border-top:1px solid var(--line)}
+    .contact-row b{display:block;color:var(--navy);font-size:.76rem}
+    .contact-row a{display:inline-flex;margin-top:5px;color:var(--gold);font-size:.76rem;font-weight:800}
+    .contact-row small{display:block;margin-top:5px;color:var(--muted);font-size:.68rem;line-height:1.55}
+    .contact-form{padding:29px;border:1px solid var(--line);border-radius:23px;background:#fff;box-shadow:var(--shadow)}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .form-group{display:grid;gap:7px}
+    .form-group.full{grid-column:span 2}
+    .form-group label{font-size:.71rem;font-weight:800;color:var(--navy)}
+    .form-group input,.form-group select,.form-group textarea{border:1px solid var(--line);border-radius:10px;padding:13px 13px;outline:0;color:var(--ink);font-size:.78rem;background:#fff;transition:.2s}
+    .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(198,154,80,.11)}
+    .form-group textarea{resize:vertical;min-height:128px}
+    .form-note{margin-top:14px;color:var(--muted);font-size:.69rem;line-height:1.6}
+    .form-response{min-height:18px;margin-top:12px;font-size:.72rem;color:var(--green);font-weight:700}
+
+    /* After order */
+    .after-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
+    .after-card{padding:23px;border-top:1px solid rgba(255,255,255,.28)}
+    .after-num{font:500 .62rem/1 "DM Mono",monospace;letter-spacing:.15em;color:var(--gold-light)}
+    .after-card h3{margin:13px 0 8px;font:800 1.7rem/.85 "Barlow Condensed",sans-serif;letter-spacing:-.02em;text-transform:uppercase}
+    .after-card p{margin:0;color:#c6d2df;font-size:.76rem;line-height:1.65}
+
+    /* FAQ */
+    .faq-list{display:grid;gap:10px}
+    .faq{border:1px solid var(--line);border-radius:14px;background:#fff;overflow:hidden}
+    .faq button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;border:0;background:#fff;padding:19px 20px;text-align:left;color:var(--ink);font-size:.82rem;font-weight:800}
+    .faq button span:last-child{color:var(--gold);font-size:1.2rem}
+    .faq-panel{max-height:0;overflow:hidden;transition:max-height .3s ease}
+    .faq-panel p{margin:0;padding:0 20px 19px;color:var(--muted);font-size:.78rem;line-height:1.72}
+    .faq.open .faq-panel{max-height:180px}
+
+    /* Footer */
+    footer{background:#061526;color:#fff;padding:54px 0 22px}
+    .footer-grid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:32px}
+    .footer-wordmark .wordmark-main{color:#fff}
+    .footer-wordmark .wordmark-sub{color:var(--gold-light);border-left-color:rgba(230,209,164,.72)}
+    .footer-wordmark .wordmark-meta{color:#b7c8d8}
+    .footer-wordmark .wordmark:after{background:linear-gradient(90deg,var(--gold-light) 0 27%,transparent 27% 33%,var(--gold-light) 33% 68%,transparent 68% 74%,var(--gold-light) 74% 100%)}
+    .footer-copy{margin-top:16px;max-width:330px;color:#adc0d2;font-size:.77rem;line-height:1.7}
+    .footer-heading{font:500 .61rem/1 "DM Mono",monospace;letter-spacing:.15em;text-transform:uppercase;color:var(--gold-light);margin-bottom:15px}
+    .footer-links{display:grid;gap:9px}
+    .footer-links a{color:#d5e0eb;font-size:.76rem}
+    .footer-links a:hover{color:var(--gold-light)}
+    .footer-bottom{border-top:1px solid rgba(255,255,255,.11);margin-top:38px;padding-top:17px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:#9fb1c2;font-size:.64rem}
+
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s cubic-bezier(.22,.75,.28,1)}
+    .reveal.visible{opacity:1;transform:none}
+    .d1{transition-delay:.10s}.d2{transition-delay:.20s}.d3{transition-delay:.30s}
+
+    @media(max-width:1180px) and (min-width:741px){
+      .header-main{grid-template-columns:auto 1fr auto;gap:16px}
+    }
+    @media(max-width:1000px){
+      .nav-links{display:none}.menu-btn{display:grid}
+      .hero-inner{grid-template-columns:1fr;min-height:0;padding:120px 0 44px}.hero-side-card{max-width:560px}
+      .help-grid{grid-template-columns:1fr 1fr}.help-card:last-child{grid-column:span 2}
+      .call-layout,.contact-layout{grid-template-columns:1fr}.contact-side{position:static}
+      .footer-grid{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:740px){
+      .container{width:min(100% - 30px,var(--max))}
+      .announcement .container{justify-content:center;text-align:center}.announcement a{display:none}
+      .header-main{min-height:76px;grid-template-columns:auto 1fr auto;gap:12px;padding:11px 0}
+      .wordmark{column-gap:7px;row-gap:2px;padding-bottom:7px}.wordmark-main{font-size:1.65rem;letter-spacing:.08em}.wordmark-sub{font-size:.62rem;letter-spacing:.13em;padding-left:7px;padding-bottom:1px}.wordmark-meta{font-size:.35rem;letter-spacing:.10em}
+      .header-actions .desktop-only{display:none}.menu-btn{display:grid}
+      .section{padding:66px 0}.section-header{display:block}.section-copy{margin-top:16px}
+      .page-hero:before{background:linear-gradient(0deg,rgba(4,15,29,.92),rgba(4,15,29,.42)),url("https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1100&q=86") center/cover}
+      .hero-inner{padding:105px 0 36px}.hero-title{font-size:clamp(4rem,17vw,6.1rem);line-height:.76}.hero-text{font-size:.85rem}
+      .help-grid{grid-template-columns:1fr}.help-card:last-child{grid-column:auto}
+      .call-steps,.after-grid,.form-grid{grid-template-columns:1fr}.form-group.full{grid-column:auto}
+      .call-main,.call-aside,.contact-form{padding:26px 22px}
+      .footer-grid{grid-template-columns:1fr}.footer-bottom{font-size:.59rem}
+    }
+  
+    /* FINAL PREVIEW QA: switch to the tested mobile menu before desktop links can crowd. */
+    @media (max-width:1180px){
+      .nav-links,.desktop-only{display:none!important}
+      .menu-btn{display:inline-flex!important;align-items:center;justify-content:center}
+      .header-main{grid-template-columns:auto 1fr auto!important;gap:12px!important}
+    }
+
+  </style>
+
+  <link rel="canonical" href="https://omni-terrain.com/contact-and-order-help.html">
+  <meta name="robots" content="index,follow">
+  <meta property="og:site_name" content="OMNI TERRAIN">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Contact &amp; Order Help | OMNI TERRAIN">
+  <meta property="og:description" content="Contact OMNI TERRAIN for product questions, order help, sales support and supplier enquiries.">
+  <meta property="og:url" content="https://omni-terrain.com/contact-and-order-help.html">
+  <meta name="twitter:card" content="summary">
+
+</head>
+<body>
+  <div class="announcement">
+    <div class="container">
+      <span><strong>OMNI TERRAIN:</strong> Clear gear. Better journeys. No confusing jargon.</span>
+      <a href="contact-and-order-help.html#call-support">Need help ordering? Talk to us →</a>
+    </div>
+  </div>
+
+  <header id="header">
+    <div class="container header-main">
+      <a class="brand" href="index.html" aria-label="OMNI TERRAIN home">
+        <span class="wordmark">
+          <span class="wordmark-main">OMNI</span>
+          <span class="wordmark-sub">Terrain</span>
+          <span class="wordmark-meta">Road / Water / Power</span>
+        </span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="index.html#start">Start Here</a>
+        <a href="automotive.html">Automotive</a>
+        <a href="marine.html">Marine</a>
+        <a href="rv-solar.html">RV &amp; Solar</a>
+        <a href="how-it-works.html">How We Help</a>
+        <a href="buyer-guides.html">Guides</a>
+        <a href="about-omni-terrain.html">About</a>
+      </nav>
+      <div class="header-actions">
+        <a class="contact-link header-contact desktop-only" href="contact-and-order-help.html#request-help">Contact</a>
+        <button class="menu-btn" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">Menu</button>
+      </div>
+    </div>
+    <div class="mobile-nav" id="mobileNav">
+      <a href="index.html">Home</a>
+      <a href="automotive.html">Automotive</a>
+      <a href="marine.html">Marine</a>
+      <a href="rv-solar.html">RV &amp; Solar</a>
+      <a href="how-it-works.html">How We Help</a>
+      <a href="buyer-guides.html">Buyer Guides</a>
+      <a href="about-omni-terrain.html">About OMNI</a>
+      <a href="suppliers-and-brands.html#partnership">For Suppliers</a>
+      <a href="contact-and-order-help.html#request-help">Contact &amp; Order Help</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="container hero-inner">
+        <div class="reveal">
+          <div class="crumbs">Home / Contact & Order Help</div>
+          <h1 class="hero-title">Need a little<br>help before<br><em>you buy?</em></h1>
+          <p class="hero-text">That is what we are here for. Tell the OMNI TERRAIN Sales Support Team what you are trying to do, and we will help you understand the next step in simple words.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="contact-and-order-help.html#request-help">Request order help →</a>
+            <a class="button ghost" href="mailto:support@omni-terrain.com?subject=Product%20Question%20Before%20Ordering">Email a question</a>
+          </div>
+        </div>
+
+        <aside class="hero-side-card reveal d1">
+          <span class="label">A simple promise</span>
+          <h2>Ask first. Buy with confidence.</h2>
+          <p>Our Sales Support Team is here to help customers understand a product, check the important details and choose a sensible next step.</p>
+          <hr>
+          <small>No pressure to buy. No need to know the perfect technical words before you contact us.</small>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section white">
+      <div class="container">
+        <div class="section-header reveal">
+          <div>
+            <span class="eyebrow">How can we help?</span>
+            <h2 class="section-title">Choose the help<br>you <em>need.</em></h2>
+          </div>
+          <p class="section-copy">You can reach out at any stage. Whether you are only researching, ready to order or need help after a purchase, we will point you in the right direction.</p>
+        </div>
+
+        <div class="help-grid">
+          <article class="help-card reveal">
+            <span class="help-tag">Before you buy</span>
+            <h3>Help me choose</h3>
+            <p>Not sure which product is right for your vehicle, boat, RV or power setup? Tell us your goal and what you already have.</p>
+            <a href="mailto:support@omni-terrain.com?subject=Help%20Me%20Choose%20the%20Right%20Gear">Ask a product question →</a>
+          </article>
+
+          <article class="help-card reveal d1">
+            <span class="help-tag">Ready to order</span>
+            <h3>Help me place an order</h3>
+            <p>Want to speak to someone before you order? Request a call and our Sales Support Team can help you understand the secure next step.</p>
+            <a href="contact-and-order-help.html#call-support">Request call & order help →</a>
+          </article>
+
+          <article class="help-card reveal d2">
+            <span class="help-tag">After you order</span>
+            <h3>I need order support</h3>
+            <p>Need an update, a tracking question or help with an issue after ordering? Contact our team with your order details.</p>
+            <a href="mailto:ops@omni-terrain.com?subject=Order%20Support%20Request">Ask about an order →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="call-support">
+      <div class="container">
+        <div class="section-header reveal">
+          <div>
+            <span class="eyebrow">Call and order help</span>
+            <h2 class="section-title">Talk. Ask.<br><em>Order with confidence.</em></h2>
+          </div>
+          <p class="section-copy">Some purchases are easier when you can speak to a person. Our team can help you understand the product, review important details and guide you through the order process.</p>
+        </div>
+
+        <div class="call-layout">
+          <article class="call-main reveal">
+            <span class="eyebrow" style="color:var(--gold-light)">Sales Support Team</span>
+            <h2>We help you take the next sensible step.</h2>
+            <p>Tell us what you are trying to do. You do not need every detail. We will ask the simple questions that help us understand your vehicle, boat, RV or power setup.</p>
+
+            <div class="call-steps">
+              <div class="call-step"><b>01 / TALK</b><span>Tell us your goal and the type of product you are looking at.</span></div>
+              <div class="call-step"><b>02 / CHECK</b><span>We review the important details you should confirm before ordering.</span></div>
+              <div class="call-step"><b>03 / ORDER</b><span>We guide you to the right secure way to complete your order.</span></div>
+            </div>
+
+            <div class="call-actions">
+              <a class="button primary" href="mailto:support@omni-terrain.com?subject=Call%20Request%20-%20I%20Want%20Help%20Placing%20an%20Order">Request a call from our team →</a>
+              <a class="button ghost" href="mailto:support@omni-terrain.com?subject=Product%20Question%20Before%20Ordering">Email a question</a>
+            </div>
+          </article>
+
+          <article class="call-aside reveal d1">
+            <span class="eyebrow">Before you contact us</span>
+            <h3>Three small details can help.</h3>
+            <p>You do not need to prepare a long list. These basics simply help us give clearer guidance faster.</p>
+
+            <div class="call-detail">
+              <i>01</i>
+              <div><b>Tell us your goal</b><span>For example: “I need more RV power,” “I am setting up trailer brakes,” or “I need a marine charger.”</span></div>
+            </div>
+            <div class="call-detail">
+              <i>02</i>
+              <div><b>Keep basic information nearby</b><span>Vehicle year and model, boat type, battery voltage or current equipment details can be useful.</span></div>
+            </div>
+            <div class="call-detail">
+              <i>03</i>
+              <div><b>Ask what you are unsure about</b><span>We would rather explain a simple point before you buy than leave you guessing later.</span></div>
+            </div>
+
+            <div class="safe-note">
+              <b>Secure payment:</b> Please do not send card numbers by email. When live ordering is active, payment should be completed through a secure checkout or a secure payment link.
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section white" id="request-help">
+      <div class="container contact-layout">
+        <aside class="contact-side reveal">
+          <span class="eyebrow">Send us a message</span>
+          <h3>Tell us what you need.</h3>
+          <p>Use this form to prepare your question. It will open a draft email to our Sales Support Team with your details included. This keeps your message simple and helps us respond with useful information.</p>
+
+          <div class="contact-list">
+            <div class="contact-row">
+              <b>Customer and sales support</b>
+              <a href="mailto:support@omni-terrain.com">support@omni-terrain.com</a>
+              <small>Product questions, call requests and general customer help.</small>
+            </div>
+            <div class="contact-row">
+              <b>Order support</b>
+              <a href="mailto:ops@omni-terrain.com">ops@omni-terrain.com</a>
+              <small>Order updates, tracking questions and operational support.</small>
+            </div>
+            <div class="contact-row">
+              <b>Supplier and brand enquiries</b>
+              <a href="mailto:procurement@omni-terrain.com">procurement@omni-terrain.com</a>
+              <small>Wholesale, catalog and supplier partnership discussions.</small>
+            </div>
+          </div>
+        </aside>
+
+        <form class="contact-form reveal d1" id="supportForm">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="name">Your name</label>
+              <input id="name" name="name" required placeholder="Your name">
+            </div>
+            <div class="form-group">
+              <label for="email">Your email</label>
+              <input id="email" name="email" type="email" required placeholder="you@example.com">
+            </div>
+            <div class="form-group">
+              <label for="helpType">What do you need help with?</label>
+              <select id="helpType" name="helpType">
+                <option>Choosing a product</option>
+                <option>Requesting a sales call</option>
+                <option>Placing an order</option>
+                <option>Question about an existing order</option>
+                <option>General question</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="category">Category</label>
+              <select id="category" name="category">
+                <option>Automotive</option>
+                <option>Marine</option>
+                <option>RV & Solar</option>
+                <option>Not sure yet</option>
+              </select>
+            </div>
+            <div class="form-group full">
+              <label for="details">Tell us a little about what you need</label>
+              <textarea id="details" name="details" required placeholder="Example: I have a 2021 truck and I need help understanding trailer brake controllers."></textarea>
+            </div>
+            <div class="form-group full">
+              <button class="button dark" type="submit">Prepare my support email →</button>
+              <div class="form-note">Your email app will open with a draft message. Please do not include card details or sensitive payment information.</div>
+              <div class="form-response" id="formResponse"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="section navy">
+      <div class="container">
+        <div class="section-header reveal">
+          <div>
+            <span class="eyebrow" style="color:var(--gold-light)">After you place an order</span>
+            <h2 class="section-title">What happens<br><em>next.</em></h2>
+          </div>
+          <p class="section-copy">Live order details will always depend on the product and supplier. These are the basics we want customers to expect from a clear order-support process.</p>
+        </div>
+
+        <div class="after-grid">
+          <article class="after-card reveal"><span class="after-num">01 / CONFIRM</span><h3>Order review</h3><p>We confirm the order information and make sure the important details are clear before fulfillment begins.</p></article>
+          <article class="after-card reveal d1"><span class="after-num">02 / PROCESS</span><h3>Fulfillment</h3><p>Once a live order is accepted, it is sent into the approved fulfillment process for that product.</p></article>
+          <article class="after-card reveal d2"><span class="after-num">03 / TRACK</span><h3>Shipment update</h3><p>Tracking information and delivery updates should be shared when they become available for the order.</p></article>
+          <article class="after-card reveal d3"><span class="after-num">04 / SUPPORT</span><h3>Stay available</h3><p>If something is unclear after ordering, customers can contact OMNI for the appropriate next step.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section white">
+      <div class="container">
+        <div class="section-header reveal">
+          <div>
+            <span class="eyebrow">Common questions</span>
+            <h2 class="section-title">Clear answers<br><em>before you ask.</em></h2>
+          </div>
+          <p class="section-copy">These are the core support answers for the current early stage of OMNI TERRAIN. More product-specific answers will be added as the live catalog grows.</p>
+        </div>
+
+        <div class="faq-list">
+          <article class="faq reveal">
+            <button><span>Can I speak to someone before I place an order?</span><span>+</span></button>
+            <div class="faq-panel"><p>Yes. You can request a call or email the OMNI Sales Support Team. Tell us what you are trying to do, and we will help you understand the next sensible step.</p></div>
+          </article>
+          <article class="faq reveal d1">
+            <button><span>Do I need to know the exact product name before I contact you?</span><span>+</span></button>
+            <div class="faq-panel"><p>No. A simple description of your goal is enough. For example, you can say you are planning RV solar, towing a trailer, or choosing a marine charger. We can ask follow-up questions if needed.</p></div>
+          </article>
+          <article class="faq reveal d2">
+            <button><span>Can I send payment details by email?</span><span>+</span></button>
+            <div class="faq-panel"><p>No. Please do not send card numbers, bank details or other sensitive payment information by email. Any live payment should be made through a secure checkout or secure payment link.</p></div>
+          </article>
+          <article class="faq reveal d3">
+            <button><span>Who should I email about a supplier partnership?</span><span>+</span></button>
+            <div class="faq-panel"><p>For wholesale, supplier or brand partnership enquiries, contact <a href="mailto:procurement@omni-terrain.com">procurement@omni-terrain.com</a>. For operations questions related to inventory or fulfillment, contact <a href="mailto:ops@omni-terrain.com">ops@omni-terrain.com</a>.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a class="brand footer-wordmark" href="index.html" aria-label="OMNI TERRAIN home">
+            <span class="wordmark">
+              <span class="wordmark-main">OMNI</span>
+              <span class="wordmark-sub">Terrain</span>
+              <span class="wordmark-meta">Road / Water / Power</span>
+            </span>
+          </a>
+          <p class="footer-copy">A helpful home for automotive, marine, RV and solar gear. We make the hard parts easier to understand before you buy.</p>
+        </div>
+        <div>
+          <div class="footer-heading">Collections</div>
+          <div class="footer-links">
+            <a href="automotive.html">Automotive</a>
+            <a href="marine.html">Marine</a>
+            <a href="rv-solar.html">RV &amp; Solar</a>
+            <a href="how-it-works.html">How OMNI Helps</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-heading">Helpful links</div>
+          <div class="footer-links">
+            <a href="buyer-guides.html">Buyer Guides</a>
+            <a href="product-page-template.html">Product Page Preview</a>
+            <a href="shipping-delivery-policy.html">Shipping &amp; Delivery</a>
+            <a href="returns-refunds-policy.html">Returns &amp; Refunds</a>
+            <a href="privacy-policy.html">Privacy Policy</a>
+            <a href="terms-conditions.html">Terms &amp; Conditions</a>
+            <a href="affiliate-disclosure.html">Affiliate Disclosure</a>
+            <a href="suppliers-and-brands.html#partnership">For Suppliers</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-heading">Talk to us</div>
+          <div class="footer-links">
+            <a href="mailto:support@omni-terrain.com">support@omni-terrain.com</a>
+            <a href="mailto:ops@omni-terrain.com">ops@omni-terrain.com</a>
+            <a href="mailto:procurement@omni-terrain.com">procurement@omni-terrain.com</a>
+            <a href="contact-and-order-help.html#request-help">Contact &amp; order help</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 OMNI TERRAIN. All rights reserved.</span>
+        <span>OMNI TERRAIN is operated by <strong>PRP Xpert LLC</strong>, Wyoming, USA.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 30), {passive:true});
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    const toggle = document.getElementById('menuToggle');
+    const menu = document.getElementById('mobileNav');
+    toggle.addEventListener('click', () => menu.classList.toggle('open'));
+    menu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => menu.classList.remove('open')));
+
+    document.querySelectorAll('.faq').forEach(faq => {
+      faq.querySelector('button').addEventListener('click', () => {
+        const isOpen = faq.classList.contains('open');
+        document.querySelectorAll('.faq').forEach(item => {
+          item.classList.remove('open');
+          item.querySelector('button span:last-child').textContent = '+';
+        });
+        if(!isOpen){
+          faq.classList.add('open');
+          faq.querySelector('button span:last-child').textContent = '−';
+        }
+      });
+    });
+
+    document.getElementById('supportForm').addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const helpType = document.getElementById('helpType').value;
+      const category = document.getElementById('category').value;
+      const details = document.getElementById('details').value.trim();
+
+      const subject = encodeURIComponent(`OMNI TERRAIN Support Request - ${helpType}`);
+      const body = encodeURIComponent(
+`Name: ${name}
+Email: ${email}
+Help needed: ${helpType}
+Category: ${category}
+
+Details:
+${details}
+
+Please reply to this customer using the email above.`
+      );
+
+      document.getElementById('formResponse').textContent = 'Opening your email app with a support request draft.';
+      window.location.href = `mailto:support@omni-terrain.com?subject=${subject}&body=${body}`;
+    });
+  </script>
+</body>
+</html>

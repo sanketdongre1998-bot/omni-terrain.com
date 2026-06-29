@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Learn about OMNI TERRAIN, the customer-facing brand operated by PRP Xpert LLC for automotive, marine, RV and solar gear.">
+  <meta name="theme-color" content="#071a30">
+  <title>About OMNI TERRAIN | Built for Better Journeys</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Teko:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --navy:#071a30;
+      --navy-2:#102d4d;
+      --navy-3:#1c496f;
+      --gold:#c69a50;
+      --gold-light:#e6d1a4;
+      --cream:#f7f5f1;
+      --white:#ffffff;
+      --ink:#172235;
+      --muted:#687588;
+      --line:#e7e1d8;
+      --soft-blue:#edf3f8;
+      --shadow:0 22px 55px rgba(7,26,48,.10);
+      --shadow-dark:0 26px 60px rgba(5,15,30,.28);
+      --max:1400px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--cream);color:var(--ink);font-family:Manrope,Arial,sans-serif;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    button{font:inherit;cursor:pointer}
+    .container{width:min(var(--max),calc(100% - 40px));margin:0 auto}
+    .eyebrow{font:500 .64rem/1 "DM Mono",monospace;letter-spacing:.15em;text-transform:uppercase;color:var(--gold)}
+    .section{padding:92px 0}
+    .section.white{background:#fff}
+    .section.navy{background:var(--navy);color:#fff}
+    .section-header{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,470px);align-items:end;gap:32px;margin-bottom:33px}
+    .section-title{font:800 clamp(2.55rem,4.8vw,4.7rem)/.82 "Barlow Condensed",sans-serif;letter-spacing:-.035em;text-transform:uppercase;margin:10px 0 0}
+    .section-title em{color:var(--gold);font-style:normal}
+    .section-copy{margin:0;color:var(--muted);font-size:.92rem;line-height:1.76}
+    .section.navy .section-copy{color:#c4d0dd}
+    .button{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 18px;border-radius:11px;font-size:.74rem;font-weight:800;letter-spacing:.045em;transition:.25s}
+    .button.primary{background:linear-gradient(120deg,#b98741,#dfc897);color:#fff;box-shadow:0 11px 25px rgba(0,0,0,.14)}
+    .button.primary:hover{transform:translateY(-2px);filter:brightness(1.06)}
+    .button.ghost{border:1px solid rgba(255,255,255,.42);background:rgba(255,255,255,.05);color:#fff}
+    .button.ghost:hover{background:#fff;color:var(--navy)}
+    .button.dark{background:var(--navy);color:#fff}
+    .button.dark:hover{background:var(--gold)}
+
+    /* Header */
+    .announcement{background:var(--navy);color:#dae4ef}
+    .announcement .container{min-height:38px;display:flex;justify-content:space-between;align-items:center;gap:20px;font-size:.72rem}
+    .announcement strong{color:var(--gold-light)}
+    .announcement a{font-size:.70rem}
+    .announcement a:hover{color:#fff}
+    header{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.94);backdrop-filter:blur(18px);border-bottom:1px solid var(--line);transition:.25s}
+    header.scrolled{box-shadow:0 8px 28px rgba(7,26,48,.08)}
+    .header-main{min-height:90px;display:grid;grid-template-columns:250px 1fr 250px;gap:22px;align-items:center;padding:12px 0}
+    .brand{display:inline-flex;align-items:center;min-width:max-content;position:relative;justify-self:start}
+    .wordmark{display:grid;grid-template-columns:auto auto;grid-template-rows:auto auto;column-gap:11px;row-gap:3px;align-items:end;position:relative;padding:2px 0 8px;white-space:nowrap;line-height:1}
+    .wordmark:after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:99px;background:linear-gradient(90deg,var(--gold) 0 27%,transparent 27% 33%,var(--gold) 33% 68%,transparent 68% 74%,var(--gold) 74% 100%);opacity:.95}
+    .wordmark-main{grid-column:1;grid-row:1;color:var(--navy);font:700 2.35rem/.66 "Teko",sans-serif;letter-spacing:.10em;text-transform:uppercase;transform:skewX(-4deg)}
+    .wordmark-sub{grid-column:2;grid-row:1;color:var(--gold);font:800 .88rem/.9 "Barlow Condensed",sans-serif;letter-spacing:.19em;text-transform:uppercase;padding:0 0 2px 11px;border-left:1px solid rgba(198,154,80,.75)}
+    .wordmark-meta{grid-column:1 / -1;grid-row:2;color:var(--muted);font:500 .43rem/1 "DM Mono",monospace;letter-spacing:.17em;text-transform:uppercase;white-space:nowrap}
+    .nav-links{display:flex;justify-content:center;align-items:center;gap:25px;font-size:.77rem;font-weight:750;color:#405168;justify-self:center;white-space:nowrap}
+    .nav-links a{position:relative}
+    .nav-links a.active{color:var(--navy)}
+    .nav-links a:after{content:"";position:absolute;left:0;bottom:-7px;width:100%;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:.2s}
+    .nav-links a:hover:after,.nav-links a.active:after{transform:scaleX(1)}
+    .header-actions{display:flex;gap:11px;align-items:center;justify-content:flex-end;justify-self:end}
+    .contact-link{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:0 13px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--navy);font-size:.67rem;font-weight:800;letter-spacing:.04em;transition:.2s}
+    .contact-link:hover{border-color:var(--gold);color:var(--gold)}
+    .menu-btn{display:none;width:38px;height:38px;border:1px solid var(--line);border-radius:50%;background:#fff;color:#405168}
+    .mobile-nav{display:none;background:var(--navy);padding:8px 20px 18px}
+    .mobile-nav.open{display:grid;gap:9px}
+    .mobile-nav a{color:#fff;border-bottom:1px solid rgba(255,255,255,.10);padding:10px 0;font-size:.85rem}
+
+    /* Hero */
+    .page-hero{position:relative;overflow:hidden;color:#fff;background:#071a30}
+    .page-hero:before{
+      content:"";position:absolute;inset:0;
+      background:
+        linear-gradient(90deg,rgba(4,15,29,.95) 0%,rgba(4,15,29,.75) 44%,rgba(4,15,29,.20) 78%),
+        url("https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=2000&q=86") center/cover;
+    }
+    .page-hero:after{
+      content:"";position:absolute;right:-130px;bottom:-170px;width:500px;height:500px;border:74px solid rgba(230,209,164,.15);border-radius:50%;
+    }
+    .hero-inner{position:relative;z-index:1;min-height:570px;display:grid;grid-template-columns:1.15fr .85fr;align-items:end;gap:46px;padding:125px 0 58px}
+    .crumbs{font:500 .62rem/1 "DM Mono",monospace;letter-spacing:.13em;text-transform:uppercase;color:#d6e0eb}
+    .crumbs a{color:var(--gold-light)}
+    .hero-title{margin:18px 0 15px;font:800 clamp(4.2rem,8vw,8rem)/.76 "Barlow Condensed",sans-serif;letter-spacing:-.035em;text-transform:uppercase}
+    .hero-title em{font-style:normal;color:var(--gold-light)}
+    .hero-text{max-width:640px;color:#dce6ef;font-size:1rem;line-height:1.76}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:25px}
+    .hero-side-card{align-self:end;padding:26px;border-radius:19px;background:rgba(5,18,34,.63);border:1px solid rgba(255,255,255,.17);backdrop-filter:blur(14px)}
+    .hero-side-card .label{font:500 .62rem/1 "DM Mono",monospace;letter-spacing:.14em;color:var(--gold-light);text-transform:uppercase}
+    .hero-side-card h2{margin:13px 0 11px;font:800 2.35rem/.84 "Barlow Condensed",sans-serif;letter-spacing:-.025em;text-transform:uppercase}
+    .hero-side-card p{margin:0;color:#d5e0eb;font-size:.78rem;line-height:1.7}
+    .hero-side-card hr{border:0;border-top:1px solid rgba(255,255,255,.20);margin:18px 0}
+    .hero-side-card small{color:#c2d0de;font-size:.70rem;line-height:1.55}
+
+    /* Intro */
+    .intro-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:start}
+    .intro-number{font:700 clamp(7rem,12vw,12rem)/.62 "Teko",sans-serif;color:var(--gold-light);letter-spacing:.03em}
+    .intro-side{position:sticky;top:120px}
+    .intro-side p{margin:20px 0 0;max-width:315px;color:var(--muted);font-size:.83rem;line-height:1.75}
+    .intro-copy{font:800 clamp(2.8rem,5.1vw,5.3rem)/.82 "Barlow Condensed",sans-serif;letter-spacing:-.035em;text-transform:uppercase}
+    .intro-copy span{color:var(--gold)}
+    .intro-points{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:32px}
+    .intro-point{border-top:2px solid var(--gold-light);padding-top:12px;color:#4e5c70;font-size:.80rem;line-height:1.7}
+    .intro-point b{display:block;color:var(--navy);font-size:.78rem;margin-bottom:5px}
+
+    /* Mission cards */
+    .mission-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}
+    .mission-card{border:1px solid var(--line);border-radius:20px;background:#fff;padding:28px;min-height:295px;transition:.25s}
+    .mission-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+    .mission-label{display:inline-flex;align-items:center;height:29px;padding:0 10px;border-radius:999px;background:var(--soft-blue);color:var(--navy);font:500 .55rem/1 "DM Mono",monospace;letter-spacing:.13em;text-transform:uppercase}
+    .mission-card h3{margin:19px 0 10px;font:800 2rem/.85 "Barlow Condensed",sans-serif;letter-spacing:-.02em;text-transform:uppercase}
+    .mission-card p{margin:0;color:var(--muted);font-size:.80rem;line-height:1.72}
+
+    /* Focus */
+    .focus-layout{display:grid;grid-template-columns:1fr .98fr;gap:20px;align-items:stretch}
+    .focus-main{position:relative;overflow:hidden;min-height:520px;border-radius:23px;padding:36px;color:#fff;background:linear-gradient(0deg,rgba(4,15,29,.95),rgba(4,15,29,.08) 76%),url("https://images.unsplash.com/photo-1504215680853-026ed2a45def?auto=format&fit=crop&w=1300&q=86") center/cover;display:flex;flex-direction:column;justify-content:flex-end;box-shadow:var(--shadow-dark)}
+    .focus-main h2{margin:10px 0 11px;font:800 clamp(3rem,5.2vw,5.5rem)/.81 "Barlow Condensed",sans-serif;letter-spacing:-.035em;text-transform:uppercase}
+    .focus-main p{margin:0;color:#dce6ef;font-size:.85rem;line-height:1.75;max-width:600px}
+    .focus-side{display:grid;grid-template-rows:repeat(3,1fr);gap:17px}
+    .focus-card{position:relative;overflow:hidden;border-radius:20px;padding:24px;color:#fff;background:#12314f;display:flex;flex-direction:column;justify-content:flex-end;isolation:isolate;box-shadow:var(--shadow-dark)}
+    .focus-card:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(5,18,34,.89),rgba(5,18,34,.30))}
+    .focus-card:after{content:"";position:absolute;inset:0;z-index:-2;background:center/cover no-repeat;transition:.55s}
+    .focus-card:hover:after{transform:scale(1.07)}
+    .focus-card.road:after{background-image:url("https://images.unsplash.com/photo-1504215680853-026ed2a45def?auto=format&fit=crop&w=1000&q=84")}
+    .focus-card.water:after{background-image:url("https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1000&q=84")}
+    .focus-card.power:after{background-image:url("https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1000&q=84")}
+    .focus-card span{color:var(--gold-light);font:500 .58rem/1 "DM Mono",monospace;letter-spacing:.13em;text-transform:uppercase}
+    .focus-card h3{margin:9px 0 5px;font:800 2.15rem/.82 "Barlow Condensed",sans-serif;letter-spacing:-.02em;text-transform:uppercase}
+    .focus-card p{margin:0;color:#e0e8f0;font-size:.73rem;line-height:1.58;max-width:380px}
+
+    /* Build process */
+    .build-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
+    .build-card{padding:23px;border-top:1px solid rgba(255,255,255,.28)}
+    .build-num{font:500 .62rem/1 "DM Mono",monospace;letter-spacing:.15em;color:var(--gold-light)}
+    .build-card h3{margin:13px 0 8px;font:800 1.7rem/.85 "Barlow Condensed",sans-serif;letter-spacing:-.02em;text-transform:uppercase}
+    .build-card p{margin:0;color:#c6d2df;font-size:.76rem;line-height:1.65}
+
+    /* Team */
+    .team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .team-card{border:1px solid var(--line);border-radius:19px;background:#fff;padding:24px;min-height:238px;transition:.25s}
+    .team-card:hover{box-shadow:var(--shadow);transform:translateY(-3px)}
+    .team-role{font:500 .61rem/1 "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+    .team-card h3{margin:17px 0 10px;font:800 1.68rem/.86 "Barlow Condensed",sans-serif;letter-spacing:-.02em;text-transform:uppercase}
+    .team-card p{margin:0;color:var(--muted);font-size:.75rem;line-height:1.68}
+    .team-card a{display:inline-flex;margin-top:17px;color:var(--navy);font-size:.70rem;font-weight:800}
+    .team-card a:hover{color:var(--gold)}
+
+    /* Business details */
+    .details-layout{display:grid;grid-template-columns:.9fr 1.1fr;gap:18px}
+    .details-intro{border-radius:23px;padding:34px;color:#fff;background:linear-gradient(145deg,#0a213b,#173c61);box-shadow:var(--shadow-dark)}
+    .details-intro h3{margin:13px 0 10px;font:800 clamp(2.4rem,4vw,4rem)/.82 "Barlow Condensed",sans-serif;letter-spacing:-.03em;text-transform:uppercase}
+    .details-intro p{margin:0;color:#d4e0eb;font-size:.82rem;line-height:1.75}
+    .details-list{display:grid;gap:0;border:1px solid var(--line);border-radius:23px;background:#fff;overflow:hidden;box-shadow:var(--shadow)}
+    .detail-row{display:grid;grid-template-columns:180px 1fr;gap:18px;padding:21px 24px;border-bottom:1px solid var(--line)}
+    .detail-row:last-child{border-bottom:0}
+    .detail-row b{color:var(--navy);font-size:.76rem}
+    .detail-row span{color:var(--muted);font-size:.77rem;line-height:1.6}
+    .detail-row a{color:var(--gold);font-weight:800}
+
+    /* CTA */
+    .cta-box{position:relative;overflow:hidden;border-radius:25px;padding:48px;background:linear-gradient(105deg,rgba(7,26,48,.98),rgba(7,26,48,.76) 55%,rgba(7,26,48,.25)),url("https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1600&q=86") center/cover;color:#fff;box-shadow:var(--shadow-dark)}
+    .cta-box:after{content:"";position:absolute;right:-80px;bottom:-120px;width:350px;height:350px;border:60px solid rgba(230,209,164,.15);border-radius:50%}
+    .cta-inner{position:relative;z-index:1;max-width:740px}
+    .cta-inner h2{margin:10px 0;font:800 clamp(3rem,5.6vw,5.7rem)/.80 "Barlow Condensed",sans-serif;letter-spacing:-.035em;text-transform:uppercase}
+    .cta-inner p{margin:0;color:#d7e1ea;font-size:.87rem;line-height:1.75}
+    .cta-actions{display:flex;flex-wrap:wrap;gap:11px;margin-top:23px}
+
+    /* Footer */
+    footer{background:#061526;color:#fff;padding:54px 0 22px}
+    .footer-grid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:32px}
+    .footer-wordmark .wordmark-main{color:#fff}
+    .footer-wordmark .wordmark-sub{color:var(--gold-light);border-left-color:rgba(230,209,164,.72)}
+    .footer-wordmark .wordmark-meta{color:#b7c8d8}
+    .footer-wordmark .wordmark:after{background:linear-gradient(90deg,var(--gold-light) 0 27%,transparent 27% 33%,var(--gold-light) 33% 68%,transparent 68% 74%,var(--gold-light) 74% 100%)}
+    .footer-copy{margin-top:16px;max-width:330px;color:#adc0d2;font-size:.77rem;line-height:1.7}
+    .footer-heading{font:500 .61rem/1 "DM Mono",monospace;letter-spacing:.15em;text-transform:uppercase;color:var(--gold-light);margin-bottom:15px}
+    .footer-links{display:grid;gap:9px}
+    .footer-links a{color:#d5e0eb;font-size:.76rem}
+    .footer-links a:hover{color:var(--gold-light)}
+    .footer-bottom{border-top:1px solid rgba(255,255,255,.11);margin-top:38px;padding-top:17px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:#9fb1c2;font-size:.64rem}
+
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s cubic-bezier(.22,.75,.28,1)}
+    .reveal.visible{opacity:1;transform:none}
+    .d1{transition-delay:.10s}.d2{transition-delay:.20s}.d3{transition-delay:.30s}
+
+    @media(max-width:1180px) and (min-width:741px){
+      .header-main{grid-template-columns:auto 1fr auto;gap:16px}
+    }
+    @media(max-width:1000px){
+      .nav-links{display:none}.menu-btn{display:grid}
+      .hero-inner{grid-template-columns:1fr;min-height:0;padding:120px 0 44px}.hero-side-card{max-width:560px}
+      .intro-grid{grid-template-columns:1fr}.intro-side{position:static}.intro-number{font-size:8rem}
+      .mission-grid{grid-template-columns:1fr 1fr}.mission-card:last-child{grid-column:span 2}
+      .focus-layout{grid-template-columns:1fr}.focus-main{min-height:450px}.focus-side{grid-template-columns:repeat(3,1fr);grid-template-rows:1fr}
+      .team-grid{grid-template-columns:1fr 1fr}
+      .details-layout{grid-template-columns:1fr}
+      .footer-grid{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:740px){
+      .container{width:min(100% - 30px,var(--max))}
+      .announcement .container{justify-content:center;text-align:center}.announcement a{display:none}
+      .header-main{min-height:76px;grid-template-columns:auto 1fr auto;gap:12px;padding:11px 0}
+      .wordmark{column-gap:7px;row-gap:2px;padding-bottom:7px}.wordmark-main{font-size:1.65rem;letter-spacing:.08em}.wordmark-sub{font-size:.62rem;letter-spacing:.13em;padding-left:7px;padding-bottom:1px}.wordmark-meta{font-size:.35rem;letter-spacing:.10em}
+      .header-actions .desktop-only{display:none}.menu-btn{display:grid}
+      .section{padding:66px 0}.section-header{display:block}.section-copy{margin-top:16px}
+      .page-hero:before{background:linear-gradient(0deg,rgba(4,15,29,.92),rgba(4,15,29,.42)),url("https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1100&q=86") center/cover}
+      .hero-inner{padding:105px 0 36px}.hero-title{font-size:clamp(4rem,17vw,6.1rem);line-height:.76}.hero-text{font-size:.85rem}
+      .intro-points,.mission-grid,.focus-side,.build-grid,.team-grid{grid-template-columns:1fr}.mission-card:last-child{grid-column:auto}
+      .focus-main{min-height:390px;padding:28px 22px}.focus-card{min-height:210px}
+      .detail-row{grid-template-columns:1fr;gap:7px;padding:18px}
+      .cta-box{padding:32px 23px}.footer-grid{grid-template-columns:1fr}.footer-bottom{font-size:.59rem}
+    }
+  
+    /* FINAL PREVIEW QA: switch to the tested mobile menu before desktop links can crowd. */
+    @media (max-width:1180px){
+      .nav-links,.desktop-only{display:none!important}
+      .menu-btn{display:inline-flex!important;align-items:center;justify-content:center}
+      .header-main{grid-template-columns:auto 1fr auto!important;gap:12px!important}
+    }
+
+  </style>
+
+  <link rel="canonical" href="https://omni-terrain.com/about-omni-terrain.html">
+  <meta name="robots" content="index,follow">
+  <meta property="og:site_name" content="OMNI TERRAIN">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="About OMNI TERRAIN | Built for Better Journeys">
+  <meta property="og:description" content="Learn about OMNI TERRAIN, the customer-facing brand operated by PRP Xpert LLC for automotive, marine, RV and solar gear.">
+  <meta property="og:url" content="https://omni-terrain.com/about-omni-terrain.html">
+  <meta name="twitter:card" content="summary">
+
+</head>
+<body>
+  <div class="announcement">
+    <div class="container">
+      <span><strong>OMNI TERRAIN:</strong> Clear gear. Better journeys. No confusing jargon.</span>
+      <a href="about-omni-terrain.html#business-details">Learn about the business</a>
+    </div>
+  </div>
+
+  <header id="header">
+    <div class="container header-main">
+      <a class="brand" href="index.html" aria-label="OMNI TERRAIN home">
+        <span class="wordmark">
+          <span class="wordmark-main">OMNI</span>
+          <span class="wordmark-sub">Terrain</span>
+          <span class="wordmark-meta">Road / Water / Power</span>
+        </span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="index.html#start">Start Here</a>
+        <a href="automotive.html">Automotive</a>
+        <a href="marine.html">Marine</a>
+        <a href="rv-solar.html">RV &amp; Solar</a>
+        <a href="how-it-works.html">How We Help</a>
+        <a href="buyer-guides.html">Guides</a>
+        <a class="active" aria-current="page" href="about-omni-terrain.html">About</a>
+      </nav>
+      <div class="header-actions">
+        <a class="contact-link header-contact desktop-only" href="contact-and-order-help.html#request-help">Contact</a>
+        <button class="menu-btn" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">Menu</button>
+      </div>
+    </div>
+    <div class="mobile-nav" id="mobileNav">
+      <a href="index.html">Home</a>
+      <a href="automotive.html">Automotive</a>
+      <a href="marine.html">Marine</a>
+      <a href="rv-solar.html">RV &amp; Solar</a>
+      <a href="how-it-works.html">How We Help</a>
+      <a href="buyer-guides.html">Buyer Guides</a>
+      <a href="about-omni-terrain.html">About OMNI</a>
+      <a href="suppliers-and-brands.html#partnership">For Suppliers</a>
+      <a href="contact-and-order-help.html#request-help">Contact &amp; Order Help</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero" id="about">
+      <div class="container hero-inner">
+        <div class="reveal">
+          <div class="crumbs">Home / About OMNI TERRAIN</div>
+          <h1 class="hero-title">Built to make the<br>hard parts feel<br><em>simple.</em></h1>
+          <p class="hero-text">OMNI TERRAIN is being built for people who want to understand gear before they buy it. We focus on practical automotive, marine, RV and solar products—and we explain the important parts in a way that feels clear, useful and human.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#mission">See what we stand for</a>
+            <a class="button ghost" href="mailto:support@omni-terrain.com?subject=Question%20for%20OMNI%20TERRAIN">Email our team</a>
+          </div>
+        </div>
+
+        <aside class="hero-side-card reveal d1">
+          <span class="label">Our reason</span>
+          <h2>Better decisions start with better explanations.</h2>
+          <p>Technical products should not feel impossible to buy. Our job is to make the first step easier for the customer.</p>
+          <hr>
+          <small>Less confusion. Clearer choices. More confidence before checkout.</small>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section white" id="mission">
+      <div class="container intro-grid">
+        <aside class="intro-side reveal">
+          <span class="eyebrow">Why OMNI exists</span>
+          <div class="intro-number">01</div>
+          <p>Too many people end up with unclear product pages, technical language and no support when they are trying to make an important purchase. OMNI is being built as a calmer, clearer alternative.</p>
+        </aside>
+
+        <div class="reveal d1">
+          <div class="intro-copy">We believe useful gear should come with <span>useful guidance.</span></div>
+          <div class="intro-points">
+            <div class="intro-point"><b>Start with the real goal.</b> People do not always need a product name. They need help with a tow setup, boat system, RV trip or power plan.</div>
+            <div class="intro-point"><b>Use simple language.</b> We explain what a product does and what a buyer should check before making a decision.</div>
+            <div class="intro-point"><b>Keep the buying path clear.</b> Direct products, outside recommendations and support options will be clearly labeled.</div>
+            <div class="intro-point"><b>Build trust over time.</b> We want to earn repeat customers by being helpful, accurate and easy to reach.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="principles">
+      <div class="container">
+        <div class="section-header reveal">
+          <div>
+            <span class="eyebrow">What guides the brand</span>
+            <h2 class="section-title">Three standards.<br><em>One direction.</em></h2>
+          </div>
+          <p class="section-copy">Every new product, guide, supplier relationship and support conversation should move OMNI in the same direction: make buying feel easier and more reliable.</p>
+        </div>
+
+        <div class="mission-grid">
+          <article class="mission-card reveal">
+            <span class="mission-label">Understand</span>
+            <h3>Explain the job</h3>
+            <p>We start with what a product is meant to help someone do. Clear use cases are more useful than complicated marketing words.</p>
+          </article>
+          <article class="mission-card reveal d1">
+            <span class="mission-label">Choose</span>
+            <h3>Show the checks</h3>
+            <p>Fitment, power needs, size, installation and compatibility should be easy to find before a customer spends money.</p>
+          </article>
+          <article class="mission-card reveal d2">
+            <span class="mission-label">Support</span>
+            <h3>Stay available</h3>
+            <p>When a customer still needs help, the Sales Support Team should be there to guide the next sensible step with no unnecessary pressure.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section navy" id="focus">
+      <div class="container">
+        <div class="section-header reveal">
+          <div>
+            <span class="eyebrow" style="color:var(--gold-light)">Our focus</span>
+            <h2 class="section-title">Three worlds of<br><em>useful gear.</em></h2>
+          </div>
+          <p class="section-copy">OMNI is staying focused instead of trying to be a store for everything. We are building useful collections where education, fitment and support can genuinely make a difference.</p>
+        </div>
+
+        <div class="focus-layout">
+          <article class="focus-main reveal">
+            <span class="eyebrow" style="color:var(--gold-light)">Built for real use</span>
+            <h2>Road, water and power.</h2>
+            <p>From towing and travel to boat systems and off-grid energy, OMNI is being shaped around equipment people depend on for work, trips, weekends and everyday life.</p>
+          </article>
+
+          <div class="focus-side">
+            <article class="focus-card road reveal d1">
+              <span>Road</span>
+              <h3>Automotive</h3>
+              <p>Towing, lighting, electrical accessories and practical vehicle gear.</p>
+            </article>
+            <article class="focus-card water reveal d2">
+              <span>Water</span>
+              <h3>Marine</h3>
+              <p>Battery, charging, pumps, navigation and boat-ready systems.</p>
+            </article>
+            <article class="focus-card power reveal d3">
+              <span>Power</span>
+              <h3>RV & Solar</h3>
+              <p>Mobile power, batteries, solar, charging and off-grid equipment.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section navy">
+      <div class="container">
+        <div class="section-header reveal">
+          <div>
+            <span class="eyebrow" style="color:var(--gold-light)">How we are building</span>
+            <h2 class="section-title">No shortcuts.<br><em>Just steady growth.</em></h2>
+          </div>
+          <p class="section-copy">We are building OMNI step by step: with better suppliers, clearer product data, more useful education and a more reliable customer experience over time.</p>
+        </div>
+
+        <div class="build-grid">
+          <article class="build-card reveal">
+            <span class="build-num">STEP 01</span>
+            <h3>Find useful categories</h3>
+            <p>Choose products that solve real problems and fit the Road, Water and Power focus of the brand.</p>
+          </article>
+          <article class="build-card reveal d1">
+            <span class="build-num">STEP 02</span>
+            <h3>Build clear pages</h3>
+            <p>Create product information and guides that answer normal questions in simple words.</p>
+          </article>
+          <article class="build-card reveal d2">
+            <span class="build-num">STEP 03</span>
+            <h3>Support every step</h3>
+            <p>Give visitors a way to ask questions before ordering and get help when something is unclear.</p>
+          </article>
+          <article class="build-card reveal d3">
+            <span class="build-num">STEP 04</span>
+            <h3>Improve with proof</h3>
+            <p>Learn from customer questions, supplier performance and product results before expanding further.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section white" id="team">
+      <div class="container">
+        <div class="section-header reveal">
+          <div>
+            <span class="eyebrow">How the team works</span>
+            <h2 class="section-title">One brand.<br><em>Clear responsibilities.</em></h2>
+          </div>
+          <p class="section-copy">OMNI is supported through focused business functions, so customers, suppliers and partners know where to take the right question.</p>
+        </div>
+
+        <div class="team-grid">
+          <article class="team-card reveal">
+            <span class="team-role">Customer help</span>
+            <h3>Sales Support Team</h3>
+            <p>Helps customers understand products, request call support and take the next step before they place an order.</p>
+            <a href="mailto:support@omni-terrain.com">support@omni-terrain.com</a>
+          </article>
+          <article class="team-card reveal d1">
+            <span class="team-role">Order flow</span>
+            <h3>Operations</h3>
+            <p>Supports product research, catalog operations, order questions and the work that keeps the customer experience moving.</p>
+            <a href="mailto:ops@omni-terrain.com">ops@omni-terrain.com</a>
+          </article>
+          <article class="team-card reveal d2">
+            <span class="team-role">Supplier relationships</span>
+            <h3>Procurement</h3>
+            <p>Handles supplier, distributor and brand conversations, catalog reviews and partnership requirements.</p>
+            <a href="mailto:procurement@omni-terrain.com">procurement@omni-terrain.com</a>
+          </article>
+          <article class="team-card reveal d3">
+            <span class="team-role">Business direction</span>
+            <h3>Director's Office</h3>
+            <p>Supports long-term business direction, partnerships and strategic communication for OMNI TERRAIN.</p>
+            <a href="mailto:director@omni-terrain.com">director@omni-terrain.com</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="business-details">
+      <div class="container">
+        <div class="section-header reveal">
+          <div>
+            <span class="eyebrow">Business information</span>
+            <h2 class="section-title">Simple facts.<br><em>Clear identity.</em></h2>
+          </div>
+          <p class="section-copy">We want customers and partners to understand who is behind the brand and where to direct the right questions.</p>
+        </div>
+
+        <div class="details-layout">
+          <article class="details-intro reveal">
+            <span class="eyebrow" style="color:var(--gold-light)">The business behind OMNI</span>
+            <h3>A customer-facing brand with a clear operating base.</h3>
+            <p>OMNI TERRAIN is the brand customers see. PRP Xpert LLC is the legal business that supports the brand's supplier relationships, ecommerce operations and long-term growth.</p>
+          </article>
+
+          <div class="details-list reveal d1">
+            <div class="detail-row"><b>Public brand</b><span>OMNI TERRAIN</span></div>
+            <div class="detail-row"><b>Operating company</b><span>PRP Xpert LLC</span></div>
+            <div class="detail-row"><b>Business location</b><span>Wyoming, USA</span></div>
+            <div class="detail-row"><b>Primary focus</b><span>New automotive aftermarket, marine, RV and solar products.</span></div>
+            <div class="detail-row"><b>Customer support</b><span><a href="mailto:support@omni-terrain.com">support@omni-terrain.com</a></span></div>
+            <div class="detail-row"><b>Supplier enquiries</b><span><a href="mailto:procurement@omni-terrain.com">procurement@omni-terrain.com</a></span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section white">
+      <div class="container">
+        <div class="cta-box reveal">
+          <div class="cta-inner">
+            <span class="eyebrow" style="color:var(--gold-light)">The road ahead</span>
+            <h2>We are building something people can come back to.</h2>
+            <p>OMNI TERRAIN is not about rushing out a huge catalog. It is about creating a stronger place to learn, choose and buy useful gear—one well-built category and customer experience at a time.</p>
+            <div class="cta-actions">
+              <a class="button primary" href="mailto:support@omni-terrain.com?subject=Question%20for%20OMNI%20TERRAIN">Talk to our team</a>
+              <a class="button ghost" href="mailto:procurement@omni-terrain.com?subject=Supplier%20Partnership%20Inquiry">Supplier enquiry</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a class="brand footer-wordmark" href="index.html" aria-label="OMNI TERRAIN home">
+            <span class="wordmark">
+              <span class="wordmark-main">OMNI</span>
+              <span class="wordmark-sub">Terrain</span>
+              <span class="wordmark-meta">Road / Water / Power</span>
+            </span>
+          </a>
+          <p class="footer-copy">A helpful home for automotive, marine, RV and solar gear. We make the hard parts easier to understand before you buy.</p>
+        </div>
+        <div>
+          <div class="footer-heading">Collections</div>
+          <div class="footer-links">
+            <a href="automotive.html">Automotive</a>
+            <a href="marine.html">Marine</a>
+            <a href="rv-solar.html">RV &amp; Solar</a>
+            <a href="how-it-works.html">How OMNI Helps</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-heading">Helpful links</div>
+          <div class="footer-links">
+            <a href="buyer-guides.html">Buyer Guides</a>
+            <a href="product-page-template.html">Product Page Preview</a>
+            <a href="shipping-delivery-policy.html">Shipping &amp; Delivery</a>
+            <a href="returns-refunds-policy.html">Returns &amp; Refunds</a>
+            <a href="privacy-policy.html">Privacy Policy</a>
+            <a href="terms-conditions.html">Terms &amp; Conditions</a>
+            <a href="affiliate-disclosure.html">Affiliate Disclosure</a>
+            <a href="suppliers-and-brands.html#partnership">For Suppliers</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-heading">Talk to us</div>
+          <div class="footer-links">
+            <a href="mailto:support@omni-terrain.com">support@omni-terrain.com</a>
+            <a href="mailto:ops@omni-terrain.com">ops@omni-terrain.com</a>
+            <a href="mailto:procurement@omni-terrain.com">procurement@omni-terrain.com</a>
+            <a href="contact-and-order-help.html#request-help">Contact &amp; order help</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 OMNI TERRAIN. All rights reserved.</span>
+        <span>OMNI TERRAIN is operated by <strong>PRP Xpert LLC</strong>, Wyoming, USA.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 30), {passive:true});
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    const toggle = document.getElementById('menuToggle');
+    const menu = document.getElementById('mobileNav');
+    toggle.addEventListener('click', () => menu.classList.toggle('open'));
+    menu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => menu.classList.remove('open')));
+  </script>
+</body>
+</html>

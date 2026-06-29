@@ -1,0 +1,18 @@
+OMNI TERRAIN — FINAL INVESTOR PREVIEW QUALITY CHECK
+
+Static pages checked: 16
+Internal broken HTML links found: 0
+Pages missing a title: 0
+Pages missing a meta description: 0
+Pages missing a canonical URL (excluding 404): 0
+
+Completed:
+- Standardized desktop navigation and mobile menu on all pages
+- Removed accidental policy-link duplication from mobile menus
+- Added canonical URLs, Open Graph metadata and basic social metadata
+- Added sitemap.xml, robots.txt and a branded 404 page
+- Added consistent footer links and investor-preview documentation
+
+Pre-launch safeguards retained:
+- No live checkout, pricing, inventory, product availability or supplier approvals are claimed
+- Policy and disclosure pages remain clearly marked pre-launch drafts
