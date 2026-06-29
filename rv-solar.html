@@ -207,6 +207,16 @@
       .header-main{grid-template-columns:auto 1fr auto!important;gap:12px!important}
     }
 
+  
+    /* Call support conversion CTA */
+    .mobile-call-bar{display:none}
+    @media(max-width:760px){
+      body{padding-bottom:76px}
+      .mobile-call-bar{display:flex;position:fixed;z-index:90;left:12px;right:12px;bottom:12px;min-height:54px;align-items:center;justify-content:center;border-radius:14px;background:#071a30;box-shadow:0 16px 34px rgba(7,26,48,.28)}
+      .mobile-call-bar a{display:flex;width:100%;min-height:54px;align-items:center;justify-content:center;color:#fff;font:800 .78rem/1 Manrope,Arial,sans-serif;letter-spacing:.035em}
+      .mobile-call-bar strong{color:#e6d1a4;margin-left:7px}
+    }
+
   </style>
 
   <link rel="canonical" href="https://omni-terrain.com/rv-solar.html">
@@ -246,7 +256,7 @@
         <a href="about-omni-terrain.html">About</a>
       </nav>
       <div class="header-actions">
-        <a class="contact-link header-contact desktop-only" href="contact-and-order-help.html#request-help">Contact</a>
+        <a class="contact-link header-contact desktop-only" href="tel:+13075330570" aria-label="Call Product Support at (307) 533-0570">Call Support</a>
         <button class="menu-btn" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">Menu</button>
       </div>
     </div>
@@ -487,5 +497,10 @@
       menuToggle.setAttribute('aria-expanded', 'false');
     }));
   </script>
+
+  <div class="mobile-call-bar" aria-label="Call product support">
+    <a href="tel:+13075330570">Call Product Support <strong>(307) 533-0570</strong></a>
+  </div>
+
 </body>
 </html>

@@ -15,6 +15,16 @@
     .code{margin:28px 0 8px;color:var(--gold);font-weight:900;font-size:5rem;line-height:1}
     h1{margin:0;font-size:2rem}p{max-width:500px;margin:15px auto 0;color:var(--muted);line-height:1.7;font-size:.95rem}
     a{display:inline-block;margin-top:26px;padding:14px 18px;border-radius:10px;background:var(--navy);color:#fff;text-decoration:none;font-weight:800;font-size:.85rem}
+  
+    /* Call support conversion CTA */
+    .mobile-call-bar{display:none}
+    @media(max-width:760px){
+      body{padding-bottom:76px}
+      .mobile-call-bar{display:flex;position:fixed;z-index:90;left:12px;right:12px;bottom:12px;min-height:54px;align-items:center;justify-content:center;border-radius:14px;background:#071a30;box-shadow:0 16px 34px rgba(7,26,48,.28)}
+      .mobile-call-bar a{display:flex;width:100%;min-height:54px;align-items:center;justify-content:center;color:#fff;font:800 .78rem/1 Manrope,Arial,sans-serif;letter-spacing:.035em}
+      .mobile-call-bar strong{color:#e6d1a4;margin-left:7px}
+    }
+
   </style>
 </head>
 <body>
@@ -25,5 +35,10 @@
     <p>The page may have moved, or the link may be incomplete. Return to the OMNI TERRAIN home page to continue.</p>
     <a href="index.html">Return home →</a>
   </main>
+
+  <div class="mobile-call-bar" aria-label="Call product support">
+    <a href="tel:+13075330570">Call Product Support <strong>(307) 533-0570</strong></a>
+  </div>
+
 </body>
 </html>
