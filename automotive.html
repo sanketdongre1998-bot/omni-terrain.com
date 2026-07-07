@@ -216,6 +216,169 @@
       .mobile-call-bar strong{color:#e6d1a4;margin-left:7px}
     }
 
+  
+    /* US / UK market selector */
+    .market-strip{
+      background:#f1ece3;
+      border-bottom:1px solid var(--line);
+      color:var(--navy);
+    }
+    .market-strip .container{
+      min-height:42px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      font-size:.67rem;
+    }
+    .market-label{
+      color:var(--muted);
+      font:500 .54rem/1 "DM Mono",monospace;
+      letter-spacing:.13em;
+      text-transform:uppercase;
+      white-space:nowrap;
+    }
+    .market-links{
+      display:flex;
+      align-items:center;
+      gap:7px;
+      margin-left:auto;
+    }
+    .market-links a{
+      display:inline-flex;
+      align-items:center;
+      min-height:26px;
+      padding:0 10px;
+      border:1px solid transparent;
+      border-radius:999px;
+      color:#526175;
+      font-size:.64rem;
+      font-weight:800;
+      letter-spacing:.02em;
+      transition:.2s;
+      white-space:nowrap;
+    }
+    .market-links a:hover,
+    .market-links a.active{
+      background:#fff;
+      color:var(--navy);
+      border-color:#d8c49e;
+      box-shadow:0 5px 12px rgba(7,26,48,.06);
+    }
+    .market-note{
+      color:var(--muted);
+      font-size:.61rem;
+      white-space:nowrap;
+    }
+    .market-launch{
+      padding:46px 0 0;
+      background:var(--cream);
+    }
+    .market-launch-inner{
+      padding:26px;
+      border:1px solid #ddd2bf;
+      border-radius:22px;
+      background:linear-gradient(122deg,#fffdf9,#f2eadb);
+      box-shadow:var(--shadow);
+    }
+    .market-launch-head{
+      display:flex;
+      align-items:end;
+      justify-content:space-between;
+      gap:28px;
+      margin-bottom:20px;
+    }
+    .market-launch-head h2{
+      margin:9px 0 0;
+      color:var(--navy);
+      font:800 clamp(2.25rem,4.2vw,4rem)/.84 "Barlow Condensed",sans-serif;
+      letter-spacing:-.03em;
+      text-transform:uppercase;
+    }
+    .market-launch-head p{
+      max-width:470px;
+      margin:0;
+      color:var(--muted);
+      font-size:.80rem;
+      line-height:1.72;
+    }
+    .market-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:15px;
+    }
+    .market-card{
+      min-height:212px;
+      padding:23px;
+      border:1px solid rgba(7,26,48,.10);
+      border-radius:17px;
+      background:#fff;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      transition:.22s;
+    }
+    .market-card:hover{transform:translateY(-3px);box-shadow:0 14px 28px rgba(7,26,48,.10)}
+    .market-card.uk{
+      color:#fff;
+      border-color:#163a5b;
+      background:linear-gradient(135deg,#071a30,#153f61);
+    }
+    .market-chip{
+      display:inline-flex;
+      align-items:center;
+      width:max-content;
+      min-height:28px;
+      padding:0 9px;
+      border:1px solid rgba(198,154,80,.34);
+      border-radius:999px;
+      color:var(--gold);
+      background:#fffdf9;
+      font:500 .55rem/1 "DM Mono",monospace;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+    .market-card.uk .market-chip{
+      color:var(--gold-light);
+      background:rgba(255,255,255,.07);
+      border-color:rgba(230,209,164,.34);
+    }
+    .market-card h3{
+      margin:14px 0 7px;
+      font:800 2.2rem/.85 "Barlow Condensed",sans-serif;
+      letter-spacing:-.025em;
+      text-transform:uppercase;
+    }
+    .market-card p{
+      max-width:440px;
+      margin:0;
+      color:var(--muted);
+      font-size:.76rem;
+      line-height:1.65;
+    }
+    .market-card.uk p{color:#d0dce8}
+    .market-card a{
+      margin-top:16px;
+      color:var(--navy);
+      font-size:.72rem;
+      font-weight:800;
+    }
+    .market-card.uk a{color:var(--gold-light)}
+    @media(max-width:760px){
+      .market-strip .container{min-height:46px;gap:8px}
+      .market-note{display:none}
+      .market-label{font-size:.48rem}
+      .market-links{gap:4px}
+      .market-links a{min-height:25px;padding:0 8px;font-size:.58rem}
+      .market-launch{padding-top:22px}
+      .market-launch-inner{padding:18px}
+      .market-launch-head{display:block;margin-bottom:14px}
+      .market-launch-head h2{font-size:2.45rem}
+      .market-launch-head p{margin-top:10px;font-size:.74rem}
+      .market-grid{grid-template-columns:1fr}
+      .market-card{min-height:184px;padding:20px}
+    }
+
   </style>
 
   <link rel="canonical" href="https://omni-terrain.com/automotive.html">
@@ -233,6 +396,17 @@
     <div class="container">
       <span><strong>ROAD COLLECTION:</strong> New aftermarket automotive gear — catalog building in progress.</span>
       <a href="contact-and-order-help.html#request-help">Need help finding a category? →</a>
+    </div>
+  </div>
+
+    <div class="market-strip" aria-label="Marketplace region selector">
+    <div class="container">
+      <span class="market-label">Marketplace region</span>
+      <div class="market-links">
+        <a class="active" aria-current="page" href="index.html#markets">United States</a>
+        <a href="uk.html">United Kingdom</a>
+      </div>
+      <span class="market-note">Product availability is shown by market and listing.</span>
     </div>
   </div>
 
@@ -441,7 +615,7 @@
               <span class="wordmark-meta">Road / Water / Power</span>
             </span>
           </a>
-          <p class="footer-copy">A helpful home for automotive, marine, RV and solar gear. We make the hard parts easier to understand before you buy.</p>
+          <p class="footer-copy">A helpful home for automotive, marine, RV and solar gear. Built for clear marketplace journeys in the United States and United Kingdom.</p>
         </div>
         <div>
           <div class="footer-heading">Collections</div>

@@ -1,14 +1,19 @@
-OMNI TERRAIN — V1.1 CALL SUPPORT UPDATE
+OMNI TERRAIN — CLEAN US + UK GITHUB UPLOAD
 
-Upload every file inside this folder to the ROOT of the GitHub Pages repository.
-Do not upload the ZIP file itself.
+This folder is ready to copy directly into the ROOT of your cloned GitHub repository.
 
-What changed:
-- Desktop header call button: Call Support
-- Mobile sticky call button: Call Product Support (307) 533-0570
-- Product-page preview includes a direct high-ticket support CTA
-- Contact page includes a high-ticket product support block
+It includes:
+- All updated website HTML pages
+- uk.html
+- CNAME, .nojekyll, robots.txt, sitemap.xml
+- No nested old website folders
 
-Pre-launch status remains unchanged:
-- No live checkout, pricing, inventory or product availability is represented in this package.
-- Policy pages remain pre-launch drafts.
+How to use:
+1. Extract this ZIP.
+2. Open this folder.
+3. Ctrl + A to select everything.
+4. Ctrl + C.
+5. In GitHub Desktop, click Show in Explorer to open the cloned repo folder.
+6. Ctrl + V there.
+7. Choose Replace all when Windows asks.
+8. In GitHub Desktop, review changes, commit, then Push origin.
