@@ -74,18 +74,19 @@
     .mobile-nav a{color:#fff;border-bottom:1px solid rgba(255,255,255,.10);padding:10px 0;font-size:.85rem}
 
     .hero{padding:24px 0 0}
-    .hero-card{position:relative;min-height:585px;overflow:hidden;border-radius:24px;color:#fff;box-shadow:var(--shadow-dark);isolation:isolate}
-    .hero-card:before{content:"";position:absolute;inset:0;z-index:-2;background:linear-gradient(90deg,rgba(4,15,29,.93) 0%,rgba(4,15,29,.62) 47%,rgba(4,15,29,.16) 73%),url("https://images.unsplash.com/photo-1527786356703-4b100091cd2c?auto=format&fit=crop&w=1900&q=88") center/cover no-repeat}
+    .hero-card{position:relative;min-height:700px;overflow:hidden;border-radius:24px;color:#fff;box-shadow:var(--shadow-dark);isolation:isolate}
+    .hero-card:before{content:"";position:absolute;inset:0;z-index:-2;background:linear-gradient(90deg,rgba(4,15,29,.94) 0%,rgba(4,15,29,.68) 46%,rgba(4,15,29,.18) 77%),url("https://images.unsplash.com/photo-1527786356703-4b100091cd2c?auto=format&fit=crop&w=1900&q=88") center/cover no-repeat}
     .hero-card:after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(circle at 78% 25%,rgba(224,200,151,.25),transparent 21%)}
-    .hero-content{min-height:585px;padding:54px;display:flex;flex-direction:column;justify-content:space-between}
-    .hero-content h1{max-width:760px;margin:18px 0 16px;font:800 clamp(4rem,7.2vw,7rem)/.76 "Barlow Condensed",sans-serif;letter-spacing:-.035em;text-transform:uppercase}
+    .hero-content{min-height:700px;padding:54px 54px 44px;display:grid;grid-template-rows:1fr auto;row-gap:38px}
+    .hero-copy-block{max-width:650px}
+    .hero-content h1{max-width:700px;margin:18px 0 18px;font:800 clamp(3.9rem,5.35vw,5.8rem)/.80 "Barlow Condensed",sans-serif;letter-spacing:-.035em;text-transform:uppercase}
     .hero-content h1 em{color:var(--gold-light);font-style:normal}
-    .hero-copy{max-width:570px;margin:0;color:#e1e9f0;font-size:.96rem;line-height:1.78}
-    .hero-actions{display:flex;gap:11px;flex-wrap:wrap;margin-top:26px}
-    .market-badges{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:850px}
-    .market-badge{padding:16px;border:1px solid rgba(255,255,255,.16);border-radius:15px;background:rgba(7,26,48,.72);backdrop-filter:blur(8px)}
+    .hero-copy{max-width:610px;margin:0;color:#e1e9f0;font-size:.90rem;line-height:1.72}
+    .hero-actions{display:flex;gap:11px;flex-wrap:wrap;margin-top:23px}
+    .market-badges{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;width:min(100%,1030px);margin:0 auto}
+    .market-badge{min-height:105px;padding:16px 18px;border:1px solid rgba(255,255,255,.16);border-radius:15px;background:rgba(7,26,48,.78);backdrop-filter:blur(10px);display:flex;flex-direction:column;justify-content:center}
     .market-badge span{display:block;color:var(--gold-light);font:500 .55rem/1 "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase}
-    .market-badge b{display:block;margin-top:9px;font-size:.8rem}
+    .market-badge b{display:block;margin-top:9px;font-size:.80rem}
     .market-badge small{display:block;margin-top:5px;color:#d6e0ea;font-size:.66rem;line-height:1.45}
 
     .section{padding:88px 0}
@@ -147,7 +148,7 @@
       .announcement .container{justify-content:center;text-align:center}.announcement a{display:none}
       .market-strip .container{min-height:46px;gap:8px}.market-note{display:none}.market-label{font-size:.48rem}.market-links{gap:4px}.market-links a{min-height:25px;padding:0 8px;font-size:.58rem}
       .header-main{min-height:72px;padding:9px 0}.wordmark-main{font-size:1.92rem}.wordmark-sub{font-size:.72rem}.wordmark-meta{font-size:.36rem}
-      .hero{padding-top:14px}.hero-card,.hero-content{min-height:580px}.hero-content{padding:27px}.hero-content h1{font-size:3.7rem}.hero-copy{font-size:.82rem}.market-badges{grid-template-columns:1fr;gap:8px}.market-badge{padding:12px}
+      .hero{padding-top:14px}.hero-card,.hero-content{min-height:650px}.hero-content{padding:27px;grid-template-rows:1fr auto;row-gap:22px}.hero-content h1{font-size:3.7rem}.hero-copy{font-size:.82rem}.market-badges{grid-template-columns:1fr;gap:8px;width:100%;margin:0}.market-badge{min-height:0;padding:12px}
       .section{padding:62px 0}.section-header{grid-template-columns:1fr;gap:13px;margin-bottom:21px}.section-title{font-size:3.2rem}.section-copy{font-size:.80rem}
       .category-grid,.how-grid{grid-template-columns:1fr}.category-card{min-height:245px}.how-card{padding:25px}.how-card h3{font-size:3rem}.footer-grid{grid-template-columns:1fr 1fr;gap:28px 18px}.footer-bottom{display:block;margin-top:35px}.footer-bottom span{display:block;margin-top:7px}
       .mobile-uk-bar{display:flex;position:fixed;z-index:90;left:12px;right:12px;bottom:12px;min-height:54px;align-items:center;justify-content:center;border-radius:14px;background:#071a30;box-shadow:0 16px 34px rgba(7,26,48,.28)}
@@ -213,7 +214,7 @@
       <div class="container">
         <article class="hero-card">
           <div class="hero-content">
-            <div>
+            <div class="hero-copy-block">
               <span class="eyebrow" style="color:var(--gold-light)">United Kingdom marketplace overview</span>
               <h1>Gear for the<br>road. water.<br><em>power.</em></h1>
               <p class="hero-copy">OMNI TERRAIN brings clear automotive, marine, RV and mobile-power buying guidance to the United Kingdom marketplace journey. Check each item’s UK listing for the price, delivery destination, availability and purchase terms before ordering.</p>
