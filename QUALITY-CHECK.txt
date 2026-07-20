@@ -1,12 +1,28 @@
 OMNI TERRAIN — CLEAN US + UK UPLOAD CHECK
 
-HTML pages: 17
+HTML pages: 25
 Required files present:
 - index.html: True
 - uk.html: True
+- shield-autocare-uk.html: True
+- Shield individual unavailable product pages: 7
 - CNAME: True
 - .nojekyll: True
 - robots.txt: True
 - sitemap.xml: True
 
 This folder has no nested website folders.
+Shield pages are indexable and included in sitemap.xml.
+All products are clearly marked currently unavailable and ordering controls are disabled. No legal/company details changed.
+
+Automated checks completed:
+- All local page, asset and fragment links: Pass
+- Shared JavaScript syntax: Pass
+- 7 product IDs and 7 catalogue cards: Pass
+- VAT-inclusive price labels on all cards: Pass
+- Responsive breakpoints: desktop, <=1180px, <=780px and <=480px present
+- Mobile navigation and category filter handlers: Present in shared JavaScript
+
+Agent visual preview note:
+Source-level responsive, navigation and link tests are included in the release checks.
+A post-deployment browser spot-check at mobile and desktop widths is recommended.

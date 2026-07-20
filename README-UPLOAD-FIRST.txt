@@ -5,8 +5,15 @@ This folder is ready to copy directly into the ROOT of your cloned GitHub reposi
 It includes:
 - All updated website HTML pages
 - uk.html
+- Public Shield Autocare UK catalogue and 7 product pages marked currently unavailable
 - CNAME, .nojekyll, robots.txt, sitemap.xml
 - No nested old website folders
+
+IMPORTANT:
+- Shield pages are visible for browsing but cannot accept orders.
+- Prices are indicative and include UK VAT; purchase controls remain disabled.
+- Shield catalogue and product pages are included in sitemap.xml.
+- No legal or company details were changed.
 
 How to use:
 1. Extract this ZIP.
