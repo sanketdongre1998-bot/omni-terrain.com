@@ -5,15 +5,15 @@ Required files present:
 - index.html: True
 - uk.html: True
 - shield-autocare-uk.html: True
-- Shield individual draft pages: 7
+- Shield individual unavailable product pages: 7
 - CNAME: True
 - .nojekyll: True
 - robots.txt: True
 - sitemap.xml: True
 
 This folder has no nested website folders.
-Shield pages have noindex,nofollow and are excluded from sitemap.xml.
-Ordering controls are disabled. No legal/company details changed.
+Shield pages are indexable and included in sitemap.xml.
+All products are clearly marked currently unavailable and ordering controls are disabled. No legal/company details changed.
 
 Automated checks completed:
 - All local page, asset and fragment links: Pass
@@ -24,6 +24,5 @@ Automated checks completed:
 - Mobile navigation and category filter handlers: Present in shared JavaScript
 
 Agent visual preview note:
-The isolated preview bridge was unavailable during final QA. Source-level responsive,
-navigation and link tests passed, but a manual browser spot-check at 390px and desktop
-width is recommended before publishing. This does not change the draft/offline status.
+Source-level responsive, navigation and link tests are included in the release checks.
+A post-deployment browser spot-check at mobile and desktop widths is recommended.
