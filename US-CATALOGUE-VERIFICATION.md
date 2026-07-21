@@ -108,7 +108,7 @@ The preview contains cart and checkout routes, persistent cart state, an unavail
 
 ## Test results
 
-- `node scripts/test-us-catalogue.cjs` — **PASS 2,860 checks** covering counts, MPN uniqueness, restricted claims, required notices, verified image mapping, disabled purchasing, legal links, internal link targets and responsive breakpoints.
+- `node scripts/test-us-catalogue.cjs` — **PASS 2,868 checks** covering counts, MPN uniqueness, restricted claims, required notices, verified image mapping, disabled purchasing, legal links, internal link targets and responsive breakpoints.
 - `node scripts/test-commerce-runtime.cjs` — **PASS** unavailable-item cart guard, public checkout lock and local QA checkout path.
 - `node scripts/test-http-routes.cjs` — **PASS 53 HTTP routes** (catalogue, cart, checkout and 50 product pages).
 - Production payment transaction — **HOLD**, because no merchant processor or approved purchasable SKU exists.
