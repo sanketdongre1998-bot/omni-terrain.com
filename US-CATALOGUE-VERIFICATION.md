@@ -108,7 +108,7 @@ The preview contains cart and checkout routes, persistent cart state, an unavail
 
 ## Test results
 
-- `node scripts/test-us-catalogue.cjs` — **PASS 2,868 checks** covering counts, MPN uniqueness, restricted claims, required notices, verified image mapping, disabled purchasing, legal links, internal link targets and responsive breakpoints.
+- `node scripts/test-us-catalogue.cjs` — **PASS 3,041 checks** covering counts, MPN uniqueness, restricted claims, required notices, verified image mapping, disabled purchasing, legal links, internal link targets, mobile store controls and responsive breakpoints.
 - `node scripts/test-commerce-runtime.cjs` — **PASS** unavailable-item cart guard, public checkout lock and local QA checkout path.
 - `node scripts/test-http-routes.cjs` — **PASS 53 HTTP routes** (catalogue, cart, checkout and 50 product pages).
 - Production payment transaction — **HOLD**, because no merchant processor or approved purchasable SKU exists.
@@ -128,7 +128,7 @@ No legal/company-detail file was modified. Existing Shield/UK catalogue files we
 - `assets/us-commerce.js` — persistent cart state, unavailable-item guard and checkout QA behaviour.
 - `US-CATALOGUE-VERIFICATION.md` — verification, decision and handoff register.
 - `scripts/generate-us-catalogue.cjs` — repeatable catalogue/page generator.
-- `scripts/test-us-catalogue.cjs` — structural, content and link checks.
+- `scripts/test-us-catalogue.cjs` — structural, content, mobile and link checks.
 - `scripts/test-commerce-runtime.cjs` — cart and checkout runtime checks.
 - `scripts/test-http-routes.cjs` — local HTTP route checks.
 - `assets/omni-terrain-emblem.webp` — optimised OMNI Terrain emblem used in the US catalogue hero.

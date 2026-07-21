@@ -100,6 +100,25 @@ for (const file of publicFiles.concat("index.html")) {
 const css = read("assets/us-catalogue.css");
 check(css.includes("@media(max-width:850px)"), "tablet/mobile navigation breakpoint exists");
 check(css.includes("@media(max-width:560px)"), "phone layout breakpoint exists");
+check(css.includes("/* Mobile storefront hardening */"), "mobile storefront hardening rules are present");
+check(css.includes("@media(max-width:760px)"), "primary mobile storefront breakpoint exists");
+check(css.includes("@media(max-width:380px)"), "small-phone storefront breakpoint exists");
+check(css.includes(".storefront-products .product-card[hidden]{display:none}"), "mobile filtered product cards remain hidden");
+check(css.includes("grid-template-columns:minmax(126px,40%) minmax(0,1fr)"), "mobile catalogue uses compact product rows");
+check(css.includes("max-height:calc(100dvh - 64px)"), "mobile navigation is viewport bounded");
+check(css.includes(".field input,.field select,.field textarea{font-size:16px}"), "mobile checkout fields avoid iOS input zoom");
+check(css.includes(".mobile-store-bar{position:fixed"), "mobile storefront shortcuts are fixed and reachable");
+
+const home = read("index.html");
+check(home.includes('class="contact-link header-contact header-cart"'), "homepage keeps Cart visible in the mobile header");
+check(home.includes('class="mobile-store-bar"'), "homepage includes mobile store shortcuts");
+check(home.includes("menuToggle.setAttribute('aria-expanded', String(open))"), "homepage mobile menu exposes its expanded state");
+check(home.includes("scroll-snap-type:x mandatory"), "homepage featured products support mobile swipe navigation");
+
+for (const file of publicFiles) {
+  const html = read(file);
+  check(html.includes('class="mobile-store-bar"'), `${file} includes mobile store shortcuts`);
+}
 
 if (failures.length) {
   console.error(`FAILED ${failures.length} of ${checks.length} checks`);
