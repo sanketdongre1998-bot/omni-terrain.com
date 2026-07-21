@@ -108,7 +108,7 @@ The preview contains cart and checkout routes, persistent cart state, an unavail
 
 ## Test results
 
-- `node scripts/test-us-catalogue.cjs` — **PASS 2,639 checks** covering counts, MPN uniqueness, restricted claims, required notices, verified image mapping, disabled purchasing, legal links, internal link targets and responsive breakpoints.
+- `node scripts/test-us-catalogue.cjs` — **PASS 2,860 checks** covering counts, MPN uniqueness, restricted claims, required notices, verified image mapping, disabled purchasing, legal links, internal link targets and responsive breakpoints.
 - `node scripts/test-commerce-runtime.cjs` — **PASS** unavailable-item cart guard, public checkout lock and local QA checkout path.
 - `node scripts/test-http-routes.cjs` — **PASS 53 HTTP routes** (catalogue, cart, checkout and 50 product pages).
 - Production payment transaction — **HOLD**, because no merchant processor or approved purchasable SKU exists.
@@ -117,13 +117,13 @@ The preview contains cart and checkout routes, persistent cart state, an unavail
 
 No legal/company-detail file was modified. Existing Shield/UK catalogue files were not overwritten.
 
-- `index.html` — added US Catalogue navigation entry and connected the existing United States market card.
-- `us-catalogue.html` — generated 50-product US catalogue with category filters.
+- `index.html` — ecommerce-first homepage with direct category shopping, featured products, concise product support and a dedicated education section.
+- `us-catalogue.html` — compact 50-product storefront with category shortcuts and filters.
 - `cart.html` — cart route and unavailable-item guard UI.
 - `checkout.html` — guarded checkout route, customer fields and local QA validation path.
 - `assets/us-products.js` — verified 50-product data source.
 - `US-PRODUCT-IMAGE-SOURCES.json` — internal 50-row manufacturer image-source manifest with exact filenames and PDM/variant flags; 44 direct images are rendered in the preview and six controlled placeholders remain.
-- `assets/us-catalogue.css` — premium US catalogue, product, cart, checkout and responsive styling.
+- `assets/us-catalogue.css` — ecommerce-first catalogue, product, cart, checkout and responsive styling.
 - `assets/us-catalogue.js` — navigation and category-filter behaviour.
 - `assets/us-commerce.js` — persistent cart state, unavailable-item guard and checkout QA behaviour.
 - `US-CATALOGUE-VERIFICATION.md` — verification, decision and handoff register.

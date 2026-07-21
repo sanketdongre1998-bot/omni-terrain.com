@@ -158,3 +158,81 @@ body{background:#f4f1eb;background-image:linear-gradient(rgba(7,26,48,.025) 1px,
   .catalogue-toolbar{position:relative;top:auto;display:block;padding:10px}.catalogue-toolbar .filter-row{display:grid;grid-template-columns:1fr 1fr}.filter-button{padding:0 9px;font-size:.62rem}.product-grid{grid-template-columns:1fr}.product-placeholder{min-height:310px}.product-card h3{min-height:0}.product-card p{min-height:0}
   .record-header{align-items:flex-start;flex-direction:column}.product-brandline{flex-wrap:wrap}.product-visual .product-photo,.product-visual .product-placeholder{min-height:480px}.product-visual .product-photo{padding:38px 25px 46px}.product-visual .product-image{height:390px}.product-visual .category-art{height:200px}.product-visual .placeholder-mark strong{font-size:3rem}.visual-caption{display:grid}.visual-caption b{text-align:left}.record-assurance{grid-template-columns:1fr}.detail-card{padding:25px}.shipping-card .button{width:100%}
 }
+
+/* Ecommerce-first US storefront */
+.store-catalogue-intro{padding:26px 0 42px}
+.store-intro-grid{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:34px;align-items:center;min-height:310px;padding:38px 42px;border-radius:23px;background:radial-gradient(circle at 88% 8%,rgba(230,209,164,.2),transparent 25%),linear-gradient(126deg,#06172a,#123b5c);color:#fff;box-shadow:var(--shadow-dark)}
+.store-intro-copy>.eyebrow{color:var(--gold2)}
+.store-intro-copy h1{margin:15px 0 17px;font:800 clamp(4rem,6.2vw,6rem)/.79 "Barlow Condensed",sans-serif;letter-spacing:-.035em;text-transform:uppercase}
+.store-intro-copy h1 em{color:var(--gold2);font-style:normal}
+.store-intro-copy p{max-width:710px;margin:0;color:#d4e0eb;font-size:.86rem;line-height:1.7}
+.store-intro-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.store-intro-actions .button.outline{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#fff}
+.store-intro-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;overflow:hidden;border:1px solid rgba(255,255,255,.16);border-radius:17px;background:rgba(255,255,255,.12)}
+.store-intro-summary>span,.store-intro-summary>p{grid-column:1/-1}
+.store-intro-summary>span{padding:15px 17px;background:rgba(3,13,25,.35);color:var(--gold2);font:600 .55rem/1 "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase}
+.store-intro-summary>div{padding:19px 11px;text-align:center;background:rgba(255,255,255,.07)}
+.store-intro-summary strong{display:block;color:#fff;font:800 2.35rem/.8 "Barlow Condensed",sans-serif}
+.store-intro-summary small{display:block;margin-top:7px;color:#bccbd9;font:500 .49rem/1 "DM Mono",monospace;letter-spacing:.08em;text-transform:uppercase}
+.store-intro-summary>p{margin:0;padding:16px 17px;background:rgba(3,13,25,.35);color:#c9d6e2;font-size:.67rem;line-height:1.55}
+.store-category-nav{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-top:15px}
+.store-category-link{display:grid;grid-template-columns:92px minmax(0,1fr) auto;gap:17px;align-items:center;min-height:126px;padding:16px 18px;border:1px solid var(--line);border-radius:17px;background:#fff;box-shadow:0 10px 27px rgba(7,26,48,.06);transition:.22s}
+.store-category-link:hover{border-color:#d0b36f;transform:translateY(-3px);box-shadow:0 18px 34px rgba(7,26,48,.1)}
+.store-category-art{height:76px;color:var(--navy)}
+.store-category-art svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+.store-category-art svg .accent{stroke:var(--gold);stroke-width:4}
+.store-category-link span{color:var(--gold);font:600 .49rem/1 "DM Mono",monospace;letter-spacing:.1em;text-transform:uppercase}
+.store-category-link h2{margin:7px 0 4px;color:var(--navy);font:800 1.5rem/.86 "Barlow Condensed",sans-serif;text-transform:uppercase}
+.store-category-link p{margin:0;color:var(--muted);font-size:.61rem;line-height:1.45}
+.store-category-link>b{color:var(--gold);font-size:1.15rem}
+.storefront-products{padding:56px 0 74px}
+.store-products-heading{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,500px);gap:30px;align-items:end;margin-bottom:22px}
+.store-products-heading h2{margin:9px 0 0;color:var(--navy);font:800 clamp(2.8rem,4vw,4rem)/.82 "Barlow Condensed",sans-serif;text-transform:uppercase}
+.store-products-heading p{margin:0;color:var(--muted);font-size:.79rem;line-height:1.65}
+.storefront-products .catalogue-toolbar{top:88px;margin-bottom:22px}
+.storefront-products .product-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.storefront-products .product-card{border-radius:17px;box-shadow:0 8px 24px rgba(7,26,48,.06)}
+.storefront-products .product-card:hover{transform:translateY(-4px);box-shadow:0 18px 36px rgba(7,26,48,.12)}
+.storefront-products .product-photo,.storefront-products .product-placeholder{min-height:220px;padding:30px 24px 35px}
+.storefront-products .product-photo:after,.storefront-products .product-placeholder:after{inset:11px;border-radius:12px}
+.storefront-products .product-photo .status-chip,.storefront-products .product-placeholder .status-chip{left:19px;top:17px}
+.storefront-products .product-image{height:165px}
+.storefront-products .image-source-tag{right:18px;bottom:15px}
+.storefront-products .category-art{height:96px;margin:3px auto 12px}
+.storefront-products .placeholder-mark strong{font-size:1.8rem}
+.storefront-products .product-body{padding:19px}
+.storefront-products .product-card h3{min-height:44px;margin:12px 0 8px;font-size:1.58rem}
+.storefront-products .product-card p{display:-webkit-box;min-height:42px;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;font-size:.69rem;line-height:1.52}
+.storefront-products .product-record{margin-top:13px;padding:10px;font-size:.46rem}
+.storefront-products .product-card-footer{margin-top:11px;padding-top:12px}
+.store-help-strip{background:var(--navy);color:#fff;padding:34px 0}
+.store-help-strip .container{display:flex;justify-content:space-between;align-items:center;gap:30px}
+.store-help-strip .eyebrow{color:var(--gold2)}
+.store-help-strip h2{margin:8px 0 0;font:800 2.25rem/.86 "Barlow Condensed",sans-serif;text-transform:uppercase}
+.store-help-strip .container>div:last-child{display:flex;flex-wrap:wrap;gap:10px}
+
+/* Cleaner product-detail presentation */
+.product-layout{grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:42px}
+.product-summary h1{font-size:clamp(3.5rem,5vw,5.2rem)}
+.product-visual .product-photo,.product-visual .product-placeholder{min-height:510px}
+.product-visual .product-photo{padding:44px}
+.product-visual .product-image{height:410px}
+.product-visual .category-art{height:215px}
+.product-visual .placeholder-mark strong{font-size:3.5rem}
+.detail-grid{margin-top:50px}
+
+@media(max-width:1180px){
+  .store-intro-grid{grid-template-columns:minmax(0,1fr) 310px}.store-category-link{grid-template-columns:70px minmax(0,1fr) auto}.store-category-art{height:62px}
+  .storefront-products .product-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:850px){
+  .store-intro-grid{grid-template-columns:1fr;padding:34px}.store-intro-summary{max-width:560px}.store-category-nav{grid-template-columns:1fr}.store-category-link{min-height:103px;grid-template-columns:82px minmax(0,1fr) auto}.store-category-art{height:68px}
+  .store-products-heading{grid-template-columns:1fr}.storefront-products .catalogue-toolbar{top:78px}.storefront-products .product-grid{grid-template-columns:repeat(2,1fr)}
+  .store-help-strip .container{align-items:flex-start;display:grid}.product-layout{grid-template-columns:1fr}.product-visual{position:static}
+}
+@media(max-width:560px){
+  .store-catalogue-intro{padding-top:14px}.store-intro-grid{padding:30px 23px}.store-intro-copy h1{font-size:3.9rem}.store-intro-copy p{font-size:.77rem}.store-intro-actions .button{width:100%}.store-intro-summary>div{padding:16px 7px}.store-intro-summary strong{font-size:2rem}
+  .store-category-link{grid-template-columns:62px minmax(0,1fr) auto;gap:13px;padding:13px 14px}.store-category-art{height:53px}.store-category-link h2{font-size:1.35rem}
+  .storefront-products{padding-top:48px}.store-products-heading h2{font-size:3rem}.storefront-products .catalogue-toolbar{position:relative;top:auto}.storefront-products .product-grid{grid-template-columns:1fr}.storefront-products .product-photo,.storefront-products .product-placeholder{min-height:270px}.storefront-products .product-image{height:205px}.storefront-products .category-art{height:125px}.storefront-products .product-card h3{min-height:0}.store-help-strip h2{font-size:1.9rem}.store-help-strip .container>div:last-child{display:grid;width:100%}
+  .product-visual .product-photo,.product-visual .product-placeholder{min-height:430px}.product-visual .product-image{height:340px}.product-visual .category-art{height:180px}.product-visual .placeholder-mark strong{font-size:2.8rem}
+}
