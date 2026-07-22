@@ -1,0 +1,49 @@
+name: Apply Used OEM homepage patch
+
+on:
+  push:
+    branches:
+      - agent/used-oem-parts
+    paths:
+      - .github/workflows/apply-used-oem.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/used-oem-parts
+          fetch-depth: 0
+      - name: Apply and validate patch
+        run: |
+          python3 scripts/apply_used_oem_patch.py
+          python3 - <<'PY'
+          from pathlib import Path
+          text = Path('index.html').read_text(encoding='utf-8')
+          required = [
+              'id="used-oem"',
+              'Used OEM Auto Parts',
+              'does not offer used airbags, inflators or seat-belt pretensioners',
+          ]
+          missing = [x for x in required if x not in text]
+          if missing:
+              raise SystemExit(f'Missing markers: {missing}')
+          PY
+      - name: Remove temporary automation files
+        run: |
+          rm -f scripts/apply_used_oem_patch.py
+          rm -f .github/workflows/apply-used-oem.yml
+          rmdir scripts 2>/dev/null || true
+      - name: Commit homepage update
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --stat
+          git commit -m "Add used OEM auto parts section"
+          git push origin HEAD:agent/used-oem-parts
