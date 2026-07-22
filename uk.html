@@ -1,388 +1,64 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="OMNI TERRAIN United Kingdom marketplace overview for automotive, marine, RV and power product guidance. UK product availability is shown by item and marketplace listing.">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Shop OMNI Terrain UK automotive, campervan and campsite products from approved UK suppliers, starting with the Shield Autocare range.">
   <meta name="theme-color" content="#071a30">
-  <title>OMNI TERRAIN United Kingdom | Road, Water & Power</title>
+  <title>OMNI Terrain UK Store | Automotive, Campervan & Campsite Gear</title>
   <link rel="canonical" href="https://omni-terrain.com/uk.html">
   <meta name="robots" content="index,follow">
   <meta property="og:site_name" content="OMNI TERRAIN">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="OMNI TERRAIN United Kingdom | Road, Water & Power">
-  <meta property="og:description" content="A United Kingdom marketplace overview for automotive, marine, RV and power gear guidance.">
+  <meta property="og:title" content="OMNI Terrain UK Store | Automotive, Campervan & Campsite Gear">
+  <meta property="og:description" content="Browse seven Shield Autocare UK products in a focused ecommerce-style storefront, with a supplier-ready lane for future LKQ UK products.">
   <meta property="og:url" content="https://omni-terrain.com/uk.html">
   <meta name="twitter:card" content="summary">
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Teko:wght@500;600;700&display=swap" rel="stylesheet">
-
   <style>
-    :root{
-      --navy:#071a30;--navy-2:#102d4d;--gold:#c69a50;--gold-light:#e6d1a4;
-      --cream:#f7f5f1;--white:#fff;--ink:#172235;--muted:#687588;--line:#e7e1d8;
-      --soft-blue:#edf3f8;--radius:24px;--shadow:0 22px 55px rgba(7,26,48,.10);
-      --shadow-dark:0 26px 60px rgba(5,15,30,.28);--max:1400px;
-    }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{margin:0;background:var(--cream);color:var(--ink);font-family:Manrope,Arial,sans-serif;overflow-x:hidden}
-    a{color:inherit;text-decoration:none}
-    .container{width:min(var(--max),calc(100% - 40px));margin:0 auto}
-    .eyebrow{font:500 .64rem/1 "DM Mono",monospace;letter-spacing:.15em;text-transform:uppercase;color:var(--gold)}
-    .button{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 18px;border-radius:11px;font-size:.74rem;font-weight:800;letter-spacing:.045em;transition:.22s}
-    .button.primary{background:linear-gradient(120deg,#b98741,#dfc897);color:#fff;box-shadow:0 11px 25px rgba(0,0,0,.14)}
-    .button.primary:hover{transform:translateY(-2px);filter:brightness(1.06)}
-    .button.ghost{border:1px solid rgba(255,255,255,.40);background:rgba(255,255,255,.05);color:#fff}
-    .button.ghost:hover{background:#fff;color:var(--navy)}
-
-    .announcement{background:var(--navy);color:#dae4ef}
-    .announcement .container{min-height:38px;display:flex;justify-content:space-between;align-items:center;gap:20px;font-size:.72rem}
-    .announcement strong{color:var(--gold-light)}
-    .announcement a{font-size:.7rem}
-    .announcement a:hover{color:#fff}
-
-    .market-strip{background:#f1ece3;border-bottom:1px solid var(--line);color:var(--navy)}
-    .market-strip .container{min-height:42px;display:flex;align-items:center;justify-content:space-between;gap:14px;font-size:.67rem}
-    .market-label{color:var(--muted);font:500 .54rem/1 "DM Mono",monospace;letter-spacing:.13em;text-transform:uppercase;white-space:nowrap}
-    .market-links{display:flex;align-items:center;gap:7px;margin-left:auto}
-    .market-links a{display:inline-flex;align-items:center;min-height:26px;padding:0 10px;border:1px solid transparent;border-radius:999px;color:#526175;font-size:.64rem;font-weight:800;letter-spacing:.02em;transition:.2s;white-space:nowrap}
-    .market-links a:hover,.market-links a.active{background:#fff;color:var(--navy);border-color:#d8c49e;box-shadow:0 5px 12px rgba(7,26,48,.06)}
-    .market-note{color:var(--muted);font-size:.61rem;white-space:nowrap}
-
-    header{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.94);backdrop-filter:blur(18px);border-bottom:1px solid var(--line);transition:.25s}
-    header.scrolled{box-shadow:0 8px 28px rgba(7,26,48,.08)}
-    .header-main{min-height:90px;display:grid;grid-template-columns:250px 1fr 250px;gap:22px;align-items:center;padding:12px 0}
-    .brand{display:inline-flex;align-items:center;min-width:max-content;position:relative;justify-self:start}
-    .wordmark{display:grid;grid-template-columns:auto auto;grid-template-rows:auto auto;column-gap:11px;row-gap:3px;align-items:end;position:relative;padding:2px 0 8px;white-space:nowrap;line-height:1}
-    .wordmark:after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:99px;background:linear-gradient(90deg,var(--gold) 0 27%,transparent 27% 33%,var(--gold) 33% 68%,transparent 68% 74%,var(--gold) 74% 100%)}
-    .wordmark-main{grid-column:1;grid-row:1;color:var(--navy);font:700 2.35rem/.66 "Teko",sans-serif;letter-spacing:.10em;text-transform:uppercase;transform:skewX(-4deg)}
-    .wordmark-sub{grid-column:2;grid-row:1;color:var(--gold);font:800 .88rem/.9 "Barlow Condensed",sans-serif;letter-spacing:.19em;text-transform:uppercase;padding:0 0 2px 11px;border-left:1px solid rgba(198,154,80,.75)}
-    .wordmark-meta{grid-column:1 / -1;grid-row:2;color:var(--muted);font:500 .43rem/1 "DM Mono",monospace;letter-spacing:.17em;text-transform:uppercase;white-space:nowrap}
-    .nav-links{display:flex;justify-content:center;align-items:center;gap:25px;font-size:.77rem;font-weight:750;color:#405168;justify-self:center;white-space:nowrap}
-    .nav-links a{position:relative}
-    .nav-links a:after{content:"";position:absolute;left:0;bottom:-7px;width:100%;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:.2s}
-    .nav-links a:hover:after{transform:scaleX(1)}
-    .header-actions{display:flex;gap:11px;align-items:center;justify-content:flex-end;justify-self:end}
-    .header-contact{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:0 13px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--navy);font-size:.67rem;font-weight:800;letter-spacing:.04em}
-    .header-contact:hover{border-color:var(--gold);color:var(--gold)}
-    .menu-btn{display:none;width:auto;min-width:58px;padding:0 11px;border:1px solid var(--line);background:#fff;color:var(--navy);min-height:38px;border-radius:999px;font-size:.64rem;font-weight:800}
-    .mobile-nav{display:none;background:var(--navy);padding:8px 20px 18px}
-    .mobile-nav.open{display:grid;gap:9px}
-    .mobile-nav a{color:#fff;border-bottom:1px solid rgba(255,255,255,.10);padding:10px 0;font-size:.85rem}
-
-    .hero{padding:24px 0 0}
-    .hero-card{position:relative;min-height:700px;overflow:hidden;border-radius:24px;color:#fff;box-shadow:var(--shadow-dark);isolation:isolate}
-    .hero-card:before{content:"";position:absolute;inset:0;z-index:-2;background:linear-gradient(90deg,rgba(4,15,29,.94) 0%,rgba(4,15,29,.68) 46%,rgba(4,15,29,.18) 77%),url("https://images.unsplash.com/photo-1527786356703-4b100091cd2c?auto=format&fit=crop&w=1900&q=88") center/cover no-repeat}
-    .hero-card:after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(circle at 78% 25%,rgba(224,200,151,.25),transparent 21%)}
-    .hero-content{min-height:700px;padding:54px 54px 44px;display:grid;grid-template-rows:1fr auto;row-gap:38px}
-    .hero-copy-block{max-width:650px}
-    .hero-content h1{max-width:700px;margin:18px 0 18px;font:800 clamp(3.9rem,5.35vw,5.8rem)/.80 "Barlow Condensed",sans-serif;letter-spacing:-.035em;text-transform:uppercase}
-    .hero-content h1 em{color:var(--gold-light);font-style:normal}
-    .hero-copy{max-width:610px;margin:0;color:#e1e9f0;font-size:.90rem;line-height:1.72}
-    .hero-actions{display:flex;gap:11px;flex-wrap:wrap;margin-top:23px}
-    .market-badges{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;width:min(100%,1030px);margin:0 auto}
-    .market-badge{min-height:105px;padding:16px 18px;border:1px solid rgba(255,255,255,.16);border-radius:15px;background:rgba(7,26,48,.78);backdrop-filter:blur(10px);display:flex;flex-direction:column;justify-content:center}
-    .market-badge span{display:block;color:var(--gold-light);font:500 .55rem/1 "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase}
-    .market-badge b{display:block;margin-top:9px;font-size:.80rem}
-    .market-badge small{display:block;margin-top:5px;color:#d6e0ea;font-size:.66rem;line-height:1.45}
-
-    .section{padding:88px 0}
-    .section.white{background:#fff}
-    .section.navy{background:var(--navy);color:#fff}
-    .section-header{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,470px);gap:26px;align-items:end;margin-bottom:28px}
-    .section-title{margin:10px 0 0;font:800 clamp(2.55rem,4.8vw,4.7rem)/.82 "Barlow Condensed",sans-serif;letter-spacing:-.035em;text-transform:uppercase}
-    .section-title em{color:var(--gold);font-style:normal}
-    .section-copy{max-width:470px;margin:0;color:var(--muted);font-size:.90rem;line-height:1.74}
-    .section.navy .section-copy{color:#c6d2df}
-    .category-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    .category-card{position:relative;min-height:300px;overflow:hidden;border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:var(--shadow);display:flex;flex-direction:column;justify-content:flex-end;padding:24px}
-    .category-card:before{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(0deg,rgba(7,26,48,.95) 0%,rgba(7,26,48,.30) 62%,rgba(7,26,48,.02)),var(--img) center/cover no-repeat;transition:.4s}
-    .category-card:hover:before{transform:scale(1.06)}
-    .category-card>*{position:relative;z-index:1}
-    .category-card span{color:var(--gold-light);font:500 .56rem/1 "DM Mono",monospace;letter-spacing:.13em;text-transform:uppercase}
-    .category-card h3{margin:12px 0 8px;color:#fff;font:800 2.5rem/.82 "Barlow Condensed",sans-serif;letter-spacing:-.025em;text-transform:uppercase}
-    .category-card p{margin:0;color:#dbe5ee;font-size:.75rem;line-height:1.65}
-    .category-card a{display:inline-flex;margin-top:16px;color:var(--gold-light);font-size:.72rem;font-weight:800}
-
-    .how-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:18px}
-    .how-card{padding:35px;border:1px solid var(--line);border-radius:23px;background:#fff;box-shadow:var(--shadow)}
-    .how-card.dark{position:relative;overflow:hidden;color:#fff;background:linear-gradient(120deg,#071a30,#143d5f)}
-    .how-card h3{margin:12px 0 13px;font:800 clamp(2.5rem,4vw,4.1rem)/.83 "Barlow Condensed",sans-serif;letter-spacing:-.03em;text-transform:uppercase}
-    .how-card p{max-width:550px;margin:0;color:var(--muted);font-size:.84rem;line-height:1.75}
-    .how-card.dark p{color:#d4dfeb}
-    .steps{display:grid;gap:12px;margin-top:25px}
-    .step{display:grid;grid-template-columns:34px 1fr;gap:13px;padding-bottom:13px;border-bottom:1px solid var(--line)}
-    .how-card.dark .step{border-color:rgba(255,255,255,.16)}
-    .step i{font:500 .67rem/1 "DM Mono",monospace;color:var(--gold);font-style:normal;padding-top:3px}
-    .step b{display:block;font-size:.78rem}
-    .step span{display:block;margin-top:4px;color:var(--muted);font-size:.71rem;line-height:1.55}
-    .how-card.dark .step span{color:#d5e0eb}
-
-    .notice{padding:26px;border:1px solid #d7c59f;border-radius:20px;background:linear-gradient(110deg,#fffaf0,#f4ead8)}
-    .notice h3{margin:12px 0 9px;font:800 2.4rem/.85 "Barlow Condensed",sans-serif;letter-spacing:-.025em;text-transform:uppercase;color:var(--navy)}
-    .notice p{max-width:790px;margin:0;color:#586577;font-size:.82rem;line-height:1.75}
-    .notice-actions{display:flex;gap:11px;flex-wrap:wrap;margin-top:18px}
-    .draft-preview{display:grid;grid-template-columns:1fr auto;align-items:center;gap:28px;margin-top:18px;padding:25px 27px;border:1px solid #d8c28e;border-radius:20px;background:linear-gradient(110deg,#fffaf0,#f3ead8)}
-    .draft-preview h3{margin:10px 0 7px;color:var(--navy);font:800 2.2rem/.86 "Barlow Condensed",sans-serif;text-transform:uppercase}
-    .draft-preview p{max-width:820px;margin:0;color:#586577;font-size:.78rem;line-height:1.65}
-    .draft-preview .button{background:var(--navy);color:#fff;white-space:nowrap}
-
-    footer{background:#071a30;color:#fff;padding:63px 0 20px}
-    .footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:36px}
-    .footer-wordmark .wordmark-main{color:#fff}
-    .footer-wordmark .wordmark-meta{color:#afbdcc}
-    .footer-copy{max-width:330px;margin:18px 0 0;color:#becbd8;font-size:.76rem;line-height:1.72}
-    .footer-heading{margin-bottom:14px;color:var(--gold-light);font:500 .57rem/1 "DM Mono",monospace;letter-spacing:.13em;text-transform:uppercase}
-    .footer-links{display:grid;gap:9px}
-    .footer-links a{color:#d7e1eb;font-size:.72rem;line-height:1.4}
-    .footer-links a:hover{color:var(--gold-light)}
-    .footer-bottom{display:flex;justify-content:space-between;gap:16px;margin-top:49px;padding-top:17px;border-top:1px solid rgba(255,255,255,.13);color:#8ea0b2;font-size:.65rem}
-
-    @media(max-width:1180px){
-      .nav-links,.desktop-only{display:none}
-      .menu-btn{display:inline-flex;align-items:center;justify-content:center}
-      .header-main{grid-template-columns:auto 1fr auto;gap:12px}
-    }
-    @media(max-width:760px){
-      body{padding-bottom:76px}
-      .container{width:min(100% - 28px,1400px)}
-      .announcement .container{justify-content:center;text-align:center}.announcement a{display:none}
-      .market-strip .container{min-height:46px;gap:8px}.market-note{display:none}.market-label{font-size:.48rem}.market-links{gap:4px}.market-links a{min-height:25px;padding:0 8px;font-size:.58rem}
-      .header-main{min-height:72px;padding:9px 0}.wordmark-main{font-size:1.92rem}.wordmark-sub{font-size:.72rem}.wordmark-meta{font-size:.36rem}
-      .hero{padding-top:14px}.hero-card,.hero-content{min-height:650px}.hero-content{padding:27px;grid-template-rows:1fr auto;row-gap:22px}.hero-content h1{font-size:3.7rem}.hero-copy{font-size:.82rem}.market-badges{grid-template-columns:1fr;gap:8px;width:100%;margin:0}.market-badge{min-height:0;padding:12px}
-      .section{padding:62px 0}.section-header{grid-template-columns:1fr;gap:13px;margin-bottom:21px}.section-title{font-size:3.2rem}.section-copy{font-size:.80rem}
-      .category-grid,.how-grid{grid-template-columns:1fr}.category-card{min-height:245px}.draft-preview{grid-template-columns:1fr;padding:22px}.draft-preview .button{width:100%}.how-card{padding:25px}.how-card h3{font-size:3rem}.footer-grid{grid-template-columns:1fr 1fr;gap:28px 18px}.footer-bottom{display:block;margin-top:35px}.footer-bottom span{display:block;margin-top:7px}
-      .mobile-uk-bar{display:flex;position:fixed;z-index:90;left:12px;right:12px;bottom:12px;min-height:54px;align-items:center;justify-content:center;border-radius:14px;background:#071a30;box-shadow:0 16px 34px rgba(7,26,48,.28)}
-      .mobile-uk-bar a{display:flex;width:100%;min-height:54px;align-items:center;justify-content:center;color:#fff;font:800 .78rem/1 Manrope,Arial,sans-serif;letter-spacing:.035em}
-      .mobile-uk-bar strong{color:#e6d1a4;margin-left:7px}
-    }
-    @media(min-width:761px){.mobile-uk-bar{display:none}}
+    :root{--navy:#071a30;--navy2:#102d4d;--gold:#c69a50;--gold2:#e6d1a4;--cream:#f7f5f1;--white:#fff;--ink:#172235;--muted:#687588;--line:#e7e1d8;--soft:#edf3f8;--shadow:0 22px 55px rgba(7,26,48,.10);--shadow-dark:0 26px 60px rgba(5,15,30,.28);--max:1400px}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:82px}body{margin:0;background:var(--cream);color:var(--ink);font-family:Manrope,Arial,sans-serif;overflow-x:hidden}a{color:inherit;text-decoration:none}.container{width:min(var(--max),calc(100% - 40px));margin:0 auto}.eyebrow{font:500 .62rem/1 "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+    .button{display:inline-flex;align-items:center;justify-content:center;min-height:45px;padding:0 18px;border:1px solid transparent;border-radius:11px;font-size:.72rem;font-weight:800;letter-spacing:.035em;transition:.22s}.button.primary{background:linear-gradient(120deg,#b98741,#dfc897);color:#fff;box-shadow:0 11px 25px rgba(0,0,0,.14)}.button.dark{background:var(--navy);color:#fff}.button.light{background:#fff;color:var(--navy);border-color:var(--line)}.button:hover{transform:translateY(-2px)}
+    .announcement{background:var(--navy);color:#dae4ef}.announcement .container{min-height:38px;display:flex;align-items:center;justify-content:space-between;gap:20px;font-size:.71rem}.announcement strong{color:var(--gold2)}.announcement a:hover{color:#fff}
+    .market-strip{background:#f1ece3;border-bottom:1px solid var(--line)}.market-strip .container{min-height:42px;display:flex;align-items:center;gap:14px}.market-label{color:var(--muted);font:500 .53rem/1 "DM Mono",monospace;letter-spacing:.13em;text-transform:uppercase}.market-links{display:flex;gap:7px;margin-left:auto}.market-links a{display:inline-flex;align-items:center;min-height:27px;padding:0 10px;border:1px solid transparent;border-radius:999px;color:#526175;font-size:.63rem;font-weight:800}.market-links a.active,.market-links a:hover{background:#fff;color:var(--navy);border-color:#d8c49e;box-shadow:0 5px 12px rgba(7,26,48,.06)}.market-note{color:var(--muted);font-size:.60rem;white-space:nowrap}
+    header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.95);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}header.scrolled{box-shadow:0 8px 28px rgba(7,26,48,.08)}.header-main{min-height:82px;display:grid;grid-template-columns:250px 1fr 250px;gap:20px;align-items:center}.brand{display:inline-flex;min-width:max-content}.wordmark{display:grid;grid-template-columns:auto auto;grid-template-rows:auto auto;column-gap:10px;row-gap:2px;position:relative;padding:2px 0 8px;line-height:1}.wordmark:after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:99px;background:linear-gradient(90deg,var(--gold) 0 27%,transparent 27% 33%,var(--gold) 33% 68%,transparent 68% 74%,var(--gold) 74% 100%)}.wordmark-main{grid-column:1;color:var(--navy);font:700 2.28rem/.66 Teko,sans-serif;letter-spacing:.10em;text-transform:uppercase;transform:skewX(-4deg)}.wordmark-sub{grid-column:2;color:var(--gold);font:800 .85rem/.9 "Barlow Condensed",sans-serif;letter-spacing:.18em;text-transform:uppercase;padding:0 0 2px 10px;border-left:1px solid rgba(198,154,80,.75)}.wordmark-meta{grid-column:1/-1;color:var(--muted);font:500 .41rem/1 "DM Mono",monospace;letter-spacing:.16em;text-transform:uppercase}.nav-links{display:flex;align-items:center;justify-content:center;gap:22px;color:#405168;font-size:.74rem;font-weight:750;white-space:nowrap}.nav-links a{position:relative}.nav-links a:after{content:"";position:absolute;left:0;bottom:-7px;width:100%;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:.2s}.nav-links a:hover:after,.nav-links a.active:after{transform:scaleX(1)}.header-actions{display:flex;justify-content:flex-end;gap:8px}.header-contact,.menu-btn{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:0 13px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--navy);font-size:.64rem;font-weight:800}.menu-btn{display:none}.mobile-nav{display:none;background:var(--navy);padding:8px 20px 18px}.mobile-nav.open{display:grid}.mobile-nav a{min-height:45px;display:flex;align-items:center;color:#fff;border-bottom:1px solid rgba(255,255,255,.10);font-size:.80rem}
+    main{background:var(--cream)}.shop-hero{padding:22px 0 56px}.hero-shell{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(380px,.92fr);min-height:510px;overflow:hidden;border-radius:28px;background:radial-gradient(circle at 78% 18%,rgba(198,154,80,.2),transparent 24%),linear-gradient(130deg,#061629,#0e3150);box-shadow:var(--shadow-dark)}.hero-copy{display:flex;flex-direction:column;justify-content:center;padding:58px;color:#fff}.hero-copy h1{max-width:760px;margin:17px 0 18px;font:800 clamp(4.5rem,7.2vw,7.4rem)/.77 "Barlow Condensed",sans-serif;letter-spacing:-.04em;text-transform:uppercase}.hero-copy h1 em{color:var(--gold2);font-style:normal}.hero-copy p{max-width:650px;margin:0;color:#d6e1ec;font-size:.92rem;line-height:1.72}.hero-actions{display:flex;flex-wrap:wrap;gap:11px;margin-top:26px}.hero-proof{display:flex;flex-wrap:wrap;gap:9px;margin-top:28px}.hero-proof span{padding:8px 11px;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:rgba(255,255,255,.055);color:#d2deea;font-size:.62rem}.hero-product{position:relative;display:grid;place-items:center;margin:28px;border-radius:22px;background:linear-gradient(145deg,#fff,#edf1f4);overflow:hidden}.hero-product:before{content:"Featured UK product";position:absolute;left:24px;top:22px;color:var(--gold);font:600 .53rem/1 "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase}.hero-product img{width:80%;height:315px;object-fit:contain;filter:drop-shadow(0 24px 24px rgba(7,26,48,.18))}.hero-product-info{position:absolute;left:24px;right:24px;bottom:22px;display:flex;justify-content:space-between;align-items:end;gap:18px;padding-top:16px;border-top:1px solid var(--line)}.hero-product-info span{display:block;color:var(--gold);font-size:.61rem;font-weight:800}.hero-product-info b{display:block;margin-top:4px;color:var(--navy);font-size:.75rem}.hero-product-info small{color:var(--muted);font:600 .50rem/1 "DM Mono",monospace;text-transform:uppercase;text-align:right}
+    .categories{margin-top:18px}.category-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.category-card{display:grid;grid-template-columns:54px 1fr auto;align-items:center;gap:17px;min-height:120px;padding:22px 24px;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:0 10px 28px rgba(7,26,48,.055);transition:.22s}.category-card:hover{transform:translateY(-4px);border-color:#d0b477;box-shadow:var(--shadow)}.category-icon{display:grid;place-items:center;width:54px;height:54px;border-radius:15px;background:var(--soft);color:var(--navy);font:800 .76rem/1 "Barlow Condensed",sans-serif}.category-card small{display:block;color:var(--gold);font:600 .50rem/1 "DM Mono",monospace;letter-spacing:.11em;text-transform:uppercase}.category-card h2{margin:7px 0 0;color:var(--navy);font:800 1.72rem/.9 "Barlow Condensed",sans-serif;text-transform:uppercase}.category-arrow{color:var(--gold);font-size:1.2rem}
+    .section{padding:72px 0}.white{background:#fff}.section-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:27px}.section-head h2{margin:9px 0 0;color:var(--navy);font:800 clamp(2.8rem,4.7vw,4.7rem)/.82 "Barlow Condensed",sans-serif;letter-spacing:-.035em;text-transform:uppercase}.section-head p{max-width:500px;margin:0;color:var(--muted);font-size:.82rem;line-height:1.7}.product-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.product-card{overflow:hidden;border:1px solid var(--line);border-radius:19px;background:#fff;box-shadow:0 10px 28px rgba(7,26,48,.055);transition:.22s}.product-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}.product-visual{position:relative;display:grid;place-items:center;height:235px;padding:29px;background:linear-gradient(145deg,#fff,#eef2f5)}.product-visual img{width:100%;height:175px;object-fit:contain;filter:drop-shadow(0 16px 16px rgba(7,26,48,.15))}.status{position:absolute;left:14px;top:14px;padding:6px 8px;border-radius:999px;background:#f1d998;color:#5b4112;font:600 .47rem/1 "DM Mono",monospace;letter-spacing:.07em;text-transform:uppercase}.status.out{background:#ead7d2;color:#71372b}.product-body{padding:18px}.product-kicker{display:flex;justify-content:space-between;gap:10px;color:var(--gold);font:600 .49rem/1.25 "DM Mono",monospace;letter-spacing:.06em;text-transform:uppercase}.product-kicker span:last-child{color:var(--muted);text-align:right}.product-card h3{min-height:49px;margin:13px 0 15px;color:var(--navy);font:800 1.58rem/.9 "Barlow Condensed",sans-serif;text-transform:uppercase}.product-footer{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-top:14px;border-top:1px solid var(--line)}.product-footer span{color:var(--muted);font:600 .46rem/1.4 "DM Mono",monospace;text-transform:uppercase}.product-footer b{color:var(--navy);font-size:.66rem;white-space:nowrap}.all-link{display:flex;justify-content:center;margin-top:26px}
+    .suppliers{padding:46px 0 72px}.supplier-shell{padding:26px;border:1px solid #ddd2bf;border-radius:22px;background:linear-gradient(122deg,#fffdf9,#f2eadb);box-shadow:var(--shadow)}.supplier-head{display:flex;justify-content:space-between;align-items:end;gap:28px;margin-bottom:20px}.supplier-head h2{margin:9px 0 0;color:var(--navy);font:800 clamp(2.3rem,4.2vw,4rem)/.84 "Barlow Condensed",sans-serif;text-transform:uppercase}.supplier-head p{max-width:480px;margin:0;color:var(--muted);font-size:.79rem;line-height:1.7}.supplier-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}.supplier-card{min-height:225px;padding:24px;border:1px solid rgba(7,26,48,.10);border-radius:17px;background:#fff;display:flex;flex-direction:column;justify-content:space-between}.supplier-card.dark{color:#fff;background:linear-gradient(135deg,#071a30,#153f61);border-color:#163a5b}.supplier-chip,.supplier-status{display:inline-flex;width:max-content;padding:7px 9px;border:1px solid rgba(198,154,80,.34);border-radius:999px;color:var(--gold);background:#fffdf9;font:500 .51rem/1 "DM Mono",monospace;letter-spacing:.09em;text-transform:uppercase}.supplier-card.dark .supplier-chip,.supplier-card.dark .supplier-status{color:var(--gold2);background:rgba(255,255,255,.07);border-color:rgba(230,209,164,.34)}.supplier-card h3{margin:14px 0 8px;font:800 2.15rem/.86 "Barlow Condensed",sans-serif;text-transform:uppercase}.supplier-card p{max-width:520px;margin:0;color:var(--muted);font-size:.75rem;line-height:1.67}.supplier-card.dark p{color:#d0dce8}.supplier-card a{margin-top:17px;color:var(--navy);font-size:.70rem;font-weight:800}.supplier-card.dark a{color:var(--gold2)}
+    .learning{background:var(--navy);color:#fff}.learning-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:55px;align-items:center}.learning-copy h2{margin:12px 0 16px;font:800 clamp(3.1rem,5vw,5.2rem)/.8 "Barlow Condensed",sans-serif;text-transform:uppercase}.learning-copy h2 em{color:var(--gold2);font-style:normal}.learning-copy p{margin:0;color:#c5d2df;font-size:.85rem;line-height:1.75}.learning-links{display:grid;gap:11px}.learning-link{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;padding:18px 20px;border:1px solid rgba(255,255,255,.13);border-radius:15px;background:rgba(255,255,255,.055)}.learning-link i{display:grid;place-items:center;width:37px;height:37px;border-radius:50%;background:rgba(230,209,164,.14);color:var(--gold2);font:500 .54rem/1 "DM Mono",monospace;font-style:normal}.learning-link b{display:block;font-size:.77rem}.learning-link span span{display:block;margin-top:4px;color:#aebdcc;font-size:.65rem;line-height:1.45}.learning-link strong{color:var(--gold2)}
+    .support{padding:28px 0 66px}.support-inner{display:flex;justify-content:space-between;align-items:center;gap:30px;padding:31px 34px;border:1px solid #dbc38b;border-radius:19px;background:linear-gradient(110deg,#fffaf0,#f1e6ce)}.support-inner h2{margin:8px 0 0;color:var(--navy);font:800 2.22rem/.88 "Barlow Condensed",sans-serif;text-transform:uppercase}.support-actions{display:flex;flex-wrap:wrap;gap:10px}
+    footer{background:#061526;color:#fff;padding:54px 0 22px}.footer-grid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:32px}.footer-wordmark .wordmark-main{color:#fff}.footer-copy{max-width:350px;margin:16px 0 0;color:#adc0d2;font-size:.75rem;line-height:1.7}.legal-note{margin-top:13px;color:#b7c8d8;font-size:.65rem;line-height:1.7}.legal-note strong{color:var(--gold2)}.footer-heading{color:var(--gold2);font:500 .59rem/1 "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;margin-bottom:15px}.footer-links{display:grid;gap:9px}.footer-links a{color:#d5e0eb;font-size:.74rem}.footer-links a:hover{color:var(--gold2)}.footer-bottom{border-top:1px solid rgba(255,255,255,.11);margin-top:38px;padding-top:17px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:#9fb1c2;font-size:.62rem}.mobile-bar{display:none}
+    @media(max-width:1100px){.header-main{grid-template-columns:auto 1fr auto}.nav-links{display:none}.menu-btn{display:inline-flex}.hero-shell{grid-template-columns:1fr 360px}.hero-copy{padding:44px}.hero-copy h1{font-size:5.35rem}.product-grid{grid-template-columns:repeat(2,1fr)}.learning-grid{grid-template-columns:1fr 1.2fr}.footer-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:820px){.hero-shell{grid-template-columns:1fr}.hero-copy{padding:40px 28px 30px}.hero-product{min-height:390px}.category-grid{grid-template-columns:1fr}.section-head,.supplier-head{display:grid}.supplier-grid,.learning-grid{grid-template-columns:1fr}.support-inner{display:grid;align-items:flex-start}.support-actions .button{width:100%}}
+    @media(max-width:760px){body{padding-bottom:74px}.container{width:calc(100% - 24px)}.announcement .container{min-height:34px;padding:6px 0;font-size:.60rem;line-height:1.35}.announcement a,.market-label,.market-note{display:none}.market-strip .container{min-height:40px}.market-links{width:100%;margin:0;justify-content:center}.header-main{min-height:64px;padding:7px 0}.wordmark-main{font-size:1.72rem}.wordmark-sub{font-size:.61rem}.wordmark-meta{font-size:.33rem}.header-contact{min-height:36px;padding:0 10px}.menu-btn{min-height:36px}.mobile-nav{position:absolute;left:0;right:0;top:100%;max-height:calc(100dvh - 64px);overflow-y:auto}.shop-hero{padding:12px 0 34px}.hero-shell{border-radius:18px}.hero-copy{padding:30px 20px 24px}.hero-copy h1{font-size:clamp(3.05rem,15vw,3.9rem);line-height:.8}.hero-copy p{font-size:.78rem;line-height:1.62}.hero-actions{display:grid}.hero-actions .button{width:100%}.hero-proof{flex-wrap:nowrap;overflow-x:auto;margin-right:-20px;padding-right:20px}.hero-proof span{flex:0 0 auto}.hero-product{min-height:275px;margin:0 12px 12px;border-radius:15px}.hero-product img{height:175px;margin-bottom:28px}.hero-product-info{left:16px;right:16px;bottom:15px;align-items:flex-start}.categories{margin-top:10px}.category-grid{gap:8px}.category-card{min-height:78px;grid-template-columns:42px minmax(0,1fr) auto;gap:12px;padding:12px 14px;border-radius:14px}.category-icon{width:42px;height:42px}.category-card h2{font-size:1.3rem}.section{padding:44px 0}.section-head{gap:12px;margin-bottom:20px}.section-head h2{font-size:2.8rem}.section-head p{font-size:.74rem}.product-grid{display:flex;gap:12px;overflow-x:auto;margin-right:-12px;padding:2px 12px 12px 1px;scroll-snap-type:x mandatory;scrollbar-width:none}.product-card{flex:0 0 min(82vw,310px);scroll-snap-align:start}.product-visual{height:205px;padding:24px}.product-visual img{height:145px}.product-card h3{min-height:0;font-size:1.45rem}.all-link .button{width:100%}.suppliers{padding:26px 0 44px}.supplier-shell{padding:18px}.supplier-head h2{font-size:2.45rem}.supplier-card{min-height:205px;padding:20px}.learning-grid{gap:28px}.learning-copy h2{font-size:3.1rem}.learning-link{grid-template-columns:34px minmax(0,1fr) auto;gap:11px;padding:14px}.support{padding:18px 0 36px}.support-inner{padding:21px 18px}.footer-grid{grid-template-columns:1fr}.mobile-bar{position:fixed;left:8px;right:8px;bottom:8px;z-index:100;display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:6px;border:1px solid rgba(7,26,48,.12);border-radius:15px;background:rgba(255,255,255,.96);box-shadow:0 14px 36px rgba(7,26,48,.24);backdrop-filter:blur(15px)}.mobile-bar a{display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:10px;background:var(--navy);color:#fff;font-size:.67rem;font-weight:800}.mobile-bar a:last-child{background:#f2e7d0;color:var(--navy)}}
+    @media(max-width:380px){.container{width:calc(100% - 20px)}.wordmark-main{font-size:1.55rem}.header-contact{display:none}.hero-copy h1{font-size:3rem}.product-card{flex-basis:86vw}.learning-link span span{display:none}}
   </style>
 </head>
 <body>
-  <div class="announcement">
-    <div class="container">
-      <span><strong>OMNI TERRAIN UK:</strong> Road, water and power gear guidance for marketplace shoppers.</span>
-      <a href="contact-and-order-help.html#request-help">Need help with a UK product? Contact support →</a>
-    </div>
-  </div>
-
-  <div class="market-strip" aria-label="Marketplace region selector">
-    <div class="container">
-      <span class="market-label">Marketplace region</span>
-      <div class="market-links">
-        <a href="index.html#markets">United States</a>
-        <a class="active" aria-current="page" href="uk.html">United Kingdom</a>
-      </div>
-      <span class="market-note">Product availability is shown by market and listing.</span>
-    </div>
-  </div>
-
-  <header id="header">
-    <div class="container header-main">
-      <a class="brand" href="index.html" aria-label="OMNI TERRAIN home">
-        <span class="wordmark">
-          <span class="wordmark-main">OMNI</span>
-          <span class="wordmark-sub">Terrain</span>
-          <span class="wordmark-meta">Road / Water / Power</span>
-        </span>
-      </a>
-      <nav class="nav-links" aria-label="Primary navigation">
-        <a href="index.html#markets">Markets</a>
-        <a href="automotive.html">Automotive</a>
-        <a href="marine.html">Marine</a>
-        <a href="rv-solar.html">RV &amp; Solar</a>
-        <a href="buyer-guides.html">Guides</a>
-        <a href="about-omni-terrain.html">About</a>
-      </nav>
-      <div class="header-actions">
-        <a class="header-contact desktop-only" href="contact-and-order-help.html#request-help">Contact Support</a>
-        <button class="menu-btn" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">Menu</button>
-      </div>
-    </div>
-    <div class="mobile-nav" id="mobileNav">
-      <a href="index.html#markets">Choose Market</a>
-      <a href="automotive.html">Automotive</a>
-      <a href="marine.html">Marine</a>
-      <a href="rv-solar.html">RV &amp; Solar</a>
-      <a href="buyer-guides.html">Buyer Guides</a>
-      <a href="contact-and-order-help.html#request-help">Contact &amp; Order Help</a>
-    </div>
-  </header>
-
-  <main>
-    <section class="hero">
-      <div class="container">
-        <article class="hero-card">
-          <div class="hero-content">
-            <div class="hero-copy-block">
-              <span class="eyebrow" style="color:var(--gold-light)">United Kingdom marketplace overview</span>
-              <h1>Gear for the<br>road. water.<br><em>power.</em></h1>
-              <p class="hero-copy">OMNI TERRAIN brings clear automotive, marine, RV and mobile-power buying guidance to the United Kingdom marketplace journey. Check each item’s UK listing for the price, delivery destination, availability and purchase terms before ordering.</p>
-              <div class="hero-actions">
-                <a class="button primary" href="#uk-categories">Explore UK categories →</a>
-                <a class="button ghost" href="contact-and-order-help.html#request-help">Request product availability →</a>
-              </div>
-            </div>
-            <div class="market-badges">
-              <div class="market-badge"><span>01 / Market</span><b>United Kingdom</b><small>UK marketplace information is shown product by product.</small></div>
-              <div class="market-badge"><span>02 / Currency</span><b>GBP on UK listings</b><small>Final price and payment terms appear in the relevant marketplace listing.</small></div>
-              <div class="market-badge"><span>03 / Support</span><b>Check before purchase</b><small>Ask for compatibility or product guidance before choosing a technical item.</small></div>
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="section white" id="uk-categories">
-      <div class="container">
-        <div class="section-header">
-          <div>
-            <span class="eyebrow">United Kingdom categories</span>
-            <h2 class="section-title">Start with the<br><em>right system.</em></h2>
-          </div>
-          <p class="section-copy">The UK overview uses the same OMNI TERRAIN category structure. Products can be browsed while unavailable, with ordering opened product by product after stock, delivery and support terms are confirmed.</p>
-        </div>
-        <div class="category-grid">
-          <article class="category-card" style="--img:url('https://images.unsplash.com/photo-1504215680853-026ed2a45def?auto=format&fit=crop&w=1000&q=84')">
-            <span>Road / Automotive</span>
-            <h3>Drive &amp; Tow</h3>
-            <p>Product guidance for automotive accessories, vehicle systems, towing and road-trip upgrades.</p>
-            <a href="automotive.html">Explore automotive guidance →</a>
-          </article>
-          <article class="category-card" style="--img:url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1000&q=84')">
-            <span>Water / Marine</span>
-            <h3>Boat &amp; Water</h3>
-            <p>Marine gear guidance for power, pumps, mounting, navigation and practical onboard equipment.</p>
-            <a href="marine.html">Explore marine guidance →</a>
-          </article>
-          <article class="category-card" style="--img:url('https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1000&q=84')">
-            <span>Power / RV &amp; Off-Grid</span>
-            <h3>Power Systems</h3>
-            <p>Clear starting points for RV solar, charging, batteries, inverters and off-grid power planning.</p>
-            <a href="rv-solar.html">Explore RV &amp; solar guidance →</a>
-          </article>
-        </div>
-        <aside class="draft-preview" aria-label="Shield Autocare product catalogue">
-          <div><span class="eyebrow">Shield Autocare / UK collection</span><h3>Shield products now available to browse</h3><p>Explore seven road and campervan products with indicative VAT-inclusive prices. Every item is clearly marked currently unavailable, and ordering remains disabled while stock, delivery and returns are confirmed.</p></div>
-          <a class="button" href="shield-autocare-uk.html">Browse Shield products →</a>
-        </aside>
-      </div>
-    </section>
-
-    <section class="section" id="how-uk-works">
-      <div class="container">
-        <div class="how-grid">
-          <article class="how-card dark">
-            <span class="eyebrow" style="color:var(--gold-light)">UK purchase journey</span>
-            <h3>Clear steps.<br>Fewer surprises.</h3>
-            <p>For technical and high-value products, the best experience begins before checkout. Use marketplace listing details and product support to confirm the product is suitable for your requirement.</p>
-            <div class="steps">
-              <div class="step"><i>01</i><div><b>Match the product</b><span>Confirm vehicle, boat, RV or system requirements before selecting an item.</span></div></div>
-              <div class="step"><i>02</i><div><b>Check the UK listing</b><span>Review the UK marketplace listing for price in GBP, availability, delivery destination and seller terms.</span></div></div>
-              <div class="step"><i>03</i><div><b>Keep the order path clear</b><span>Use the listing’s order and message flow for product-specific questions and post-purchase updates.</span></div></div>
-            </div>
-          </article>
-          <article class="how-card">
-            <span class="eyebrow">Marketplace-first availability</span>
-            <h3>What this page<br>does <em style="color:var(--gold);font-style:normal">not</em> do.</h3>
-            <p>This UK overview is not a direct checkout page. It does not make a blanket promise that every category or product is available in the UK. Listings should be added product by product once marketplace, pricing, delivery and support information is ready.</p>
-            <div class="steps">
-              <div class="step"><i>✓</i><div><b>Clear market split</b><span>UK pricing and delivery terms belong to UK listings; US terms belong to US listings.</span></div></div>
-              <div class="step"><i>✓</i><div><b>Product-specific details</b><span>Compatibility, delivery and returns information must be visible before a buyer commits.</span></div></div>
-              <div class="step"><i>✓</i><div><b>Support-led buying</b><span>Customers can request product guidance for high-ticket or technical purchases.</span></div></div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section navy">
-      <div class="container">
-        <div class="notice">
-          <span class="eyebrow">UK launch note</span>
-          <h3>Use the listing as the source of truth.</h3>
-          <p>When a UK product becomes available, its relevant marketplace listing should show the item price, current availability, delivery destination, shipping timing, return route and any product-specific conditions. This overview page remains a guide, not a checkout substitute.</p>
-          <div class="notice-actions">
-            <a class="button primary" href="contact-and-order-help.html#request-help">Request UK product availability →</a>
-            <a class="button" style="background:#071a30;color:#fff" href="index.html#markets">Explore United States market →</a>
-          </div>
-        </div>
-      </div>
-    </section>
+  <div class="announcement"><div class="container"><span><strong>OMNI TERRAIN UK:</strong> Automotive, campervan and campsite products with clear buying guidance.</span><a href="contact-and-order-help.html#request-help">UK product support →</a></div></div>
+  <div class="market-strip" aria-label="Marketplace region selector"><div class="container"><span class="market-label">Marketplace region</span><div class="market-links"><a href="index.html">United States</a><a class="active" aria-current="page" href="uk.html">United Kingdom</a></div><span class="market-note">UK prices, availability and delivery are shown by product.</span></div></div>
+  <header id="header"><div class="container header-main"><a class="brand" href="uk.html" aria-label="OMNI TERRAIN UK home"><span class="wordmark"><span class="wordmark-main">OMNI</span><span class="wordmark-sub">Terrain</span><span class="wordmark-meta">Road / Water / Power</span></span></a><nav class="nav-links" aria-label="Primary navigation"><a class="active" href="#products">Shop UK</a><a href="#categories">Categories</a><a href="shield-autocare-uk.html">Shield Range</a><a href="#suppliers">Suppliers</a><a href="buyer-guides.html">Guides</a><a href="contact-and-order-help.html#request-help">Contact</a></nav><div class="header-actions"><a class="header-contact" href="contact-and-order-help.html#request-help">Product Support</a><button class="menu-btn" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">Menu</button></div></div><nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation"><a href="uk.html">UK Store Home</a><a href="#products">Shop Shield Products</a><a href="#categories">UK Categories</a><a href="shield-autocare-uk.html">Full Shield Range</a><a href="#suppliers">UK Suppliers</a><a href="buyer-guides.html">Buyer Guides</a><a href="contact-and-order-help.html#request-help">Contact &amp; Order Help</a></nav></header>
+  <main id="top">
+    <section class="shop-hero"><div class="container"><div class="hero-shell"><div class="hero-copy"><span class="eyebrow" style="color:var(--gold2)">OMNI Terrain UK Store</span><h1>Gear for road,<br>van &amp; <em>camp.</em></h1><p>Browse a focused United Kingdom range for vehicle travel, campervan conversion and campsite use. The first supplier collection is Shield Autocare, with every product clearly labelled while ordering, stock, delivery and returns remain under confirmation.</p><div class="hero-actions"><a class="button primary" href="#products">Shop the UK range →</a><a class="button light" href="shield-autocare-uk.html">Browse Shield catalogue</a></div><div class="hero-proof"><span>7 Shield products</span><span>GBP prices include VAT</span><span>Road · Campervan · Campsite</span></div></div><a class="hero-product" href="shield-400l-roof-bag.html"><img src="assets/shield/400l-roof-bag.svg" alt="Shield Autocare 400 litre waterproof roof bag"><span class="hero-product-info"><span>Shield Autocare<b>400L Waterproof Roof Bag</b></span><small>Currently unavailable · £119.99</small></span></a></div>
+      <nav class="categories" id="categories" aria-label="Shop UK by category"><div class="category-grid"><a class="category-card" href="#products"><span class="category-icon">ROAD</span><span><small>Shop category</small><h2>Road &amp; Cargo</h2></span><span class="category-arrow">→</span></a><a class="category-card" href="#products"><span class="category-icon">VAN</span><span><small>Shop category</small><h2>Campervan &amp; Conversion</h2></span><span class="category-arrow">→</span></a><a class="category-card" href="#products"><span class="category-icon">CAMP</span><span><small>Shop category</small><h2>Campsite &amp; Travel</h2></span><span class="category-arrow">→</span></a></div></nav></div></section>
+    <section class="section white" id="products"><div class="container"><div class="section-head"><div><span class="eyebrow">Shield Autocare UK products</span><h2>Shop the current UK range.</h2></div><p>These seven product pages use the Shield catalogue information already reviewed. Prices are indicative and include UK VAT. Ordering stays disabled until stock, delivery, returns and commercial terms are confirmed.</p></div><div class="product-grid">
+      <a class="product-card" href="shield-400l-roof-bag.html"><div class="product-visual"><span class="status">Currently unavailable</span><img src="assets/shield/400l-roof-bag.svg" alt="400 litre soft-shell roof bag"></div><div class="product-body"><div class="product-kicker"><span>Shield Autocare</span><span>TR.RF.BAG.400L</span></div><h3>400L Waterproof Roof Bag</h3><div class="product-footer"><span>Road / Cargo · Indicative inc VAT</span><b>£119.99 →</b></div></div></a>
+      <a class="product-card" href="shield-transit-custom-2-roof-bars.html"><div class="product-visual"><span class="status">Currently unavailable</span><img src="assets/shield/transit-custom-2-roof-bars.svg" alt="Two roof bars for a Ford Transit Custom"></div><div class="product-body"><div class="product-kicker"><span>Shield Autocare</span><span>RF.BAR.FTC13.TWO.BAR</span></div><h3>Ford Transit Custom 2 Roof Bars</h3><div class="product-footer"><span>Road / Van · Indicative inc VAT</span><b>£114.99 →</b></div></div></a>
+      <a class="product-card" href="shield-7mm-insulation-10m.html"><div class="product-visual"><span class="status">Currently unavailable</span><img src="assets/shield/7mm-insulation-10m.svg" alt="7 millimetre campervan insulation roll"></div><div class="product-body"><div class="product-kicker"><span>Shield Autocare</span><span>7MM.INSUL.10M</span></div><h3>7mm Self-Adhesive Insulation — 10m</h3><div class="product-footer"><span>Campervan / Conversion · Indicative inc VAT</span><b>£74.99 →</b></div></div></a>
+      <a class="product-card" href="shield-jet-black-roof-vent.html"><div class="product-visual"><span class="status">Currently unavailable</span><img src="assets/shield/jet-black-roof-vent.svg" alt="Jet Black 12 volt campervan roof vent"></div><div class="product-body"><div class="product-kicker"><span>Shield Autocare</span><span>RF.JET.VENT.35x35.JETBLACK</span></div><h3>Jet Black 12V Roof Vent</h3><div class="product-footer"><span>Campervan / Ventilation · Indicative inc VAT</span><b>£79.95 →</b></div></div></a>
+      <a class="product-card" href="shield-portable-toilet-12l.html"><div class="product-visual"><span class="status">Currently unavailable</span><img src="assets/shield/portable-toilet-12l.svg" alt="Portable toilet with 12 litre holding tank"></div><div class="product-body"><div class="product-kicker"><span>Shield Autocare</span><span>PORTA.TLT.SML</span></div><h3>Portable Toilet — 12L Holding Tank</h3><div class="product-footer"><span>Campsite / Compact · Indicative inc VAT</span><b>£104.99 →</b></div></div></a>
+      <a class="product-card" href="shield-portable-toilet-20l.html"><div class="product-visual"><span class="status">Currently unavailable</span><img src="assets/shield/portable-toilet-20l.svg" alt="Portable toilet with 20 litre holding tank"></div><div class="product-body"><div class="product-kicker"><span>Shield Autocare</span><span>PORTA.TLT.LRG</span></div><h3>Portable Toilet — 20L Holding Tank</h3><div class="product-footer"><span>Campsite / Capacity · Indicative inc VAT</span><b>£114.99 →</b></div></div></a>
+      <a class="product-card" href="shield-12v-air-compressor.html"><div class="product-visual"><span class="status out">Out of stock</span><img src="assets/shield/12v-air-compressor.svg" alt="12 volt heavy-duty air compressor"></div><div class="product-body"><div class="product-kicker"><span>Shield Autocare</span><span>DC.12V.COMPR</span></div><h3>12V Heavy-Duty Air Compressor</h3><div class="product-footer"><span>Road / Tyre Care · Indicative inc VAT</span><b>£24.99 →</b></div></div></a>
+    </div><div class="all-link"><a class="button dark" href="shield-autocare-uk.html">Open the detailed Shield catalogue →</a></div></div></section>
+    <section class="suppliers" id="suppliers"><div class="container"><div class="supplier-shell"><div class="supplier-head"><div><span class="eyebrow">United Kingdom supplier lanes</span><h2>One storefront. Multiple approved ranges.</h2></div><p>The UK store is structured supplier by supplier. Products are added only when the line card, product data, commercial terms and fulfilment route are available for accurate product pages.</p></div><div class="supplier-grid"><article class="supplier-card"><div><span class="supplier-chip">Supplier 01 · Shield Autocare</span><h3>Road, campervan &amp; campsite</h3><p>Seven selected products are already available to browse with existing product pages, supplier SKUs and indicative VAT-inclusive pricing.</p><span class="supplier-status" style="margin-top:16px">Range added · Ordering controlled</span></div><a href="shield-autocare-uk.html">Browse Shield products →</a></article><article class="supplier-card dark"><div><span class="supplier-chip">Supplier 02 · LKQ UK</span><h3>Future automotive range</h3><p>LKQ products will be added after the UK line card and approved product data are available. No placeholder SKUs, specifications, prices or availability are being published.</p><span class="supplier-status" style="margin-top:16px">Line card pending</span></div><a href="mailto:procurement@omni-terrain.com?subject=LKQ%20UK%20Line%20Card%20and%20Product%20Data">Supplier data request →</a></article></div></div></div></section>
+    <section class="section learning"><div class="container learning-grid"><div class="learning-copy"><span class="eyebrow" style="color:var(--gold2)">Check before you buy</span><h2>Clear details.<br><em>Less return risk.</em></h2><p>Vehicle fitment, measurements, installation requirements and delivery conditions should be checked on the individual UK product page or marketplace listing before an order is placed.</p></div><div class="learning-links"><a class="learning-link" href="shield-transit-custom-2-roof-bars.html"><i>01</i><span><b>Vehicle fitment</b><span>Confirm the exact van configuration and product requirements.</span></span><strong>→</strong></a><a class="learning-link" href="shield-jet-black-roof-vent.html"><i>02</i><span><b>Installation details</b><span>Review cut-out, electrical and installation notes before choosing.</span></span><strong>→</strong></a><a class="learning-link" href="returns-refunds-policy.html"><i>03</i><span><b>Returns guidance</b><span>Check product-specific conditions before opening, fitting or installing.</span></span><strong>→</strong></a></div></div></section>
+    <section class="support"><div class="container"><div class="support-inner"><div><span class="eyebrow">Need UK product help?</span><h2>Talk to OMNI Terrain before you choose.</h2></div><div class="support-actions"><a class="button dark" href="contact-and-order-help.html#request-help">Contact product support →</a><a class="button light" href="index.html">Visit the US store</a></div></div></div></section>
   </main>
-
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div>
-          <a class="brand footer-wordmark" href="index.html" aria-label="OMNI TERRAIN home">
-            <span class="wordmark">
-              <span class="wordmark-main">OMNI</span>
-              <span class="wordmark-sub">Terrain</span>
-              <span class="wordmark-meta">Road / Water / Power</span>
-            </span>
-          </a>
-          <p class="footer-copy">A helpful home for automotive, marine, RV and solar gear. Built for clear marketplace journeys in the United States and United Kingdom.</p>
-        </div>
-        <div>
-          <div class="footer-heading">Markets</div>
-          <div class="footer-links">
-            <a href="index.html#markets">United States</a>
-            <a href="uk.html">United Kingdom</a>
-            <a href="automotive.html">Automotive</a>
-            <a href="marine.html">Marine</a>
-            <a href="rv-solar.html">RV &amp; Solar</a>
-          </div>
-        </div>
-        <div>
-          <div class="footer-heading">Helpful links</div>
-          <div class="footer-links">
-            <a href="buyer-guides.html">Buyer Guides</a>
-            <a href="how-it-works.html">How OMNI Helps</a>
-            <a href="shipping-delivery-policy.html">Shipping &amp; Delivery</a>
-            <a href="returns-refunds-policy.html">Returns &amp; Refunds</a>
-            <a href="privacy-policy.html">Privacy Policy</a>
-            <a href="terms-conditions.html">Terms &amp; Conditions</a>
-          </div>
-        </div>
-        <div>
-          <div class="footer-heading">Talk to us</div>
-          <div class="footer-links">
-            <a href="mailto:support@omni-terrain.com">support@omni-terrain.com</a>
-            <a href="mailto:ops@omni-terrain.com">ops@omni-terrain.com</a>
-            <a href="mailto:procurement@omni-terrain.com">procurement@omni-terrain.com</a>
-            <a href="contact-and-order-help.html#request-help">Contact &amp; order help</a>
-          </div>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>© 2026 OMNI TERRAIN. All rights reserved.</span>
-        <span>OMNI TERRAIN is operated by <strong>PRP Xpert LLC</strong>, Wyoming, USA.</span>
-      </div>
-    </div>
-  </footer>
-
-  <div class="mobile-uk-bar">
-    <a href="contact-and-order-help.html#request-help">UK product support <strong>Request help</strong></a>
-  </div>
-
-  <script>
-    const header = document.getElementById('header');
-    window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 30), {passive:true});
-    const menuToggle = document.getElementById('menuToggle');
-    const mobileNav = document.getElementById('mobileNav');
-    menuToggle.addEventListener('click', () => {
-      const open = mobileNav.classList.toggle('open');
-      menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
-    mobileNav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
-      mobileNav.classList.remove('open');
-      menuToggle.setAttribute('aria-expanded', 'false');
-    }));
-  </script>
+  <footer><div class="container"><div class="footer-grid"><div><a class="brand footer-wordmark" href="uk.html"><span class="wordmark"><span class="wordmark-main">OMNI</span><span class="wordmark-sub">Terrain</span><span class="wordmark-meta">Road / Water / Power</span></span></a><p class="footer-copy">A focused UK storefront for automotive, campervan and campsite products from approved supplier ranges.</p><p class="legal-note"><strong>UK operator:</strong> PRASAD INC LTD · Company No. 07981226 · VAT 433306133 · EORI GB433306133000</p></div><div><div class="footer-heading">UK collections</div><div class="footer-links"><a href="#products">All UK products</a><a href="shield-autocare-uk.html">Shield Autocare</a><a href="#categories">Road &amp; Cargo</a><a href="#categories">Campervan &amp; Campsite</a></div></div><div><div class="footer-heading">Helpful links</div><div class="footer-links"><a href="buyer-guides.html">Buyer Guides</a><a href="shipping-delivery-policy.html">Shipping &amp; Delivery</a><a href="returns-refunds-policy.html">Returns &amp; Refunds</a><a href="privacy-policy.html">Privacy Policy</a><a href="terms-conditions.html">Terms &amp; Conditions</a></div></div><div><div class="footer-heading">Talk to us</div><div class="footer-links"><a href="mailto:support@omni-terrain.com">support@omni-terrain.com</a><a href="mailto:ops@omni-terrain.com">ops@omni-terrain.com</a><a href="mailto:procurement@omni-terrain.com">procurement@omni-terrain.com</a><a href="contact-and-order-help.html#request-help">Contact &amp; order help</a></div></div></div><div class="footer-bottom"><span>© 2026 OMNI TERRAIN. All rights reserved.</span><span>OMNI TERRAIN UK is operated by <strong>PRASAD INC LTD</strong>, England and Wales.</span></div></div></footer>
+  <script>const header=document.getElementById('header');window.addEventListener('scroll',()=>header.classList.toggle('scrolled',window.scrollY>30),{passive:true});const menuToggle=document.getElementById('menuToggle');const mobileNav=document.getElementById('mobileNav');menuToggle.addEventListener('click',()=>{const open=mobileNav.classList.toggle('open');menuToggle.setAttribute('aria-expanded',String(open));menuToggle.setAttribute('aria-label',open?'Close menu':'Open menu')});mobileNav.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>{mobileNav.classList.remove('open');menuToggle.setAttribute('aria-expanded','false');menuToggle.setAttribute('aria-label','Open menu')}));</script>
+  <div class="mobile-bar" aria-label="UK store shortcuts"><a href="#products">Browse UK products</a><a href="contact-and-order-help.html#request-help">Product support</a></div>
 </body>
 </html>
