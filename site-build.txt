@@ -1,0 +1,3 @@
+OMNI TERRAIN deployment marker
+Build: 2026-07-23-uk-store-v2
+Purpose: Force GitHub Pages to publish the current main branch, including the ecommerce UK storefront in uk.html.
