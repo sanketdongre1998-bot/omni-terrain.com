@@ -22,6 +22,22 @@
   function removeRequestItem(id) { writeCart(readCart().filter((item)=>item.id!==id)); renderCart(); renderCheckoutItems(); }
   function escapeHtml(value) { return String(value||"").replace(/[&<>"']/g,(char)=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char])); }
 
+  function alignProductPageLanguage() {
+    if(!document.body || !document.body.dataset || !document.body.dataset.productId) return;
+    const availabilityText=document.querySelector(".availability-strip .container span:last-child");
+    if(availabilityText) availabilityText.textContent="This product is currently unavailable for immediate purchase, but it can be added to the request cart for availability, price and shipping review.";
+    const purchaseCopy=document.querySelector(".purchase-panel > p");
+    if(purchaseCopy) purchaseCopy.textContent="Add this product to the request cart. OMNI Terrain will confirm supplier availability, final price, shipping, return terms and secure payment before accepting an order.";
+    const shippingCopy=document.querySelector(".shipping-card p");
+    if(shippingCopy) shippingCopy.textContent="Shipping method, dispatch estimate, damage handling, return address and product-specific conditions are confirmed before payment. No unavailable product is charged or treated as an accepted order.";
+    const footerStatus=document.querySelector(".footer-bottom span:last-child");
+    if(footerStatus) footerStatus.textContent="US Store · Request-cart checkout active · Availability confirmed before payment";
+    document.querySelectorAll(".cart-link").forEach((link)=>{
+      const count=link.querySelector("[data-cart-count]");
+      if(count){ link.childNodes[0].nodeValue="Request Cart "; }
+    });
+  }
+
   function setupProductRequestButton() {
     const id=document.body && document.body.dataset ? document.body.dataset.productId : "";
     const product=getProduct(id); if(!product) return;
@@ -81,5 +97,5 @@
   }
 
   window.OMNI_US_CART={read:readCart,write:writeCart,clear:()=>writeCart([]),add:addRequestItem,remove:removeRequestItem};
-  updateCounts(); setupProductRequestButton(); renderCart(); renderCheckoutItems(); setupCheckout();
+  updateCounts(); alignProductPageLanguage(); setupProductRequestButton(); renderCart(); renderCheckoutItems(); setupCheckout();
 })();
