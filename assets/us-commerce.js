@@ -1,71 +1,85 @@
 (function () {
   const CART_KEY = "omniTerrainUsCart";
+  const REQUEST_KEY = "omniTerrainUsLastRequest";
   const products = Array.isArray(window.OMNI_US_PRODUCTS) ? window.OMNI_US_PRODUCTS : [];
 
   function readCart() {
-    try {
-      const parsed = JSON.parse(localStorage.getItem(CART_KEY) || "[]");
-      return Array.isArray(parsed) ? parsed : [];
-    } catch (_) {
-      return [];
-    }
+    try { const parsed = JSON.parse(localStorage.getItem(CART_KEY) || "[]"); return Array.isArray(parsed) ? parsed : []; }
+    catch (_) { return []; }
   }
-
-  function writeCart(items) {
-    localStorage.setItem(CART_KEY, JSON.stringify(items));
-    updateCounts();
-  }
-
+  function writeCart(items) { localStorage.setItem(CART_KEY, JSON.stringify(items)); updateCounts(); }
   function updateCounts() {
-    const count = readCart().reduce((total, item) => total + Math.max(0, Number(item.quantity) || 0), 0);
-    document.querySelectorAll("[data-cart-count]").forEach((node) => { node.textContent = String(count); });
+    const count = readCart().reduce((total,item)=>total + Math.max(1,Number(item.quantity)||1),0);
+    document.querySelectorAll("[data-cart-count]").forEach((node)=>{ node.textContent=String(count); });
+  }
+  function getProduct(id) { return products.find((product)=>product.id===id); }
+  function addRequestItem(id) {
+    const product=getProduct(id); if(!product) return;
+    const cart=readCart(); const existing=cart.find((item)=>item.id===id);
+    if(existing) existing.quantity=1; else cart.push({id,quantity:1});
+    writeCart(cart);
+  }
+  function removeRequestItem(id) { writeCart(readCart().filter((item)=>item.id!==id)); renderCart(); renderCheckoutItems(); }
+  function escapeHtml(value) { return String(value||"").replace(/[&<>"']/g,(char)=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char])); }
+
+  function setupProductRequestButton() {
+    const id=document.body && document.body.dataset ? document.body.dataset.productId : "";
+    const product=getProduct(id); if(!product) return;
+    const button=document.querySelector(".purchase-actions button"); if(!button) return;
+    button.disabled=false; button.removeAttribute("aria-disabled"); button.textContent="Add to Request Cart";
+    button.addEventListener("click",()=>{ addRequestItem(id); button.textContent="Added to Request Cart ✓"; setTimeout(()=>{button.textContent="Add to Request Cart";},1800); });
   }
 
   function renderCart() {
-    const root = document.getElementById("cartRoot");
-    if (!root) return;
-    const cart = readCart();
-    const usable = cart.filter((item) => products.some((product) => product.id === item.id && product.availability !== "Currently Unavailable"));
-    if (usable.length !== cart.length) writeCart(usable);
-
-    if (!usable.length) {
-      root.innerHTML = '<div class="empty-state"><b>Your cart is empty</b><p>All 50 US catalogue products are currently unavailable, so they cannot be added to cart.</p><a class="button dark" href="us-catalogue.html">Browse US catalogue</a></div>';
-      const checkoutLink = document.getElementById("checkoutLink");
-      if (checkoutLink) {
-        checkoutLink.classList.add("disabled");
-        checkoutLink.setAttribute("aria-disabled", "true");
-        checkoutLink.addEventListener("click", (event) => event.preventDefault());
-      }
+    const root=document.getElementById("cartRoot"); if(!root) return;
+    const cart=readCart().filter((item)=>getProduct(item.id));
+    if(cart.length!==readCart().length) writeCart(cart);
+    const checkoutLink=document.getElementById("checkoutLink");
+    if(!cart.length) {
+      root.innerHTML='<div class="empty-state"><b>Your request cart is empty</b><p>Open any US product page and choose “Add to Request Cart”. Products remain subject to supplier availability and final commercial confirmation.</p><a class="button dark" href="us-catalogue.html">Browse US catalogue</a></div>';
+      if(checkoutLink){checkoutLink.classList.add("disabled");checkoutLink.setAttribute("aria-disabled","true");checkoutLink.addEventListener("click",(event)=>event.preventDefault(),{once:true});}
+      return;
     }
+    if(checkoutLink){if(checkoutLink.classList&&typeof checkoutLink.classList.remove==="function") checkoutLink.classList.remove("disabled"); if(typeof checkoutLink.removeAttribute==="function") checkoutLink.removeAttribute("aria-disabled");}
+    root.innerHTML='<div class="request-list">'+cart.map((item)=>{const p=getProduct(item.id);return '<article class="request-item"><div><small>'+escapeHtml(p.brand)+' · MPN '+escapeHtml(p.mpn)+'</small><h3>'+escapeHtml(p.title)+'</h3><p>'+escapeHtml(p.category)+'</p></div><div class="request-item-actions"><span>Availability review</span><button type="button" data-remove-request="'+escapeHtml(p.id)+'">Remove</button></div></article>';}).join('')+'</div>';
+    root.querySelectorAll("[data-remove-request]").forEach((button)=>button.addEventListener("click",()=>removeRequestItem(button.dataset.removeRequest)));
+  }
+
+  function renderCheckoutItems() {
+    const root=document.getElementById("checkoutItems"); if(!root) return;
+    const cart=readCart().filter((item)=>getProduct(item.id));
+    if(!cart.length){root.innerHTML='<div class="empty-state"><b>No products selected</b><p>Add products to the request cart before submitting checkout details.</p><a class="button outline" href="us-catalogue.html">Browse products</a></div>';return;}
+    root.innerHTML='<div class="checkout-product-list">'+cart.map((item)=>{const p=getProduct(item.id);return '<div class="checkout-product"><b>'+escapeHtml(p.title)+'</b><span>'+escapeHtml(p.brand)+' · '+escapeHtml(p.mpn)+'</span></div>';}).join('')+'</div>';
   }
 
   function setupCheckout() {
-    const form = document.getElementById("checkoutForm");
-    if (!form) return;
-    const qaMode = new URLSearchParams(window.location.search).get("qa") === "1";
-    const fields = [...form.querySelectorAll("input, select, textarea, button")];
-    const qaBanner = document.getElementById("qaBanner");
-    const status = document.getElementById("checkoutStatus");
-
-    if (!qaMode) {
-      fields.forEach((field) => { field.disabled = true; });
-      return;
-    }
-
-    if (qaBanner) qaBanner.classList.add("show");
-    fields.forEach((field) => { field.disabled = false; });
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
-      if (!form.reportValidity()) return;
-      if (status) {
-        status.classList.add("show");
-        status.textContent = "QA checkout path completed locally. No order, payment or customer data was transmitted.";
-      }
+    const form=document.getElementById("checkoutForm"); if(!form) return;
+    const status=document.getElementById("checkoutStatus");
+    form.addEventListener("submit",(event)=>{
+      event.preventDefault(); if(!form.reportValidity()) return;
+      const cart=readCart().filter((item)=>getProduct(item.id));
+      if(!cart.length){if(status){status.classList.add("show");status.textContent="Add at least one product to the request cart before submitting checkout.";}return;}
+      const data=Object.fromEntries(new FormData(form).entries());
+      const reference='OT-'+new Date().toISOString().slice(0,10).replace(/-/g,'')+'-'+Math.random().toString(36).slice(2,7).toUpperCase();
+      const lines=cart.map((item,index)=>{const p=getProduct(item.id);return (index+1)+'. '+p.brand+' '+p.title+' | MPN '+p.mpn;});
+      const request={reference,createdAt:new Date().toISOString(),customer:data,items:cart};
+      localStorage.setItem(REQUEST_KEY,JSON.stringify(request));
+      const subject='OMNI Terrain order request '+reference;
+      const body=[
+        'Order request reference: '+reference,'',
+        'Customer: '+data.firstName+' '+data.lastName,
+        'Email: '+data.email,
+        'Phone: '+(data.phone||'Not supplied'),
+        'Delivery: '+data.address+', '+data.city+', '+data.state+' '+data.zip+', United States','',
+        'Products:',...lines,'',
+        'Notes: '+(data.notes||'None'),'',
+        'I understand availability, price, shipping, returns and secure payment will be confirmed before order acceptance.'
+      ].join('\n');
+      const emailUrl='mailto:procurement@omni-terrain.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+      if(status){status.classList.add("show");status.innerHTML='<b>Request '+escapeHtml(reference)+' is ready.</b><br>Your details were validated in the checkout. Use the button below to send the request to OMNI Terrain. No payment has been taken.<br><a class="button dark" style="margin-top:12px" href="'+emailUrl+'">Email order request</a>';}
     });
   }
 
-  window.OMNI_US_CART = { read: readCart, write: writeCart, clear: () => writeCart([]) };
-  updateCounts();
-  renderCart();
-  setupCheckout();
+  window.OMNI_US_CART={read:readCart,write:writeCart,clear:()=>writeCart([]),add:addRequestItem,remove:removeRequestItem};
+  updateCounts(); setupProductRequestButton(); renderCart(); renderCheckoutItems(); setupCheckout();
 })();
