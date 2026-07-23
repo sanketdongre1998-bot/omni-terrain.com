@@ -1,6 +1,8 @@
 (function () {
   const CART_KEY = "omniTerrainUsCart";
   const REQUEST_KEY = "omniTerrainUsLastRequest";
+  const US_PHONE_DISPLAY = "+1 307-533-0570";
+  const US_PHONE_LINK = "+13075330570";
   const products = Array.isArray(window.OMNI_US_PRODUCTS) ? window.OMNI_US_PRODUCTS : [];
 
   function readCart() {
@@ -21,6 +23,21 @@
   }
   function removeRequestItem(id) { writeCart(readCart().filter((item)=>item.id!==id)); renderCart(); renderCheckoutItems(); }
   function escapeHtml(value) { return String(value||"").replace(/[&<>"']/g,(char)=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char])); }
+
+  function injectUsContactNumber() {
+    document.querySelectorAll("footer .footer-links").forEach((links)=>{
+      if(links.querySelector('[data-us-phone]')) return;
+      const phone=document.createElement("a");
+      phone.href="tel:"+US_PHONE_LINK;
+      phone.dataset.usPhone="true";
+      phone.textContent=US_PHONE_DISPLAY;
+      if(links.querySelector('a[href^="mailto:"]') || links.parentElement && /Talk to us|Help/i.test(links.parentElement.textContent||"")) links.appendChild(phone);
+    });
+    const legalNotes=document.querySelectorAll(".legal-note");
+    legalNotes.forEach((note)=>{
+      if(!note.textContent.includes(US_PHONE_DISPLAY)) note.appendChild(document.createTextNode(" · "+US_PHONE_DISPLAY));
+    });
+  }
 
   function alignProductPageLanguage() {
     if(!document.body || !document.body.dataset || !document.body.dataset.productId) return;
@@ -88,7 +105,7 @@
         'Phone: '+(data.phone||'Not supplied'),
         'Delivery: '+data.address+', '+data.city+', '+data.state+' '+data.zip+', United States','',
         'Products:',...lines,'',
-        'Notes: '+(data.notes||'None'),'',
+        'Notes: '+(data.notes||'None'),'','OMNI Terrain support: '+US_PHONE_DISPLAY,
         'I understand availability, price, shipping, returns and secure payment will be confirmed before order acceptance.'
       ].join('\n');
       const emailUrl='mailto:procurement@omni-terrain.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
@@ -97,5 +114,5 @@
   }
 
   window.OMNI_US_CART={read:readCart,write:writeCart,clear:()=>writeCart([]),add:addRequestItem,remove:removeRequestItem};
-  updateCounts(); alignProductPageLanguage(); setupProductRequestButton(); renderCart(); renderCheckoutItems(); setupCheckout();
+  updateCounts(); injectUsContactNumber(); alignProductPageLanguage(); setupProductRequestButton(); renderCart(); renderCheckoutItems(); setupCheckout();
 })();
