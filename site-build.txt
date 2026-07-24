@@ -1,3 +1,5 @@
 OMNI TERRAIN deployment marker
-Build: 2026-07-24-lkq-us-phase2-phone-final
-Purpose: Force GitHub Pages to publish the current main branch, including the 50-product US catalogue, request cart, manual-review checkout, live US policies and final US support number +1 307-533-0570. Manual deployment trigger: 24 July 2026
+Build: 2026-07-24-lkq-us-final-validated
+Purpose: Publish the fully validated LKQ application storefront from main, including the final US homepage, 50 statically finalized product pages, request-cart quantity controls, guest checkout, live policies, contact workflow and US support number +1 307-533-0570.
+Validation: 50 unique product records, required pages, internal links and stale pre-launch language checks passed.
+Final deployment trigger: 24 July 2026.
