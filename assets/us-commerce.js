@@ -105,6 +105,28 @@
     });
   }
 
+  function injectGuestCheckoutNotice() {
+    const commerceShell = document.querySelector(".commerce-shell");
+    if (commerceShell && !commerceShell.querySelector("[data-guest-checkout-note]")) {
+      const notice = document.createElement("div");
+      notice.dataset.guestCheckoutNote = "true";
+      notice.setAttribute("role", "note");
+      notice.style.cssText = "display:inline-flex;flex-wrap:wrap;gap:6px;margin-top:16px;padding:9px 12px;border:1px solid rgba(230,209,164,.35);border-radius:999px;background:rgba(255,255,255,.08);color:#eef4fa;font-size:.67rem;line-height:1.45";
+      notice.innerHTML = "<strong>Guest checkout</strong><span>— no account or login required.</span>";
+      commerceShell.appendChild(notice);
+    }
+
+    const checkoutForm = document.getElementById("checkoutForm");
+    if (checkoutForm && !document.querySelector("[data-checkout-account-note]")) {
+      const formNotice = document.createElement("div");
+      formNotice.dataset.checkoutAccountNote = "true";
+      formNotice.setAttribute("role", "note");
+      formNotice.style.cssText = "margin:0 0 18px;padding:13px 15px;border:1px solid #e4d1a9;border-radius:12px;background:#fff8e9;color:#59491f;font-size:.72rem;line-height:1.6";
+      formNotice.innerHTML = "<strong>No account required.</strong> Continue as a guest using your email and delivery address. OMNI Terrain will use these details only to review this product request and confirm the next secure step.";
+      checkoutForm.parentNode.insertBefore(formNotice, checkoutForm);
+    }
+  }
+
   function alignProductPageLanguage() {
     if (!document.body || !document.body.dataset || !document.body.dataset.productId) return;
 
@@ -253,6 +275,7 @@
       const body = [
         "Order request reference: " + reference,
         "",
+        "Checkout type: Guest checkout — no account required",
         "Customer: " + data.firstName + " " + data.lastName,
         "Email: " + data.email,
         "Phone: " + (data.phone || "Not supplied"),
@@ -270,7 +293,7 @@
       const emailUrl = "mailto:procurement@omni-terrain.com?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
       if (status) {
         status.classList.add("show");
-        status.innerHTML = '<b>Request ' + escapeHtml(reference) + ' is ready.</b><br>Your details were validated in the checkout. Use the button below to send the request to OMNI Terrain. No payment has been taken.<br><a class="button dark" style="margin-top:12px" href="' + emailUrl + '">Email order request</a>';
+        status.innerHTML = '<b>Guest request ' + escapeHtml(reference) + ' is ready.</b><br>Your details were validated in the checkout. Use the button below to send the request to OMNI Terrain. No account was created and no payment has been taken.<br><a class="button dark" style="margin-top:12px" href="' + emailUrl + '">Email order request</a>';
       }
     });
   }
@@ -286,6 +309,7 @@
 
   updateCounts();
   injectUsContactNumber();
+  injectGuestCheckoutNotice();
   alignProductPageLanguage();
   setupProductRequestButton();
   renderCart();
