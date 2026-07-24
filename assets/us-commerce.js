@@ -1,4 +1,6 @@
 (function () {
+  "use strict";
+
   const CART_KEY = "omniTerrainUsCart";
   const REQUEST_KEY = "omniTerrainUsLastRequest";
   const US_PHONE_DISPLAY = "+1 307-533-0570";
@@ -39,40 +41,6 @@
     return products.find((product) => product.id === id);
   }
 
-  function addRequestItem(id) {
-    const product = getProduct(id);
-    if (!product) return 0;
-
-    const cart = readCart();
-    const existing = cart.find((item) => item.id === id);
-
-    if (existing) {
-      existing.quantity = Math.min(MAX_QUANTITY, normaliseQuantity(existing.quantity) + 1);
-    } else {
-      cart.push({ id, quantity: 1 });
-    }
-
-    writeCart(cart);
-    return existing ? existing.quantity : 1;
-  }
-
-  function changeRequestQuantity(id, delta) {
-    const cart = readCart();
-    const item = cart.find((entry) => entry.id === id);
-    if (!item) return;
-
-    item.quantity = Math.min(MAX_QUANTITY, Math.max(1, normaliseQuantity(item.quantity) + delta));
-    writeCart(cart);
-    renderCart();
-    renderCheckoutItems();
-  }
-
-  function removeRequestItem(id) {
-    writeCart(readCart().filter((item) => item.id !== id));
-    renderCart();
-    renderCheckoutItems();
-  }
-
   function escapeHtml(value) {
     return String(value || "").replace(/[&<>"']/g, (char) => ({
       "&": "&amp;",
@@ -83,19 +51,31 @@
     }[char]));
   }
 
+  function setMeta(name, content) {
+    const meta = document.querySelector('meta[name="' + name + '"]');
+    if (meta) meta.setAttribute("content", content);
+  }
+
+  function setCartLinkLabels() {
+    document.querySelectorAll(".cart-link").forEach((link) => {
+      const count = link.querySelector("[data-cart-count]");
+      if (count && link.childNodes.length) link.childNodes[0].nodeValue = "Request Cart ";
+    });
+    document.querySelectorAll('.mobile-nav a[href="cart.html"]').forEach((link) => {
+      link.textContent = "Request Cart";
+    });
+  }
+
   function injectUsContactNumber() {
     document.querySelectorAll("footer .footer-links").forEach((links) => {
       if (links.querySelector("[data-us-phone]")) return;
+      const heading = links.parentElement ? links.parentElement.textContent || "" : "";
+      if (!links.querySelector('a[href^="mailto:"]') && !/Talk to us|Help|Support/i.test(heading)) return;
       const phone = document.createElement("a");
       phone.href = "tel:" + US_PHONE_LINK;
       phone.dataset.usPhone = "true";
       phone.textContent = US_PHONE_DISPLAY;
-      if (
-        links.querySelector('a[href^="mailto:"]') ||
-        (links.parentElement && /Talk to us|Help/i.test(links.parentElement.textContent || ""))
-      ) {
-        links.appendChild(phone);
-      }
+      links.appendChild(phone);
     });
 
     document.querySelectorAll(".legal-note").forEach((note) => {
@@ -122,38 +102,114 @@
       formNotice.dataset.checkoutAccountNote = "true";
       formNotice.setAttribute("role", "note");
       formNotice.style.cssText = "margin:0 0 18px;padding:13px 15px;border:1px solid #e4d1a9;border-radius:12px;background:#fff8e9;color:#59491f;font-size:.72rem;line-height:1.6";
-      formNotice.innerHTML = "<strong>No account required.</strong> Continue as a guest using your email and delivery address. OMNI Terrain will use these details only to review this product request and confirm the next secure step.";
+      formNotice.innerHTML = "<strong>No account required.</strong> Continue as a guest using your email and delivery address. These details are used to review the selected products and confirm the next secure step.";
       checkoutForm.parentNode.insertBefore(formNotice, checkoutForm);
     }
+  }
+
+  function alignCatalogueLanguage() {
+    if (!document.querySelector(".store-catalogue")) return;
+
+    setMeta("robots", "index,follow");
+    setMeta("description", "Browse 50 automotive, towing, RV, overlanding and marine product records from established brands. Add products to the OMNI Terrain request cart for availability, pricing and shipping review.");
+
+    const statusChip = document.querySelector(".availability-strip .status-chip");
+    const availabilityText = document.querySelector(".availability-strip .container span:last-child");
+    if (statusChip) statusChip.textContent = "Request checkout available";
+    if (availabilityText) availabilityText.textContent = "Products can be added to the request cart. Availability, price, shipping and return terms are confirmed before payment.";
+
+    const introSummary = document.querySelector(".store-intro-summary p");
+    if (introSummary) introSummary.textContent = "Product records are available for review now. Final availability, price and shipping are confirmed before an order is accepted.";
+
+    const productsHeading = document.querySelector(".store-products-heading p");
+    if (productsHeading) productsHeading.textContent = "Use the category filters to narrow the range. Each page includes the manufacturer part number, specifications, fitment notes and an availability-review request option.";
+
+    const footerStatus = document.querySelector(".footer-bottom span:last-child");
+    if (footerStatus) footerStatus.textContent = "US Store · Guest request checkout active · No payment before confirmation";
+
+    setCartLinkLabels();
   }
 
   function alignProductPageLanguage() {
     if (!document.body || !document.body.dataset || !document.body.dataset.productId) return;
 
-    const availabilityText = document.querySelector(".availability-strip .container span:last-child");
-    if (availabilityText) {
-      availabilityText.textContent = "This product is currently unavailable for immediate purchase, but it can be added to the request cart for availability, price and shipping review.";
+    const product = getProduct(document.body.dataset.productId);
+    setMeta("robots", "index,follow");
+    if (product) {
+      setMeta("description", product.brand + " " + product.title + ", MPN " + product.mpn + ". Review specifications and submit an availability, price and shipping request through OMNI Terrain.");
     }
 
-    const purchaseCopy = document.querySelector(".purchase-panel > p");
-    if (purchaseCopy) {
-      purchaseCopy.textContent = "Add this product to the request cart. OMNI Terrain will confirm supplier availability, final price, shipping, return terms and secure payment before accepting an order.";
+    const statusChip = document.querySelector(".availability-strip .status-chip");
+    const availabilityText = document.querySelector(".availability-strip .container span:last-child");
+    if (statusChip) statusChip.textContent = "Availability review";
+    if (availabilityText) availabilityText.textContent = "This product is not available for immediate purchase, but it can be added to the request cart for availability, price and shipping review.";
+
+    const visualCaption = document.querySelector(".visual-caption");
+    if (visualCaption) {
+      const captionText = visualCaption.querySelector("span");
+      const captionStrong = visualCaption.querySelector("b");
+      if (captionText) captionText.textContent = "Manufacturer reference image";
+      if (captionStrong) captionStrong.textContent = "Confirm the supplied item by brand and MPN";
     }
+
+    const purchaseLabel = document.querySelector(".purchase-label");
+    const purchaseTitle = document.querySelector(".purchase-panel h2");
+    const priceText = document.querySelector(".price-withheld");
+    const purchaseCopy = document.querySelector(".purchase-panel > p");
+    if (purchaseLabel) purchaseLabel.textContent = "Request status";
+    if (purchaseTitle) purchaseTitle.textContent = "Confirmation Required";
+    if (priceText) priceText.textContent = "Price confirmed after review";
+    if (purchaseCopy) purchaseCopy.textContent = "Add this product to the request cart. OMNI Terrain will confirm supplier availability, final price, shipping, return terms and secure payment before accepting an order.";
 
     const shippingCopy = document.querySelector(".shipping-card p");
-    if (shippingCopy) {
-      shippingCopy.textContent = "Shipping method, dispatch estimate, damage handling, return address and product-specific conditions are confirmed before payment. No unavailable product is charged or treated as an accepted order.";
-    }
+    if (shippingCopy) shippingCopy.textContent = "Shipping method, dispatch estimate, damage handling, return address and product-specific conditions are confirmed before payment. No unavailable product is charged or treated as an accepted order.";
 
     const footerStatus = document.querySelector(".footer-bottom span:last-child");
-    if (footerStatus) {
-      footerStatus.textContent = "US Store · Request-cart checkout active · Availability confirmed before payment";
-    }
+    if (footerStatus) footerStatus.textContent = "US Store · Request-cart checkout active · Availability confirmed before payment";
 
-    document.querySelectorAll(".cart-link").forEach((link) => {
-      const count = link.querySelector("[data-cart-count]");
-      if (count) link.childNodes[0].nodeValue = "Request Cart ";
+    document.querySelectorAll('.mobile-store-bar a[href="cart.html"]').forEach((link) => {
+      link.textContent = "Request cart";
     });
+    setCartLinkLabels();
+  }
+
+  function alignCartAndCheckoutLanguage() {
+    if (document.getElementById("cartRoot") || document.getElementById("checkoutForm")) {
+      setCartLinkLabels();
+      const footerStatus = document.querySelector(".footer-bottom span:last-child");
+      if (footerStatus) footerStatus.textContent = "US Store · Guest request checkout · No payment before confirmation";
+    }
+  }
+
+  function addRequestItem(id) {
+    const product = getProduct(id);
+    if (!product) return 0;
+
+    const cart = readCart();
+    const existing = cart.find((item) => item.id === id);
+    if (existing) {
+      existing.quantity = Math.min(MAX_QUANTITY, normaliseQuantity(existing.quantity) + 1);
+    } else {
+      cart.push({ id, quantity: 1 });
+    }
+    writeCart(cart);
+    return existing ? existing.quantity : 1;
+  }
+
+  function changeRequestQuantity(id, delta) {
+    const cart = readCart();
+    const item = cart.find((entry) => entry.id === id);
+    if (!item) return;
+    item.quantity = Math.min(MAX_QUANTITY, Math.max(1, normaliseQuantity(item.quantity) + delta));
+    writeCart(cart);
+    renderCart();
+    renderCheckoutItems();
+  }
+
+  function removeRequestItem(id) {
+    writeCart(readCart().filter((item) => item.id !== id));
+    renderCart();
+    renderCheckoutItems();
   }
 
   function setupProductRequestButton() {
@@ -163,7 +219,6 @@
 
     const button = document.querySelector(".purchase-actions button");
     if (!button) return;
-
     button.disabled = false;
     button.removeAttribute("aria-disabled");
     button.textContent = "Add to Request Cart";
@@ -186,7 +241,6 @@
     if (cart.length !== originalCart.length) writeCart(cart);
 
     const checkoutLink = document.getElementById("checkoutLink");
-
     if (!cart.length) {
       root.innerHTML = '<div class="empty-state"><b>Your request cart is empty</b><p>Open any US product page and choose “Add to Request Cart”. Products remain subject to supplier availability and final commercial confirmation.</p><a class="button dark" href="us-catalogue.html">Browse US catalogue</a></div>';
       if (checkoutLink) {
@@ -239,7 +293,7 @@
 
     root.innerHTML = '<div class="checkout-product-list">' + cart.map((item) => {
       const product = getProduct(item.id);
-      return '<div class="checkout-product"><b>' + escapeHtml(product.title) + '</b><span>' + escapeHtml(product.brand) + ' · ' + escapeHtml(product.mpn) + ' · Qty ' + normaliseQuantity(item.quantity) + '</span></div>';
+      return '<div class="checkout-product"><b>' + escapeHtml(product.title) + '</b><span>' + escapeHtml(product.brand) + ' · MPN ' + escapeHtml(product.mpn) + ' · Qty ' + normaliseQuantity(item.quantity) + '</span></div>';
     }).join("") + "</div>";
   }
 
@@ -293,7 +347,7 @@
       const emailUrl = "mailto:procurement@omni-terrain.com?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
       if (status) {
         status.classList.add("show");
-        status.innerHTML = '<b>Guest request ' + escapeHtml(reference) + ' is ready.</b><br>Your details were validated in the checkout. Use the button below to send the request to OMNI Terrain. No account was created and no payment has been taken.<br><a class="button dark" style="margin-top:12px" href="' + emailUrl + '">Email order request</a>';
+        status.innerHTML = '<b>Guest request ' + escapeHtml(reference) + ' is ready.</b><br>Your details were validated. Use the button below to send the request to OMNI Terrain. No account was created and no payment has been taken.<br><a class="button dark" style="margin-top:12px" href="' + emailUrl + '">Email order request</a>';
       }
     });
   }
@@ -310,7 +364,9 @@
   updateCounts();
   injectUsContactNumber();
   injectGuestCheckoutNotice();
+  alignCatalogueLanguage();
   alignProductPageLanguage();
+  alignCartAndCheckoutLanguage();
   setupProductRequestButton();
   renderCart();
   renderCheckoutItems();
