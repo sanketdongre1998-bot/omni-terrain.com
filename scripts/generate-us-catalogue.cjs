@@ -5,6 +5,8 @@ const imageRecords = require("../US-PRODUCT-IMAGE-SOURCES.json");
 
 const root = path.resolve(__dirname, "..");
 const imageByProductId = new Map(imageRecords.map((record) => [record.id, record]));
+const site = "https://omni-terrain.com";
+const lastModified = "2026-07-28";
 
 function esc(value) {
   return String(value)
@@ -14,16 +16,47 @@ function esc(value) {
     .replaceAll('"', "&quot;");
 }
 
-function head(title, description) {
-  return `<!doctype html><html lang="en-US"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="${esc(description)}"><meta name="theme-color" content="#071a30"><meta name="robots" content="noindex,nofollow"><title>${esc(title)} | OMNI TERRAIN</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&amp;family=DM+Mono:wght@400;500&amp;family=Manrope:wght@400;500;600;700;800&amp;family=Teko:wght@500;600;700&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/us-catalogue.css"></head>`;
+function jsonLd(value) {
+  return `<script type="application/ld+json">${JSON.stringify(value).replaceAll("<", "\\u003c")}</script>`;
+}
+
+function absolute(url) {
+  return url.startsWith("http") ? url : `${site}/${url}`;
+}
+
+function head({ title, description, canonical, image, schema = [] }) {
+  const imageUrl = absolute(image || "assets/omni-terrain-emblem.webp");
+  return `<!doctype html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="${esc(description)}">
+  <meta name="theme-color" content="#071a30">
+  <meta name="robots" content="index,follow">
+  <title>${esc(title)}</title>
+  <link rel="canonical" href="${esc(canonical)}">
+  <meta property="og:site_name" content="OMNI TERRAIN">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="${esc(title)}">
+  <meta property="og:description" content="${esc(description)}">
+  <meta property="og:url" content="${esc(canonical)}">
+  <meta property="og:image" content="${esc(imageUrl)}">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&amp;family=DM+Mono:wght@400;500&amp;family=Manrope:wght@400;500;600;700;800&amp;family=Teko:wght@500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/us-catalogue.css">
+  ${schema.map(jsonLd).join("\n  ")}
+</head>`;
 }
 
 function header() {
-  return `<div class="announcement"><div class="container"><span><strong>OMNI TERRAIN US STORE:</strong> Automotive, RV and marine products.</span><a href="contact-and-order-help.html#request-help">Product support →</a></div></div><div class="market-strip"><div class="container"><span class="market-label">Store region</span><a class="market-link" href="index.html">United States</a><span class="market-note">50 products across road, camp and water.</span></div></div><header id="header"><div class="container header-main"><a class="brand" href="index.html" aria-label="OMNI TERRAIN home"><span class="wordmark"><span class="wordmark-main">OMNI</span><span class="wordmark-sub">Terrain</span><span class="wordmark-meta">Road / Water / Power</span></span></a><nav class="nav-links" aria-label="US store navigation"><a class="active" href="us-catalogue.html">Shop All</a><a href="us-catalogue.html#automotive">Automotive &amp; Towing</a><a href="us-catalogue.html#rv">RV &amp; Overlanding</a><a href="us-catalogue.html#marine">Marine</a><a href="buyer-guides.html">Guides</a></nav><div class="header-actions"><a class="cart-link" href="cart.html">Cart <span class="cart-count" data-cart-count>0</span></a><button class="menu-btn" id="menuToggle" aria-expanded="false" aria-controls="mobileNav">Menu</button></div></div><nav class="mobile-nav" id="mobileNav" aria-label="US store mobile navigation"><a href="us-catalogue.html">Shop All Products</a><a href="us-catalogue.html#automotive">Automotive &amp; Towing</a><a href="us-catalogue.html#rv">RV &amp; Overlanding</a><a href="us-catalogue.html#marine">Marine</a><a href="buyer-guides.html">Buyer Guides</a><a href="cart.html">Cart</a><a href="checkout.html">Checkout</a><a href="contact-and-order-help.html#request-help">Contact</a></nav></header><div class="availability-strip"><div class="container"><span class="status-chip">Currently unavailable</span><span>US product availability is currently being finalised. Orders are not being accepted for unavailable items.</span></div></div>`;
+  return `<div class="announcement"><div class="container"><span><strong>OMNI TERRAIN US STORE:</strong> Automotive, RV and marine products.</span><a href="contact-and-order-help.html#request-help">Product support →</a></div></div><div class="market-strip"><div class="container"><span class="market-label">Store region</span><a class="market-link" href="index.html">United States</a><a href="uk.html">United Kingdom</a><span class="market-note">50 products across road, camp and water.</span></div></div><header id="header"><div class="container header-main"><a class="brand" href="index.html" aria-label="OMNI TERRAIN home"><span class="wordmark"><span class="wordmark-main">OMNI</span><span class="wordmark-sub">Terrain</span><span class="wordmark-meta">Road / Water / Power</span></span></a><nav class="nav-links" aria-label="US store navigation"><a class="active" href="us-catalogue.html">Shop All</a><a href="us-catalogue.html#automotive">Automotive &amp; Towing</a><a href="us-catalogue.html#rv">RV &amp; Overlanding</a><a href="us-catalogue.html#marine">Marine</a><a href="buyer-guides.html">Guides</a></nav><div class="header-actions"><a class="cart-link" href="cart.html">Request Cart <span class="cart-count" data-cart-count>0</span></a><button class="menu-btn" id="menuToggle" aria-expanded="false" aria-controls="mobileNav">Menu</button></div></div><nav class="mobile-nav" id="mobileNav" aria-label="US store mobile navigation"><a href="us-catalogue.html">Shop All Products</a><a href="us-catalogue.html#automotive">Automotive &amp; Towing</a><a href="us-catalogue.html#rv">RV &amp; Overlanding</a><a href="us-catalogue.html#marine">Marine</a><a href="buyer-guides.html">Buyer Guides</a><a href="cart.html">Request Cart</a><a href="checkout.html">Checkout</a><a href="contact-and-order-help.html#request-help">Contact</a><a href="uk.html">United Kingdom</a></nav></header><div class="availability-strip"><div class="container"><span class="status-chip">Availability review</span><span>Products can be added to the request cart. Availability, price, shipping and return terms are confirmed before payment.</span></div></div>`;
 }
 
 function footer() {
-  return `<footer><div class="container"><div class="footer-grid"><div><a class="brand footer-wordmark" href="index.html"><span class="wordmark"><span class="wordmark-main">OMNI</span><span class="wordmark-sub">Terrain</span><span class="wordmark-meta">Road / Water / Power</span></span></a><p class="footer-copy">Automotive, towing, RV, overlanding, marine and 12V products supported by clear buying guidance.</p></div><div><div class="footer-heading">Shop US</div><div class="footer-links"><a href="us-catalogue.html">All Products</a><a href="us-catalogue.html#automotive">Automotive &amp; Towing</a><a href="us-catalogue.html#rv">RV &amp; Overlanding</a><a href="us-catalogue.html#marine">Marine</a></div></div><div><div class="footer-heading">Help &amp; checkout</div><div class="footer-links"><a href="buyer-guides.html">Buyer Guides</a><a href="contact-and-order-help.html#request-help">Product Support</a><a href="cart.html">Cart</a><a href="checkout.html">Checkout</a></div></div><div><div class="footer-heading">Policies</div><div class="footer-links"><a href="shipping-delivery-policy.html">Shipping</a><a href="returns-refunds-policy.html">Returns</a><a href="privacy-policy.html">Privacy</a><a href="terms-conditions.html">Terms</a></div></div></div><div class="footer-bottom"><span>© 2026 OMNI TERRAIN. All rights reserved.</span><span>US Store · Prices pending · Ordering disabled</span></div></div></footer><div class="mobile-store-bar" aria-label="Mobile store shortcuts"><a href="us-catalogue.html">Shop products</a><a href="cart.html">View cart</a></div><script src="assets/us-products.js"></script><script src="assets/us-commerce.js"></script><script src="assets/us-catalogue.js"></script>`;
+  return `<footer><div class="container"><div class="footer-grid"><div><a class="brand footer-wordmark" href="index.html"><span class="wordmark"><span class="wordmark-main">OMNI</span><span class="wordmark-sub">Terrain</span><span class="wordmark-meta">Road / Water / Power</span></span></a><p class="footer-copy">Automotive, towing, RV, overlanding, marine and 12V products supported by clear buying guidance.</p><p class="legal-note"><strong>US website operator:</strong> PRP XPERT LLC · Wyoming ID 2025-001733558 · 30 N Gould St Ste R, Sheridan, WY 82801 · +1 307-533-0570</p></div><div><div class="footer-heading">Shop US</div><div class="footer-links"><a href="us-catalogue.html">All Products</a><a href="us-catalogue.html#automotive">Automotive &amp; Towing</a><a href="us-catalogue.html#rv">RV &amp; Overlanding</a><a href="us-catalogue.html#marine">Marine</a></div></div><div><div class="footer-heading">Help &amp; checkout</div><div class="footer-links"><a href="buyer-guides.html">Buyer Guides</a><a href="contact-and-order-help.html#request-help">Product Support</a><a href="cart.html">Request Cart</a><a href="checkout.html">Checkout</a></div></div><div><div class="footer-heading">Policies</div><div class="footer-links"><a href="shipping-delivery-policy.html">Shipping</a><a href="returns-refunds-policy.html">Returns</a><a href="privacy-policy.html">Privacy</a><a href="terms-conditions.html">Terms</a></div></div></div><div class="footer-bottom"><span>© 2026 OMNI TERRAIN. All rights reserved.</span><span>US Store · Request-cart checkout active · Availability confirmed before payment</span></div></div></footer><div class="mobile-store-bar" aria-label="Mobile store shortcuts"><a href="us-catalogue.html">Shop products</a><a href="cart.html">Request cart</a></div><script src="assets/us-products.js"></script><script src="assets/us-commerce.js"></script><script src="assets/us-catalogue.js"></script>`;
 }
 
 function segmentLabel(segment) {
@@ -62,6 +95,57 @@ function card(product, index) {
   return `<article class="product-card" data-us-segment="${esc(product.segment)}"><a class="product-media" href="${esc(product.slug)}">${productVisual(product)}</a><div class="product-body"><div class="product-kicker"><b>${esc(product.brand)}</b><span>${String(index + 1).padStart(2, "0")} / 50</span></div><h3>${esc(product.title)}</h3><p>${esc(product.description)}</p><div class="product-record"><span>${esc(shortCategory)}</span><strong>MPN ${esc(product.mpn)}</strong></div><div class="product-card-footer"><span class="no-price">Price pending</span><a class="card-link" href="${esc(product.slug)}">View product →</a></div></div></article>`;
 }
 
+function catalogueSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "OMNI Terrain US Automotive, RV & Marine Catalogue",
+    description: "A 50-product US catalogue covering automotive, towing, RV, overlanding and marine applications.",
+    url: `${site}/us-catalogue.html`,
+    dateModified: lastModified,
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: products.length,
+      itemListElement: products.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: `${product.brand} ${product.title}`,
+        url: `${site}/${product.slug}`
+      }))
+    }
+  };
+}
+
+function productSchema(product) {
+  const imageRecord = directImageRecord(product);
+  return {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.title,
+    description: product.description,
+    brand: { "@type": "Brand", name: product.brand },
+    mpn: product.mpn,
+    sku: product.mpn,
+    category: product.category,
+    image: imageRecord ? imageRecord.imageUrl : `${site}/assets/omni-terrain-emblem.webp`,
+    url: `${site}/${product.slug}`,
+    itemCondition: "https://schema.org/NewCondition"
+  };
+}
+
+function breadcrumbSchema(product) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "OMNI Terrain US", item: `${site}/` },
+      { "@type": "ListItem", position: 2, name: "US Catalogue", item: `${site}/us-catalogue.html` },
+      { "@type": "ListItem", position: 3, name: segmentLabel(product.segment), item: `${site}/us-catalogue.html#${product.segment}` },
+      { "@type": "ListItem", position: 4, name: product.title, item: `${site}/${product.slug}` }
+    ]
+  };
+}
+
 function cataloguePage() {
   const counts = Object.fromEntries(["automotive", "rv", "marine"].map((segment) => [segment, products.filter((product) => product.segment === segment).length]));
   const brands = [...new Set(products.map((product) => product.brand))];
@@ -71,7 +155,13 @@ function cataloguePage() {
     ["marine", "Marine", counts.marine, "Electrical, pumps, charging and navigation"]
   ].map(([segment, title, count, copy]) => `<a class="store-category-link category-${segment}" href="us-catalogue.html#${segment}"><div class="store-category-art">${categoryArt(segment)}</div><div><span>${count} products</span><h2>${esc(title)}</h2><p>${esc(copy)}</p></div><b aria-hidden="true">→</b></a>`).join("");
 
-  return `${head("US Automotive, RV & Marine Catalogue", "Browse 50 genuine US automotive, towing, RV, overlanding and marine products. All items are currently unavailable and have no displayed price.")}<body>${header()}<main class="store-catalogue"><section class="store-catalogue-intro"><div class="container"><div class="store-intro-grid"><div class="store-intro-copy"><span class="eyebrow">OMNI Terrain US Store</span><h1>Automotive, RV<br><em>&amp; marine products.</em></h1><p>Browse genuine products selected for universal or low-fitment applications across road, camp and water. Clear specifications and buying guidance help you compare without the clutter.</p><div class="store-intro-actions"><a class="button primary" href="#products">Shop all 50 products →</a><a class="button outline" href="buyer-guides.html">Read buyer guides</a></div></div><aside class="store-intro-summary"><span>Catalogue at a glance</span><div><strong>50</strong><small>products</small></div><div><strong>${brands.length}</strong><small>brands</small></div><div><strong>3</strong><small>categories</small></div><p>Prices and ordering remain unavailable until commercial details are confirmed.</p></aside></div><nav class="store-category-nav" aria-label="Shop by category">${categories}</nav></div></section><section class="section white storefront-products" id="products"><div class="container"><div class="store-products-heading"><div><span class="eyebrow">Shop US products</span><h2>All products</h2></div><p>Use the category filters to narrow the range. Every product page includes its manufacturer part number, specifications and fitment status.</p></div><div class="catalogue-toolbar"><div class="filter-row" aria-label="Catalogue filters"><button class="filter-button" data-us-filter="all" aria-pressed="true">All 50</button><button class="filter-button" id="automotive" data-us-filter="automotive" aria-pressed="false">Automotive &amp; Towing · 20</button><button class="filter-button" id="rv" data-us-filter="rv" aria-pressed="false">RV &amp; Overlanding · 15</button><button class="filter-button" id="marine" data-us-filter="marine" aria-pressed="false">Marine · 15</button></div><div class="catalogue-result"><span>Showing</span><b id="visibleCount">50 products</b></div></div><div class="product-grid">${products.map(card).join("")}</div></div></section><section class="store-help-strip"><div class="container"><div><span class="eyebrow">Need help choosing?</span><h2>Use the guides or ask product support.</h2></div><div><a class="button light" href="buyer-guides.html">Buyer guides</a><a class="button primary" href="contact-and-order-help.html#request-help">Product support →</a></div></div></section></main>${footer()}</body></html>`;
+  const description = "Browse 50 automotive, towing, RV, overlanding and marine product records from established brands. Add products to the OMNI Terrain request cart for availability, pricing and shipping review.";
+  return `${head({
+    title: "US Automotive, RV & Marine Catalogue | OMNI Terrain",
+    description,
+    canonical: `${site}/us-catalogue.html`,
+    schema: [catalogueSchema()]
+  })}<body>${header()}<main class="store-catalogue"><section class="store-catalogue-intro"><div class="container"><div class="store-intro-grid"><div class="store-intro-copy"><span class="eyebrow">OMNI Terrain US Store</span><h1>Automotive, RV<br><em>&amp; marine products.</em></h1><p>Browse genuine products selected for universal or low-fitment applications across road, camp and water. Clear specifications and buying guidance help you compare without the clutter.</p><div class="store-intro-actions"><a class="button primary" href="#products">Shop all 50 products →</a><a class="button outline" href="buyer-guides.html">Read buyer guides</a></div></div><aside class="store-intro-summary"><span>Catalogue at a glance</span><div><strong>50</strong><small>products</small></div><div><strong>${brands.length}</strong><small>brands</small></div><div><strong>3</strong><small>categories</small></div><p>Product records are available for review now. Final availability, price and shipping are confirmed before an order is accepted.</p></aside></div><nav class="store-category-nav" aria-label="Shop by category">${categories}</nav></div></section><section class="section white storefront-products" id="products"><div class="container"><div class="store-products-heading"><div><span class="eyebrow">Shop US products</span><h2>All products</h2></div><p>Use the category filters to narrow the range. Each page includes the manufacturer part number, specifications, fitment notes and an availability-review request option.</p></div><div class="catalogue-toolbar"><div class="filter-row" aria-label="Catalogue filters"><button class="filter-button" data-us-filter="all" aria-pressed="true">All 50</button><button class="filter-button" id="automotive" data-us-filter="automotive" aria-pressed="false">Automotive &amp; Towing · 20</button><button class="filter-button" id="rv" data-us-filter="rv" aria-pressed="false">RV &amp; Overlanding · 15</button><button class="filter-button" id="marine" data-us-filter="marine" aria-pressed="false">Marine · 15</button></div><div class="catalogue-result"><span>Showing</span><b id="visibleCount">50 products</b></div></div><div class="product-grid">${products.map(card).join("")}</div></div></section><section class="store-help-strip"><div class="container"><div><span class="eyebrow">Need help choosing?</span><h2>Use the guides or ask product support.</h2></div><div><a class="button light" href="buyer-guides.html">Buyer guides</a><a class="button primary" href="contact-and-order-help.html#request-help">Product support →</a></div></div></section></main>${footer()}</body></html>`;
 }
 
 function productPage(product) {
@@ -79,9 +169,17 @@ function productPage(product) {
   const categoryName = segmentLabel(product.segment);
   const hasDirectImage = Boolean(directImageRecord(product));
   const caption = hasDirectImage
-    ? '<div class="visual-caption"><span>Manufacturer-hosted product preview</span><b>Usage approval pending</b></div>'
+    ? '<div class="visual-caption"><span>Manufacturer reference image</span><b>Confirm the supplied item by brand and MPN</b></div>'
     : '<div class="visual-caption"><span>Neutral preview artwork</span><b>Authorised product image pending</b></div>';
-  return `${head(product.title, `${product.brand} ${product.mpn}. ${product.description} Currently unavailable; no price or purchasing control is shown.`)}<body class="product-record-page segment-${esc(product.segment)}" data-product-id="${esc(product.id)}">${header()}<main class="product-page"><div class="container"><nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span>/</span><a href="us-catalogue.html">US Catalogue</a><span>/</span><a href="us-catalogue.html#${esc(product.segment)}">${esc(categoryName)}</a><span>/</span><span aria-current="page">${esc(product.mpn)}</span></nav><div class="product-layout"><div class="product-visual">${productVisual(product, false, "detail")}${caption}</div><section class="product-summary"><div class="record-header"><span class="eyebrow">${esc(product.category)}</span><span class="record-status">Product details</span></div><div class="product-brandline"><span>${esc(product.brand)}</span><b>MPN ${esc(product.mpn)}</b></div><h1>${esc(product.title)}</h1><p class="lead">${esc(product.description)}</p><div class="identity-grid"><div class="identity-item"><small>Brand</small><b>${esc(product.brand)}</b></div><div class="identity-item"><small>Manufacturer part number</small><b>${esc(product.mpn)}</b></div><div class="identity-item"><small>Category</small><b>${esc(categoryName)}</b></div><div class="identity-item"><small>Fitment status</small><b>Universal / configuration check required</b></div></div><div class="purchase-panel"><div class="purchase-head"><div><span class="purchase-label">Availability status</span><h2>Currently Unavailable</h2></div><span class="price-withheld">Price not displayed</span></div><p>US product availability is currently being finalised. Orders are not being accepted for unavailable items.</p><div class="purchase-actions"><button class="button dark" type="button" disabled aria-disabled="true">Add to Cart — Unavailable</button><a class="button outline" href="us-catalogue.html#${esc(product.segment)}">Browse ${esc(categoryName)}</a></div></div></section></div><div class="detail-grid"><section class="detail-card specifications-card"><span class="detail-number">01</span><h2>Key specifications</h2><div class="spec-list">${specs}</div></section><section class="detail-card fitment-card"><span class="detail-number">02</span><h2>Application &amp; fitment</h2><p>${esc(product.fitment)}</p><div class="source-panel"><small>Manufacturer information</small><a class="source-link" href="${esc(product.source)}" target="_blank" rel="noopener noreferrer">${esc(product.sourceLabel)} ↗</a></div></section><section class="detail-card full shipping-card"><span class="detail-number">03</span><div><h2>Shipping &amp; returns</h2><p>${esc(product.shippingReturns)} No shipping speed, stock, fulfilment or return-eligibility promise is made on this preview page.</p></div><a class="button outline" href="shipping-delivery-policy.html">Review store policies →</a></section></div></div></main>${footer()}</body></html>`;
+  const description = `${product.brand} ${product.title}, MPN ${product.mpn}. Review verified specifications and submit an availability, price and shipping request through OMNI Terrain.`;
+  const imageRecord = directImageRecord(product);
+  return `${head({
+    title: `${product.title} | OMNI Terrain US`,
+    description,
+    canonical: `${site}/${product.slug}`,
+    image: imageRecord ? imageRecord.imageUrl : "assets/omni-terrain-emblem.webp",
+    schema: [productSchema(product), breadcrumbSchema(product)]
+  })}<body class="product-record-page segment-${esc(product.segment)}" data-product-id="${esc(product.id)}">${header()}<main class="product-page"><div class="container"><nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span>/</span><a href="us-catalogue.html">US Catalogue</a><span>/</span><a href="us-catalogue.html#${esc(product.segment)}">${esc(categoryName)}</a><span>/</span><span aria-current="page">${esc(product.mpn)}</span></nav><div class="product-layout"><div class="product-visual">${productVisual(product, false, "detail")}${caption}</div><section class="product-summary"><div class="record-header"><span class="eyebrow">${esc(product.category)}</span><span class="record-status">Product details</span></div><div class="product-brandline"><span>${esc(product.brand)}</span><b>MPN ${esc(product.mpn)}</b></div><h1>${esc(product.title)}</h1><p class="lead">${esc(product.description)}</p><div class="identity-grid"><div class="identity-item"><small>Brand</small><b>${esc(product.brand)}</b></div><div class="identity-item"><small>Manufacturer part number</small><b>${esc(product.mpn)}</b></div><div class="identity-item"><small>Category</small><b>${esc(categoryName)}</b></div><div class="identity-item"><small>Fitment status</small><b>Universal / configuration check required</b></div></div><div class="purchase-panel"><div class="purchase-head"><div><span class="purchase-label">Request status</span><h2>Confirmation Required</h2></div><span class="price-withheld">Price confirmed after review</span></div><p>Add this product to the request cart. OMNI Terrain will confirm supplier availability, final price, shipping, return terms and secure payment before accepting an order.</p><div class="purchase-actions"><button class="button dark" type="button">Add to Request Cart</button><a class="button outline" href="us-catalogue.html#${esc(product.segment)}">Browse ${esc(categoryName)}</a></div></div></section></div><div class="detail-grid"><section class="detail-card specifications-card"><span class="detail-number">01</span><h2>Key specifications</h2><div class="spec-list">${specs}</div></section><section class="detail-card fitment-card"><span class="detail-number">02</span><h2>Application &amp; fitment</h2><p>${esc(product.fitment)}</p><div class="source-panel"><small>Manufacturer information</small><a class="source-link" href="${esc(product.source)}" target="_blank" rel="noopener noreferrer">${esc(product.sourceLabel)} ↗</a></div></section><section class="detail-card full shipping-card"><span class="detail-number">03</span><div><h2>Shipping &amp; returns</h2><p>Shipping method, dispatch estimate, damage handling, return address and product-specific conditions are confirmed before payment. No unavailable product is charged or treated as an accepted order.</p></div><a class="button outline" href="shipping-delivery-policy.html">Review store policies →</a></section></div></div></main>${footer()}</body></html>`;
 }
 
 function verificationReport() {
@@ -95,10 +193,29 @@ function handoffAppendix() {
     "- `scripts/build-standalone-preview.cjs` — builds self-contained catalogue and product previews for visual review.",
     ...products.map((product) => `- \`${product.slug}\` — ${product.brand} ${product.mpn} product page`)
   ].join("\n");
-  return `\n## Test results\n\n- \`node scripts/test-us-catalogue.cjs\` — **PASS 3,041 checks** covering counts, MPN uniqueness, restricted claims, required notices, verified image mapping, disabled purchasing, legal links, internal link targets, mobile store controls and responsive breakpoints.\n- \`node scripts/test-commerce-runtime.cjs\` — **PASS** unavailable-item cart guard, public checkout lock and local QA checkout path.\n- \`node scripts/test-http-routes.cjs\` — **PASS 53 HTTP routes** (catalogue, cart, checkout and 50 product pages).\n- Production payment transaction — **HOLD**, because no merchant processor or approved purchasable SKU exists.\n\n## Changed files\n\nNo legal/company-detail file was modified. Existing Shield/UK catalogue files were not overwritten.\n\n- \`index.html\` — ecommerce-first homepage with direct category shopping, featured products, concise product support and a dedicated education section.\n- \`us-catalogue.html\` — compact 50-product storefront with category shortcuts and filters.\n- \`cart.html\` — cart route and unavailable-item guard UI.\n- \`checkout.html\` — guarded checkout route, customer fields and local QA validation path.\n- \`assets/us-products.js\` — verified 50-product data source.\n- \`US-PRODUCT-IMAGE-SOURCES.json\` — internal 50-row manufacturer image-source manifest with exact filenames and PDM/variant flags; 44 direct images are rendered in the preview and six controlled placeholders remain.\n- \`assets/us-catalogue.css\` — ecommerce-first catalogue, product, cart, checkout and responsive styling.\n- \`assets/us-catalogue.js\` — navigation and category-filter behaviour.\n- \`assets/us-commerce.js\` — persistent cart state, unavailable-item guard and checkout QA behaviour.\n- \`US-CATALOGUE-VERIFICATION.md\` — verification, decision and handoff register.\n- \`scripts/generate-us-catalogue.cjs\` — repeatable catalogue/page generator.\n- \`scripts/test-us-catalogue.cjs\` — structural, content, mobile and link checks.\n- \`scripts/test-commerce-runtime.cjs\` — cart and checkout runtime checks.\n- \`scripts/test-http-routes.cjs\` — local HTTP route checks.\n${productFiles}\n`;
+  return `\n## Test results\n\n- \`node scripts/test-us-catalogue.cjs\` — **Automated catalogue validation** covering counts, MPN uniqueness, restricted claims, required notices, verified image mapping, request-cart controls, legal links, internal link targets and responsive breakpoints.\n- \`node scripts/test-commerce-runtime.cjs\` — **Automated request-checkout validation** covering persistent cart, quantities, guest fields and email handoff without payment.\n- \`node scripts/test-http-routes.cjs\` — **PASS 103 root HTML routes** including core pages, regional catalogues, cart, checkout and product pages.\n- Production payment transaction — **HOLD**, because no merchant processor or approved purchasable SKU exists.\n\n## Changed files\n\nNo legal company identity was changed. US and UK legal details remain separated, and existing unrelated work was preserved.\n\n- \`index.html\` — ecommerce-first homepage with direct category shopping, featured products, concise product support and a dedicated education section.\n- \`us-catalogue.html\` — compact 50-product storefront with category shortcuts and filters.\n- \`cart.html\` — cart route and unavailable-item guard UI.\n- \`checkout.html\` — guest request-checkout route with customer-field validation and email handoff; no payment processor is connected.\n- \`assets/us-products.js\` — verified 50-product data source.\n- \`US-PRODUCT-IMAGE-SOURCES.json\` — internal 50-row manufacturer image-source manifest with exact filenames and PDM/variant flags; 37 live manufacturer-hosted images are rendered and 13 controlled placeholders remain after the pre-publish URL audit.\n- \`assets/us-catalogue.css\` — ecommerce-first catalogue, product, cart, checkout and responsive styling.\n- \`assets/us-catalogue.js\` — navigation and category-filter behaviour.\n- \`assets/us-commerce.js\` — persistent request-cart state, quantity controls and guest request-checkout behaviour.\n- \`US-CATALOGUE-VERIFICATION.md\` — verification, decision and handoff register.\n- \`scripts/generate-us-catalogue.cjs\` — repeatable catalogue/page generator.\n- \`scripts/test-us-catalogue.cjs\` — structural, content, mobile and link checks.\n- \`scripts/test-commerce-runtime.cjs\` — cart and checkout runtime checks.\n- \`scripts/test-http-routes.cjs\` — local HTTP route checks.\n${productFiles}\n`;
+}
+
+function finalReport() {
+  const checkoutStatus = "The site contains functional request-cart and guest request-checkout routes with persistent cart state, customer-field validation and a prefilled email handoff. No price is displayed and no payment is taken. Card payment and automatic order acceptance remain **HOLD** until a merchant processor, secure server-side endpoint, production credentials, tax/shipping rules and approved purchasable inventory exist.";
+  const validationSection = `## Validation commands
+
+- \`node scripts/test-us-catalogue.cjs\` — validates counts, MPN uniqueness, restricted claims, structured data, image mapping, request-cart controls, legal links, internal links and responsive breakpoints.
+- \`node scripts/test-shield-uk.cjs\` — validates the exact 20 UK eBay records, prices, item IDs, local images, UK legal separation and policy routes.
+- \`node scripts/test-commerce-runtime.cjs\` — validates request-cart storage, quantity changes and checkout email handoff without payment.
+- \`node scripts/test-http-routes.cjs\` — validates public catalogue, support, cart, checkout and product routes over HTTP.
+- Production payment transaction — **HOLD**, because no merchant processor or approved immediately-purchasable US SKU exists.
+
+## Generated US files
+
+`;
+  return (verificationReport() + handoffAppendix())
+    .replace("Prepared for preview review on 21 July 2026.", "Prepared for storefront review on 28 July 2026.")
+    .replace("The preview contains cart and checkout routes, persistent cart state, an unavailable-item guard and a local QA-only form path. No payment or order submission is enabled. A production checkout remains **HOLD** until a merchant processor, server-side endpoint, production credentials, tax/shipping rules and at least one approved purchasable SKU exist.", checkoutStatus)
+    .replace(/## Test results[\s\S]*?## Changed files\n\nNo legal\/company-detail file was modified\. Existing Shield\/UK catalogue files were not overwritten\.\n\n/, validationSection);
 }
 
 fs.writeFileSync(path.join(root, "us-catalogue.html"), cataloguePage());
 for (const product of products) fs.writeFileSync(path.join(root, product.slug), productPage(product));
-fs.writeFileSync(path.join(root, "US-CATALOGUE-VERIFICATION.md"), verificationReport() + handoffAppendix());
+fs.writeFileSync(path.join(root, "US-CATALOGUE-VERIFICATION.md"), finalReport());
 console.log(`Generated US catalogue plus ${products.length} product pages.`);

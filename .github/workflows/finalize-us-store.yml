@@ -1,56 +1,53 @@
-name: Finalize and validate US storefront
+name: Validate OMNI Terrain storefront
 
 on:
   workflow_dispatch:
+  pull_request:
   push:
     branches:
       - main
     paths:
-      - "index.html"
-      - "us-catalogue.html"
-      - "us-*.html"
-      - "cart.html"
-      - "checkout.html"
-      - "shipping-delivery-policy.html"
-      - "returns-refunds-policy.html"
-      - "privacy-policy.html"
-      - "terms-conditions.html"
-      - "contact-and-order-help.html"
-      - "assets/us-products.js"
-      - "assets/us-commerce.js"
-      - "assets/us-catalogue.js"
+      - "*.html"
+      - "assets/**"
+      - "scripts/**"
+      - "sitemap.xml"
+      - "robots.txt"
       - ".github/scripts/finalize_us_store.py"
       - ".github/workflows/finalize-us-store.yml"
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
-  group: finalize-us-store-main
-  cancel-in-progress: false
+  group: validate-storefront-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  finalize:
+  validate:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out main
+      - name: Check out source
         uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
         with:
-          ref: main
-          fetch-depth: 0
+          node-version: "20"
 
-      - name: Finalize and validate storefront
-        run: python .github/scripts/finalize_us_store.py
-
-      - name: Commit finalized static pages
-        shell: bash
+      - name: Regenerate catalogues
         run: |
-          if git diff --quiet; then
-            echo "No static storefront changes were required."
-            exit 0
-          fi
-          git config user.name "omni-terrain-store-bot"
-          git config user.email "actions@users.noreply.github.com"
-          git add us-catalogue.html us-*.html
-          git commit -m "Finalize static US storefront pages"
-          git push origin main
+          node scripts/generate-us-catalogue.cjs
+          node scripts/generate-shield-uk.cjs
+          node scripts/generate-sitemap.cjs
+
+      - name: Confirm generated files are current
+        run: git diff --exit-code
+
+      - name: Validate catalogues, commerce and routes
+        run: |
+          node scripts/test-us-catalogue.cjs
+          node scripts/test-shield-uk.cjs
+          node scripts/test-commerce-runtime.cjs
+          node scripts/test-http-routes.cjs
+          node scripts/test-site-seo.cjs
+          python .github/scripts/finalize_us_store.py

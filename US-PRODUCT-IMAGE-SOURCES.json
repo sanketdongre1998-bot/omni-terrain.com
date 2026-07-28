@@ -170,9 +170,9 @@
   {
     "id": "wfco-wf-8735-ad",
     "filename": "wfco-wf-8735-ad.png",
-    "imageUrl": "https://www.wfcotech.com/wp-content/uploads/2024/08/8700-left-faced-png-800x533.png",
-    "status": "DIRECT OFFICIAL IMAGE",
-    "note": "Official WFCO image; confirm it is the exact WF-8735-AD variant before publishing."
+    "imageUrl": "",
+    "status": "PLACEHOLDER — OFFICIAL URL ACCESS BLOCKED",
+    "note": "The previously mapped WFCO image URL returned HTTP 403 in the pre-publish audit. Keep the controlled placeholder until an authorised, stable exact-variant asset is supplied."
   },
   {
     "id": "wfco-wf-9845-ad",
@@ -247,30 +247,30 @@
   {
     "id": "blue-sea-6006",
     "filename": "blue-sea-6006.jpg",
-    "imageUrl": "https://dh778tpvmt77t.cloudfront.net/images/products/6006.jpg",
-    "status": "DIRECT OFFICIAL HIGH-RES IMAGE",
-    "note": "Blue Sea Systems high-resolution marketing image. Usage permission still required before publishing."
+    "imageUrl": "",
+    "status": "PLACEHOLDER — OFFICIAL URL ACCESS BLOCKED",
+    "note": "The previously mapped Blue Sea Systems CDN URL returned HTTP 403 in the pre-publish audit. Keep the controlled placeholder until an authorised, stable asset is supplied."
   },
   {
     "id": "blue-sea-5511e",
     "filename": "blue-sea-5511e.jpg",
-    "imageUrl": "https://dh778tpvmt77t.cloudfront.net/images/products/5511e.jpg",
-    "status": "DIRECT OFFICIAL HIGH-RES IMAGE",
-    "note": "Blue Sea Systems high-resolution marketing image. Usage permission still required before publishing."
+    "imageUrl": "",
+    "status": "PLACEHOLDER — OFFICIAL URL ACCESS BLOCKED",
+    "note": "The previously mapped Blue Sea Systems CDN URL returned HTTP 403 in the pre-publish audit. Keep the controlled placeholder until an authorised, stable asset is supplied."
   },
   {
     "id": "blue-sea-5025",
     "filename": "blue-sea-5025.jpg",
-    "imageUrl": "https://dh778tpvmt77t.cloudfront.net/images/products/5025.jpg",
-    "status": "DIRECT OFFICIAL HIGH-RES IMAGE",
-    "note": "Blue Sea Systems high-resolution marketing image. Usage permission still required before publishing."
+    "imageUrl": "",
+    "status": "PLACEHOLDER — OFFICIAL URL ACCESS BLOCKED",
+    "note": "The previously mapped Blue Sea Systems CDN URL returned HTTP 403 in the pre-publish audit. Keep the controlled placeholder until an authorised, stable asset is supplied."
   },
   {
     "id": "blue-sea-5026",
     "filename": "blue-sea-5026.jpg",
-    "imageUrl": "https://dh778tpvmt77t.cloudfront.net/images/products/5026.jpg",
-    "status": "DIRECT OFFICIAL HIGH-RES IMAGE",
-    "note": "Blue Sea Systems high-resolution marketing image. Usage permission still required before publishing."
+    "imageUrl": "",
+    "status": "PLACEHOLDER — OFFICIAL URL ACCESS BLOCKED",
+    "note": "The previously mapped Blue Sea Systems CDN URL returned HTTP 403 in the pre-publish audit. Keep the controlled placeholder until an authorised, stable asset is supplied."
   },
   {
     "id": "whale-ss5212",
@@ -282,9 +282,9 @@
   {
     "id": "whale-ss1212",
     "filename": "whale-ss1212.jpg",
-    "imageUrl": "https://images3.cmp.optimizely.com/assets/supersub-smart.jpg/Zz0zMWNmZjc5YzMzNTUxMWVmYTQ2MTM2OTU4NTI0Nzg2Mg%3D%3D",
-    "status": "DIRECT OFFICIAL IMAGE",
-    "note": "Whale official page identifies SS1212 as the shown Supersub Smart image. Usage permission still required before publishing."
+    "imageUrl": "",
+    "status": "PLACEHOLDER — OFFICIAL URL UNAVAILABLE",
+    "note": "The previously mapped Whale image URL returned HTTP 404 in the pre-publish audit. Keep the controlled placeholder until an authorised, stable exact-product asset is supplied."
   },
   {
     "id": "scanstrut-sc-cw-02f",
@@ -345,8 +345,8 @@
   {
     "id": "lowrance-eagle-4x",
     "filename": "lowrance-eagle-4x.jpg",
-    "imageUrl": "https://www.lowrance.com/globalassets/inriver/resources/000-16110-001_01.jpg?h=624&mode=max&scale=both&w=1110",
-    "status": "DIRECT OFFICIAL IMAGE",
-    "note": "Exact MPN image hosted by Lowrance/Navico. Usage permission still required before publishing."
+    "imageUrl": "",
+    "status": "PLACEHOLDER — OFFICIAL URL ACCESS BLOCKED",
+    "note": "The previously mapped Lowrance image URL returned HTTP 403 in the pre-publish audit. Keep the controlled placeholder until an authorised, stable exact-MPN asset is supplied."
   }
 ]
