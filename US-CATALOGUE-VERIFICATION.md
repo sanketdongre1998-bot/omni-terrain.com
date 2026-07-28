@@ -1,6 +1,6 @@
 # OMNI Terrain US Catalogue — Verification & Decision Register
 
-Prepared for preview review on 21 July 2026. This is an internal implementation record, not a public supplier-status claim.
+Prepared for storefront review on 28 July 2026. This is an internal implementation record, not a public supplier-status claim.
 
 ## Verification standard
 
@@ -104,28 +104,28 @@ For all 50 LIST records:
 
 ## Checkout status
 
-The preview contains cart and checkout routes, persistent cart state, an unavailable-item guard and a local QA-only form path. No payment or order submission is enabled. A production checkout remains **HOLD** until a merchant processor, server-side endpoint, production credentials, tax/shipping rules and at least one approved purchasable SKU exist.
+The site contains functional request-cart and guest request-checkout routes with persistent cart state, customer-field validation and a prefilled email handoff. No price is displayed and no payment is taken. Card payment and automatic order acceptance remain **HOLD** until a merchant processor, secure server-side endpoint, production credentials, tax/shipping rules and approved purchasable inventory exist.
 
 ## Test results
 
-- `node scripts/test-us-catalogue.cjs` — **PASS 3,041 checks** covering counts, MPN uniqueness, restricted claims, required notices, verified image mapping, disabled purchasing, legal links, internal link targets, mobile store controls and responsive breakpoints.
-- `node scripts/test-commerce-runtime.cjs` — **PASS** unavailable-item cart guard, public checkout lock and local QA checkout path.
-- `node scripts/test-http-routes.cjs` — **PASS 53 HTTP routes** (catalogue, cart, checkout and 50 product pages).
+- `node scripts/test-us-catalogue.cjs` — **Automated catalogue validation** covering counts, MPN uniqueness, restricted claims, required notices, verified image mapping, request-cart controls, legal links, internal link targets and responsive breakpoints.
+- `node scripts/test-commerce-runtime.cjs` — **Automated request-checkout validation** covering persistent cart, quantities, guest fields and email handoff without payment.
+- `node scripts/test-http-routes.cjs` — **PASS 103 root HTML routes** including core pages, regional catalogues, cart, checkout and product pages.
 - Production payment transaction — **HOLD**, because no merchant processor or approved purchasable SKU exists.
 
 ## Changed files
 
-No legal/company-detail file was modified. Existing Shield/UK catalogue files were not overwritten.
+No legal company identity was changed. US and UK legal details remain separated, and existing unrelated work was preserved.
 
 - `index.html` — ecommerce-first homepage with direct category shopping, featured products, concise product support and a dedicated education section.
 - `us-catalogue.html` — compact 50-product storefront with category shortcuts and filters.
 - `cart.html` — cart route and unavailable-item guard UI.
-- `checkout.html` — guarded checkout route, customer fields and local QA validation path.
+- `checkout.html` — guest request-checkout route with customer-field validation and email handoff; no payment processor is connected.
 - `assets/us-products.js` — verified 50-product data source.
-- `US-PRODUCT-IMAGE-SOURCES.json` — internal 50-row manufacturer image-source manifest with exact filenames and PDM/variant flags; 44 direct images are rendered in the preview and six controlled placeholders remain.
+- `US-PRODUCT-IMAGE-SOURCES.json` — internal 50-row manufacturer image-source manifest with exact filenames and PDM/variant flags; 37 live manufacturer-hosted images are rendered and 13 controlled placeholders remain after the pre-publish URL audit.
 - `assets/us-catalogue.css` — ecommerce-first catalogue, product, cart, checkout and responsive styling.
 - `assets/us-catalogue.js` — navigation and category-filter behaviour.
-- `assets/us-commerce.js` — persistent cart state, unavailable-item guard and checkout QA behaviour.
+- `assets/us-commerce.js` — persistent request-cart state, quantity controls and guest request-checkout behaviour.
 - `US-CATALOGUE-VERIFICATION.md` — verification, decision and handoff register.
 - `scripts/generate-us-catalogue.cjs` — repeatable catalogue/page generator.
 - `scripts/test-us-catalogue.cjs` — structural, content, mobile and link checks.
