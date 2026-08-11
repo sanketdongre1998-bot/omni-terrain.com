@@ -40,6 +40,16 @@ jobs:
           node scripts/generate-shield-uk.cjs
           node scripts/generate-sitemap.cjs
 
+      - name: Preserve hand-authored UK business and policy pages
+        run: |
+          git checkout -- \
+            uk.html \
+            uk-contact.html \
+            uk-shipping-delivery-policy.html \
+            uk-returns-refunds-policy.html \
+            uk-privacy-policy.html \
+            uk-terms-conditions.html
+
       - name: Confirm generated files are current
         run: git diff --exit-code
 
