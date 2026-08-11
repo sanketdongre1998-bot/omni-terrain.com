@@ -10,7 +10,7 @@ jobs:
   smoke-test:
     runs-on: ubuntu-latest
     steps:
-      - name: Create Stripe test Checkout Session through Vercel backend
+      - name: Create and verify Stripe test Checkout Session
         shell: bash
         run: |
           set -euo pipefail
@@ -18,14 +18,28 @@ jobs:
             -X POST 'https://omni-terrain-uk-checkout.vercel.app/api/create-checkout-session' \
             -H 'Origin: https://omni-terrain.com' \
             -H 'Content-Type: application/json' \
-            --data '{"items":[{"id":"cool-mate-70l-fridge-black","qty":1}]}')"
+            --data '{"items":[{"id":"cool-mate-70l-fridge-black","qty":1},{"id":"cassette-blind-1450x550-white","qty":1}]}')"
 
-          RESPONSE="$response" python3 - <<'PY'
+          session_id="$(RESPONSE="$response" python3 - <<'PY'
           import json, os
           data = json.loads(os.environ['RESPONSE'])
           session_id = str(data.get('id', ''))
           checkout_url = str(data.get('url', ''))
           assert session_id.startswith('cs_test_'), f'Expected Stripe test session, got {session_id[:12]!r}'
           assert checkout_url.startswith('https://checkout.stripe.com/'), 'Missing Stripe Checkout URL'
-          print('Stripe sandbox Checkout Session created successfully.')
+          print(session_id)
+          PY
+          )"
+
+          status="$(curl --fail-with-body --silent --show-error \
+            -H 'Origin: https://omni-terrain.com' \
+            "https://omni-terrain-uk-checkout.vercel.app/api/session-status?session_id=${session_id}")"
+
+          STATUS="$status" python3 - <<'PY'
+          import json, os
+          data = json.loads(os.environ['STATUS'])
+          assert data.get('paid') is False, 'Fresh sandbox session should be unpaid before test-card completion'
+          assert str(data.get('currency', '')).lower() == 'gbp', 'Expected GBP session'
+          assert int(data.get('amount_total') or 0) == 70990, f"Unexpected trusted total: {data.get('amount_total')}"
+          print('Stripe sandbox full-catalogue Checkout + session-status smoke test passed.')
           PY
