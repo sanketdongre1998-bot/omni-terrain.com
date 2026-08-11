@@ -2,7 +2,7 @@
   "use strict";
 
   const KEY = "omniTerrainUkCartV1";
-  const CHECKOUT_API_BASE = "";
+  const CHECKOUT_API_BASE = "https://omni-terrain-uk-checkout.vercel.app";
   const products = Array.isArray(window.OMNI_SHIELD_PRODUCTS) ? window.OMNI_SHIELD_PRODUCTS : [];
   window.OMNI_UK_CHECKOUT_API_BASE = CHECKOUT_API_BASE;
 
