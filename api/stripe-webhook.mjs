@@ -51,6 +51,8 @@ export async function POST(request) {
         amount_total: session.amount_total,
         currency: session.currency,
         customer_email: session.customer_details?.email || session.customer_email || null,
+        delivery_region: session.metadata?.delivery_region || null,
+        shipping_profile: session.metadata?.shipping_profile || null,
         cart: session.metadata?.cart || null,
       }),
     );
