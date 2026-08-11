@@ -2,7 +2,9 @@
   "use strict";
 
   const KEY = "omniTerrainUkCartV1";
+  const CHECKOUT_API_BASE = "";
   const products = Array.isArray(window.OMNI_SHIELD_PRODUCTS) ? window.OMNI_SHIELD_PRODUCTS : [];
+  window.OMNI_UK_CHECKOUT_API_BASE = CHECKOUT_API_BASE;
 
   function readCart() {
     try {
@@ -29,6 +31,10 @@
 
   function money(value) {
     return new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP" }).format(value);
+  }
+
+  function checkoutConfigured() {
+    return /^https:\/\//.test(CHECKOUT_API_BASE);
   }
 
   function updateCounts() {
@@ -59,10 +65,75 @@
     toast.textContent = message;
     toast.classList.add("show");
     clearTimeout(showToast.timer);
-    showToast.timer = setTimeout(() => toast.classList.remove("show"), 2200);
+    showToast.timer = setTimeout(() => toast.classList.remove("show"), 2600);
+  }
+
+  async function startCheckout(items, trigger) {
+    if (!checkoutConfigured()) {
+      showToast("Secure card checkout is finishing setup.");
+      return;
+    }
+    if (!items.length) {
+      showToast("Your cart is empty.");
+      return;
+    }
+
+    const originalText = trigger?.textContent;
+    if (trigger) {
+      trigger.disabled = true;
+      trigger.textContent = "Opening secure checkout…";
+    }
+
+    try {
+      const response = await fetch(`${CHECKOUT_API_BASE}/api/create-checkout-session`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items: items.map((item) => ({ id: item.id, qty: Number(item.qty) })) }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.url) throw new Error(data.error || "Secure checkout is temporarily unavailable.");
+      window.location.assign(data.url);
+    } catch (error) {
+      showToast(error?.message || "Secure checkout is temporarily unavailable.");
+      if (trigger) {
+        trigger.disabled = false;
+        trigger.textContent = originalText;
+      }
+    }
+  }
+
+  function prepareCheckoutUi(rows) {
+    const buttons = document.querySelectorAll("button.checkout-disabled, [data-uk-checkout]");
+    buttons.forEach((button) => {
+      button.dataset.ukCheckout = "true";
+      const ready = checkoutConfigured() && rows.length > 0;
+      button.disabled = !ready;
+      button.classList.toggle("checkout-disabled", !ready);
+      button.textContent = checkoutConfigured()
+        ? (rows.length ? "Secure checkout →" : "Add items to checkout")
+        : "Secure checkout being enabled";
+    });
+
+    if (checkoutConfigured()) {
+      document.querySelectorAll(".draft-strip .container span:last-child").forEach((node) => {
+        node.textContent = "Add products to your Omni Terrain cart and complete payment through secure Stripe Checkout.";
+      });
+      document.querySelectorAll(".purchase-box .mini-note").forEach((node) => {
+        node.innerHTML = "<b>Secure checkout:</b> Card payment is completed through Stripe Checkout. Omni Terrain does not collect or store your full card details on this page.";
+      });
+      document.querySelectorAll(".uk-cart-summary .checkout-note").forEach((node) => {
+        node.textContent = "Prices shown include UK VAT. Your delivery address and the final order total are reviewed in secure checkout before payment.";
+      });
+    }
   }
 
   document.addEventListener("click", (event) => {
+    const checkout = event.target.closest("[data-uk-checkout]");
+    if (checkout) {
+      startCheckout(readCart(), checkout);
+      return;
+    }
+
     const add = event.target.closest("[data-uk-add]");
     if (add) {
       const product = findProduct(add.dataset.ukAdd);
@@ -73,7 +144,9 @@
     const buy = event.target.closest("[data-uk-buy]");
     if (buy) {
       const product = findProduct(buy.dataset.ukBuy);
-      if (product && addItem(product.id)) window.location.href = "uk-cart.html";
+      if (!product) return;
+      if (checkoutConfigured()) startCheckout([{ id: product.id, qty: 1 }], buy);
+      else if (addItem(product.id)) window.location.href = "uk-cart.html";
       return;
     }
 
@@ -94,7 +167,10 @@
 
   function renderCart() {
     const root = document.getElementById("ukCartRoot");
-    if (!root) return;
+    if (!root) {
+      prepareCheckoutUi([]);
+      return;
+    }
     const cart = readCart();
     const rows = cart.map((item) => ({ ...item, product: findProduct(item.id) })).filter((item) => item.product);
 
@@ -108,6 +184,11 @@
     const subtotal = rows.reduce((total, row) => total + row.product.price * Number(row.qty), 0);
     document.querySelectorAll("[data-uk-summary-items]").forEach((node) => { node.textContent = String(itemCount); });
     document.querySelectorAll("[data-uk-subtotal]").forEach((node) => { node.textContent = money(subtotal); });
+    prepareCheckoutUi(rows);
+  }
+
+  if (new URLSearchParams(window.location.search).get("checkout") === "cancelled") {
+    setTimeout(() => showToast("Checkout cancelled — your cart is unchanged."), 100);
   }
 
   updateCounts();
