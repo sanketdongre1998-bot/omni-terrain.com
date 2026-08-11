@@ -1,0 +1,31 @@
+name: Stripe sandbox checkout smoke test
+
+on:
+  push:
+    paths:
+      - '.github/workflows/stripe-checkout-smoke.yml'
+  workflow_dispatch:
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Stripe test Checkout Session through Vercel backend
+        shell: bash
+        run: |
+          set -euo pipefail
+          response="$(curl --fail-with-body --silent --show-error \
+            -X POST 'https://omni-terrain-uk-checkout.vercel.app/api/create-checkout-session' \
+            -H 'Origin: https://omni-terrain.com' \
+            -H 'Content-Type: application/json' \
+            --data '{"items":[{"id":"cool-mate-70l-fridge-black","qty":1}]}')"
+
+          RESPONSE="$response" python3 - <<'PY'
+          import json, os
+          data = json.loads(os.environ['RESPONSE'])
+          session_id = str(data.get('id', ''))
+          checkout_url = str(data.get('url', ''))
+          assert session_id.startswith('cs_test_'), f'Expected Stripe test session, got {session_id[:12]!r}'
+          assert checkout_url.startswith('https://checkout.stripe.com/'), 'Missing Stripe Checkout URL'
+          print('Stripe sandbox Checkout Session created successfully.')
+          PY
