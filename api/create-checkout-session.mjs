@@ -3,6 +3,7 @@ import { resolveCheckoutItems } from "../lib/uk-products.mjs";
 import { stripePost } from "../lib/stripe-api.mjs";
 
 const SITE = "https://omni-terrain.com";
+const SHIPPING_PROFILE = "shield_uk_mainland_free";
 
 export function OPTIONS(request) {
   return new Response(null, { status: 204, headers: corsHeaders(request) });
@@ -13,11 +14,16 @@ export async function POST(request) {
 
   try {
     const body = await request.json();
-    const rows = resolveCheckoutItems(body?.items);
-    const shippingPence = Number(process.env.UK_STANDARD_SHIPPING_PENCE ?? "0");
-    if (!Number.isInteger(shippingPence) || shippingPence < 0) {
-      throw new Error("Shipping configuration is invalid.");
+    if (body?.delivery_region !== "uk_mainland") {
+      return json(
+        { error: "Current online checkout is available for standard UK mainland delivery only. Contact UK support for Highlands, islands, Northern Ireland, Isle of Man or Channel Islands." },
+        400,
+        request,
+      );
     }
+
+    const rows = resolveCheckoutItems(body?.items);
+    const shippingPence = 0;
 
     const params = new URLSearchParams();
     params.set("mode", "payment");
@@ -28,9 +34,13 @@ export async function POST(request) {
     params.set("shipping_address_collection[allowed_countries][0]", "GB");
     params.set("metadata[store]", "uk");
     params.set("metadata[source]", "omni-terrain.com");
+    params.set("metadata[delivery_region]", "uk_mainland");
+    params.set("metadata[shipping_profile]", SHIPPING_PROFILE);
     params.set("metadata[cart]", rows.map(({ product, qty }) => `${product.id}:${qty}`).join(","));
     params.set("payment_intent_data[metadata][store]", "uk");
     params.set("payment_intent_data[metadata][source]", "omni-terrain.com");
+    params.set("payment_intent_data[metadata][delivery_region]", "uk_mainland");
+    params.set("payment_intent_data[metadata][shipping_profile]", SHIPPING_PROFILE);
     params.set("payment_intent_data[description]", "Omni Terrain UK website order");
 
     rows.forEach(({ product, qty }, index) => {
@@ -46,7 +56,7 @@ export async function POST(request) {
     params.set("shipping_options[0][shipping_rate_data][type]", "fixed_amount");
     params.set("shipping_options[0][shipping_rate_data][fixed_amount][amount]", String(shippingPence));
     params.set("shipping_options[0][shipping_rate_data][fixed_amount][currency]", "gbp");
-    params.set("shipping_options[0][shipping_rate_data][display_name]", "Standard UK delivery");
+    params.set("shipping_options[0][shipping_rate_data][display_name]", "Free UK mainland delivery");
 
     const session = await stripePost("/checkout/sessions", params);
     return json({ id: session.id, url: session.url }, 200, request);
