@@ -1,40 +1,59 @@
-name: Apply UK website-first storefront
+name: Validate OMNI Terrain storefront
 
 on:
   workflow_dispatch:
+  pull_request:
   push:
     branches:
       - main
     paths:
+      - "*.html"
+      - "assets/**"
+      - "scripts/**"
+      - "sitemap.xml"
+      - "robots.txt"
+      - ".github/scripts/finalize_us_store.py"
       - ".github/workflows/finalize-us-store.yml"
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
-  group: apply-uk-website-first
-  cancel-in-progress: false
+  group: validate-storefront-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  apply:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - name: Check out source
         uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
         with:
-          fetch-depth: 0
+          node-version: "20"
 
-      - name: Reconstruct and verify patch
-        shell: bash
+      - name: Regenerate catalogues
         run: |
-          set -euo pipefail
-          cat .github/ukpatch.xz.part* | base64 -d > /tmp/uk-patch.tar.xz
-          xz -t /tmp/uk-patch.tar.xz
-          tar -xJf /tmp/uk-patch.tar.xz
-          rm -f .github/ukpatch.xz.part* .github/uk-patch.part00
-          git checkout -- .github/workflows/finalize-us-store.yml
+          node scripts/generate-us-catalogue.cjs
+          node scripts/generate-shield-uk.cjs
+          node scripts/generate-sitemap.cjs
 
-      - name: Validate website-first storefront
+      - name: Preserve hand-authored UK business and policy pages
+        run: |
+          git checkout -- \
+            uk.html \
+            uk-contact.html \
+            uk-shipping-delivery-policy.html \
+            uk-returns-refunds-policy.html \
+            uk-privacy-policy.html \
+            uk-terms-conditions.html
+
+      - name: Confirm generated files are current
+        run: git diff --exit-code
+
+      - name: Validate catalogues, commerce and routes
         run: |
           node scripts/test-us-catalogue.cjs
           node scripts/test-shield-uk.cjs
@@ -42,15 +61,3 @@ jobs:
           node scripts/test-http-routes.cjs
           node scripts/test-site-seo.cjs
           python .github/scripts/finalize_us_store.py
-
-      - name: Commit website-first storefront
-        shell: bash
-        run: |
-          set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git diff --cached --check
-          git diff --cached --quiet && { echo "No changes to commit"; exit 1; }
-          git commit -m "Make UK storefront website-first"
-          git push origin HEAD:main
