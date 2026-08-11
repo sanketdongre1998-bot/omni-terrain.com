@@ -44,6 +44,7 @@
     }
 
     localStorage.removeItem("omniTerrainUkCartV1");
+    document.querySelectorAll("[data-uk-cart-count]").forEach((node) => { node.textContent = "0"; });
     const total = new Intl.NumberFormat("en-GB", { style: "currency", currency: String(data.currency || "gbp").toUpperCase() }).format((Number(data.amount_total) || 0) / 100);
     result.innerHTML = `<span class="eyebrow">Payment confirmed</span><h1>Thank you.</h1><p>Your secure payment has been confirmed. We will use the delivery and contact details submitted during checkout to process your order.</p><div class="order-total"><span>Order total</span><br><strong>${total}</strong></div>${data.customer_email ? `<p>A Stripe receipt/order email will be associated with <strong>${data.customer_email}</strong>.</p>` : ""}<div class="purchase-actions"><a class="button primary" href="shield-autocare-uk.html">Continue shopping</a><a class="button light" href="uk-contact.html">Contact support</a></div>`;
   } catch (error) {
