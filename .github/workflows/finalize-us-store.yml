@@ -32,6 +32,7 @@ jobs:
           xz -t /tmp/uk-patch.tar.xz
           tar -xJf /tmp/uk-patch.tar.xz
           rm -f .github/ukpatch.xz.part* .github/uk-patch.part00
+          git checkout -- .github/workflows/finalize-us-store.yml
 
       - name: Validate website-first storefront
         run: |
