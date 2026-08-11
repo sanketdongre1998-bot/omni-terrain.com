@@ -10,15 +10,28 @@ jobs:
   smoke-test:
     runs-on: ubuntu-latest
     steps:
-      - name: Create and verify Stripe test Checkout Session
+      - name: Verify mainland guard and create Stripe test Checkout Session
         shell: bash
         run: |
           set -euo pipefail
+
+          rejected_status="$(curl --silent --output /tmp/rejected.json --write-out '%{http_code}' \
+            -X POST 'https://omni-terrain-uk-checkout.vercel.app/api/create-checkout-session' \
+            -H 'Origin: https://omni-terrain.com' \
+            -H 'Content-Type: application/json' \
+            --data '{"items":[{"id":"cool-mate-70l-fridge-black","qty":1}]}')"
+
+          if [ "$rejected_status" != "400" ]; then
+            echo "Expected delivery-region guard to return 400, got $rejected_status"
+            cat /tmp/rejected.json
+            exit 1
+          fi
+
           response="$(curl --fail-with-body --silent --show-error \
             -X POST 'https://omni-terrain-uk-checkout.vercel.app/api/create-checkout-session' \
             -H 'Origin: https://omni-terrain.com' \
             -H 'Content-Type: application/json' \
-            --data '{"items":[{"id":"cool-mate-70l-fridge-black","qty":1},{"id":"cassette-blind-1450x550-white","qty":1}]}')"
+            --data '{"delivery_region":"uk_mainland","items":[{"id":"cool-mate-70l-fridge-black","qty":1},{"id":"cassette-blind-1450x550-white","qty":1}]}')"
 
           session_id="$(RESPONSE="$response" python3 - <<'PY'
           import json, os
@@ -41,5 +54,5 @@ jobs:
           assert data.get('paid') is False, 'Fresh sandbox session should be unpaid before test-card completion'
           assert str(data.get('currency', '')).lower() == 'gbp', 'Expected GBP session'
           assert int(data.get('amount_total') or 0) == 70990, f"Unexpected trusted total: {data.get('amount_total')}"
-          print('Stripe sandbox full-catalogue Checkout + session-status smoke test passed.')
+          print('Stripe sandbox UK-mainland shipping guard + Checkout smoke test passed.')
           PY
