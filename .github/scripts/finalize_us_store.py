@@ -56,19 +56,19 @@ def main() -> int:
 
     us_slugs = extract(US_DATA, r'\bslug:\s*"([^"]+\.html)"')
     us_ids = extract(US_DATA, r'\bid:\s*"([^"]+)"')
-    uk_slugs = extract(UK_DATA, r'\bslug:\s*`?["]?([^"`]+\.html)')
-    uk_item_ids = extract(UK_DATA, r'\b(?:ebayItemId:\s*itemId|itemId\),?)')
     uk_explicit_item_ids = extract(UK_DATA, r'\b(?:fridge|windowProduct|blind)\([^\n]+?"(\d{12})"\)')
 
     require(len(us_slugs) == 50, f"Expected 50 US slugs; found {len(us_slugs)}", errors)
     require(len(us_ids) == 50, f"Expected 50 US IDs; found {len(us_ids)}", errors)
     require(len(set(us_slugs)) == 50 and len(set(us_ids)) == 50, "US slugs/IDs must be unique", errors)
-    require(len(uk_explicit_item_ids) == 20, f"Expected 20 UK eBay item IDs; found {len(uk_explicit_item_ids)}", errors)
-    require(len(set(uk_explicit_item_ids)) == 20, "UK eBay item IDs must be unique", errors)
+    require(len(uk_explicit_item_ids) == 20, f"Expected 20 UK marketplace reference IDs; found {len(uk_explicit_item_ids)}", errors)
+    require(len(set(uk_explicit_item_ids)) == 20, "UK marketplace reference IDs must be unique", errors)
 
-    # UK slugs are built by three factory functions, so obtain the generated set
-    # from the public pages after the generator has run.
-    uk_product_paths = sorted(ROOT.glob("uk-cool-mate-*.html")) + sorted(ROOT.glob("uk-shield-cassette-*.html")) + sorted(ROOT.glob("uk-shield-frameless-*.html"))
+    uk_product_paths = (
+        sorted(ROOT.glob("uk-cool-mate-*.html"))
+        + sorted(ROOT.glob("uk-shield-cassette-*.html"))
+        + sorted(ROOT.glob("uk-shield-frameless-*.html"))
+    )
     require(len(uk_product_paths) == 20, f"Expected 20 generated UK product pages; found {len(uk_product_paths)}", errors)
 
     us_product_paths = [ROOT / slug for slug in us_slugs]
@@ -84,6 +84,7 @@ def main() -> int:
         ROOT / "terms-conditions.html",
         ROOT / "uk.html",
         ROOT / "shield-autocare-uk.html",
+        ROOT / "uk-cart.html",
         ROOT / "uk-contact.html",
         ROOT / "uk-shipping-delivery-policy.html",
         ROOT / "uk-returns-refunds-policy.html",
@@ -142,20 +143,41 @@ def main() -> int:
         require("application/ld+json" in html, f"{path.name}: missing JSON-LD", errors)
         require("lorem ipsum" not in html.lower(), f"{path.name}: lorem ipsum remains", errors)
 
+    seller_store_url = "https://www.ebay.co.uk/sch/i.html?_ssn=omniterrainuk"
+    uk_catalogue = (ROOT / "shield-autocare-uk.html").read_text(encoding="utf-8")
+    require(uk_catalogue.count("www.ebay.co.uk") == 1 and seller_store_url in uk_catalogue, "shield-autocare-uk.html: keep exactly one small eBay store link", errors)
+    require("ebay.co.uk/itm/" not in uk_catalogue, "shield-autocare-uk.html: individual eBay redirect must not be rendered", errors)
+
+    for path in uk_product_paths:
+        html = path.read_text(encoding="utf-8")
+        require("www.ebay.co.uk" not in html and "ebay.co.uk/itm/" not in html, f"{path.name}: product page must not redirect to eBay", errors)
+
     for path in uk_product_paths:
         html = path.read_text(encoding="utf-8")
         require('"@type":"Product"' in html and '"@type":"Offer"' in html, f"{path.name}: missing Product/Offer schema", errors)
-        require("ebay.co.uk/itm/" in html, f"{path.name}: missing direct eBay UK listing", errors)
+        require("data-uk-add=" in html and "data-uk-buy=" in html, f"{path.name}: website Add to Cart / Buy Now actions missing", errors)
+        require("uk-cart.html" in html and "assets/uk-commerce.js" in html, f"{path.name}: website cart integration missing", errors)
         require("inc UK VAT" in html, f"{path.name}: VAT-inclusive price label missing", errors)
+
+    uk_cart = (ROOT / "uk-cart.html").read_text(encoding="utf-8")
+    require('name="robots" content="noindex,nofollow"' in uk_cart, "uk-cart.html: must be noindex", errors)
+    require("PRASAD INC LTD" in uk_cart and "PRP XPERT LLC" not in uk_cart, "uk-cart.html: UK/US legal identity is mixed", errors)
+    require("assets/uk-commerce.js" in uk_cart and 'id="ukCartRoot"' in uk_cart, "uk-cart.html: website cart runtime missing", errors)
+    require("ebay.co.uk/itm/" not in uk_cart, "uk-cart.html: individual eBay redirect must not be rendered", errors)
+
+    uk_home = (ROOT / "uk.html").read_text(encoding="utf-8")
+    require(uk_home.count("www.ebay.co.uk") <= 1, "uk.html: more than one eBay store link is rendered", errors)
+    require("ebay.co.uk/itm/" not in uk_home, "uk.html: individual eBay redirect must not be rendered", errors)
+    require("uk-cart.html" in uk_home and "assets/uk-commerce.js" in uk_home, "uk.html: website cart integration missing", errors)
 
     sitemap = (ROOT / "sitemap.xml").read_text(encoding="utf-8")
     for path in [ROOT / "us-catalogue.html", ROOT / "shield-autocare-uk.html", *us_product_paths, *uk_product_paths]:
         require(f"{SITE}/{path.name}" in sitemap, f"sitemap.xml: missing {path.name}", errors)
     require("product-page-template.html" not in sitemap, "sitemap.xml: product template must be excluded", errors)
+    require("uk-cart.html" not in sitemap, "sitemap.xml: UK cart must be excluded", errors)
     require("OMNI-TERRAIN-V1.1-CALL-SUPPORT" not in sitemap, "sitemap.xml: legacy duplicate path must be excluded", errors)
 
-    link_errors = validate_internal_links(required_core[:-1])
-    errors.extend(link_errors)
+    errors.extend(validate_internal_links(required_core[:-1]))
 
     if errors:
         print(f"Storefront validation failed with {len(errors)} error(s):", file=sys.stderr)
@@ -163,7 +185,7 @@ def main() -> int:
         return 1
 
     print("PASS validation-only storefront gate")
-    print("50 US products + 20 UK Shield products + cart/checkout + legal/SEO/link checks")
+    print("50 US products + 20 UK website-first products + UK cart + legal/SEO/link checks")
     return 0
 
 

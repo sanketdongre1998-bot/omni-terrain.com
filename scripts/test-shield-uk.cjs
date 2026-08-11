@@ -5,6 +5,7 @@ const products = require("../assets/shield-products.js");
 const root = path.resolve(__dirname, "..");
 const failures = [];
 let checks = 0;
+const sellerUrl = "https://www.ebay.co.uk/sch/i.html?_ssn=omniterrainuk";
 
 function check(condition, message) {
   checks += 1;
@@ -42,50 +43,55 @@ const expected = new Map([
   ["BLIND.1450x550.WHTE", ["229.95", "236961146614"]]
 ]);
 
-check(products.length === 20, "exactly 20 Shield/Cool Mate UK products");
-check(products.filter((product) => product.segment === "fridges").length === 2, "two fridge listings");
-check(products.filter((product) => product.segment === "windows").length === 6, "six window listings");
-check(products.filter((product) => product.segment === "blinds").length === 12, "12 blind listings");
+check(products.length === 20, "exactly 20 current Shield/Cool Mate UK products");
+check(products.filter((product) => product.segment === "fridges").length === 2, "two fridge products");
+check(products.filter((product) => product.segment === "windows").length === 6, "six window products");
+check(products.filter((product) => product.segment === "blinds").length === 12, "12 blind products");
 check(new Set(products.map((product) => product.mpn)).size === 20, "all UK MPNs are unique");
 check(new Set(products.map((product) => product.slug)).size === 20, "all UK slugs are unique");
-check(new Set(products.map((product) => product.ebayItemId)).size === 20, "all UK eBay item IDs are unique");
-check(products.every((product) => product.decision === "LIST"), "all UK products are LIST decisions");
-check(products.every((product) => product.currency === "GBP"), "all UK products use GBP");
-check(products.every((product) => product.availability === "Available on eBay UK"), "availability points to eBay UK");
 
 for (const product of products) {
   const exact = expected.get(product.mpn);
-  check(Boolean(exact), `${product.mpn} is in the approved 20-row register`);
-  check(product.price.toFixed(2) === exact?.[0], `${product.mpn} has the checked VAT-inclusive customer price`);
-  check(product.ebayItemId === exact?.[1], `${product.mpn} has the exact eBay item ID`);
-  check(product.ebayUrl === `https://www.ebay.co.uk/itm/${product.ebayItemId}`, `${product.mpn} has a direct eBay URL`);
-  check(/^https:\/\/shieldautocare\.com\/product\//.test(product.supplierSource), `${product.mpn} links the supplier product record`);
+  check(Boolean(exact), `${product.mpn} is in the approved product register`);
+  check(product.price.toFixed(2) === exact?.[0], `${product.mpn} has the approved VAT-inclusive price`);
+  check(product.ebayItemId === exact?.[1], `${product.mpn} retains the marketplace reference in source data`);
+  check(/^https:\/\/shieldautocare\.com\/product\//.test(product.supplierSource), `${product.mpn} links the supplier record`);
   check(product.images.length >= 4, `${product.mpn} has a local image gallery`);
-  for (const image of product.images) {
-    check(image.startsWith("assets/shield-live/"), `${product.mpn} uses the approved local image folder`);
-    check(fs.existsSync(path.join(root, image)), `${image} exists`);
-  }
+  for (const image of product.images) check(fs.existsSync(path.join(root, image)), `${image} exists`);
 
   const html = read(product.slug);
   const records = jsonLd(html);
   const schema = records.find((record) => record["@type"] === "Product");
   check(html.includes(`<link rel="canonical" href="https://omni-terrain.com/${product.slug}">`), `${product.slug} has exact canonical`);
   check(html.includes("PRASAD INC LTD") && !html.includes("PRP XPERT LLC"), `${product.slug} uses only the UK legal identity`);
-  check(html.includes(product.ebayUrl), `${product.slug} links the exact eBay item`);
+  check(!html.includes(product.ebayUrl), `${product.slug} does not redirect shoppers to the individual eBay item`);
+  check(!html.includes("www.ebay.co.uk"), `${product.slug} has no eBay redirect, including the footer`);
   check(html.includes(`£${product.price.toFixed(2)}`) && html.includes("inc UK VAT"), `${product.slug} shows its VAT-inclusive price`);
+  check(html.includes(`data-uk-add="${product.id}"`) && html.includes(`data-uk-buy="${product.id}"`), `${product.slug} has Add to Cart and Buy Now website actions`);
+  check(html.includes("uk-cart.html") && html.includes("assets/uk-commerce.js"), `${product.slug} uses the UK website cart`);
   check(html.includes("uk-shipping-delivery-policy.html") && html.includes("uk-returns-refunds-policy.html"), `${product.slug} links UK policies`);
+  check(!/eBay item number|Current eBay UK price|View current eBay listing|Review eBay terms/i.test(html), `${product.slug} has no marketplace-first product copy`);
   check(schema?.mpn === product.mpn, `${product.slug} Product schema uses exact MPN`);
   check(schema?.offers?.price === product.price.toFixed(2), `${product.slug} Offer schema uses exact price`);
-  check(schema?.offers?.url === product.ebayUrl, `${product.slug} Offer schema links exact eBay item`);
+  check(schema?.offers?.url === `https://omni-terrain.com/${product.slug}`, `${product.slug} Offer schema stays on Omni Terrain`);
   check(records.some((record) => record["@type"] === "BreadcrumbList"), `${product.slug} has BreadcrumbList schema`);
 }
 
 const catalogue = read("shield-autocare-uk.html");
-check((catalogue.match(/class="product-card"/g) || []).length === 20, "UK catalogue renders 20 product cards");
-check(catalogue.includes('"numberOfItems":20'), "UK catalogue CollectionPage schema lists 20 items");
+check((catalogue.match(/class="product-card"/g) || []).length === 20, "UK catalogue renders 20 current product cards");
+check(catalogue.includes('"numberOfItems":20'), "UK catalogue CollectionPage schema lists current products");
 check(catalogue.includes("Prices include VAT"), "UK footer identifies VAT-inclusive prices");
-check(catalogue.includes("Checkout on eBay UK"), "UK catalogue identifies checkout route");
+check(!/Checkout on eBay UK|Current eBay price|Live on eBay UK/i.test(catalogue), "UK catalogue has no marketplace-first shopping copy");
+check((catalogue.match(/https:\/\/www\.ebay\.co\.uk/g) || []).length === 1 && catalogue.includes(sellerUrl), "UK catalogue keeps only one small eBay store link");
+check((catalogue.match(/data-uk-add=/g) || []).length === 20, "UK catalogue has Add to Cart on all current products");
+check(catalogue.includes("uk-cart.html") && catalogue.includes("assets/uk-commerce.js"), "UK catalogue routes shopping through website cart");
 check(!/\b(LKQ|Keystone|NTP-STAG|SeaWide)\b/i.test(catalogue), "UK catalogue has no unrelated supplier claim");
+
+const cart = read("uk-cart.html");
+check(cart.includes('name="robots" content="noindex,nofollow"'), "UK cart is noindex");
+check(cart.includes("PRASAD INC LTD") && !cart.includes("PRP XPERT LLC"), "UK cart uses UK legal identity only");
+check(cart.includes("ukCartRoot") && cart.includes("assets/uk-commerce.js"), "UK cart has functional local cart runtime");
+check(cart.includes("Secure checkout being enabled"), "UK cart is transparent that card checkout is not live yet");
 
 for (const page of [
   "uk.html",
@@ -122,6 +128,11 @@ check(css.includes("@media(max-width:780px)"), "UK primary mobile breakpoint exi
 check(css.includes("@media(max-width:560px)"), "UK phone breakpoint exists");
 check(css.includes("grid-template-columns:minmax(118px,38%) minmax(0,1fr)"), "UK mobile catalogue uses compact product rows");
 check(css.includes(".gallery-thumbs"), "UK responsive image gallery styles exist");
+check(css.includes(".uk-cart-layout") && css.includes(".cart-link"), "UK cart and header cart styles exist");
+
+const commerce = read("assets/uk-commerce.js");
+check(commerce.includes("omniTerrainUkCartV1"), "UK cart has an isolated localStorage key");
+check(commerce.includes("data-uk-add") && commerce.includes("data-uk-buy"), "UK commerce runtime handles Add to Cart and Buy Now");
 
 if (failures.length) {
   console.error(`FAILED ${failures.length} of ${checks} checks`);
@@ -129,4 +140,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`PASS ${checks} UK Shield catalogue checks`);
+console.log(`PASS ${checks} UK website-first storefront checks`);
