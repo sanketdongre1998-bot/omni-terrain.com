@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="Confirm your Omni Terrain UK website order payment.">
+  <title>Order confirmation | Omni Terrain UK</title>
+  <link rel="canonical" href="https://omni-terrain.com/uk-order-success.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&amp;family=DM+Mono:wght@400;500&amp;family=Manrope:wght@400;500;600;700;800&amp;family=Teko:wght@500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/shield-catalogue.css">
+  <style>
+    .order-result{max-width:760px;margin:70px auto;padding:38px;border:1px solid var(--line);border-radius:24px;background:#fff;box-shadow:var(--shadow)}
+    .order-result h1{margin:12px 0;color:var(--navy);font:800 clamp(3rem,7vw,5rem)/.85 "Barlow Condensed",sans-serif;text-transform:uppercase}
+    .order-result p{color:var(--muted);line-height:1.7}.order-result .order-total{margin:22px 0;font-size:1.1rem}.order-result .order-total strong{color:var(--navy);font-size:1.5rem}
+  </style>
+</head>
+<body>
+<div class="announcement"><div class="container"><span><strong>Omni Terrain UK:</strong> Secure website payment confirmation.</span><a href="uk-contact.html">Need help? →</a></div></div>
+<div class="market-strip"><div class="container"><span class="market-label">Store region</span><a href="index.html">United States</a><a class="market-link" href="uk.html">United Kingdom</a><span class="market-note">UK operator: PRASAD INC LTD · VAT registered</span></div></div>
+<header id="header"><div class="container header-main"><a class="brand" href="uk.html" aria-label="Omni Terrain UK home"><span class="wordmark"><span class="wordmark-main">Omni</span><span class="wordmark-sub">Terrain</span><span class="wordmark-meta">Road / Water / Power</span></span></a><nav class="nav-links"><a href="uk.html">UK Home</a><a href="shield-autocare-uk.html">Shop Available</a><a href="uk-contact.html">Support</a></nav><div class="header-actions"><a class="cart-link" href="uk-cart.html">Cart <span class="cart-count" data-uk-cart-count>0</span></a></div></div></header>
+<main class="container"><section class="order-result" id="orderResult" aria-live="polite"><span class="eyebrow">Omni Terrain UK</span><h1>Checking payment…</h1><p>We are securely confirming your Stripe Checkout Session.</p></section></main>
+<footer><div class="container"><div class="footer-bottom"><span>© 2026 Omni Terrain. All rights reserved.</span><span>PRASAD INC LTD · United Kingdom</span></div></div></footer>
+<script src="assets/uk-commerce.js"></script>
+<script>
+(async () => {
+  const result = document.getElementById("orderResult");
+  const sessionId = new URLSearchParams(location.search).get("session_id") || "";
+  const apiBase = window.OMNI_UK_CHECKOUT_API_BASE || "";
+  if (!sessionId || !apiBase) {
+    result.innerHTML = '<span class="eyebrow">Omni Terrain UK</span><h1>Confirmation pending.</h1><p>We could not automatically verify this payment from this page. Check your Stripe receipt email or contact <a href="uk-contact.html"><strong>UK support</strong></a> with your order details.</p>';
+    return;
+  }
+
+  try {
+    const response = await fetch(`${apiBase}/api/session-status?session_id=${encodeURIComponent(sessionId)}`);
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || "Unable to verify payment.");
+    if (!data.paid) {
+      result.innerHTML = '<span class="eyebrow">Omni Terrain UK</span><h1>Payment not confirmed.</h1><p>Your Checkout Session has not been confirmed as paid. Your cart has been kept. Please contact support if you believe payment completed.</p><a class="button primary" href="uk-cart.html">Return to cart</a>';
+      return;
+    }
+
+    localStorage.removeItem("omniTerrainUkCartV1");
+    const total = new Intl.NumberFormat("en-GB", { style: "currency", currency: String(data.currency || "gbp").toUpperCase() }).format((Number(data.amount_total) || 0) / 100);
+    result.innerHTML = `<span class="eyebrow">Payment confirmed</span><h1>Thank you.</h1><p>Your secure payment has been confirmed. We will use the delivery and contact details submitted during checkout to process your order.</p><div class="order-total"><span>Order total</span><br><strong>${total}</strong></div>${data.customer_email ? `<p>A Stripe receipt/order email will be associated with <strong>${data.customer_email}</strong>.</p>` : ""}<div class="purchase-actions"><a class="button primary" href="shield-autocare-uk.html">Continue shopping</a><a class="button light" href="uk-contact.html">Contact support</a></div>`;
+  } catch (error) {
+    result.innerHTML = `<span class="eyebrow">Omni Terrain UK</span><h1>Confirmation pending.</h1><p>${error.message || "We could not automatically verify this payment."} Your cart has not been cleared. Contact <a href="uk-contact.html"><strong>UK support</strong></a> if needed.</p>`;
+  }
+})();
+</script>
+</body>
+</html>
