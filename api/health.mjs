@@ -1,6 +1,8 @@
 export function GET() {
-  const key = process.env.STRIPE_SECRET_KEY || "";
-  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || "";
+  const rawKey = process.env.STRIPE_SECRET_KEY || "";
+  const rawWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET || "";
+  const key = rawKey.trim();
+  const webhookSecret = rawWebhookSecret.trim();
   const configured = key.startsWith("sk_");
   const mode = key.startsWith("sk_live_") ? "live" : key.startsWith("sk_test_") ? "test" : "unconfigured";
   const webhook_configured = webhookSecret.startsWith("whsec_");
