@@ -6,6 +6,7 @@ Purpose:
 - separate launch-wave catalogue selection from paid-ad Hero research
 - reduce fitment-heavy products from the first storefront wave
 - preserve expansion candidates instead of discarding them
+- avoid substring collisions when classifying fitment signals
 
 This script is intentionally streaming-friendly for the 512 MB Lightsail box.
 It does NOT approve MAP/brand rights, content/image rights, market price or final sale eligibility.
@@ -22,9 +23,9 @@ from pathlib import Path
 
 HIGH_FITMENT = [
     "shock", "strut", "stabilizer", "control arm", "coilover", "steering shaft",
-    "suspension", "lift kit", "lowering kit", "leveling kit", "sway bar",
-    "headlight", "tail light", "taillight", "fog light", "grille", "fender",
-    "bumper", "running board", "nerf", "wheel spacer", "hub assembly",
+    "steering coupler", "suspension", "lift kit", "lowering kit", "leveling kit",
+    "sway bar", "headlight", "tail light", "taillight", "fog light", "grille",
+    "fender", "bumper", "running board", "nerf", "wheel spacer", "hub assembly",
     "cv axle", "driveshaft", "motor mount", "transmission mount", "header",
 ]
 
@@ -34,6 +35,19 @@ MODEL_SPECIFIC = [
     "gladiator", "bronco", "mustang", "camaro", "corvette", "charger", "challenger",
     "sprinter", "transit", "promaster", "suburban", "tahoe", "yukon",
 ]
+
+VEHICLE_MAKES = [
+    "ford", "chevrolet", "chevy", "gmc", "dodge", "ram", "toyota", "nissan",
+    "jeep", "honda", "subaru", "mercury", "lincoln", "cadillac", "buick",
+    "mazda", "volkswagen", "bmw", "mercedes", "audi", "kia", "hyundai",
+]
+
+# These words are valid vehicle makes but also occur frequently in non-auto product names.
+# Do not treat them as vehicle-fitment signals when the stronger non-auto phrase is present.
+MAKE_COLLISION_PHRASES = {
+    "ram": ["ram mount", "ram mounts", "ram-mount"],
+    "mercury": ["mercury marine", "mercury outboard", "mercury mercruiser"],
+}
 
 LOW_FITMENT_HINTS = [
     "universal", "ball mount", "pintle", "gooseneck ball", "hitch lock", "receiver lock",
@@ -61,17 +75,72 @@ def text_for(row):
     ).lower()
 
 
+def term_pattern(term):
+    """Compile a token/phrase matcher instead of unsafe ``term in text`` matching.
+
+    Spaces inside phrases also match hyphen, slash or underscore separators. The final
+    word accepts a simple plural for normal alphabetic terms, which catches inputs such
+    as SHOCKS and HEADLIGHTS without allowing matches inside unrelated words.
+    """
+    raw = term.strip().lower()
+    pieces = [p for p in re.split(r"[\s/_-]+", raw) if p]
+    if not pieces:
+        return re.compile(r"a^")
+
+    encoded = [re.escape(piece) for piece in pieces]
+    last = pieces[-1]
+    if last.isalpha() and not last.endswith("s"):
+        encoded[-1] = rf"{re.escape(last)}(?:s|es)?"
+    body = r"[\s/_-]+".join(encoded)
+    return re.compile(rf"(?<![a-z0-9]){body}(?![a-z0-9])", re.IGNORECASE)
+
+
+TERM_PATTERNS = {
+    term: term_pattern(term)
+    for term in set(HIGH_FITMENT + MODEL_SPECIFIC + VEHICLE_MAKES + LOW_FITMENT_HINTS)
+}
+
+
+def has_term(text, term):
+    pattern = TERM_PATTERNS.get(term)
+    if pattern is None:
+        pattern = term_pattern(term)
+    return bool(pattern.search(text))
+
+
+def matching_terms(text, terms):
+    return [term for term in terms if has_term(text, term)]
+
+
+def vehicle_make_hits(text):
+    hits = []
+    for make in VEHICLE_MAKES:
+        if not has_term(text, make):
+            continue
+        collisions = MAKE_COLLISION_PHRASES.get(make, [])
+        if any(term_pattern(phrase).search(text) for phrase in collisions):
+            continue
+        hits.append(make)
+    return hits
+
+
 def fitment_risk(row):
     text = text_for(row)
-    high_hits = [k for k in HIGH_FITMENT if k in text]
-    model_hits = [k for k in MODEL_SPECIFIC if k in text]
+    high_hits = matching_terms(text, HIGH_FITMENT)
+    model_hits = matching_terms(text, MODEL_SPECIFIC)
     year_hits = re.findall(r"\b(?:19|20)\d{2}\b", text)
-    low_hits = [k for k in LOW_FITMENT_HINTS if k in text]
+    low_hits = matching_terms(text, LOW_FITMENT_HINTS)
+    make_hits = vehicle_make_hits(text)
 
     if high_hits:
         return "HIGH", ",".join(high_hits[:4])
-    if model_hits or len(year_hits) >= 1:
+    if model_hits or year_hits:
         return "MEDIUM", ",".join((model_hits + year_hits)[:4])
+    # A nominally universal accessory becomes fitment-sensitive when the listing itself
+    # names a vehicle make. This catches examples such as "5/8 receiver lock Ford" while
+    # keeping generic receiver locks in LOW.
+    if make_hits and low_hits:
+        return "MEDIUM", ",".join((make_hits + low_hits)[:4])
     if low_hits:
         return "LOW", ",".join(low_hits[:4])
     return "MEDIUM", "no-universal-signal"
@@ -151,11 +220,39 @@ def write_rows(path, fieldnames, rows):
         w.writerows(rows)
 
 
+def run_self_test():
+    """Fast regression suite for the known fitment/collision edge cases."""
+    cases = [
+        ("PERFORMANCE SHOCKS", "HIGH"),
+        ("LED HEADLIGHTS", "HIGH"),
+        ("5/8 RECEIVER LOCK FORD", "MEDIUM"),
+        ("5/8 RECEIVER LOCK", "LOW"),
+        ("STEERING COUPLER", "HIGH"),
+        ("RAM Mount fish finder", "LOW"),
+        ("Mercury Marine battery switch", "LOW"),
+    ]
+    failures = []
+    for description, expected in cases:
+        actual, signals = fitment_risk({"LongDescription": description})
+        status = "PASS" if actual == expected else "FAIL"
+        print(f"{status} | expected={expected:<6} actual={actual:<6} | {description} | {signals}")
+        if actual != expected:
+            failures.append((description, expected, actual, signals))
+    if failures:
+        raise SystemExit(f"SELF TEST FAILED = {len(failures)}")
+    print(f"SELF TEST PASSED = {len(cases)}")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--input", default="/home/ubuntu/keystone/feed/master_catalog.csv")
     ap.add_argument("--output-dir", default="/home/ubuntu/keystone/feed")
+    ap.add_argument("--self-test", action="store_true", help="run fast classifier regression tests and exit")
     args = ap.parse_args()
+
+    if args.self_test:
+        run_self_test()
+        return
 
     source = Path(args.input)
     outdir = Path(args.output_dir)
