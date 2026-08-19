@@ -12,14 +12,14 @@ SITE = "https://omni-terrain.com"
 APPROVAL_FIELDS = [
     "VCPN","BrandAuthorized","ChannelAuthorized","MAPVerified","ContentRights",
     "LiveStockVerified","ShippingVerified","ReturnsVerified","MarketPriceVerified",
-    "PaidAdsEnabled","SellPrice","ShippingCharge","SupplierShippingCost",
+    "DirectCheckoutEnabled","PaidAdsEnabled","SellPrice","ShippingCharge","SupplierShippingCost",
     "CompetitorDeliveredPrice","CompetitorSource","CustomerValuePass",
     "ProductTitle","ProductDescription","ImageURL","ProductURL","GTIN","Notes",
 ]
 REPORT_FIELDS = [
     "VCPN","VendorName","ManufacturerPartNo","CategoryInferred","CatalogVisible",
-    "CheckoutReady","SearchAdsReady","MerchantReady","PlanningNetBeforeAds",
-    "CompetitorDeliveredPrice","GateReasons",
+    "CheckoutReady","SearchAdsReady","MerchantReady","DirectCheckoutEnabled",
+    "PlanningNetBeforeAds","CompetitorDeliveredPrice","GateReasons",
 ]
 MERCHANT_FIELDS = [
     "id","title","description","link","image_link","availability","price","brand",
@@ -36,6 +36,7 @@ def map_ok(v): return upper(v) in MAP_OK
 def content_visible(v): return upper(v) in CONTENT_VISIBLE
 def media_ok(v): return yes(v)
 def paid_enabled(a): return yes(a.get("PaidAdsEnabled")) or yes(a.get("AdEnabled"))
+def direct_checkout(a): return yes(a.get("DirectCheckoutEnabled"))
 
 def money(v):
     try: return round(float(clean(v).replace("$","").replace(",","")), 2)
@@ -85,6 +86,7 @@ def init_approvals(launch, path):
         for f in ["BrandAuthorized","ChannelAuthorized","MAPVerified","ContentRights",
                   "LiveStockVerified","ShippingVerified","ReturnsVerified","MarketPriceVerified","CustomerValuePass"]:
             if not clean(row[f]): row[f]="PENDING"
+        if not clean(row["DirectCheckoutEnabled"]): row["DirectCheckoutEnabled"]="NO"
         if not clean(row["PaidAdsEnabled"]): row["PaidAdsEnabled"]="NO"
         if not clean(row["GTIN"]): row["GTIN"]=clean(feed.get("UPCCode"))
         output.append(row)
@@ -94,6 +96,7 @@ def init_approvals(launch, path):
             row={f:prev.get(f,"") for f in APPROVAL_FIELDS}
             if not clean(row["PaidAdsEnabled"]) and clean(prev.get("AdEnabled")):
                 row["PaidAdsEnabled"]=prev["AdEnabled"]
+            if not clean(row["DirectCheckoutEnabled"]): row["DirectCheckoutEnabled"]="NO"
             output.append(row)
     write_csv(path,APPROVAL_FIELDS,output)
     print(f"APPROVAL TEMPLATE ROWS = {len(output):,}")
@@ -133,7 +136,8 @@ def evaluate(feed,a):
         if not passed: checkout=False; reasons.append(reason)
     search=checkout and paid_enabled(a)
     if checkout and not paid_enabled(a): reasons.append("ads:not-paid-enabled")
-    merchant=checkout
+    merchant=checkout and direct_checkout(a)
+    if checkout and not direct_checkout(a): reasons.append("merchant:direct-checkout-disabled")
     for passed,reason in [
         (media_ok(a.get("ContentRights")),"merchant:media-rights"),
         (bool(desc),"merchant:description"),(bool(image),"merchant:image"),
@@ -143,6 +147,7 @@ def evaluate(feed,a):
     merged=dict(feed)
     merged.update({"ApprovedProductTitle":title,"ApprovedProductDescription":desc,
         "ApprovedImageURL":image,"ApprovedProductURL":url,"ApprovedGTIN":gtin,
+        "DirectCheckoutEnabled":"YES" if direct_checkout(a) else "NO",
         "SellPriceUSD":f"{price:.2f}" if price>0 else "","ShippingChargeUSD":f"{shipping:.2f}",
         "SupplierShippingCostUSD":f"{supplier_shipping:.2f}",
         "CompetitorDeliveredPriceUSD":f"{competitor_price:.2f}" if competitor_price>0 else "",
@@ -151,7 +156,8 @@ def evaluate(feed,a):
     report={"VCPN":k,"VendorName":clean(feed.get("VendorName")),"ManufacturerPartNo":mpn,
         "CategoryInferred":category,"CatalogVisible":"YES" if visible else "NO",
         "CheckoutReady":"YES" if checkout else "NO","SearchAdsReady":"YES" if search else "NO",
-        "MerchantReady":"YES" if merchant else "NO","PlanningNetBeforeAds":f"{planning_net:.2f}" if price>0 else "",
+        "MerchantReady":"YES" if merchant else "NO","DirectCheckoutEnabled":"YES" if direct_checkout(a) else "NO",
+        "PlanningNetBeforeAds":f"{planning_net:.2f}" if price>0 else "",
         "CompetitorDeliveredPrice":f"{competitor_price:.2f}" if competitor_price>0 else "",
         "GateReasons":";".join(dict.fromkeys(reasons)) if reasons else "PASS"}
     mrow={"id":k,"title":title,"description":desc,"link":url,"image_link":image,
@@ -164,7 +170,7 @@ def self_test():
           "UPCCode":"012345678901","CategoryInferred":"AUTO"}
     a={"BrandAuthorized":"YES","ChannelAuthorized":"YES","MAPVerified":"N/A",
        "ContentRights":"YES","LiveStockVerified":"YES","ShippingVerified":"YES",
-       "ReturnsVerified":"YES","MarketPriceVerified":"YES","PaidAdsEnabled":"YES",
+       "ReturnsVerified":"YES","MarketPriceVerified":"YES","DirectCheckoutEnabled":"YES","PaidAdsEnabled":"YES",
        "SellPrice":"129.99","ShippingCharge":"0","SupplierShippingCost":"8",
        "CompetitorDeliveredPrice":"139.99","CompetitorSource":"Major retailer","CustomerValuePass":"YES",
        "ProductTitle":"Test Product","ProductDescription":"Original description",
@@ -173,13 +179,15 @@ def self_test():
     _,r,v,c,s,m,_=evaluate(feed,a); assert v and c and s and m, r
     a["PaidAdsEnabled"]="NO"
     _,r,v,c,s,m,_=evaluate(feed,a); assert v and c and not s and m, r
+    a["DirectCheckoutEnabled"]="NO"
+    _,r,v,c,s,m,_=evaluate(feed,a); assert v and c and not s and not m and "merchant:direct-checkout-disabled" in r["GateReasons"]
     a["BrandAuthorized"]="PENDING"
     _,r,_,c,s,m,_=evaluate(feed,a); assert not c and not s and not m and "sale:brand-authorization" in r["GateReasons"]
-    a["BrandAuthorized"]="YES"; a["ContentRights"]="FACTS_ONLY"
+    a["BrandAuthorized"]="YES"; a["DirectCheckoutEnabled"]="YES"; a["ContentRights"]="FACTS_ONLY"
     _,r,v,c,s,m,_=evaluate(feed,a); assert v and c and not s and not m and "merchant:media-rights" in r["GateReasons"]
     a["ContentRights"]="YES"; a["PaidAdsEnabled"]="YES"; a["ImageURL"]=""
     _,r,v,c,s,m,_=evaluate(feed,a); assert v and c and s and not m and "merchant:image" in r["GateReasons"]
-    print("SELF TEST PASSED = 5")
+    print("SELF TEST PASSED = 6")
 
 def main():
     p=argparse.ArgumentParser(); p.add_argument("--launch",default=str(DEFAULT_LAUNCH))
@@ -194,7 +202,7 @@ def main():
     if not approvals_path.exists(): raise SystemExit(f"Approval ledger missing: {approvals_path}. Run --init-approvals first.")
     approvals=load_approvals(approvals_path); catalogue=[]; checkout=[]; search=[]; merchant=[]; reports=[]; missing=0
     extra=["ApprovedProductTitle","ApprovedProductDescription","ApprovedImageURL","ApprovedProductURL","ApprovedGTIN",
-           "SellPriceUSD","ShippingChargeUSD","SupplierShippingCostUSD","CompetitorDeliveredPriceUSD",
+           "DirectCheckoutEnabled","SellPriceUSD","ShippingChargeUSD","SupplierShippingCostUSD","CompetitorDeliveredPriceUSD",
            "CompetitorSource","PlanningNetBeforeAdsUSD"]
     output_fields=list(launch_fields)+[f for f in extra if f not in launch_fields]
     for feed in launch:
