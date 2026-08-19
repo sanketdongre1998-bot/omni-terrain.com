@@ -40,11 +40,16 @@ DERIVED_FIELDS = [
 
 CATEGORY_KEYWORDS = {
     "AUTO": [
-        "automotive", "vehicle", "truck", "jeep", "brake", "hitch", "tow ",
-        "towing", "ball mount", "receiver", "gooseneck", "pintle", "trailer brake",
-        "control arm", "shock", "strut", "suspension", "steering", "bumper", "grille",
-        "wheel", "axle", "differential", "exhaust", "intake", "radiator", "winch",
-        "running board", "nerf", "fender", "driveshaft", "transmission",
+        "automotive", "vehicle", "truck", "jeep", "brake", "hitch", "tow",
+        "towing", "ball mount", "receiver", "receiver lock", "gooseneck", "pintle",
+        "trailer brake", "control arm", "shock", "strut", "suspension", "steering",
+        "steering coupler", "bumper", "grille", "wheel", "axle", "differential",
+        "exhaust", "intake", "radiator", "winch", "running board", "nerf", "fender",
+        "driveshaft", "transmission", "headlight", "tail light", "taillight", "fog light",
+        "f150", "f-150", "f250", "f-250", "f350", "f-350", "silverado", "sierra",
+        "ram 1500", "ram 2500", "ram 3500", "tacoma", "tundra", "wrangler",
+        "gladiator", "bronco", "mustang", "camaro", "corvette", "charger",
+        "challenger", "grand marquis",
     ],
     "MARINE": [
         "marine", "boat", "bilge", "fishfinder", "fish finder", "sonar", "transducer",
@@ -53,7 +58,7 @@ CATEGORY_KEYWORDS = {
         "shore power", "windlass", "livewell",
     ],
     "RV": [
-        "rv ", "motorhome", "camper", "camping", "fifth wheel", "5th wheel", "awning",
+        "rv", "motorhome", "camper", "camping", "fifth wheel", "5th wheel", "awning",
         "sewer", "coach", "travel trailer", "rv trailer", "campervan", "leveling jack",
         "stabilizer jack", "converter/charger", "power center", "shore cord",
     ],
@@ -99,6 +104,32 @@ def score_bucket(value, rules):
     return 0
 
 
+def term_pattern(term):
+    """Match whole tokens/phrases and simple plurals without substring collisions."""
+    raw = term.strip().lower()
+    pieces = [p for p in re.split(r"[\s/_-]+", raw) if p]
+    if not pieces:
+        return re.compile(r"a^")
+    encoded = [re.escape(piece) for piece in pieces]
+    last = pieces[-1]
+    if last.isalpha() and not last.endswith("s"):
+        encoded[-1] = rf"{re.escape(last)}(?:s|es)?"
+    body = r"[\s/_-]+".join(encoded)
+    return re.compile(rf"(?<![a-z0-9]){body}(?![a-z0-9])", re.IGNORECASE)
+
+
+ALL_CATEGORY_TERMS = set(
+    term for terms in CATEGORY_KEYWORDS.values() for term in terms
+) | set(
+    term for terms in BRAND_HINTS.values() for term in terms
+)
+TERM_PATTERNS = {term: term_pattern(term) for term in ALL_CATEGORY_TERMS}
+
+
+def has_term(text, term):
+    return bool(TERM_PATTERNS.get(term, term_pattern(term)).search(text))
+
+
 def infer_category(row):
     vendor = clean(row.get("VendorName")).lower()
     text = " ".join([
@@ -109,9 +140,9 @@ def infer_category(row):
     ])
     scores = {category: 0 for category in CATEGORY_KEYWORDS}
     for category, keywords in CATEGORY_KEYWORDS.items():
-        scores[category] += sum(1 for keyword in keywords if keyword in text)
+        scores[category] += sum(1 for keyword in keywords if has_term(text, keyword))
     for category, hints in BRAND_HINTS.items():
-        scores[category] += 3 * sum(1 for hint in hints if hint in vendor)
+        scores[category] += 3 * sum(1 for hint in hints if has_term(vendor, hint))
     best = max(scores, key=scores.get)
     best_score = scores[best]
     tied = [k for k, v in scores.items() if v == best_score and v > 0]
@@ -232,11 +263,41 @@ def rank_tuple(row):
     )
 
 
+def run_self_test():
+    """Fast category regression suite for known Auto/Marine collision cases."""
+    cases = [
+        ({"VendorName": "Generic", "LongDescription": "PERFORMANCE SHOCKS"}, "AUTO"),
+        ({"VendorName": "Generic", "LongDescription": "LED HEADLIGHTS"}, "AUTO"),
+        ({"VendorName": "Generic", "LongDescription": "5/8 RECEIVER LOCK FORD"}, "AUTO"),
+        ({"VendorName": "Generic", "LongDescription": "STEERING COUPLER"}, "AUTO"),
+        ({"VendorName": "RAM Mounts", "LongDescription": "RAM Mount fish finder holder for boat"}, "MARINE"),
+        ({"VendorName": "Mercury Marine", "LongDescription": "Mercury Marine outboard battery switch"}, "MARINE"),
+        ({"VendorName": "Mercury", "LongDescription": "Mercury Grand Marquis steering coupler"}, "AUTO"),
+        ({"VendorName": "Generic", "LongDescription": "RAM 1500 receiver lock"}, "AUTO"),
+    ]
+    failures = []
+    for row, expected in cases:
+        actual, confidence, scores = infer_category(row)
+        description = row.get("LongDescription", "")
+        status = "PASS" if actual == expected else "FAIL"
+        print(f"{status} | expected={expected:<6} actual={actual:<12} confidence={confidence:<6} | {description} | {scores}")
+        if actual != expected:
+            failures.append((description, expected, actual, scores))
+    if failures:
+        raise SystemExit(f"SELF TEST FAILED = {len(failures)}")
+    print(f"SELF TEST PASSED = {len(cases)}")
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", default="/home/ubuntu/keystone/feed/Inventory.csv")
     parser.add_argument("--output-dir", default="/home/ubuntu/keystone/feed")
+    parser.add_argument("--self-test", action="store_true", help="run fast category regression tests and exit")
     args = parser.parse_args()
+
+    if args.self_test:
+        run_self_test()
+        return
 
     source = Path(args.input)
     out_dir = Path(args.output_dir)
