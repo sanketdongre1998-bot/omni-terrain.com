@@ -39,6 +39,7 @@ jobs:
           python scripts/keystone-master-catalogue.py --self-test
           python scripts/keystone-storefront-focus.py --self-test
           python scripts/keystone-commerce-gate.py --self-test
+          python scripts/keystone-launch-readiness.py --self-test
 
       - name: Regenerate catalogues
         run: |
