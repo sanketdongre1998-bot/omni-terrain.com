@@ -1,0 +1,18 @@
+name: Test Wave 1 factual content
+
+on:
+  pull_request:
+    paths:
+      - "scripts/keystone-seed-factual-content.py"
+      - ".github/workflows/test-wave1-factual-content.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run factual content regression test
+        run: python scripts/keystone-seed-factual-content.py --self-test
