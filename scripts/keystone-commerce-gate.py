@@ -12,12 +12,14 @@ SITE = "https://omni-terrain.com"
 APPROVAL_FIELDS = [
     "VCPN","BrandAuthorized","ChannelAuthorized","MAPVerified","ContentRights",
     "LiveStockVerified","ShippingVerified","ReturnsVerified","MarketPriceVerified",
-    "PaidAdsEnabled","SellPrice","ShippingCharge","ProductTitle","ProductDescription",
-    "ImageURL","ProductURL","GTIN","Notes",
+    "PaidAdsEnabled","SellPrice","ShippingCharge","SupplierShippingCost",
+    "CompetitorDeliveredPrice","CompetitorSource","CustomerValuePass",
+    "ProductTitle","ProductDescription","ImageURL","ProductURL","GTIN","Notes",
 ]
 REPORT_FIELDS = [
     "VCPN","VendorName","ManufacturerPartNo","CategoryInferred","CatalogVisible",
-    "CheckoutReady","SearchAdsReady","MerchantReady","GateReasons",
+    "CheckoutReady","SearchAdsReady","MerchantReady","PlanningNetBeforeAds",
+    "CompetitorDeliveredPrice","GateReasons",
 ]
 MERCHANT_FIELDS = [
     "id","title","description","link","image_link","availability","price","brand",
@@ -81,7 +83,7 @@ def init_approvals(launch, path):
             row["PaidAdsEnabled"]=prev["AdEnabled"]
         row["VCPN"]=k
         for f in ["BrandAuthorized","ChannelAuthorized","MAPVerified","ContentRights",
-                  "LiveStockVerified","ShippingVerified","ReturnsVerified","MarketPriceVerified"]:
+                  "LiveStockVerified","ShippingVerified","ReturnsVerified","MarketPriceVerified","CustomerValuePass"]:
             if not clean(row[f]): row[f]="PENDING"
         if not clean(row["PaidAdsEnabled"]): row["PaidAdsEnabled"]="NO"
         if not clean(row["GTIN"]): row["GTIN"]=clean(feed.get("UPCCode"))
@@ -103,7 +105,10 @@ def evaluate(feed,a):
     mpn=clean(feed.get("ManufacturerPartNo")); gtin=clean(a.get("GTIN")) or clean(feed.get("UPCCode"))
     title=clean(a.get("ProductTitle")); desc=clean(a.get("ProductDescription"))
     image=clean(a.get("ImageURL")); price=money(a.get("SellPrice"))
-    shipping=money(a.get("ShippingCharge")); url=product_url(feed,a)
+    shipping=money(a.get("ShippingCharge")); supplier_shipping=money(a.get("SupplierShippingCost"))
+    competitor_price=money(a.get("CompetitorDeliveredPrice")); url=product_url(feed,a)
+    cost=money(feed.get("Cost"))
+    planning_net=(price+shipping-cost-supplier_shipping-(price*0.035)-0.30-(price*0.025)) if price>0 else 0.0
     visible=True
     for passed,reason in [
         (category in {"AUTO","MARINE","RV"},"catalog:category"),
@@ -120,6 +125,9 @@ def evaluate(feed,a):
         (yes(a.get("ShippingVerified")),"sale:shipping"),
         (yes(a.get("ReturnsVerified")),"sale:returns"),
         (yes(a.get("MarketPriceVerified")),"sale:market-price"),
+        (yes(a.get("CustomerValuePass")),"sale:customer-value"),
+        (bool(clean(a.get("CompetitorSource"))),"sale:competitor-source"),
+        (competitor_price>0,"sale:competitor-price"),
         (price>0,"sale:price"),(bool(url),"sale:url"),
     ]:
         if not passed: checkout=False; reasons.append(reason)
@@ -135,11 +143,16 @@ def evaluate(feed,a):
     merged=dict(feed)
     merged.update({"ApprovedProductTitle":title,"ApprovedProductDescription":desc,
         "ApprovedImageURL":image,"ApprovedProductURL":url,"ApprovedGTIN":gtin,
-        "SellPriceUSD":f"{price:.2f}" if price>0 else "","ShippingChargeUSD":f"{shipping:.2f}"})
+        "SellPriceUSD":f"{price:.2f}" if price>0 else "","ShippingChargeUSD":f"{shipping:.2f}",
+        "SupplierShippingCostUSD":f"{supplier_shipping:.2f}",
+        "CompetitorDeliveredPriceUSD":f"{competitor_price:.2f}" if competitor_price>0 else "",
+        "CompetitorSource":clean(a.get("CompetitorSource")),
+        "PlanningNetBeforeAdsUSD":f"{planning_net:.2f}" if price>0 else ""})
     report={"VCPN":k,"VendorName":clean(feed.get("VendorName")),"ManufacturerPartNo":mpn,
         "CategoryInferred":category,"CatalogVisible":"YES" if visible else "NO",
         "CheckoutReady":"YES" if checkout else "NO","SearchAdsReady":"YES" if search else "NO",
-        "MerchantReady":"YES" if merchant else "NO",
+        "MerchantReady":"YES" if merchant else "NO","PlanningNetBeforeAds":f"{planning_net:.2f}" if price>0 else "",
+        "CompetitorDeliveredPrice":f"{competitor_price:.2f}" if competitor_price>0 else "",
         "GateReasons":";".join(dict.fromkeys(reasons)) if reasons else "PASS"}
     mrow={"id":k,"title":title,"description":desc,"link":url,"image_link":image,
         "availability":"in_stock","price":f"{price:.2f} USD","brand":clean(feed.get("VendorName")),
@@ -147,14 +160,16 @@ def evaluate(feed,a):
     return merged,report,visible,checkout,search,merchant,mrow
 
 def self_test():
-    feed={"VCPN":"T1","VendorName":"Test","ManufacturerPartNo":"MPN1",
+    feed={"VCPN":"T1","VendorName":"Test","ManufacturerPartNo":"MPN1","Cost":"60",
           "UPCCode":"012345678901","CategoryInferred":"AUTO"}
     a={"BrandAuthorized":"YES","ChannelAuthorized":"YES","MAPVerified":"N/A",
        "ContentRights":"YES","LiveStockVerified":"YES","ShippingVerified":"YES",
        "ReturnsVerified":"YES","MarketPriceVerified":"YES","PaidAdsEnabled":"YES",
-       "SellPrice":"129.99","ShippingCharge":"0","ProductTitle":"Test Product",
-       "ProductDescription":"Original description","ImageURL":"https://example.com/x.jpg",
-       "ProductURL":"https://omni-terrain.com/us-test.html","GTIN":"012345678901"}
+       "SellPrice":"129.99","ShippingCharge":"0","SupplierShippingCost":"8",
+       "CompetitorDeliveredPrice":"139.99","CompetitorSource":"Major retailer","CustomerValuePass":"YES",
+       "ProductTitle":"Test Product","ProductDescription":"Original description",
+       "ImageURL":"https://example.com/x.jpg","ProductURL":"https://omni-terrain.com/us-test.html",
+       "GTIN":"012345678901"}
     _,r,v,c,s,m,_=evaluate(feed,a); assert v and c and s and m, r
     a["PaidAdsEnabled"]="NO"
     _,r,v,c,s,m,_=evaluate(feed,a); assert v and c and not s and m, r
@@ -178,7 +193,9 @@ def main():
     if args.init_approvals: init_approvals(launch,approvals_path); return
     if not approvals_path.exists(): raise SystemExit(f"Approval ledger missing: {approvals_path}. Run --init-approvals first.")
     approvals=load_approvals(approvals_path); catalogue=[]; checkout=[]; search=[]; merchant=[]; reports=[]; missing=0
-    extra=["ApprovedProductTitle","ApprovedProductDescription","ApprovedImageURL","ApprovedProductURL","ApprovedGTIN","SellPriceUSD","ShippingChargeUSD"]
+    extra=["ApprovedProductTitle","ApprovedProductDescription","ApprovedImageURL","ApprovedProductURL","ApprovedGTIN",
+           "SellPriceUSD","ShippingChargeUSD","SupplierShippingCostUSD","CompetitorDeliveredPriceUSD",
+           "CompetitorSource","PlanningNetBeforeAdsUSD"]
     output_fields=list(launch_fields)+[f for f in extra if f not in launch_fields]
     for feed in launch:
         a=approvals.get(key(feed))
