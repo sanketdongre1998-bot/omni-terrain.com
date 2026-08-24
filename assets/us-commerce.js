@@ -111,7 +111,7 @@
     if (!document.querySelector(".store-catalogue")) return;
 
     setMeta("robots", "index,follow");
-    setMeta("description", "Browse 50 automotive, towing, RV, overlanding and marine product records from established brands. Add products to the OMNI Terrain request cart for availability, pricing and shipping review.");
+    setMeta("description", "Browse 1,000 curated Auto Parts, Marine and RV product records. Add products to the Omni Terrain request cart for availability, pricing and shipping review.");
 
     const statusChip = document.querySelector(".availability-strip .status-chip");
     const availabilityText = document.querySelector(".availability-strip .container span:last-child");
@@ -136,7 +136,7 @@
     const product = getProduct(document.body.dataset.productId);
     setMeta("robots", "index,follow");
     if (product) {
-      setMeta("description", product.brand + " " + product.title + ", MPN " + product.mpn + ". Review specifications and submit an availability, price and shipping request through OMNI Terrain.");
+      setMeta("description", product.brand + " " + product.title + ", MPN " + product.mpn + ". Review specifications and submit an availability, price and shipping request through Omni Terrain.");
     }
 
     const statusChip = document.querySelector(".availability-strip .status-chip");
@@ -159,7 +159,7 @@
     if (purchaseLabel) purchaseLabel.textContent = "Request status";
     if (purchaseTitle) purchaseTitle.textContent = "Confirmation Required";
     if (priceText) priceText.textContent = "Price confirmed after review";
-    if (purchaseCopy) purchaseCopy.textContent = "Add this product to the request cart. OMNI Terrain will confirm supplier availability, final price, shipping, return terms and secure payment before accepting an order.";
+    if (purchaseCopy) purchaseCopy.textContent = "Add this product to the request cart. Omni Terrain will confirm supplier availability, final price, shipping, return terms and secure payment before accepting an order.";
 
     const shippingCopy = document.querySelector(".shipping-card p");
     if (shippingCopy) shippingCopy.textContent = "Shipping method, dispatch estimate, damage handling, return address and product-specific conditions are confirmed before payment. No unavailable product is charged or treated as an accepted order.";
@@ -325,7 +325,7 @@
       const request = { reference, createdAt: new Date().toISOString(), customer: data, items: cart };
       localStorage.setItem(REQUEST_KEY, JSON.stringify(request));
 
-      const subject = "OMNI Terrain order request " + reference;
+      const subject = "Omni Terrain order request " + reference;
       const body = [
         "Order request reference: " + reference,
         "",
@@ -340,14 +340,14 @@
         "",
         "Notes: " + (data.notes || "None"),
         "",
-        "OMNI Terrain support: " + US_PHONE_DISPLAY,
+        "Omni Terrain support: " + US_PHONE_DISPLAY,
         "I understand availability, price, shipping, returns and secure payment will be confirmed before order acceptance."
       ].join("\n");
 
       const emailUrl = "mailto:procurement@omni-terrain.com?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
       if (status) {
         status.classList.add("show");
-        status.innerHTML = '<b>Guest request ' + escapeHtml(reference) + ' is ready.</b><br>Your details were validated. Use the button below to send the request to OMNI Terrain. No account was created and no payment has been taken.<br><a class="button dark" style="margin-top:12px" href="' + emailUrl + '">Email order request</a>';
+        status.innerHTML = '<b>Guest request ' + escapeHtml(reference) + ' is ready.</b><br>Your details were validated. Use the button below to send the request to Omni Terrain. No account was created and no payment has been taken.<br><a class="button dark" style="margin-top:12px" href="' + emailUrl + '">Email order request</a>';
       }
     });
   }

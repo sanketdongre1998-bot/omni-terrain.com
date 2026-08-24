@@ -1,5 +1,7 @@
-# Site refreshed for UK compliance review 2026-08-11
 User-agent: *
+
 Allow: /
+
+
 
 Sitemap: https://omni-terrain.com/sitemap.xml
