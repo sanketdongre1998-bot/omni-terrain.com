@@ -175,7 +175,7 @@ for p in ROOT.glob("*.html"):
 
 
 
-    if re.search(r'\b50\s+(?:focused\s+)?product', text, re.I):
+    if re.search(r'\b50\s+(?:focused\s+)?(?:US\s+)?product', text, re.I):
 
         old_50.append(p.name)
 
