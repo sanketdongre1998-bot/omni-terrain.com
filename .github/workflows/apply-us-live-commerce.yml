@@ -35,20 +35,23 @@ jobs:
           path.write_text(text, encoding='utf-8')
           PY
 
+      - name: Apply customer-facing retail copy
+        run: python scripts/keystone-retailize-storefront.py --root .
+
       - name: Inject live-commerce runtime
         run: python scripts/inject-us-live-commerce.py --root .
 
       - name: Validate Wave 1 storefront
         run: python scripts/test-wave1-storefront.py
 
-      - name: Commit generated hooks
+      - name: Commit storefront updates
         run: |
           if git diff --quiet; then
-            echo "No storefront hook changes required."
+            echo "No storefront changes required."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add scripts/test-wave1-storefront.py -- '*.html'
-          git commit -m "Attach verified US commerce runtime to storefront"
+          git commit -m "Retailize Wave 1 and attach verified US commerce runtime"
           git push origin HEAD:main
