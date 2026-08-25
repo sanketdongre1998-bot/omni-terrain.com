@@ -1,136 +1,59 @@
-
 name: Validate Omni Terrain storefront
 
-
-
 on:
-
   workflow_dispatch:
-
   pull_request:
-
   push:
-
     branches:
-
       - main
-
     paths:
-
       - "*.html"
-
       - "assets/**"
-
       - "scripts/**"
-
       - "storefront-manifest.json"
-
       - "sitemap.xml"
-
       - "robots.txt"
-
       - ".github/workflows/finalize-us-store.yml"
 
-
-
 permissions:
-
   contents: read
 
-
-
 concurrency:
-
   group: validate-storefront-${{ github.ref }}
-
   cancel-in-progress: true
 
-
-
 jobs:
-
   validate:
-
     runs-on: ubuntu-latest
-
-
-
     steps:
-
       - name: Check out source
-
         uses: actions/checkout@v4
 
-
-
       - name: Set up Node
-
         uses: actions/setup-node@v4
-
         with:
-
-          node-version: "20"
-
-
+          node-version: "24"
 
       - name: Validate Keystone classifiers and commerce gates
-
         run: |
-
           python scripts/keystone-master-catalogue.py --self-test
-
           python scripts/keystone-storefront-focus.py --self-test
-
           python scripts/keystone-commerce-gate.py --self-test
-
           python scripts/keystone-launch-readiness.py --self-test
-
           python scripts/keystone-build-storefront.py --self-test
 
-
-
       - name: Validate 1000-product Wave1 storefront
-
         run: python scripts/test-wave1-storefront.py
 
-
-
       - name: Validate UK catalogue generator
-
         run: |
-
           node scripts/generate-shield-uk.cjs
-
-
-
-          git checkout -- \
-
-            uk.html \
-
-            uk-contact.html \
-
-            uk-shipping-delivery-policy.html \
-
-            uk-returns-refunds-policy.html \
-
-            uk-privacy-policy.html \
-
-            uk-terms-conditions.html
-
-
-
+          git checkout -- uk.html uk-contact.html uk-shipping-delivery-policy.html uk-returns-refunds-policy.html uk-privacy-policy.html uk-terms-conditions.html
           git diff --exit-code
 
-
-
       - name: Validate shared commerce and routes
-
         run: |
-
           node scripts/test-shield-uk.cjs
-
           node scripts/test-commerce-runtime.cjs
-
           node scripts/test-http-routes.cjs
-
           node scripts/test-site-seo.cjs
