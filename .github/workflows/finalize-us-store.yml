@@ -41,6 +41,7 @@ jobs:
           python scripts/keystone-commerce-gate.py --self-test
           python scripts/keystone-launch-readiness.py --self-test
           python scripts/keystone-build-storefront.py --self-test
+          python scripts/keystone-retailize-storefront.py --self-test
 
       - name: Validate 1000-product Wave1 storefront
         run: python scripts/test-wave1-storefront.py
