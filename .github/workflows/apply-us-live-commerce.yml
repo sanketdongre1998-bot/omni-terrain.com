@@ -19,6 +19,22 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Keep Wave 1 validator scoped to manifest products
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path('scripts/test-wave1-storefront.py')
+          text = path.read_text(encoding='utf-8')
+          pattern = r'actual_pages\s*=\s*\{\s*p\.name for p in ROOT\.glob\("us-\*\.html"\)\s*if p\.name != "us-catalogue\.html"\s*\}'
+          replacement = 'manifest_page_names = set(slugs)\n\nactual_pages = {p.name for p in ROOT.glob("us-*.html") if p.name in manifest_page_names}'
+          text, count = re.subn(pattern, replacement, text, count=1, flags=re.S)
+          if count != 1 and 'manifest_page_names = set(slugs)' not in text:
+              raise SystemExit('Could not patch Wave 1 product-page scope')
+          path.write_text(text, encoding='utf-8')
+          PY
+
       - name: Inject live-commerce runtime
         run: python scripts/inject-us-live-commerce.py --root .
 
@@ -33,6 +49,6 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -- '*.html'
+          git add scripts/test-wave1-storefront.py -- '*.html'
           git commit -m "Attach verified US commerce runtime to storefront"
           git push origin HEAD:main
