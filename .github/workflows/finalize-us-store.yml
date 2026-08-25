@@ -10,6 +10,7 @@ on:
       - "*.html"
       - "assets/**"
       - "scripts/**"
+      - "us-checkout-service/**"
       - "storefront-manifest.json"
       - "sitemap.xml"
       - "robots.txt"
@@ -45,6 +46,9 @@ jobs:
 
       - name: Validate 1000-product Wave1 storefront
         run: python scripts/test-wave1-storefront.py
+
+      - name: Validate isolated US checkout safety
+        run: node scripts/test-us-checkout-service.mjs
 
       - name: Validate UK catalogue generator
         run: |
