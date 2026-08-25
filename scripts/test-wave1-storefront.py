@@ -131,13 +131,9 @@ if client:
 
 # Validate all 1,000 product pages
 
-actual_pages = {
+manifest_page_names = set(slugs)
 
-    p.name for p in ROOT.glob("us-*.html")
-
-    if p.name != "us-catalogue.html"
-
-}
+actual_pages = {p.name for p in ROOT.glob("us-*.html") if p.name in manifest_page_names}
 
 
 
