@@ -1,0 +1,38 @@
+name: Apply Omni Terrain US live-commerce hooks
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/apply-us-live-commerce.yml
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Inject live-commerce runtime
+        run: python scripts/inject-us-live-commerce.py --root .
+
+      - name: Validate Wave 1 storefront
+        run: python scripts/test-wave1-storefront.py
+
+      - name: Commit generated hooks
+        run: |
+          if git diff --quiet; then
+            echo "No storefront hook changes required."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- '*.html'
+          git commit -m "Attach verified US commerce runtime to storefront"
+          git push origin HEAD:main
