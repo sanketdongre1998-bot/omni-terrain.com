@@ -118,7 +118,9 @@ function testCartRendering() {
   });
   run(document, localStorage);
 
-  if (!cartRoot.innerHTML.includes(products[0].title) || !cartRoot.innerHTML.includes(products[1].title)) {
+  // Titles are HTML escaped by the runtime before rendering, so assert the
+  // stable manufacturer part numbers rather than comparing unescaped HTML.
+  if (!cartRoot.innerHTML.includes(products[0].mpn) || !cartRoot.innerHTML.includes(products[1].mpn)) {
     throw new Error("Cart did not render selected product records");
   }
   if (checkoutLink.classList.contains("disabled")) throw new Error("Populated cart disabled checkout");
@@ -169,7 +171,7 @@ function testCheckoutHandoff() {
   });
   run(document, localStorage, { FormData: MockFormData });
 
-  if (!checkoutItems.innerHTML.includes(products[0].title)) throw new Error("Checkout review did not render the selected item");
+  if (!checkoutItems.innerHTML.includes(products[0].mpn)) throw new Error("Checkout review did not render the selected item");
   if (typeof form.handlers.submit !== "function") throw new Error("Checkout submit handler was not attached");
   form.handlers.submit({ preventDefault() {} });
   if (!status.classList.contains("show")) throw new Error("Checkout completion status was not shown");
