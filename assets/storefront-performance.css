@@ -1,0 +1,80 @@
+/* Omni Terrain universal storefront performance + device compatibility layer */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-padding-top:88px}
+body{min-width:320px;overflow-x:hidden}
+img,svg,video{max-width:100%}
+img{height:auto}
+button,input,select,textarea{font:inherit}
+button,a{-webkit-tap-highlight-color:transparent}
+
+/* Skip rendering work for off-screen catalogue blocks while keeping layout stable. */
+.card,.live-card,.category-card,.category-home,.policy-card,.why-card,.request-item,.uk-cart-item{
+  content-visibility:auto;
+  contain-intrinsic-size:1px 360px;
+}
+
+/* Prevent slow images from collapsing their containers. */
+.media,.live-media,.product-visual,.uk-cart-thumb,.hero-showcase{contain:layout paint}
+.media img,.live-media img,.product-visual img,.uk-cart-thumb img,.hero-showcase img{
+  transform:translateZ(0);
+  backface-visibility:hidden;
+}
+
+/* Better touch behaviour and safer text wrapping across narrow devices. */
+.product-copy h1,.card h3,.live-card h3,.policy-card h2,.footer-copy,.market-note{overflow-wrap:anywhere}
+@media(pointer:coarse){
+  .card:hover,.live-card:hover,.category-card:hover,.category-home:hover,.button:hover,.ot-theme-toggle:hover{transform:none!important}
+  button,.button,.card-link,.live-link,.nav a,.nav-links a,.mobile-nav a{min-height:44px}
+}
+
+/* Tablet / small laptop layout safeguards. */
+@media(max-width:1024px){
+  .container{width:min(100% - 28px,1360px)!important}
+  .product-layout{gap:24px!important}
+}
+
+/* Mobile-first stability. */
+@media(max-width:760px){
+  html{scroll-padding-top:72px}
+  body{font-size:16px}
+  .container{width:min(100% - 22px,1360px)!important}
+  .header-main,.header .container{gap:12px!important}
+  .nav,.nav-links{max-width:100%;overflow-x:auto;overscroll-behavior-inline:contain;scrollbar-width:none}
+  .nav::-webkit-scrollbar,.nav-links::-webkit-scrollbar{display:none}
+  .product-layout{grid-template-columns:1fr!important;gap:18px!important}
+  .product-visual{min-height:280px!important}
+  .product-copy{padding:20px!important}
+  .product-copy h1{font-size:clamp(2rem,10vw,3.2rem)!important}
+  .grid{gap:14px!important}
+  .footer-grid{gap:24px!important}
+  .mobile-store-bar{padding-bottom:max(6px,env(safe-area-inset-bottom))!important}
+}
+
+@media(max-width:420px){
+  .container{width:min(100% - 16px,1360px)!important}
+  .section,.home-section,.policy-wrap{padding-left:0!important;padding-right:0!important}
+  .card-body,.live-body{padding:16px!important}
+  .product-visual{min-height:240px!important;border-radius:18px!important}
+  .product-copy{border-radius:18px!important}
+  .ot-theme-toggle{right:10px!important}
+}
+
+/* Battery/data saver class applied by storefront-performance.js. */
+html.ot-perf-lite *,html.ot-perf-lite *::before,html.ot-perf-lite *::after{
+  animation-duration:.001ms!important;
+  animation-iteration-count:1!important;
+  transition-duration:.001ms!important;
+  scroll-behavior:auto!important;
+}
+html.ot-perf-lite .ot-stage-orbit,
+html.ot-perf-lite .ot-stage-glow,
+html.ot-perf-lite .ot-marquee-track{animation:none!important;transform:none!important}
+html.ot-perf-lite .ot-reel{transform:none!important}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.001ms!important;
+    scroll-behavior:auto!important;
+  }
+}
