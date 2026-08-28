@@ -10,6 +10,7 @@
 
   const CART_KEY = "omniTerrainUsCart";
   const file = decodeURIComponent(path.split("/").filter(Boolean).pop() || "");
+  if (/^(automotive|marine|rv)(?:-|\.)/.test(file)) document.documentElement.classList.add("ot-department-page");
 
   function cartCount() {
     try {
@@ -31,11 +32,27 @@
     return `<span class="ot-site-wordmark"><span class="ot-site-wordmark-main">OMNI</span><span class="ot-site-wordmark-sub">Terrain</span><span class="ot-site-wordmark-meta">Road / Water / Power</span></span>`;
   }
 
+  function injectFonts() {
+    if (!document.querySelector('link[href*="fonts.gstatic.com"]')) {
+      const preconnect = document.createElement("link");
+      preconnect.rel = "preconnect";
+      preconnect.href = "https://fonts.gstatic.com";
+      preconnect.crossOrigin = "anonymous";
+      document.head.appendChild(preconnect);
+    }
+    if (!document.querySelector('link[href*="fonts.googleapis.com/css2"][href*="Barlow"]')) {
+      const font = document.createElement("link");
+      font.rel = "stylesheet";
+      font.href = "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Teko:wght@500;600;700&display=swap";
+      document.head.appendChild(font);
+    }
+  }
+
   function injectCss() {
-    if (document.querySelector('link[href="assets/us-shell.css"],link[href="/assets/us-shell.css"]')) return;
+    if (document.querySelector('link[href^="assets/us-shell.css"],link[href^="/assets/us-shell.css"]')) return;
     const link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = "/assets/us-shell.css?v=1";
+    link.href = "/assets/us-shell.css?v=3";
     document.head.appendChild(link);
   }
 
@@ -48,8 +65,8 @@
     const shell = document.createElement("div");
     shell.id = "otUsShellTop";
     shell.innerHTML = `
-      <div class="ot-site-announcement"><div class="ot-shell-container"><span><strong>Omni Terrain US:</strong> Specialist parts for road, water &amp; travel.</span><a href="tel:+13075330570">Call +1 307-533-0570 →</a></div></div>
-      <div class="ot-site-market"><div class="ot-shell-container"><span class="ot-site-market-label">Store region</span><a class="active" href="index.html">United States</a><a href="uk.html">United Kingdom</a><span class="ot-site-market-note">1,000 products · Auto first · Marine · RV</span></div></div>
+      <div class="ot-site-announcement"><div class="ot-shell-container"><span><strong>Omni Terrain US:</strong> Specialist automotive, marine, RV &amp; 12V products.</span><a href="tel:+13075330570">Product support +1 307-533-0570 →</a></div></div>
+      <div class="ot-site-market"><div class="ot-shell-container"><span class="ot-site-market-label">Store region</span><a class="active" href="index.html">United States</a><a href="uk.html">United Kingdom</a><span class="ot-site-market-note">Online pricing is live on selected products.</span></div></div>
       <header class="ot-site-header" id="otSiteHeader"><div class="ot-shell-container ot-site-header-main">
         <a class="ot-site-brand" href="index.html" aria-label="Omni Terrain home">${brand()}</a>
         <nav class="ot-site-nav" aria-label="US store navigation"><a href="index.html">Home</a><a class="${active("catalogue")}" href="us-catalogue.html">Shop All</a><a class="${active("auto")}" href="automotive.html">Auto Parts</a><a class="${active("marine")}" href="marine.html">Marine</a><a class="${active("rv")}" href="rv.html">RV &amp; Overlanding</a><a class="${active("help")}" href="contact-and-order-help.html">Help</a></nav>
@@ -95,7 +112,7 @@
     document.querySelectorAll("[data-cart-count]").forEach((node) => { node.textContent = count; });
   }
 
-  function mount() { injectCss(); mountHeader(); mountFooter(); syncCart(); }
+  function mount() { injectFonts(); injectCss(); mountHeader(); mountFooter(); syncCart(); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount, { once: true });
   else mount();
 })();
