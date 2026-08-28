@@ -88,10 +88,10 @@
       document.body.appendChild(script);
     }
     if (!document.querySelector('script[data-ot-universal-checkout]')) {
-      const checkout = document.createElement("script");
-      checkout.src = "/assets/universal-checkout-ui.js?v=1";
-      checkout.dataset.otUniversalCheckout = "true";
-      document.body.appendChild(checkout);
+      const universal = document.createElement("script");
+      universal.src = "/assets/universal-checkout-ui.js?v=1";
+      universal.dataset.otUniversalCheckout = "true";
+      document.body.appendChild(universal);
     }
   }
 
@@ -102,6 +102,23 @@
     script.src = "/assets/catalogue-controls.js?v=2";
     script.dataset.otCatalogueControls = "true";
     document.body.appendChild(script);
+  }
+
+  function injectCommerceAssets() {
+    if (!(file === "cart.html" || file === "checkout.html")) return;
+    if (!document.querySelector('link[data-ot-commerce-premium]')) {
+      const css = document.createElement("link");
+      css.rel = "stylesheet";
+      css.href = "/assets/cart-checkout-premium.css?v=1";
+      css.dataset.otCommercePremium = "true";
+      document.head.appendChild(css);
+    }
+    if (!document.querySelector('script[data-ot-commerce-premium]')) {
+      const script = document.createElement("script");
+      script.src = "/assets/cart-checkout-premium.js?v=1";
+      script.dataset.otCommercePremium = "true";
+      document.body.appendChild(script);
+    }
   }
 
   function mountHeader() {
@@ -169,6 +186,7 @@
     syncCart();
     injectProductAssets();
     injectCatalogueAssets();
+    injectCommerceAssets();
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount, { once: true });
   else mount();
