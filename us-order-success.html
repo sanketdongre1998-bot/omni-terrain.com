@@ -5,19 +5,31 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
   <meta name="theme-color" content="#071a30">
-  <title>Order received | Omni Terrain</title>
+  <title>Order confirmation | Omni Terrain</title>
   <link rel="stylesheet" href="assets/us-catalogue.css">
-<link rel="stylesheet" href="assets/storefront-performance.css"></head>
+  <link rel="stylesheet" href="assets/storefront-performance.css">
+  <style>
+    .ot-success-wrap{width:min(920px,calc(100% - 32px));margin:0 auto;padding:72px 0 110px}.ot-success-card{padding:clamp(28px,6vw,64px);border-radius:28px;background:linear-gradient(135deg,#071a30,#0d2944);color:#fff;box-shadow:0 24px 70px rgba(7,26,48,.22)}.ot-success-kicker{color:#d5aa5b;font:700 11px/1.2 "DM Mono",monospace;text-transform:uppercase;letter-spacing:.14em}.ot-success-card h1{margin:16px 0 14px;font:800 clamp(3.2rem,8vw,6rem)/.82 "Barlow Condensed",sans-serif;text-transform:uppercase}.ot-success-card p{max-width:700px;margin:0;color:#d4e0eb;font:500 15px/1.75 Manrope,sans-serif}.ot-order-status{display:inline-flex;margin-top:24px;padding:10px 13px;border:1px solid rgba(255,255,255,.18);border-radius:999px;font:800 11px/1 Manrope,sans-serif}.ot-order-status.success{background:#e8f6ed;color:#145c31;border-color:#bde2c8}.ot-order-status.warning{background:#fff6df;color:#735714;border-color:#ead18d}.ot-order-status.error{background:#fff0ee;color:#8b352d;border-color:#e8bbb6}.ot-order-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.ot-order-meta span{padding:8px 10px;border:1px solid rgba(255,255,255,.15);border-radius:10px;color:#e5edf4;font:650 11px/1.2 Manrope,sans-serif}.ot-success-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}.ot-success-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 18px;border-radius:11px;text-decoration:none;font:800 12px/1 Manrope,sans-serif}.ot-success-actions .primary{background:#fff;color:#071a30}.ot-success-actions .secondary{border:1px solid rgba(255,255,255,.25);color:#fff}.ot-success-help{margin-top:28px!important;font-size:12px!important;color:#aebfcd!important}@media(max-width:620px){.ot-success-wrap{padding:42px 0 90px}.ot-success-card{border-radius:20px}.ot-success-actions{display:grid}.ot-success-actions a{width:100%}}
+    html[data-ot-theme="dark"] body{background:#07131f}
+  </style>
+</head>
 <body>
-  <main class="commerce-hero">
-    <div class="container">
-      <div class="commerce-shell">
-        <span class="eyebrow" style="color:var(--gold2)">Payment complete</span>
-        <h1>Thank you for your order</h1>
-        <p>Your secure payment was completed. Omni Terrain will send the order confirmation and fulfilment updates to the email used at checkout.</p>
-        <p style="margin-top:22px"><a class="button light" href="index.html">Return to Omni Terrain</a></p>
-      </div>
+  <main>
+    <div class="ot-success-wrap">
+      <section class="ot-success-card">
+        <div class="ot-success-kicker">Omni Terrain / Secure order</div>
+        <h1 id="otOrderTitle">Verifying your order</h1>
+        <p id="otOrderCopy">We are confirming the Stripe payment status before marking this order complete.</p>
+        <div class="ot-order-status" id="otOrderVerification" role="status">Connecting to secure payment verification…</div>
+        <div class="ot-order-meta" id="otOrderMeta"></div>
+        <div class="ot-success-actions"><a class="primary" href="index.html">Return to Omni Terrain</a><a class="secondary" href="contact-and-order-help.html">Order support</a></div>
+        <p class="ot-success-help">Keep the email used at checkout for order support. Do not submit a second payment if this page shows a verification delay.</p>
+      </section>
     </div>
   </main>
-<script defer src="assets/theme-toggle.js"></script><script defer src="assets/storefront-performance.js"></script><script defer src="assets/us-shell.js"></script></body>
+  <script defer src="assets/theme-toggle.js"></script>
+  <script defer src="assets/storefront-performance.js"></script>
+  <script defer src="assets/us-shell.js"></script>
+  <script defer src="assets/us-order-success.js?v=1"></script>
+</body>
 </html>
