@@ -86,5 +86,5 @@
       fetch('/assets/us-live-products.json?v=3',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(data=>{if(!data||!data.products)return;document.querySelectorAll('[data-live-price]').forEach(node=>{const p=data.products[node.dataset.livePrice];if(p&&p.enabled&&Number(p.priceCents)>0)node.textContent=new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(Number(p.priceCents)/100);});}).catch(()=>{});
     })();
   </script>
-</body>
+<script defer src="assets/theme-toggle.js"></script></body>
 </html>
