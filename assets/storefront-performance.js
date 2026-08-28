@@ -3,6 +3,20 @@
   if (window.__OMNI_PERFORMANCE__) return;
   window.__OMNI_PERFORMANCE__ = true;
 
+  const path=decodeURIComponent(String(location.pathname||"").split("/").filter(Boolean).pop()||"").toLowerCase();
+  const mobile=window.matchMedia&&window.matchMedia("(max-width:760px)").matches;
+
+  // Load the final responsive image layer after legacy page CSS.
+  if(!document.querySelector('link[data-ot-image-layout]')){
+    const imageCss=document.createElement("link");imageCss.rel="stylesheet";imageCss.href="/assets/image-layout-fix.css?v=2";imageCss.dataset.otImageLayout="true";document.head.appendChild(imageCss);
+  }
+  // Catalogue/department pages get the shared search + filter runtime.
+  if(path==="us-catalogue.html"||/^(automotive|marine|rv)(?:-|\.)/.test(path)){
+    if(!document.querySelector('script[data-ot-catalogue-controls]')){
+      const controls=document.createElement("script");controls.src="/assets/catalogue-controls.js?v=2";controls.defer=true;controls.dataset.otCatalogueControls="true";document.head.appendChild(controls);
+    }
+  }
+
   const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
   const saveData = Boolean(connection && connection.saveData);
   const slowNetwork = Boolean(connection && /(^|-)2g$|3g/.test(String(connection.effectiveType || "")));
@@ -28,10 +42,25 @@
     }
   };
 
+  const rightSizeVehicleImage=(img)=>{
+    if(!mobile||!img||img.dataset.otMobileSized) return;
+    const raw=String(img.getAttribute("src")||"");
+    if(!raw.includes("vehiclepartimages.com/ImageServerAPI")) return;
+    try{
+      const u=new URL(raw,location.href);
+      const hero=Boolean(img.closest(".product-visual,.hero-showcase"));
+      u.searchParams.set("maxheight",hero?"620":"380");
+      u.searchParams.set("maxwidth",hero?"760":"520");
+      img.dataset.otMobileSized="1";
+      img.src=u.toString();
+    }catch(_){ }
+  };
+
   // Runtime fallback for images added dynamically after HTML parsing.
   const tuneImage = (img, index = 1) => {
     if (!img || img.dataset.otPerfTuned) return;
     img.dataset.otPerfTuned = "1";
+    rightSizeVehicleImage(img);
     img.decoding = "async";
     const priority = index === 0 || img.closest(".product-visual,.hero-showcase,.ot-motion-stage");
     if (priority) {
