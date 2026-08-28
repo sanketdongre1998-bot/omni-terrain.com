@@ -56,6 +56,23 @@
     document.head.appendChild(link);
   }
 
+  function injectProductAssets() {
+    if (!document.querySelector(".product-layout") || !document.querySelector(".product-copy")) return;
+    if (!document.querySelector('link[data-ot-product-premium]')) {
+      const css = document.createElement("link");
+      css.rel = "stylesheet";
+      css.href = "/assets/product-page-premium.css?v=1";
+      css.dataset.otProductPremium = "true";
+      document.head.appendChild(css);
+    }
+    if (!document.querySelector('script[data-ot-product-premium]')) {
+      const script = document.createElement("script");
+      script.src = "/assets/product-page-premium.js?v=1";
+      script.dataset.otProductPremium = "true";
+      document.body.appendChild(script);
+    }
+  }
+
   function mountHeader() {
     document.documentElement.classList.add("ot-shell-loaded");
     document.querySelectorAll("body > .topbar, body > .announcement, body > .market-strip").forEach((node) => node.remove());
@@ -112,7 +129,7 @@
     document.querySelectorAll("[data-cart-count]").forEach((node) => { node.textContent = count; });
   }
 
-  function mount() { injectFonts(); injectCss(); mountHeader(); mountFooter(); syncCart(); }
+  function mount() { injectFonts(); injectCss(); mountHeader(); mountFooter(); syncCart(); injectProductAssets(); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount, { once: true });
   else mount();
 })();
