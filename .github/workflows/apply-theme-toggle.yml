@@ -1,0 +1,74 @@
+name: Apply Omni Terrain light and dark theme
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/apply-theme-toggle.yml
+      - assets/theme-toggle.js
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate theme runtime
+        run: node --check assets/theme-toggle.js
+
+      - name: Attach theme toggle to every storefront page
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          root = Path('.')
+          tag = '<script defer src="assets/theme-toggle.js"></script>'
+          changed = 0
+          total = 0
+
+          for path in sorted(root.glob('*.html')):
+              total += 1
+              text = path.read_text(encoding='utf-8')
+              if tag in text:
+                  continue
+              if '</body>' not in text:
+                  raise SystemExit(f'Missing </body> in {path}')
+              text = text.replace('</body>', tag + '</body>', 1)
+              path.write_text(text, encoding='utf-8')
+              changed += 1
+
+          print(f'HTML pages checked = {total}')
+          print(f'HTML pages updated = {changed}')
+          PY
+
+      - name: Verify universal coverage
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          tag = '<script defer src="assets/theme-toggle.js"></script>'
+          pages = list(Path('.').glob('*.html'))
+          missing = [str(path) for path in pages if tag not in path.read_text(encoding='utf-8')]
+          if missing:
+              raise SystemExit('Theme toggle missing from: ' + ', '.join(missing[:20]))
+          print(f'THEME COVERAGE PASS = {len(pages)} HTML pages')
+          PY
+
+      - name: Commit theme coverage
+        run: |
+          if git diff --quiet -- '*.html'; then
+            echo "Theme toggle already attached to every HTML page."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- '*.html'
+          git commit -m "Attach light and dark theme toggle across storefront"
+          git push origin HEAD:main
