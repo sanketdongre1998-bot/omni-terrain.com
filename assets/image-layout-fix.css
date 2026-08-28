@@ -1,0 +1,15 @@
+/* Omni Terrain responsive image-fit corrections */
+.media{background:#fff!important}.media img{display:block!important;width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;object-fit:contain!important;object-position:center!important;padding:0!important;margin:auto!important}
+html body.ot-product-page .product-visual{overflow:hidden!important}
+html body.ot-product-page .product-visual img{display:block!important;width:auto!important;height:auto!important;max-width:100%!important;max-height:min(620px,72vh)!important;object-fit:contain!important;object-position:center!important;margin:auto!important;padding:0!important}
+@media(max-width:760px){
+  .media{aspect-ratio:4/3!important;min-height:0!important;padding:10px!important}
+  .media img{width:100%!important;height:100%!important;max-height:none!important;object-fit:contain!important}
+  html body.ot-product-page .product-visual{aspect-ratio:auto!important;min-height:0!important;height:auto!important;padding:44px 12px 48px!important;display:flex!important;align-items:center!important;justify-content:center!important}
+  html body.ot-product-page .product-visual img{width:100%!important;height:auto!important;max-width:100%!important;max-height:58svh!important;object-fit:contain!important;object-position:center!important}
+}
+@media(max-width:420px){
+  .media{aspect-ratio:1/1!important;padding:8px!important}
+  html body.ot-product-page .product-visual{aspect-ratio:auto!important;padding:40px 8px 46px!important}
+  html body.ot-product-page .product-visual img{max-height:52svh!important}
+}
