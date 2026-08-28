@@ -13,6 +13,21 @@
 
   if (lite) document.documentElement.classList.add("ot-perf-lite");
 
+  const imageFrame = (img) => img && img.closest ? img.closest(".media,.live-media") : null;
+  const attachImageState = (img) => {
+    if (!img || img.dataset.otImageStateBound) return;
+    img.dataset.otImageStateBound = "1";
+    const frame = imageFrame(img);
+    if (!frame) return;
+    const ready = () => frame.classList.remove("ot-media-failed");
+    const failed = () => frame.classList.add("ot-media-failed");
+    img.addEventListener("load", ready, { passive: true });
+    img.addEventListener("error", failed, { passive: true });
+    if (img.complete) {
+      if (img.naturalWidth) ready(); else failed();
+    }
+  };
+
   // Runtime fallback for images added dynamically after HTML parsing.
   const tuneImage = (img, index = 1) => {
     if (!img || img.dataset.otPerfTuned) return;
@@ -26,6 +41,7 @@
       img.loading = "lazy";
       try { img.fetchPriority = "low"; } catch (_) {}
     }
+    attachImageState(img);
   };
 
   const tuneAllImages = () => {
