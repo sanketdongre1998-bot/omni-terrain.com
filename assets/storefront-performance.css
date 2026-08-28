@@ -19,6 +19,12 @@ button,a{-webkit-tap-highlight-color:transparent}
   backface-visibility:hidden;
 }
 
+/* Catalogue and department images stay contained at every viewport width. */
+.grid .card .media{aspect-ratio:4/3;min-height:0!important;display:grid;place-items:center;overflow:hidden;background:#fff}
+.grid .card .media img{display:block!important;width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;object-fit:contain!important;object-position:center!important;margin:auto!important}
+.media.ot-media-failed img,.live-media.ot-media-failed img{display:none!important}
+.media.ot-media-failed:after,.live-media.ot-media-failed:after{content:"Product image temporarily unavailable";max-width:210px;padding:20px;color:#71808d;text-align:center;font:700 12px/1.5 Manrope,Inter,system-ui,sans-serif}
+
 /* Better touch behaviour and safer text wrapping across narrow devices. */
 .product-copy h1,.card h3,.live-card h3,.policy-card h2,.footer-copy,.market-note{overflow-wrap:anywhere}
 @media(pointer:coarse){
@@ -45,6 +51,8 @@ button,a{-webkit-tap-highlight-color:transparent}
   .product-copy{padding:20px!important}
   .product-copy h1{font-size:clamp(2rem,10vw,3.2rem)!important}
   .grid{gap:14px!important}
+  .grid .card .media{aspect-ratio:1/1!important;padding:10px!important}
+  .grid .card .media img{width:100%!important;height:100%!important;object-fit:contain!important;object-position:center!important}
   .footer-grid{gap:24px!important}
   .mobile-store-bar{padding-bottom:max(6px,env(safe-area-inset-bottom))!important}
 }
@@ -55,6 +63,7 @@ button,a{-webkit-tap-highlight-color:transparent}
   .card-body,.live-body{padding:16px!important}
   .product-visual{min-height:240px!important;border-radius:18px!important}
   .product-copy{border-radius:18px!important}
+  .grid .card .media{padding:8px!important}
   .ot-theme-toggle{right:10px!important}
 }
 
