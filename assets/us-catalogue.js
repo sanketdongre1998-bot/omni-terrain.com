@@ -26,14 +26,14 @@
 
     document.querySelectorAll(".cart-link").forEach((link) => {
       const badge = link.querySelector("[data-cart-count]");
-      if (badge && link.childNodes.length) link.childNodes[0].nodeValue = "Request Cart ";
+      if (badge && link.childNodes.length) link.childNodes[0].nodeValue = "Cart ";
     });
 
     document.querySelectorAll('.mobile-nav a[href="cart.html"]').forEach((link) => {
-      link.textContent = "Request Cart";
+      link.textContent = "Cart";
     });
     document.querySelectorAll('.mobile-nav a[href="checkout.html"]').forEach((link) => {
-      link.textContent = "Guest Checkout";
+      link.textContent = "Secure Checkout";
     });
 
     document.querySelectorAll(".legal-note").forEach((note) => {
@@ -52,6 +52,23 @@
       phone.textContent = US_PHONE_DISPLAY;
       links.appendChild(phone);
     });
+  }
+
+  function loadPremiumHome() {
+    const path = String(window.location.pathname || "/");
+    if (!(path === "/" || /\/index\.html$/i.test(path))) return;
+    if (!document.querySelector('link[href="assets/home-premium.css"]')) {
+      const css = document.createElement("link");
+      css.rel = "stylesheet";
+      css.href = "assets/home-premium.css";
+      document.head.appendChild(css);
+    }
+    if (!document.querySelector('script[src="assets/home-premium.js"]')) {
+      const script = document.createElement("script");
+      script.src = "assets/home-premium.js";
+      script.defer = true;
+      document.body.appendChild(script);
+    }
   }
 
   if (header) {
@@ -97,4 +114,5 @@
   if (hashButton) hashButton.click();
 
   alignUniversalStoreDetails();
+  loadPremiumHome();
 })();
