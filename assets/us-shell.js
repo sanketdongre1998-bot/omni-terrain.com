@@ -113,11 +113,29 @@
       css.dataset.otCommercePremium = "true";
       document.head.appendChild(css);
     }
-    if (!document.querySelector('script[data-ot-commerce-premium]')) {
+
+    const appendPremium = () => {
+      if (document.querySelector('script[data-ot-commerce-premium]')) return;
       const script = document.createElement("script");
-      script.src = "/assets/cart-checkout-premium.js?v=1";
+      script.src = "/assets/cart-checkout-premium.js?v=2";
       script.dataset.otCommercePremium = "true";
       document.body.appendChild(script);
+    };
+
+    if (file === "checkout.html" && !window.__OMNI_US_CHECKOUT_API_BRIDGE__) {
+      const existing = document.querySelector('script[data-ot-checkout-api-bridge]');
+      if (existing) {
+        existing.addEventListener("load", appendPremium, { once: true });
+      } else {
+        const bridge = document.createElement("script");
+        bridge.src = "/assets/us-checkout-api-bridge.js?v=1";
+        bridge.dataset.otCheckoutApiBridge = "true";
+        bridge.addEventListener("load", appendPremium, { once: true });
+        bridge.addEventListener("error", appendPremium, { once: true });
+        document.body.appendChild(bridge);
+      }
+    } else {
+      appendPremium();
     }
   }
 
