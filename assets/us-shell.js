@@ -87,6 +87,12 @@
       script.dataset.otProductPremium = "true";
       document.body.appendChild(script);
     }
+    if (!document.querySelector('script[data-ot-universal-checkout]')) {
+      const checkout = document.createElement("script");
+      checkout.src = "/assets/universal-checkout-ui.js?v=1";
+      checkout.dataset.otUniversalCheckout = "true";
+      document.body.appendChild(checkout);
+    }
   }
 
   function injectCatalogueAssets() {
