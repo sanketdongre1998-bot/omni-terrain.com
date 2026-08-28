@@ -1,5 +1,5 @@
 {
-  "checkoutApiBase": "",
+  "checkoutApiBase": "https://omni-terrain-uk-checkout.vercel.app",
   "currency": "USD",
   "products": {
     "F37FTL5607": {
