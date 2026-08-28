@@ -1,0 +1,70 @@
+/* Omni Terrain cinematic homepage layer */
+body.home-premium-active{background:#f4f6f7;overflow-x:hidden}
+body.home-premium-active #header{position:sticky;top:0;z-index:90;background:rgba(255,255,255,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(7,26,48,.08)}
+body.home-premium-active #header.scrolled{box-shadow:0 12px 34px rgba(7,26,48,.08)}
+body.home-premium-active .announcement{background:#041424}
+body.home-premium-active .announcement .container{min-height:38px}
+body.home-premium-active .market-strip{background:rgba(255,255,255,.96)}
+body.home-premium-active .launch-strip{background:#faf6ec;border-bottom:1px solid #e4d5b7}
+
+.ot-cinema-hero{position:relative;min-height:730px;overflow:hidden;background:#061629;color:#fff;isolation:isolate}
+.ot-cinema-hero:before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(circle at 74% 17%,rgba(224,189,114,.24),transparent 27%),radial-gradient(circle at 28% 94%,rgba(42,104,151,.22),transparent 31%),linear-gradient(132deg,#04111f 0%,#071d33 48%,#0a304d 100%)}
+.ot-cinema-grid{width:min(1380px,calc(100% - 48px));min-height:730px;margin:auto;display:grid;grid-template-columns:minmax(0,1.02fr) minmax(420px,.98fr);align-items:center;gap:54px;padding:64px 0}
+.ot-cinema-copy{position:relative;z-index:3;padding-left:8px}
+.ot-cinema-kicker{display:flex;align-items:center;gap:11px;color:#e0bd72;font:600 .63rem/1 "DM Mono",monospace;letter-spacing:.18em;text-transform:uppercase}
+.ot-cinema-kicker:before{content:"";width:38px;height:1px;background:currentColor}
+.ot-cinema-copy h1{max-width:770px;margin:24px 0 22px;font:800 clamp(4.6rem,7.4vw,8rem)/.76 "Barlow Condensed",sans-serif;letter-spacing:-.047em;text-transform:uppercase;text-wrap:balance}
+.ot-cinema-copy h1 em{font-style:normal;color:#e0bd72}
+.ot-cinema-copy p{max-width:650px;margin:0;color:#c9d6e2;font-size:.95rem;line-height:1.75}
+.ot-cinema-actions{display:flex;flex-wrap:wrap;gap:11px;margin-top:30px}
+.ot-cinema-actions .ot-primary,.ot-cinema-actions .ot-secondary{display:inline-flex;align-items:center;justify-content:center;min-height:51px;padding:0 21px;border-radius:11px;text-decoration:none;font-size:.72rem;font-weight:850;transition:transform .22s ease,box-shadow .22s ease,background .22s ease}
+.ot-cinema-actions .ot-primary{background:#e0bd72;color:#061629;box-shadow:0 13px 32px rgba(224,189,114,.18)}
+.ot-cinema-actions .ot-secondary{border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.07);color:#fff;backdrop-filter:blur(12px)}
+.ot-cinema-actions a:hover{transform:translateY(-2px)}
+.ot-cinema-proof{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));max-width:650px;margin-top:38px;border-top:1px solid rgba(255,255,255,.14)}
+.ot-cinema-proof div{padding:20px 20px 0 0}
+.ot-cinema-proof b{display:block;color:#fff;font:800 1.45rem/1 "Barlow Condensed",sans-serif;letter-spacing:-.02em}
+.ot-cinema-proof span{display:block;margin-top:5px;color:#91a6b7;font-size:.58rem;line-height:1.4}
+
+.ot-motion-stage{position:relative;min-height:580px;perspective:1200px}
+.ot-stage-orbit{position:absolute;inset:4% 0 7%;border:1px solid rgba(224,189,114,.18);border-radius:50%;transform:rotate(-11deg);animation:otOrbit 20s linear infinite}
+.ot-stage-orbit:before,.ot-stage-orbit:after{content:"";position:absolute;width:9px;height:9px;border-radius:50%;background:#e0bd72;box-shadow:0 0 24px rgba(224,189,114,.7)}
+.ot-stage-orbit:before{left:12%;top:16%}.ot-stage-orbit:after{right:10%;bottom:18%}
+.ot-stage-glow{position:absolute;left:16%;top:8%;width:68%;height:68%;border-radius:50%;background:radial-gradient(circle,rgba(47,108,153,.36),rgba(47,108,153,0) 67%);filter:blur(8px);animation:otPulse 6s ease-in-out infinite}
+.ot-reel{position:absolute;inset:0;overflow:hidden;border-radius:30px;border:1px solid rgba(255,255,255,.12);background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.025));box-shadow:0 34px 85px rgba(0,0,0,.28);backdrop-filter:blur(6px)}
+.ot-reel:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(2,12,21,.76) 100%);pointer-events:none}
+.ot-reel-scene{position:absolute;inset:0;opacity:0;transform:scale(1.055);animation:otScene 18s infinite ease-in-out}
+.ot-reel-scene:nth-child(2){animation-delay:6s}.ot-reel-scene:nth-child(3){animation-delay:12s}
+.ot-reel-scene .ot-scene-word{position:absolute;left:-8px;bottom:102px;color:rgba(255,255,255,.07);font:800 clamp(6.5rem,11vw,10rem)/.7 "Barlow Condensed",sans-serif;letter-spacing:-.055em;text-transform:uppercase;white-space:nowrap}
+.ot-scene-road{background:radial-gradient(circle at 68% 35%,rgba(224,189,114,.14),transparent 31%),linear-gradient(145deg,#102e47,#071828)}
+.ot-scene-water{background:radial-gradient(circle at 28% 25%,rgba(66,152,196,.35),transparent 26%),linear-gradient(145deg,#0b3f5b,#061b2d)}
+.ot-scene-power{background:radial-gradient(circle at 72% 30%,rgba(207,170,87,.28),transparent 30%),linear-gradient(145deg,#273129,#071828)}
+.ot-product-float{position:absolute;z-index:2;width:74%;height:63%;left:13%;top:12%;object-fit:contain;filter:drop-shadow(0 30px 38px rgba(0,0,0,.4));animation:otFloat 5.5s ease-in-out infinite}
+.ot-product-float.compact{width:61%;left:20%}
+.ot-water-lines{position:absolute;inset:17% 8% 26%;opacity:.65;background:repeating-radial-gradient(ellipse at 50% 105%,transparent 0 34px,rgba(116,202,238,.24) 35px 36px,transparent 37px 57px);transform:perspective(400px) rotateX(54deg);animation:otWater 9s linear infinite}
+.ot-power-grid{position:absolute;inset:13% 10% 28%;opacity:.38;background-image:linear-gradient(rgba(224,189,114,.18) 1px,transparent 1px),linear-gradient(90deg,rgba(224,189,114,.18) 1px,transparent 1px);background-size:38px 38px;transform:perspective(500px) rotateX(58deg) rotateZ(-8deg);animation:otGrid 11s linear infinite}
+.ot-stage-overlay{position:absolute;z-index:5;left:26px;right:26px;bottom:24px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:end;padding:19px 20px;border:1px solid rgba(255,255,255,.13);border-radius:16px;background:rgba(3,17,29,.58);backdrop-filter:blur(16px)}
+.ot-stage-overlay small{display:block;color:#e0bd72;font:600 .54rem/1 "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase}.ot-stage-overlay b{display:block;margin-top:7px;color:#fff;font:800 1.65rem/.9 "Barlow Condensed",sans-serif;text-transform:uppercase}.ot-stage-overlay a{color:#fff;font-size:.66rem;font-weight:800;text-decoration:none}.ot-stage-status{display:flex;align-items:center;gap:7px;margin-top:8px;color:#9eb0bf;font-size:.57rem}.ot-stage-status i{width:7px;height:7px;border-radius:50%;background:#35b779;box-shadow:0 0 0 4px rgba(53,183,121,.1)}
+.ot-scroll-cue{position:absolute;z-index:3;left:50%;bottom:18px;display:flex;align-items:center;gap:9px;transform:translateX(-50%);color:#7f95a6;font:500 .5rem/1 "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase}.ot-scroll-cue:before{content:"";width:36px;height:1px;background:#7f95a6;animation:otCue 2.4s ease-in-out infinite}
+
+.ot-metrics-band{background:#fff;border-bottom:1px solid #e1e6ea}.ot-metrics-inner{width:min(1320px,calc(100% - 48px));margin:auto;display:grid;grid-template-columns:1.1fr repeat(4,1fr);align-items:stretch}.ot-metrics-intro,.ot-metric{padding:28px 24px;border-right:1px solid #e5e9ec}.ot-metrics-intro{padding-left:0}.ot-metrics-intro small{color:#8b6a31;font:600 .53rem/1 "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase}.ot-metrics-intro b{display:block;margin-top:8px;color:#071a30;font:800 1.45rem/.9 "Barlow Condensed",sans-serif;text-transform:uppercase}.ot-metric strong{display:block;color:#071a30;font:800 2.25rem/.9 "Barlow Condensed",sans-serif;letter-spacing:-.03em}.ot-metric span{display:block;margin-top:7px;color:#71808d;font-size:.59rem;line-height:1.4}.ot-metric:last-child{border-right:0}
+
+.ot-story{padding:86px 0;background:#071a30;color:#fff;overflow:hidden}.ot-story-inner{width:min(1320px,calc(100% - 48px));margin:auto}.ot-story-head{display:grid;grid-template-columns:1fr .72fr;gap:60px;align-items:end;margin-bottom:34px}.ot-story-head small{color:#e0bd72;font:600 .55rem/1 "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase}.ot-story-head h2{max-width:780px;margin:12px 0 0;font:800 clamp(3.7rem,6vw,6.6rem)/.78 "Barlow Condensed",sans-serif;text-transform:uppercase;letter-spacing:-.04em}.ot-story-head p{margin:0;color:#bac9d5;font-size:.82rem;line-height:1.75}.ot-story-rail{display:grid;grid-template-columns:1.35fr .82fr .82fr;gap:14px}.ot-story-card{position:relative;min-height:390px;overflow:hidden;border:1px solid rgba(255,255,255,.12);border-radius:22px;background:#0d2b45;transition:transform .35s ease,border-color .35s ease}.ot-story-card:hover{transform:translateY(-5px);border-color:rgba(224,189,114,.42)}.ot-story-card:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 25%,rgba(3,14,24,.88) 100%)}.ot-story-card[data-mode="road"]{background:radial-gradient(circle at 74% 24%,rgba(224,189,114,.18),transparent 27%),linear-gradient(145deg,#173e5d,#061725)}.ot-story-card[data-mode="water"]{background:radial-gradient(circle at 45% 28%,rgba(89,181,219,.32),transparent 29%),linear-gradient(145deg,#0b4966,#061a29)}.ot-story-card[data-mode="power"]{background:radial-gradient(circle at 65% 24%,rgba(224,189,114,.22),transparent 28%),linear-gradient(145deg,#303329,#071725)}.ot-story-index{position:absolute;left:22px;top:22px;color:#e0bd72;font:600 .52rem/1 "DM Mono",monospace;letter-spacing:.12em}.ot-story-ghost{position:absolute;right:-10px;top:32px;color:rgba(255,255,255,.06);font:800 6rem/.8 "Barlow Condensed",sans-serif;text-transform:uppercase;transform:rotate(90deg);transform-origin:center}.ot-story-copy{position:absolute;z-index:2;left:24px;right:24px;bottom:24px}.ot-story-copy h3{margin:0 0 10px;font:800 2.35rem/.85 "Barlow Condensed",sans-serif;text-transform:uppercase}.ot-story-copy p{max-width:420px;margin:0;color:#b8c8d5;font-size:.69rem;line-height:1.6}.ot-story-copy a{display:inline-block;margin-top:18px;color:#e0bd72;font-size:.65rem;font-weight:800;text-decoration:none}
+
+.ot-marquee{overflow:hidden;background:#e2bd70;color:#071a30;border-top:1px solid rgba(7,26,48,.12);border-bottom:1px solid rgba(7,26,48,.12)}.ot-marquee-track{display:flex;width:max-content;animation:otMarquee 24s linear infinite}.ot-marquee-item{display:flex;align-items:center;gap:24px;padding:14px 24px;font:800 1.02rem/1 "Barlow Condensed",sans-serif;text-transform:uppercase;letter-spacing:.02em;white-space:nowrap}.ot-marquee-item:after{content:"✦";font-size:.7rem;opacity:.65}
+
+.ot-reveal{opacity:0;transform:translateY(24px);transition:opacity .75s ease,transform .75s cubic-bezier(.2,.7,.2,1)}.ot-reveal.is-visible{opacity:1;transform:none}.ot-reveal-delay-1{transition-delay:.08s}.ot-reveal-delay-2{transition-delay:.16s}.ot-reveal-delay-3{transition-delay:.24s}
+body.home-premium-active .category-home,body.home-premium-active .live-card,body.home-premium-active .why-card,body.home-premium-active .support-inner{will-change:transform}
+
+@keyframes otScene{0%{opacity:0;transform:scale(1.06)}7%,28%{opacity:1;transform:scale(1)}35%,100%{opacity:0;transform:scale(.985)}}
+@keyframes otFloat{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-11px) rotate(1deg)}}
+@keyframes otOrbit{to{transform:rotate(349deg)}}
+@keyframes otPulse{0%,100%{transform:scale(.92);opacity:.6}50%{transform:scale(1.08);opacity:1}}
+@keyframes otWater{to{background-position:0 90px}}
+@keyframes otGrid{to{background-position:38px 38px}}
+@keyframes otCue{0%,100%{transform:scaleX(.45);transform-origin:left}50%{transform:scaleX(1)}}
+@keyframes otMarquee{to{transform:translateX(-50%)}}
+
+@media(max-width:1050px){.ot-cinema-grid{grid-template-columns:1fr;gap:34px;padding:54px 0 72px}.ot-motion-stage{min-height:520px}.ot-cinema-copy{padding:0}.ot-story-head{grid-template-columns:1fr;gap:22px}.ot-story-rail{grid-template-columns:1fr 1fr}.ot-story-card:first-child{grid-column:1/-1}.ot-metrics-inner{grid-template-columns:repeat(2,1fr)}.ot-metrics-intro{grid-column:1/-1;border-right:0;border-bottom:1px solid #e5e9ec;padding-left:0}.ot-metric:nth-child(3){border-right:0}.ot-metric{border-bottom:1px solid #e5e9ec}}
+@media(max-width:760px){.ot-cinema-hero{min-height:0}.ot-cinema-grid{width:min(100% - 26px,1380px);padding:38px 0 52px}.ot-cinema-copy h1{font-size:clamp(3.8rem,17vw,5.25rem)}.ot-cinema-copy p{font-size:.84rem}.ot-cinema-proof{grid-template-columns:1fr}.ot-cinema-proof div{padding:14px 0;border-bottom:1px solid rgba(255,255,255,.09)}.ot-motion-stage{min-height:390px}.ot-reel{border-radius:21px}.ot-product-float{height:54%;top:14%}.ot-stage-overlay{left:14px;right:14px;bottom:14px;grid-template-columns:1fr;padding:16px}.ot-stage-overlay b{font-size:1.4rem}.ot-scroll-cue{display:none}.ot-metrics-inner{width:calc(100% - 26px)}.ot-metric{padding:20px 14px}.ot-metric strong{font-size:1.8rem}.ot-story{padding:60px 0}.ot-story-inner{width:calc(100% - 26px)}.ot-story-head h2{font-size:clamp(3.2rem,14vw,4.4rem)}.ot-story-rail{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px}.ot-story-card,.ot-story-card:first-child{flex:0 0 min(84vw,350px);min-height:360px;grid-column:auto;scroll-snap-align:start}.ot-marquee-item{padding:12px 18px;font-size:.9rem}}
+@media(prefers-reduced-motion:reduce){.ot-reel-scene,.ot-product-float,.ot-stage-orbit,.ot-stage-glow,.ot-water-lines,.ot-power-grid,.ot-marquee-track,.ot-scroll-cue:before{animation:none!important}.ot-reel-scene:first-child{opacity:1}.ot-reveal{opacity:1;transform:none;transition:none}}
