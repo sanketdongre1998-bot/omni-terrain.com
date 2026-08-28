@@ -1,0 +1,72 @@
+name: Apply shared US shell and premium catalogue
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/apply-us-shell-and-catalogue.yml
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Attach shared shell and catalogue presentation
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          root = Path('.')
+          shell_tag = '<script defer src="assets/us-shell.js"></script>'
+          catalogue_tag = '<script defer src="assets/catalogue-premium.js"></script>'
+          changed = 0
+          shell_count = 0
+
+          for path in root.glob('*.html'):
+              text = path.read_text(encoding='utf-8', errors='replace')
+              lower = text.lower()
+              if '<body' not in lower or '</body>' not in lower:
+                  continue
+              if re.search(r'<html[^>]+lang=["\']en-gb["\']', text, flags=re.I):
+                  continue
+              if path.name == 'index.html':
+                  continue
+
+              original = text
+              if 'assets/us-shell.js' not in text:
+                  text = text.replace('</body>', shell_tag + '</body>', 1)
+                  shell_count += 1
+
+              if path.name == 'us-catalogue.html' and 'assets/catalogue-premium.js' not in text:
+                  text = text.replace('</body>', catalogue_tag + '</body>', 1)
+
+              if text != original:
+                  path.write_text(text, encoding='utf-8')
+                  changed += 1
+
+          print(f'US shell attached/verified across {shell_count} pages')
+          print(f'HTML files changed: {changed}')
+          if not Path('us-catalogue.html').read_text(encoding='utf-8').find('assets/catalogue-premium.js') >= 0:
+              raise SystemExit('Catalogue premium runtime was not attached')
+          PY
+
+      - name: Commit storefront shell updates
+        run: |
+          if git diff --quiet; then
+            echo "No shell changes required."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- '*.html'
+          git commit -m "Unify US storefront header footer and catalogue design"
+          git push origin HEAD:main
