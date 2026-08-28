@@ -136,57 +136,28 @@ function testCartRendering() {
   }
 }
 
-function testCheckoutHandoff() {
-  const fields = {
-    firstName: "Ava",
-    lastName: "Taylor",
-    email: "ava@example.com",
-    phone: "3075550100",
-    address: "1 Main Street",
-    city: "Sheridan",
-    state: "WY",
-    zip: "82801",
-    country: "US",
-    notes: "Confirm 12V system",
-    consent: "on"
-  };
-  class MockFormData {
-    entries() {
-      return Object.entries(fields);
-    }
-  }
-
+function testLegacyCheckoutIsPresentationOnly() {
   const parent = { insertBefore() {} };
-  const form = node({
-    parentNode: parent,
-    reportValidity: () => true
-  });
+  const form = node({ parentNode: parent, reportValidity: () => true });
   const checkoutItems = node();
   const status = node();
-  const document = baseDocument({
-    ids: { checkoutForm: form, checkoutItems, checkoutStatus: status }
-  });
+  const document = baseDocument({ ids: { checkoutForm: form, checkoutItems, checkoutStatus: status } });
   const localStorage = storage({
     omniTerrainUsCart: JSON.stringify([{ id: products[0].id, quantity: 1 }])
   });
-  run(document, localStorage, { FormData: MockFormData });
+
+  run(document, localStorage);
 
   if (!checkoutItems.innerHTML.includes(products[0].mpn)) throw new Error("Checkout review did not render the selected item");
-  if (typeof form.handlers.submit !== "function") throw new Error("Checkout submit handler was not attached");
-  form.handlers.submit({ preventDefault() {} });
-  if (!status.classList.contains("show")) throw new Error("Checkout completion status was not shown");
-  if (!status.innerHTML.includes("Email order request") || !status.innerHTML.includes("No account was created and no payment has been taken")) {
-    throw new Error("Checkout handoff disclosure is incomplete");
+  if (typeof form.handlers.submit === "function") {
+    throw new Error("Legacy email/request checkout submit handler must remain disabled; Stripe live commerce owns payment handoff");
   }
-  if (!status.innerHTML.includes("mailto:procurement@omni-terrain.com")) throw new Error("Checkout did not create the email handoff");
-
-  const request = JSON.parse(localStorage.value("omniTerrainUsLastRequest"));
-  if (!request.reference.startsWith("OT-") || request.customer.email !== fields.email || request.items.length !== 1) {
-    throw new Error("Checkout request record was not stored correctly");
+  if (localStorage.value("omniTerrainUsLastRequest")) {
+    throw new Error("Legacy checkout unexpectedly created an order-request record");
   }
 }
 
 testProductAdd();
 testCartRendering();
-testCheckoutHandoff();
-console.log("PASS request-cart add, quantity, empty/populated cart and guest checkout email handoff");
+testLegacyCheckoutIsPresentationOnly();
+console.log("PASS request-cart runtime and Stripe-first legacy checkout safety");
