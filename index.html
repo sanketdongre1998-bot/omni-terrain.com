@@ -3,240 +3,88 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Omni Terrain is a focused United States ecommerce storefront for automotive, towing, RV, overlanding and marine products, operated by PRP Xpert LLC.">
+  <meta name="description" content="Shop Omni Terrain for specialist automotive, marine, RV and 12V products with clear MPNs, fitment guidance and online pricing on selected products.">
   <meta name="theme-color" content="#071a30">
   <meta name="robots" content="index,follow">
   <link rel="canonical" href="https://omni-terrain.com/">
   <meta property="og:site_name" content="Omni Terrain">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Omni Terrain | US Automotive, RV & Marine Store">
-  <meta property="og:description" content="Browse 1,000 curated Auto Parts, Marine and RV product records with guest request checkout for availability, pricing and shipping confirmation.">
+  <meta property="og:title" content="Omni Terrain | Automotive, Marine & RV Parts">
+  <meta property="og:description" content="Specialist parts for road, water and travel. Browse 1,000 products and shop selected products online.">
   <meta property="og:url" content="https://omni-terrain.com/">
   <meta property="og:image" content="https://omni-terrain.com/assets/omni-terrain-emblem.webp">
   <meta name="twitter:card" content="summary_large_image">
-  <title>Omni Terrain | US Automotive, RV & Marine Store</title>
+  <title>Omni Terrain | Automotive, Marine & RV Parts</title>
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"Omni Terrain","url":"https://omni-terrain.com/","inLanguage":"en-US"},{"@type":"Organization","name":"PRP Xpert LLC","alternateName":"Omni Terrain","url":"https://omni-terrain.com/","logo":"https://omni-terrain.com/assets/omni-terrain-emblem.webp","email":"procurement@omni-terrain.com","telephone":"+1-307-533-0570","address":{"@type":"PostalAddress","streetAddress":"30 N Gould St Ste R","addressLocality":"Sheridan","addressRegion":"WY","postalCode":"82801","addressCountry":"US"}}]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Teko:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/us-catalogue.css">
   <style>
-    .home-hero{padding:24px 0 52px}.home-hero-shell{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(360px,.9fr);min-height:560px;overflow:hidden;border-radius:28px;background:radial-gradient(circle at 78% 18%,rgba(198,154,80,.22),transparent 24%),linear-gradient(130deg,#061629,#0e3150);box-shadow:var(--shadow-dark)}
-    .home-hero-copy{display:flex;flex-direction:column;justify-content:center;padding:58px;color:#fff}.home-hero-copy h1{max-width:760px;margin:16px 0 18px;font:800 clamp(4.4rem,7vw,7.3rem)/.77 "Barlow Condensed",sans-serif;letter-spacing:-.04em;text-transform:uppercase}.home-hero-copy h1 em{color:var(--gold2);font-style:normal}.home-hero-copy p{max-width:650px;margin:0;color:#d7e2ed;font-size:.94rem;line-height:1.74}.home-actions{display:flex;flex-wrap:wrap;gap:11px;margin-top:26px}.home-proof{display:flex;flex-wrap:wrap;gap:9px;margin-top:28px}.home-proof span{padding:8px 11px;border:1px solid rgba(255,255,255,.17);border-radius:999px;background:rgba(255,255,255,.06);color:#d9e3ed;font-size:.62rem}
-    .hero-product{position:relative;display:grid;place-items:center;margin:28px;border-radius:22px;background:linear-gradient(145deg,#fff,#edf1f4);overflow:hidden}.hero-product:before{content:"Featured product record";position:absolute;left:24px;top:22px;color:var(--gold);font:600 .54rem/1 "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase}.hero-product img{width:78%;height:330px;object-fit:contain;filter:drop-shadow(0 24px 24px rgba(7,26,48,.18))}.hero-product-info{position:absolute;left:24px;right:24px;bottom:22px;display:flex;justify-content:space-between;align-items:end;gap:18px;padding-top:16px;border-top:1px solid var(--line)}.hero-product-info span{display:block;color:var(--gold);font-size:.62rem;font-weight:800}.hero-product-info b{display:block;margin-top:4px;color:var(--navy);font-size:.76rem}.hero-product-info small{max-width:150px;color:var(--muted);font:600 .51rem/1.35 "DM Mono",monospace;text-align:right;text-transform:uppercase}
-    .home-section{padding:76px 0}.home-section.white{background:#fff}.section-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:28px}.section-head h2{margin:9px 0 0;color:var(--navy);font:800 clamp(2.8rem,5vw,4.8rem)/.82 "Barlow Condensed",sans-serif;text-transform:uppercase}.section-head p{max-width:510px;margin:0;color:var(--muted);font-size:.84rem;line-height:1.72}
-    .category-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.category-card{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:18px;min-height:135px;padding:24px;border:1px solid var(--line);border-radius:19px;background:#fff;box-shadow:0 10px 28px rgba(7,26,48,.055);transition:.22s}.category-card:hover{transform:translateY(-4px);border-color:#d0b477;box-shadow:var(--shadow)}.category-number{display:grid;place-items:center;width:58px;height:58px;border-radius:16px;background:#edf3f8;color:var(--navy);font:800 1.55rem/1 "Barlow Condensed",sans-serif}.category-card small{display:block;color:var(--gold);font:600 .52rem/1 "DM Mono",monospace;letter-spacing:.11em;text-transform:uppercase}.category-card h3{margin:7px 0 4px;color:var(--navy);font:800 1.8rem/.9 "Barlow Condensed",sans-serif;text-transform:uppercase}.category-card p{margin:0;color:var(--muted);font-size:.68rem}.category-arrow{color:var(--gold);font-size:1.2rem}
-    .process-shell{padding:42px;border-radius:25px;background:var(--navy);color:#fff;box-shadow:var(--shadow-dark)}.process-head{display:flex;justify-content:space-between;align-items:end;gap:30px}.process-head h2{margin:9px 0 0;font:800 clamp(3rem,5vw,5rem)/.8 "Barlow Condensed",sans-serif;text-transform:uppercase}.process-head p{max-width:540px;margin:0;color:#c7d4e1;font-size:.82rem;line-height:1.7}.process-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}.process-card{padding:25px;border:1px solid rgba(255,255,255,.14);border-radius:18px;background:rgba(255,255,255,.055)}.process-card span{color:var(--gold2);font:500 .58rem/1 "DM Mono",monospace;letter-spacing:.12em}.process-card h3{margin:14px 0 9px;font:800 1.8rem/.9 "Barlow Condensed",sans-serif;text-transform:uppercase}.process-card p{margin:0;color:#c7d3df;font-size:.72rem;line-height:1.65}
-    .featured-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:17px}.featured-card{overflow:hidden;border:1px solid var(--line);border-radius:20px;background:#fff;transition:.22s}.featured-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}.featured-visual{position:relative;height:245px;display:grid;place-items:center;padding:28px;background:linear-gradient(145deg,#f8fafb,#e6ebef)}.featured-visual img{width:100%;height:180px;object-fit:contain}.featured-status{position:absolute;left:14px;top:14px;padding:7px 9px;border-radius:999px;background:#f1d998;color:#5b4112;font:600 .52rem/1 "DM Mono",monospace;text-transform:uppercase}.featured-body{padding:20px}.featured-brand{display:flex;justify-content:space-between;gap:10px;color:var(--gold);font:600 .52rem/1.35 "DM Mono",monospace;text-transform:uppercase}.featured-card h3{min-height:58px;margin:13px 0 10px;color:var(--navy);font:800 1.65rem/.9 "Barlow Condensed",sans-serif;text-transform:uppercase}.featured-footer{display:flex;justify-content:space-between;gap:10px;padding-top:15px;border-top:1px solid var(--line);color:var(--muted);font-size:.63rem}.featured-footer b{color:var(--navy)}
-    .trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.trust-card{padding:25px;border:1px solid var(--line);border-radius:18px;background:#fff}.trust-card b{color:var(--gold);font:500 .56rem/1 "DM Mono",monospace;letter-spacing:.1em}.trust-card h3{margin:13px 0 8px;color:var(--navy);font:800 1.75rem/.9 "Barlow Condensed",sans-serif;text-transform:uppercase}.trust-card p{margin:0;color:var(--muted);font-size:.73rem;line-height:1.67}
-    .support-band{padding:22px 0 66px}.support-inner{display:flex;align-items:center;justify-content:space-between;gap:28px;padding:29px;border:1px solid #ddd2bf;border-radius:21px;background:linear-gradient(122deg,#fffdf9,#f2eadb)}.support-inner h2{margin:8px 0 0;color:var(--navy);font:800 2.45rem/.84 "Barlow Condensed",sans-serif;text-transform:uppercase}.support-inner p{max-width:640px;margin:10px 0 0;color:var(--muted);font-size:.76rem;line-height:1.65}.support-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:10px}
-    .legal-note{margin-top:13px;color:var(--muted);font-size:.64rem;line-height:1.55}.mobile-store-bar{display:none}
-    @media(max-width:1050px){.home-hero-shell{grid-template-columns:1fr}.hero-product{min-height:340px}.category-grid,.process-grid,.trust-grid{grid-template-columns:1fr 1fr}.featured-grid{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:760px){.home-hero{padding-top:14px}.home-hero-shell{min-height:0;border-radius:20px}.home-hero-copy{padding:35px 23px}.home-hero-copy h1{font-size:clamp(3.2rem,15vw,4.5rem)}.hero-product{min-height:285px;margin:0 12px 12px}.hero-product img{height:190px}.hero-product-info{left:16px;right:16px;bottom:15px}.home-section{padding:52px 0}.section-head,.process-head,.support-inner{display:grid}.category-grid,.process-grid,.trust-grid{grid-template-columns:1fr}.featured-grid{display:flex;overflow-x:auto;padding-bottom:12px;scroll-snap-type:x mandatory}.featured-card{flex:0 0 min(83vw,310px);scroll-snap-align:start}.process-shell{padding:27px 21px}.support-actions{justify-content:flex-start}.mobile-store-bar{position:fixed;left:8px;right:8px;bottom:8px;z-index:100;display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:6px;border:1px solid rgba(7,26,48,.12);border-radius:15px;background:rgba(255,255,255,.96);box-shadow:0 14px 36px rgba(7,26,48,.24);backdrop-filter:blur(15px)}.mobile-store-bar a{display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:10px;background:var(--navy);color:#fff;font-size:.68rem;font-weight:800}.mobile-store-bar a:last-child{background:#f2e7d0;color:var(--navy)}body{padding-bottom:76px}}
+    :root{--home-navy:#071a30;--home-gold:#c69a50;--home-gold2:#e0bd72;--home-ink:#132235;--home-muted:#65717d;--home-line:#dfe5ea;--home-soft:#f4f6f7}
+    body{background:#f5f6f7}
+    .announcement{background:#061629}.announcement .container{min-height:36px}.announcement span{color:#e8eef4}.announcement strong{color:#fff}.announcement a{color:var(--home-gold2)}
+    .market-strip{background:#fff;border-bottom:1px solid var(--home-line)}
+    .launch-strip{border-bottom:1px solid #ddcfb3;background:#fbf6eb}.launch-strip .container{display:flex;align-items:center;justify-content:center;gap:10px;min-height:44px;color:#5d4a25;font-size:.68rem;font-weight:700;text-align:center}.launch-dot{width:7px;height:7px;border-radius:50%;background:#1d8b5d;box-shadow:0 0 0 4px rgba(29,139,93,.1)}
+    .home-hero{padding:26px 0 30px}.home-hero-shell{position:relative;display:grid;grid-template-columns:minmax(0,1.07fr) minmax(360px,.93fr);min-height:620px;overflow:hidden;border-radius:30px;background:radial-gradient(circle at 84% 10%,rgba(224,189,114,.22),transparent 24%),linear-gradient(135deg,#061629 0%,#0a2945 62%,#123b5b 100%);box-shadow:0 28px 70px rgba(6,22,41,.2)}
+    .home-hero-copy{display:flex;flex-direction:column;justify-content:center;padding:66px 58px;color:#fff}.home-kicker{display:flex;align-items:center;gap:9px;color:var(--home-gold2);font:600 .64rem/1 "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase}.home-kicker:before{content:"";width:28px;height:1px;background:currentColor}.home-hero-copy h1{max-width:760px;margin:18px 0 18px;font:800 clamp(4.4rem,7.2vw,7.7rem)/.76 "Barlow Condensed",sans-serif;letter-spacing:-.045em;text-transform:uppercase}.home-hero-copy h1 em{color:var(--home-gold2);font-style:normal}.home-hero-copy p{max-width:620px;margin:0;color:#d4e0eb;font-size:.94rem;line-height:1.74}.home-actions{display:flex;flex-wrap:wrap;gap:11px;margin-top:28px}.home-proof{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:32px;max-width:610px}.home-proof div{padding:12px 13px;border:1px solid rgba(255,255,255,.14);border-radius:13px;background:rgba(255,255,255,.055)}.home-proof b{display:block;color:#fff;font:800 1.15rem/1 "Barlow Condensed",sans-serif}.home-proof span{display:block;margin-top:4px;color:#aebdca;font-size:.57rem;line-height:1.35}
+    .hero-showcase{position:relative;margin:28px;border-radius:23px;background:linear-gradient(145deg,#fff,#e9eef1);overflow:hidden}.hero-showcase:before{content:"Featured online price";position:absolute;left:25px;top:23px;z-index:2;color:#8b6a31;font:600 .54rem/1 "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase}.hero-showcase img{position:absolute;inset:52px 8% 116px;width:84%;height:340px;object-fit:contain;filter:drop-shadow(0 24px 26px rgba(7,26,48,.17))}.hero-showcase-info{position:absolute;left:24px;right:24px;bottom:22px;padding:18px;border:1px solid rgba(7,26,48,.08);border-radius:16px;background:rgba(255,255,255,.92);backdrop-filter:blur(12px)}.hero-showcase-top{display:flex;align-items:flex-end;justify-content:space-between;gap:18px}.hero-showcase small{display:block;color:#8b6a31;font:700 .55rem/1.3 "DM Mono",monospace;text-transform:uppercase}.hero-showcase h2{margin:7px 0 0;color:var(--home-navy);font:800 1.7rem/.92 "Barlow Condensed",sans-serif;text-transform:uppercase}.hero-price{color:var(--home-navy);font:800 2rem/1 "Barlow Condensed",sans-serif;white-space:nowrap}.hero-showcase-foot{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:14px;padding-top:13px;border-top:1px solid var(--home-line);color:var(--home-muted);font-size:.62rem}.hero-showcase-foot a{color:var(--home-navy);font-weight:800}
+    .brand-strip{padding:0 0 16px}.brand-strip-inner{display:grid;grid-template-columns:auto repeat(5,1fr);align-items:center;gap:14px;padding:18px 22px;border:1px solid var(--home-line);border-radius:18px;background:#fff}.brand-strip-label{color:var(--home-muted);font:600 .55rem/1 "DM Mono",monospace;text-transform:uppercase;letter-spacing:.1em}.brand-name{text-align:center;color:#33465a;font:800 1.05rem/1 "Barlow Condensed",sans-serif;text-transform:uppercase}
+    .home-section{padding:72px 0}.home-section.white{background:#fff}.section-head{display:flex;align-items:end;justify-content:space-between;gap:30px;margin-bottom:28px}.section-head h2{margin:9px 0 0;color:var(--home-navy);font:800 clamp(3rem,5vw,5rem)/.81 "Barlow Condensed",sans-serif;text-transform:uppercase}.section-head p{max-width:520px;margin:0;color:var(--home-muted);font-size:.81rem;line-height:1.7}
+    .category-grid-home{display:grid;grid-template-columns:1.35fr 1fr 1fr;gap:16px}.category-home{position:relative;min-height:250px;overflow:hidden;padding:28px;border:1px solid var(--home-line);border-radius:22px;background:#fff;box-shadow:0 12px 34px rgba(7,26,48,.05);transition:.2s}.category-home:hover{transform:translateY(-4px);border-color:#cfb276;box-shadow:0 18px 40px rgba(7,26,48,.1)}.category-home:first-child{background:linear-gradient(135deg,#071a30,#133d5e);border-color:#173c59}.category-home .num{color:var(--home-gold);font:600 .56rem/1 "DM Mono",monospace;letter-spacing:.12em}.category-home h3{max-width:300px;margin:38px 0 10px;color:var(--home-navy);font:800 2.35rem/.86 "Barlow Condensed",sans-serif;text-transform:uppercase}.category-home:first-child h3{color:#fff}.category-home p{max-width:320px;margin:0;color:var(--home-muted);font-size:.72rem;line-height:1.65}.category-home:first-child p{color:#c9d5e0}.category-home .count{position:absolute;right:25px;top:24px;color:#82909e;font:700 .58rem/1 "DM Mono",monospace;text-transform:uppercase}.category-home:first-child .count{color:#aac0d1}.category-home .go{position:absolute;left:28px;bottom:26px;color:var(--home-navy);font-size:.68rem;font-weight:800}.category-home:first-child .go{color:var(--home-gold2)}
+    .live-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:17px}.live-card{display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--home-line);border-radius:21px;background:#fff;transition:.2s}.live-card:hover{transform:translateY(-4px);box-shadow:0 18px 38px rgba(7,26,48,.1)}.live-media{position:relative;height:245px;display:grid;place-items:center;padding:26px;background:linear-gradient(145deg,#fafbfc,#e8edf0)}.live-media img{width:100%;height:185px;object-fit:contain}.live-badge{position:absolute;left:14px;top:14px;padding:7px 9px;border-radius:999px;background:#e8f4ed;color:#176d49;font:700 .52rem/1 "DM Mono",monospace;text-transform:uppercase}.live-body{display:flex;flex:1;flex-direction:column;padding:20px}.live-brand{display:flex;justify-content:space-between;gap:10px;color:#8b6a31;font:600 .52rem/1.35 "DM Mono",monospace;text-transform:uppercase}.live-card h3{margin:12px 0 8px;color:var(--home-navy);font:800 1.58rem/.92 "Barlow Condensed",sans-serif;text-transform:uppercase}.live-card p{margin:0;color:var(--home-muted);font-size:.68rem;line-height:1.55}.live-card-footer{display:flex;align-items:end;justify-content:space-between;gap:14px;margin-top:auto;padding-top:18px}.live-price{color:var(--home-navy);font:800 1.65rem/1 "Barlow Condensed",sans-serif}.live-price small{display:block;margin-bottom:4px;color:var(--home-muted);font:600 .5rem/1 "DM Mono",monospace;text-transform:uppercase}.live-link{color:var(--home-navy);font-size:.66rem;font-weight:850}
+    .why-shell{padding:42px;border-radius:26px;background:var(--home-navy);color:#fff;box-shadow:0 24px 60px rgba(7,26,48,.18)}.why-head{display:flex;align-items:end;justify-content:space-between;gap:30px}.why-head h2{margin:9px 0 0;font:800 clamp(3rem,5vw,5rem)/.8 "Barlow Condensed",sans-serif;text-transform:uppercase}.why-head p{max-width:530px;margin:0;color:#c5d2dd;font-size:.8rem;line-height:1.7}.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}.why-card{padding:25px;border:1px solid rgba(255,255,255,.14);border-radius:18px;background:rgba(255,255,255,.055)}.why-card span{color:var(--home-gold2);font:500 .56rem/1 "DM Mono",monospace}.why-card h3{margin:14px 0 8px;font:800 1.8rem/.9 "Barlow Condensed",sans-serif;text-transform:uppercase}.why-card p{margin:0;color:#c7d3df;font-size:.71rem;line-height:1.65}
+    .support-band{padding:0 0 72px}.support-inner{display:flex;align-items:center;justify-content:space-between;gap:30px;padding:32px;border:1px solid #dfd3bd;border-radius:22px;background:linear-gradient(122deg,#fffefb,#f1e8d8)}.support-inner h2{margin:8px 0 0;color:var(--home-navy);font:800 2.7rem/.84 "Barlow Condensed",sans-serif;text-transform:uppercase}.support-inner p{max-width:640px;margin:10px 0 0;color:var(--home-muted);font-size:.76rem;line-height:1.65}.support-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:10px}.legal-note{margin-top:13px;color:var(--home-muted);font-size:.64rem;line-height:1.55}.mobile-store-bar{display:none}
+    @media(max-width:1100px){.home-hero-shell{grid-template-columns:1fr}.hero-showcase{min-height:430px}.category-grid-home{grid-template-columns:1fr 1fr}.category-home:first-child{grid-column:1/-1}.live-grid{grid-template-columns:repeat(2,1fr)}.brand-strip-inner{grid-template-columns:repeat(3,1fr)}.brand-strip-label{grid-column:1/-1;text-align:center}}
+    @media(max-width:760px){.home-hero{padding-top:12px}.home-hero-shell{min-height:0;border-radius:20px}.home-hero-copy{padding:38px 23px}.home-hero-copy h1{font-size:clamp(3.4rem,15vw,4.8rem)}.home-proof{grid-template-columns:1fr}.hero-showcase{min-height:360px;margin:0 12px 12px}.hero-showcase img{inset:48px 8% 120px;height:210px}.hero-showcase-top{align-items:flex-start}.hero-showcase-info{left:14px;right:14px;bottom:14px}.home-section{padding:52px 0}.section-head,.why-head,.support-inner{display:grid}.category-grid-home{grid-template-columns:1fr}.category-home:first-child{grid-column:auto}.live-grid{display:flex;overflow-x:auto;padding-bottom:12px;scroll-snap-type:x mandatory}.live-card{flex:0 0 min(84vw,320px);scroll-snap-align:start}.why-shell{padding:28px 21px}.why-grid{grid-template-columns:1fr}.support-actions{justify-content:flex-start}.brand-strip-inner{grid-template-columns:repeat(2,1fr)}.brand-strip-label{grid-column:1/-1}.mobile-store-bar{position:fixed;left:8px;right:8px;bottom:8px;z-index:100;display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:6px;border:1px solid rgba(7,26,48,.12);border-radius:15px;background:rgba(255,255,255,.96);box-shadow:0 14px 36px rgba(7,26,48,.24);backdrop-filter:blur(15px)}.mobile-store-bar a{display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:10px;background:var(--home-navy);color:#fff;font-size:.68rem;font-weight:800}.mobile-store-bar a:last-child{background:#f2e7d0;color:var(--home-navy)}body{padding-bottom:76px}}
   </style>
 </head>
 <body>
-  <div class="announcement"><div class="container"><span><strong>Omni Terrain US STORE:</strong> Automotive, RV and marine product records with guest request checkout.</span><a href="tel:+13075330570">Call +1 307-533-0570 →</a></div></div>
-  <div class="market-strip" id="markets"><div class="container"><span class="market-label">Store region</span><a class="market-link" href="index.html">United States</a><a href="uk.html">United Kingdom</a><span class="market-note">Availability is confirmed before payment.</span></div></div>
-  <header id="header">
-    <div class="container header-main">
-      <a class="brand" href="index.html" aria-label="Omni Terrain home"><span class="wordmark"><span class="wordmark-main">OMNI</span><span class="wordmark-sub">Terrain</span><span class="wordmark-meta">Road / Water / Power</span></span></a>
-      <nav class="nav-links" aria-label="US store navigation"><a class="active" href="index.html">Home</a><a href="us-catalogue.html">Shop All</a><a href="us-catalogue.html#automotive">Automotive</a><a href="us-catalogue.html#rv">RV &amp; Overlanding</a><a href="us-catalogue.html#marine">Marine</a><a href="contact-and-order-help.html">Contact</a></nav>
-      <div class="header-actions"><a class="cart-link" href="cart.html">Request Cart <span class="cart-count" data-cart-count>0</span></a><button class="menu-btn" id="menuToggle" aria-expanded="false" aria-controls="mobileNav">Menu</button></div>
-    </div>
-    <nav class="mobile-nav" id="mobileNav" aria-label="US store mobile navigation"><a href="index.html">Home</a><a href="us-catalogue.html">Shop All Products</a><a href="us-catalogue.html#automotive">Automotive &amp; Towing</a><a href="us-catalogue.html#rv">RV &amp; Overlanding</a><a href="us-catalogue.html#marine">Marine</a><a href="cart.html">Request Cart</a><a href="checkout.html">Guest Checkout</a><a href="contact-and-order-help.html">Contact &amp; Support</a></nav>
-  </header>
-  <div class="availability-strip"><div class="container"><span class="status-chip">Request checkout active</span><span>Products currently require availability and commercial confirmation. No account is required and no payment is taken before confirmation.</span></div></div>
+  <div class="announcement"><div class="container"><span><strong>Omni Terrain US:</strong> Specialist automotive, marine, RV &amp; 12V products.</span><a href="tel:+13075330570">Product support +1 307-533-0570 →</a></div></div>
+  <div class="market-strip" id="markets"><div class="container"><span class="market-label">Store region</span><a class="market-link" href="index.html">United States</a><a href="uk.html">United Kingdom</a><span class="market-note">Online pricing is live on selected products.</span></div></div>
+  <header id="header"><div class="container header-main">
+    <a class="brand" href="index.html" aria-label="Omni Terrain home"><span class="wordmark"><span class="wordmark-main">OMNI</span><span class="wordmark-sub">Terrain</span><span class="wordmark-meta">Road / Water / Power</span></span></a>
+    <nav class="nav-links" aria-label="US store navigation"><a class="active" href="index.html">Home</a><a href="us-catalogue.html">Shop All</a><a href="automotive.html">Auto Parts</a><a href="marine.html">Marine</a><a href="rv.html">RV &amp; Overlanding</a><a href="contact-and-order-help.html">Help</a></nav>
+    <div class="header-actions"><a class="cart-link" href="cart.html">Cart <span class="cart-count" data-cart-count>0</span></a><button class="menu-btn" id="menuToggle" aria-expanded="false" aria-controls="mobileNav">Menu</button></div>
+  </div><nav class="mobile-nav" id="mobileNav" aria-label="US store mobile navigation"><a href="index.html">Home</a><a href="us-catalogue.html">Shop All Products</a><a href="automotive.html">Auto Parts</a><a href="marine.html">Marine</a><a href="rv.html">RV &amp; Overlanding</a><a href="cart.html">Cart</a><a href="checkout.html">Checkout</a><a href="contact-and-order-help.html">Contact &amp; Support</a></nav></header>
+  <div class="launch-strip"><div class="container"><span class="launch-dot"></span><span>Selected products now carry online prices. More checkout-ready products are being added continuously.</span></div></div>
 
   <main>
-    <section class="home-hero" id="start"><div class="container"><div class="home-hero-shell">
-      <div class="home-hero-copy"><span class="eyebrow" style="color:var(--gold2)">Omni Terrain United States</span><h1>Gear for road,<br>camp &amp; <em>water.</em></h1><p>Browse 1,000 products across Auto Parts, Marine and RV categories. Add relevant products to the request cart and continue as a guest for availability, pricing and shipping review.</p><div class="home-actions"><a class="button primary" href="us-catalogue.html">Browse all 1,000 products →</a><a class="button light" href="cart.html">Open request cart</a></div><div class="home-proof"><span>1,000 product records</span><span>15 established brands</span><span>Guest checkout — no login</span><span>No payment before confirmation</span></div></div>
-      <a class="hero-product" href="us-husky-towing-33055.html">
-
-  <img src="https://vehiclepartimages.com/ImageServerAPI?File=HUK/Images/HUS_33055_OEM 35K Gooseneck Ball gf.jpg&amp;maxheight=600&amp;maxwidth=800" alt="HUSKY Towing 2-5/16&#x27; Gooseneck BALL — MPN 33055" loading="lazy" referrerpolicy="no-referrer" onerror="this.hidden=true">
-
-  <div>
-
-    <span>HUSKY TOWING</span>
-
-    <span>MPN 33055</span>
-
-    <h3>HUSKY Towing 2-5/16&#x27; Gooseneck BALL — MPN 33055</h3>
-
-    <p>HUSKY Towing product record for automotive parts; manufacturer part number 33055; UPC 088805330553; listed weight 8.16 lb; listed dimensions L 8.23 in × W 3.00 in × H 3.00 in. Verify vehicle or application compatibility and installation requirements before ordering.</p>
-
-    <span>View product →</span>
-
-  </div>
-
-</a>
+    <section class="home-hero"><div class="container"><div class="home-hero-shell">
+      <div class="home-hero-copy"><span class="home-kicker">Specialist parts. Serious use.</span><h1>Built for the road.<br>Ready for <em>water.</em></h1><p>Shop a growing specialist catalogue across automotive, towing, marine, RV and 12V equipment. Clear manufacturer part numbers, practical fitment guidance and online pricing on selected products.</p><div class="home-actions"><a class="button primary" href="automotive.html">Shop Auto Parts →</a><a class="button light" href="us-catalogue.html">Browse All Products</a></div><div class="home-proof"><div><b>1,000</b><span>Curated US product records</span></div><div><b>Auto first</b><span>Our largest and deepest department</span></div><div><b>Real support</b><span>Fitment and product help before purchase</span></div></div></div>
+      <a class="hero-showcase" href="us-fabtech-ftl5607.html" aria-label="View Fabtech FTL5607"><img src="https://vehiclepartimages.com/ImageServerAPI?File=FAB/Images/FTL5607_1.jpg&amp;maxheight=900&amp;maxwidth=1100" alt="Fabtech FTL5607 leveling system"><div class="hero-showcase-info"><div class="hero-showcase-top"><div><small>Fabtech · MPN FTL5607</small><h2>1.5-inch leveling system</h2></div><div class="hero-price" data-live-price="F37FTL5607">$199.99</div></div><div class="hero-showcase-foot"><span>Selected online product · Standard US shipping included</span><span>View product →</span></div></div></a>
     </div></div></section>
 
-    <section class="home-section white" id="collections"><div class="container"><div class="section-head"><div><span class="eyebrow">Shop by category</span><h2>Three focused product paths.</h2></div><p>Each product page identifies the brand, manufacturer part number, key specifications and fitment considerations before a request is submitted.</p></div><div class="category-grid">
-      <a class="category-card" href="us-catalogue.html#automotive"><span class="category-number">20</span><span><small>Product records</small><h3>Automotive &amp; Towing</h3><p>Battery care, trailer braking and towing equipment.</p></span><span class="category-arrow">→</span></a>
-      <a class="category-card" href="us-catalogue.html#rv"><span class="category-number">15</span><span><small>Product records</small><h3>RV &amp; Overlanding</h3><p>Power conversion, shore connection and sanitation.</p></span><span class="category-arrow">→</span></a>
-      <a class="category-card" href="us-catalogue.html#marine"><span class="category-number">15</span><span><small>Product records</small><h3>Marine</h3><p>Electrical distribution, charging, pumps and navigation.</p></span><span class="category-arrow">→</span></a>
+    <section class="brand-strip"><div class="container"><div class="brand-strip-inner"><div class="brand-strip-label">Brands in the catalogue</div><div class="brand-name">Fabtech</div><div class="brand-name">Putco</div><div class="brand-name">TrailFX</div><div class="brand-name">Pop &amp; Lock</div><div class="brand-name">Blue Sea</div></div></div></section>
+
+    <section class="home-section white"><div class="container"><div class="section-head"><div><span class="eyebrow">Shop by department</span><h2>Find the right part faster.</h2></div><p>Automotive leads the store, with focused marine and RV/overlanding ranges behind it. Every product page keeps the brand and MPN easy to verify.</p></div><div class="category-grid-home">
+      <a class="category-home" href="automotive.html"><span class="num">01 / PRIMARY</span><span class="count">650 products</span><h3>Automotive Parts &amp; Towing</h3><p>Truck, SUV, towing, lighting, suspension and specialist aftermarket equipment.</p><span class="go">Shop Auto Parts →</span></a>
+      <a class="category-home" href="marine.html"><span class="num">02 / MARINE</span><span class="count">250 products</span><h3>Marine Parts &amp; Equipment</h3><p>Electrical, charging, navigation and boat-support equipment.</p><span class="go">Shop Marine →</span></a>
+      <a class="category-home" href="rv.html"><span class="num">03 / TRAVEL</span><span class="count">100 products</span><h3>RV &amp; Overlanding</h3><p>Power, travel, towing and campsite equipment for road-based use.</p><span class="go">Shop RV →</span></a>
     </div></div></section>
 
-    <section class="home-section"><div class="container"><div class="process-shell"><div class="process-head"><div><span class="eyebrow" style="color:var(--gold2)">How checkout works</span><h2>Review first.<br>Pay securely later.</h2></div><p>The current checkout is designed for supplier-supported products whose availability and commercial terms must be confirmed before an order is accepted.</p></div><div class="process-grid">
-      <article class="process-card"><span>01 / SELECT</span><h3>Add products</h3><p>Choose one or more products and adjust quantities in the request cart.</p></article>
-      <article class="process-card"><span>02 / GUEST CHECKOUT</span><h3>Provide delivery details</h3><p>No account or login is required. Submit contact, destination and application notes.</p></article>
-      <article class="process-card"><span>03 / CONFIRM</span><h3>Receive final terms</h3><p>Availability, price, shipping, return terms and a secure payment method are confirmed before acceptance.</p></article>
-    </div></div></div></section>
-
-    <section class="home-section white"><div class="container"><div class="section-head"><div><span class="eyebrow">Featured product records</span><h2>Start with established brands.</h2></div><p>These products are shown for identification and request review. Immediate stock and prices are not represented until supplier confirmation is complete.</p></div><div class="featured-grid">
-      <a class="featured-card" href="us-fabtech-ftl5607.html">
-
-          <div class="featured-visual">
-
-            <span class="featured-status">Catalogue reference</span>
-
-            <img src="https://vehiclepartimages.com/ImageServerAPI?File=FAB/Images/FTL5607_1.jpg&amp;maxheight=600&amp;maxwidth=800" alt="Fabtech 1.5F 2024 Toyota Tacoma 4WD — MPN FTL5607" loading="lazy" referrerpolicy="no-referrer" onerror="this.hidden=true">
-
-          </div>
-
-          <div class="featured-body">
-
-            <div class="featured-brand">
-
-              <span>FABTECH</span>
-
-              <span>MPN FTL5607</span>
-
-            </div>
-
-            <h3>Fabtech 1.5F 2024 Toyota Tacoma 4WD — MPN FTL5607</h3>
-
-            <div class="featured-footer">
-
-              <span>Availability confirmed before sale</span>
-
-              <b>View →</b>
-
-            </div>
-
-          </div>
-
-        </a>
-      <a class="featured-card" href="us-suspens-pro-f20ll3.html">
-
-          <div class="featured-visual">
-
-            <span class="featured-status">Catalogue reference</span>
-
-            <img src="https://vehiclepartimages.com/ImageServerAPI?File=TLF/Images/T8S_F20LL3_LEVELING KIT_WEB_3.jpg&amp;maxheight=600&amp;maxwidth=800" alt="Suspens PRO FORD F150 LEVEL KIT — MPN F20LL3" loading="lazy" referrerpolicy="no-referrer" onerror="this.hidden=true">
-
-          </div>
-
-          <div class="featured-body">
-
-            <div class="featured-brand">
-
-              <span>SUSPENS PRO</span>
-
-              <span>MPN F20LL3</span>
-
-            </div>
-
-            <h3>Suspens PRO FORD F150 LEVEL KIT — MPN F20LL3</h3>
-
-            <div class="featured-footer">
-
-              <span>Availability confirmed before sale</span>
-
-              <b>View →</b>
-
-            </div>
-
-          </div>
-
-        </a>
-      <a class="featured-card" href="us-popnlock-llc-pl8547tun.html">
-
-          <div class="featured-visual">
-
-            <span class="featured-status">Catalogue reference</span>
-
-            <img src="https://vehiclepartimages.com/ImageServerAPI?File=POP/Images/PL8547TUN.jpg&amp;maxheight=600&amp;maxwidth=800" alt="Popnlock LLC HD PWR Tailgte LCK PNP Tundra 16-21 — MPN PL8547TUN" loading="lazy" referrerpolicy="no-referrer" onerror="this.hidden=true">
-
-          </div>
-
-          <div class="featured-body">
-
-            <div class="featured-brand">
-
-              <span>POPNLOCK LLC</span>
-
-              <span>MPN PL8547TUN</span>
-
-            </div>
-
-            <h3>Popnlock LLC HD PWR Tailgte LCK PNP Tundra 16-21 — MPN PL8547TUN</h3>
-
-            <div class="featured-footer">
-
-              <span>Availability confirmed before sale</span>
-
-              <b>View →</b>
-
-            </div>
-
-          </div>
-
-        </a>
-      <a class="featured-card" href="us-husky-towing-33055.html">
-
-          <div class="featured-visual">
-
-            <span class="featured-status">Catalogue reference</span>
-
-            <img src="https://vehiclepartimages.com/ImageServerAPI?File=HUK/Images/HUS_33055_OEM 35K Gooseneck Ball gf.jpg&amp;maxheight=600&amp;maxwidth=800" alt="HUSKY Towing 2-5/16&#x27; Gooseneck BALL — MPN 33055" loading="lazy" referrerpolicy="no-referrer" onerror="this.hidden=true">
-
-          </div>
-
-          <div class="featured-body">
-
-            <div class="featured-brand">
-
-              <span>HUSKY TOWING</span>
-
-              <span>MPN 33055</span>
-
-            </div>
-
-            <h3>HUSKY Towing 2-5/16&#x27; Gooseneck BALL — MPN 33055</h3>
-
-            <div class="featured-footer">
-
-              <span>Availability confirmed before sale</span>
-
-              <b>View →</b>
-
-            </div>
-
-          </div>
-
-        </a>
-    </div><div style="margin-top:22px"><a class="button dark" href="us-catalogue.html">View the complete US catalogue →</a></div></div></section>
-
-    <section class="home-section"><div class="container"><div class="section-head"><div><span class="eyebrow">Clear operating standards</span><h2>What customers can expect.</h2></div><p>The website distinguishes a product request from an accepted paid order and avoids displaying unconfirmed stock, prices or delivery promises.</p></div><div class="trust-grid">
-      <article class="trust-card"><b>01 / IDENTITY</b><h3>Brand and MPN first</h3><p>Product pages identify the manufacturer, part number, specifications and fitment notes to reduce uncertainty.</p></article>
-      <article class="trust-card"><b>02 / TRANSPARENCY</b><h3>No fake availability</h3><p>Products requiring supplier confirmation are clearly labelled and are not charged before final terms are accepted.</p></article>
-      <article class="trust-card"><b>03 / SUPPORT</b><h3>Real contact routes</h3><p>Customers can call +1 307-533-0570 or email the Omni Terrain team before or after submitting a request.</p></article>
-    </div></div></section>
-
-    <section class="support-band"><div class="container"><div class="support-inner"><div><span class="eyebrow">Need product or order help?</span><h2>Talk to the Omni Terrain team.</h2><p>For fitment, product selection, order-request or supplier enquiries, use the dedicated support page or call during business availability.</p></div><div class="support-actions"><a class="button dark" href="contact-and-order-help.html">Contact &amp; order help</a><a class="button outline" href="tel:+13075330570">Call +1 307-533-0570</a></div></div></div></section>
+    <section class="home-section"><div class="container"><div class="section-head"><div><span class="eyebrow">Selected online pricing</span><h2>Start with strong products.</h2></div><p>These selected products already have customer-facing online prices. Product eligibility and checkout coverage will expand as each SKU clears the operating gates.</p></div><div class="live-grid">
+      <article class="live-card"><a class="live-media" href="us-fabtech-ftl5607.html"><span class="live-badge">Online price</span><img src="https://vehiclepartimages.com/ImageServerAPI?File=FAB/Images/FTL5607_1.jpg&amp;maxheight=600&amp;maxwidth=800" alt="Fabtech FTL5607" loading="lazy"></a><div class="live-body"><div class="live-brand"><span>FABTECH</span><span>FTL5607</span></div><h3>1.5-inch Tacoma leveling system</h3><p>Compact suspension upgrade for compatible Toyota applications.</p><div class="live-card-footer"><div class="live-price"><small>Online price</small><span data-live-price="F37FTL5607">$199.99</span></div><a class="live-link" href="us-fabtech-ftl5607.html">View →</a></div></div></article>
+      <article class="live-card"><a class="live-media" href="us-putco-92852.html"><span class="live-badge">Online price</span><img src="https://vehiclepartimages.com/ImageServerAPI?File=PUT/Images/92852_2.jpg&amp;maxheight=600&amp;maxwidth=800" alt="Putco 92852 Bronco LED emblem" loading="lazy"></a><div class="live-body"><div class="live-brand"><span>PUTCO</span><span>92852</span></div><h3>Bronco LED grille emblem</h3><p>Illuminated grille emblem configuration for compatible Ford Bronco applications.</p><div class="live-card-footer"><div class="live-price"><small>Online price</small><span data-live-price="P4592852">$399.99</span></div><a class="live-link" href="us-putco-92852.html">View →</a></div></div></article>
+      <article class="live-card"><a class="live-media" href="us-putco-950001.html"><span class="live-badge">Online price</span><img src="https://vehiclepartimages.com/ImageServerAPI?File=PUT/Images/950001_3.jpg&amp;maxheight=600&amp;maxwidth=800" alt="Putco 950001 roof bracket" loading="lazy"></a><div class="live-body"><div class="live-brand"><span>PUTCO</span><span>950001</span></div><h3>Ford truck roof mounting bracket</h3><p>Vehicle-specific roof mounting hardware for compatible Ford truck platforms.</p><div class="live-card-footer"><div class="live-price"><small>Online price</small><span data-live-price="P45950001">$194.99</span></div><a class="live-link" href="us-putco-950001.html">View →</a></div></div></article>
+      <article class="live-card"><a class="live-media" href="us-popnlock-llc-pl8547tun.html"><span class="live-badge">Online price</span><img src="https://vehiclepartimages.com/ImageServerAPI?File=POP/Images/PL8547TUN.jpg&amp;maxheight=600&amp;maxwidth=800" alt="Pop and Lock PL8547TUN" loading="lazy"></a><div class="live-body"><div class="live-brand"><span>POP &amp; LOCK</span><span>PL8547TUN</span></div><h3>Power tailgate lock for Tundra</h3><p>Plug-and-play power tailgate locking solution for compatible Toyota Tundra models.</p><div class="live-card-footer"><div class="live-price"><small>Online price</small><span data-live-price="P44PL8547TUN">$147.97</span></div><a class="live-link" href="us-popnlock-llc-pl8547tun.html">View →</a></div></div></article>
+    </div><div style="margin-top:24px"><a class="button dark" href="us-catalogue.html">Browse the full US catalogue →</a></div></div></section>
+
+    <section class="home-section white"><div class="container"><div class="why-shell"><div class="why-head"><div><span class="eyebrow" style="color:var(--home-gold2)">Why Omni Terrain</span><h2>Built like a specialist store.</h2></div><p>We prioritize useful product data and a clean buying path over noisy marketplace-style clutter.</p></div><div class="why-grid"><article class="why-card"><span>01 / FITMENT</span><h3>MPN-first product pages</h3><p>Brand, manufacturer part number, application notes and practical specifications stay visible where customers need them.</p></article><article class="why-card"><span>02 / FULFILMENT</span><h3>Clear availability gates</h3><p>Checkout coverage expands only as products clear the required supplier, stock, shipping and commercial checks.</p></article><article class="why-card"><span>03 / SUPPORT</span><h3>Real help before purchase</h3><p>Customers can reach the Omni Terrain team for product selection, fitment questions and order support.</p></article></div></div></div></section>
+
+    <section class="support-band"><div class="container"><div class="support-inner"><div><span class="eyebrow">Need help choosing a part?</span><h2>Talk to the Omni Terrain team.</h2><p>Send the MPN, vehicle/application details and what you are trying to solve. We will help narrow down the right product before you place an order.</p></div><div class="support-actions"><a class="button dark" href="contact-and-order-help.html">Product &amp; order help</a><a class="button outline" href="tel:+13075330570">Call +1 307-533-0570</a></div></div></div></section>
   </main>
 
-  <footer><div class="container"><div class="footer-grid">
-    <div><a class="brand footer-wordmark" href="index.html"><span class="wordmark"><span class="wordmark-main">OMNI</span><span class="wordmark-sub">Terrain</span><span class="wordmark-meta">Road / Water / Power</span></span></a><p class="footer-copy">A focused United States storefront for automotive, towing, RV, overlanding and marine product requests.</p><p class="legal-note"><strong>US operator:</strong> PRP Xpert LLC · 30 N Gould St Ste R, Sheridan, WY 82801 · procurement@omni-terrain.com</p></div>
-    <div><div class="footer-heading">Shop US</div><div class="footer-links"><a href="us-catalogue.html">All Products</a><a href="us-catalogue.html#automotive">Automotive &amp; Towing</a><a href="us-catalogue.html#rv">RV &amp; Overlanding</a><a href="us-catalogue.html#marine">Marine</a></div></div>
-    <div><div class="footer-heading">Checkout &amp; support</div><div class="footer-links"><a href="cart.html">Request Cart</a><a href="checkout.html">Guest Checkout</a><a href="contact-and-order-help.html">Contact &amp; Order Help</a><a href="tel:+13075330570">+1 307-533-0570</a></div></div>
-    <div><div class="footer-heading">Policies</div><div class="footer-links"><a href="shipping-delivery-policy.html">Shipping</a><a href="returns-refunds-policy.html">Returns</a><a href="privacy-policy.html">Privacy</a><a href="terms-conditions.html">Terms</a></div></div>
-  </div><div class="footer-bottom"><span>© 2026 Omni Terrain. All rights reserved.</span><span>US Store · Guest request checkout active · No payment before confirmation</span></div></div></footer>
-  <div class="mobile-store-bar"><a href="us-catalogue.html">Shop products</a><a href="cart.html">Request cart</a></div>
-  <script src="assets/us-products.js"></script>
-  <script src="assets/us-commerce.js"></script>
-  <script src="assets/us-catalogue.js"></script>
+  <footer><div class="container"><div class="footer-grid"><div><a class="brand footer-wordmark" href="index.html"><span class="wordmark"><span class="wordmark-main">OMNI</span><span class="wordmark-sub">Terrain</span><span class="wordmark-meta">Road / Water / Power</span></span></a><p class="footer-copy">Specialist automotive, marine, RV and 12V parts for road, water and travel.</p><p class="legal-note"><strong>US operator:</strong> PRP Xpert LLC · 30 N Gould St Ste R, Sheridan, WY 82801 · procurement@omni-terrain.com</p></div><div><div class="footer-heading">Shop US</div><div class="footer-links"><a href="us-catalogue.html">All Products</a><a href="automotive.html">Auto Parts</a><a href="marine.html">Marine</a><a href="rv.html">RV &amp; Overlanding</a></div></div><div><div class="footer-heading">Checkout &amp; support</div><div class="footer-links"><a href="cart.html">Cart</a><a href="checkout.html">Checkout</a><a href="contact-and-order-help.html">Contact &amp; Order Help</a><a href="tel:+13075330570">+1 307-533-0570</a></div></div><div><div class="footer-heading">Policies</div><div class="footer-links"><a href="shipping-delivery-policy.html">Shipping</a><a href="returns-refunds-policy.html">Returns</a><a href="privacy-policy.html">Privacy</a><a href="terms-conditions.html">Terms</a></div></div></div><div class="footer-bottom"><span>© 2026 Omni Terrain. All rights reserved.</span><span>US Store · Specialist parts for road, water and travel</span></div></div></footer>
+  <div class="mobile-store-bar"><a href="us-catalogue.html">Shop products</a><a href="cart.html">Cart</a></div>
+  <script>
+    (function(){
+      const button=document.getElementById('menuToggle');
+      const nav=document.getElementById('mobileNav');
+      if(button&&nav)button.addEventListener('click',()=>{const open=nav.classList.toggle('open');button.setAttribute('aria-expanded',String(open));});
+      try{const cart=JSON.parse(localStorage.getItem('omniTerrainUsCart')||'[]');const count=Array.isArray(cart)?cart.reduce((n,item)=>n+Math.max(1,Number(item&&item.quantity)||1),0):0;document.querySelectorAll('[data-cart-count]').forEach(node=>node.textContent=String(count));}catch(_){ }
+      fetch('/assets/us-live-products.json?v=3',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(data=>{if(!data||!data.products)return;document.querySelectorAll('[data-live-price]').forEach(node=>{const p=data.products[node.dataset.livePrice];if(p&&p.enabled&&Number(p.priceCents)>0)node.textContent=new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(Number(p.priceCents)/100);});}).catch(()=>{});
+    })();
+  </script>
 </body>
 </html>
