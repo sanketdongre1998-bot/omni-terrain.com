@@ -432,4 +432,12 @@
   enhanceCart();
   enhanceCheckout();
   updateCartCounts();
+
+  // OT_CATALOGUE_DISPLAY_PRICING_LOADER
+  if (!document.querySelector('script[data-ot-display-pricing]')) {
+    const displayPricing = document.createElement("script");
+    displayPricing.src = "/assets/us-display-prices.js?v=2";
+    displayPricing.dataset.otDisplayPricing = "true";
+    document.head.appendChild(displayPricing);
+  }
 })();
