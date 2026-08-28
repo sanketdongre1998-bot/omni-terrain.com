@@ -370,5 +370,5 @@
   setupProductRequestButton();
   renderCart();
   renderCheckoutItems();
-  setupCheckout();
+  // Legacy request-email checkout disabled; live Stripe checkout owns payment flow.
 })();

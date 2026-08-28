@@ -335,10 +335,52 @@
     const form = document.getElementById("checkoutForm");
     if (!form) return;
     const cart = readCart();
-    if (!cart.length || !cart.every((item) => liveProduct(item.id))) return;
+    if (!cart.length) return;
+
+    if (!cart.every((item) => liveProduct(item.id))) {
+
+      relabelCartLinks();
+
+      const button = form.querySelector('button[type="submit"]');
+
+      if (button) {
+
+        button.disabled = true;
+
+        button.textContent = "Online checkout unavailable";
+
+      }
+
+      const status = form.querySelector("#checkoutStatus");
+
+      if (status) {
+
+        status.classList.add("show");
+
+        status.textContent = "One or more products in this cart are not currently enabled for online purchase. Remove those products to continue.";
+
+      }
+
+      return;
+
+    }
 
     const apiBase = String(config?.checkoutApiBase || "").replace(/\/$/, "");
-    if (!apiBase) return;
+    if (!apiBase) {
+
+      const button = form.querySelector('button[type="submit"]');
+
+      if (button) {
+
+        button.disabled = true;
+
+        button.textContent = "Secure checkout temporarily unavailable";
+
+      }
+
+      return;
+
+    }
 
     relabelCartLinks();
     enhanceCheckoutSummary(cart);
