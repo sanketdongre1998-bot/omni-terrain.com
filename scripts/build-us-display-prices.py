@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Build catalogue-wide display pricing from the local Keystone master feed.
 
-This intentionally separates *display pricing* from *checkout eligibility*.
-Existing market-verified live-commerce prices remain authoritative for checkout-ready
-SKUs; the rest of the catalogue receives a visible price without being silently
-promoted to online checkout.
+Display pricing is intentionally separate from checkout eligibility. Existing
+market-verified live-commerce prices remain authoritative; all other storefront
+products receive a visible display price from Keystone JobberPrice (or a guarded
+cost-floor fallback) without enabling checkout or ads.
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ LOADER_MARKER = "OT_CATALOGUE_DISPLAY_PRICING_LOADER"
 def cents(value: str) -> int:
     try:
         amount = float(str(value or "").strip())
-    except ValueError:
+    except (TypeError, ValueError):
         return 0
     if not math.isfinite(amount) or amount <= 0:
         return 0
@@ -30,6 +30,8 @@ def cents(value: str) -> int:
 
 
 def load_products(root: Path) -> list[dict]:
+    # The storefront bundle is small (~1000 products); letting Node evaluate it
+    # is safer than trying to parse JavaScript as JSON in Python.
     js = "process.stdout.write(JSON.stringify(require('./assets/us-products.js')))"
     proc = subprocess.run(
         ["node", "-e", js],
@@ -44,32 +46,50 @@ def load_products(root: Path) -> list[dict]:
     return data
 
 
-def load_feed(path: Path) -> tuple[dict[str, dict], dict[str, list[dict]]]:
+def load_matching_feed_rows(path: Path, products: list[dict]) -> tuple[dict[str, dict], dict[str, list[dict]]]:
+    """Stream the large Keystone feed and retain only rows needed by storefront.
+
+    Older implementation indexed the whole master_catalog.csv in memory. This
+    version keeps at most roughly the 1000 storefront matches, which is safe on
+    the Lightsail instance even when the supplier feed is very large.
+    """
+    target_ids = {str(p.get("id") or "").strip() for p in products if str(p.get("id") or "").strip()}
+    target_mpns = {str(p.get("mpn") or "").strip().lower() for p in products if str(p.get("mpn") or "").strip()}
+
     by_id: dict[str, dict] = {}
     by_mpn: dict[str, list[dict]] = {}
+
     with path.open("r", encoding="utf-8-sig", newline="") as handle:
-        for row in csv.DictReader(handle):
+        reader = csv.DictReader(handle)
+        for row in reader:
             product_id = str(row.get("VCPN") or "").strip()
             mpn = str(row.get("ManufacturerPartNo") or row.get("PartNumber") or "").strip().lower()
-            if product_id:
-                by_id[product_id] = row
-            if mpn:
-                by_mpn.setdefault(mpn, []).append(row)
+
+            keep = False
+            if product_id and product_id in target_ids:
+                by_id[product_id] = row.copy()
+                keep = True
+            if mpn and mpn in target_mpns:
+                # Store only target MPN matches so ambiguity can still be detected.
+                by_mpn.setdefault(mpn, []).append(row.copy() if not keep else by_id.get(product_id, row.copy()))
+
+            # Most feeds contain one row per VCPN. Once all storefront IDs have
+            # been located we can stop early; MPN fallback is no longer needed.
+            if len(by_id) >= len(target_ids):
+                break
+
     return by_id, by_mpn
 
 
 def fallback_price(row: dict) -> int:
-    """Prefer supplier JobberPrice. Use a conservative cost floor only if absent."""
     jobber = cents(row.get("JobberPrice", ""))
     if jobber:
         return jobber
     cost = cents(row.get("Cost", ""))
     if not cost:
         return 0
-    # Display-only emergency fallback. Checkout remains separately gated.
     dollars = cost / 100
     provisional = max(dollars * 1.25, dollars + 15.0)
-    # Retail-looking .99 ending while never reducing the calculated floor.
     rounded = math.ceil(provisional) - 0.01
     return int(round(rounded * 100))
 
@@ -137,7 +157,7 @@ def build_runtime(prices: dict[str, dict]) -> str:
     if (copy && !copy.querySelector(".ot-display-buybox")) {{
       const box = document.createElement("div");
       box.className = "ot-display-buybox";
-      box.innerHTML = `<div class="ot-display-label">Current price</div><div class="ot-display-big">${{money(product.priceCents)}}</div><div class="ot-display-note">Availability and delivery options are verified before purchase. Checkout is enabled only after the product's sale gates are cleared.</div><a class="ot-display-action" href="contact-and-order-help.html#request-help">Check availability →</a>`;
+      box.innerHTML = `<div class="ot-display-label">Current price</div><div class="ot-display-big">${{money(product.priceCents)}}</div><div class="ot-display-note">Availability and delivery options are verified before purchase.</div><a class="ot-display-action" href="contact-and-order-help.html#request-help">Check availability →</a>`;
       const notice = copy.querySelector(".notice");
       if (notice) copy.insertBefore(box, notice);
       else {{ const facts = copy.querySelector(".facts"); facts ? copy.insertBefore(box, facts) : copy.appendChild(box); }}
@@ -175,7 +195,7 @@ def ensure_loader(root: Path) -> None:
     if LOADER_MARKER in text:
         return
     needle = "\n  updateCartCounts();\n})();"
-    loader = f'''\n  updateCartCounts();\n\n  // {LOADER_MARKER}\n  if (!document.querySelector('script[data-ot-display-pricing]')) {{\n    const displayPricing = document.createElement("script");\n    displayPricing.src = "/assets/us-display-prices.js?v=1";\n    displayPricing.dataset.otDisplayPricing = "true";\n    document.head.appendChild(displayPricing);\n  }}\n}})();'''
+    loader = f'''\n  updateCartCounts();\n\n  // {LOADER_MARKER}\n  if (!document.querySelector('script[data-ot-display-pricing]')) {{\n    const displayPricing = document.createElement("script");\n    displayPricing.src = "/assets/us-display-prices.js?v=2";\n    displayPricing.dataset.otDisplayPricing = "true";\n    document.head.appendChild(displayPricing);\n  }}\n}})();'''
     if needle not in text:
         raise SystemExit("Could not find the live-commerce footer to attach display pricing")
     path.write_text(text.replace(needle, loader, 1), encoding="utf-8")
@@ -193,7 +213,9 @@ def main() -> None:
         raise SystemExit(f"Master feed not found: {feed_path}")
 
     products = load_products(root)
-    by_id, by_mpn = load_feed(feed_path)
+    print(f"PRODUCTS IN STOREFRONT = {len(products)}", flush=True)
+    by_id, by_mpn = load_matching_feed_rows(feed_path, products)
+    print(f"MATCHED KEYSTONE IDS   = {len(by_id)}", flush=True)
 
     live_path = root / "assets" / "us-live-products.json"
     live = json.loads(live_path.read_text(encoding="utf-8")) if live_path.exists() else {"products": {}}
@@ -217,7 +239,11 @@ def main() -> None:
                 row = matches[0]
 
         override = overrides.get(pid) or {}
-        price = int(override.get("priceCents") or 0) if int(override.get("priceCents") or 0) > 0 else 0
+        try:
+            override_price = int(override.get("priceCents") or 0)
+        except (TypeError, ValueError):
+            override_price = 0
+        price = override_price if override_price > 0 else 0
         source = "market-verified-live" if price else "supplier-jobber"
 
         if not price and row:
@@ -231,18 +257,11 @@ def main() -> None:
             missing.append(f"{pid}:{mpn}:{slug}")
             continue
 
-        output[slug] = {
-            "id": pid,
-            "mpn": mpn,
-            "priceCents": price,
-            "source": source,
-        }
+        output[slug] = {"id": pid, "mpn": mpn, "priceCents": price, "source": source}
 
-    runtime = build_runtime(output)
-    (root / "assets" / "us-display-prices.js").write_text(runtime, encoding="utf-8")
+    (root / "assets" / "us-display-prices.js").write_text(build_runtime(output), encoding="utf-8")
     ensure_loader(root)
 
-    print(f"PRODUCTS IN STOREFRONT = {len(products)}")
     print(f"DISPLAY PRICES BUILT  = {len(output)}")
     print(f"COST-FLOOR FALLBACKS  = {fallback_count}")
     print(f"MISSING PRICES        = {len(missing)}")
