@@ -56,21 +56,46 @@
     document.head.appendChild(link);
   }
 
+  function injectImageLayoutFix() {
+    if (document.querySelector('link[data-ot-image-layout-fix]')) return;
+    const css = document.createElement("link");
+    css.rel = "stylesheet";
+    css.href = "/assets/image-layout-fix.css?v=2";
+    css.dataset.otImageLayoutFix = "true";
+    document.head.appendChild(css);
+  }
+
   function injectProductAssets() {
     if (!document.querySelector(".product-layout") || !document.querySelector(".product-copy")) return;
     if (!document.querySelector('link[data-ot-product-premium]')) {
       const css = document.createElement("link");
       css.rel = "stylesheet";
-      css.href = "/assets/product-page-premium.css?v=1";
+      css.href = "/assets/product-page-premium.css?v=2";
       css.dataset.otProductPremium = "true";
       document.head.appendChild(css);
     }
+    if (!document.querySelector('link[data-ot-product-mobile]')) {
+      const mobile = document.createElement("link");
+      mobile.rel = "stylesheet";
+      mobile.href = "/assets/product-mobile-fix.css?v=1";
+      mobile.dataset.otProductMobile = "true";
+      document.head.appendChild(mobile);
+    }
     if (!document.querySelector('script[data-ot-product-premium]')) {
       const script = document.createElement("script");
-      script.src = "/assets/product-page-premium.js?v=1";
+      script.src = "/assets/product-page-premium.js?v=2";
       script.dataset.otProductPremium = "true";
       document.body.appendChild(script);
     }
+  }
+
+  function injectCatalogueAssets() {
+    if (!(file === "us-catalogue.html" || /^(automotive|marine|rv)(?:-|\.)/.test(file))) return;
+    if (document.querySelector('script[data-ot-catalogue-controls]')) return;
+    const script = document.createElement("script");
+    script.src = "/assets/catalogue-controls.js?v=2";
+    script.dataset.otCatalogueControls = "true";
+    document.body.appendChild(script);
   }
 
   function mountHeader() {
@@ -129,7 +154,16 @@
     document.querySelectorAll("[data-cart-count]").forEach((node) => { node.textContent = count; });
   }
 
-  function mount() { injectFonts(); injectCss(); mountHeader(); mountFooter(); syncCart(); injectProductAssets(); }
+  function mount() {
+    injectFonts();
+    injectCss();
+    injectImageLayoutFix();
+    mountHeader();
+    mountFooter();
+    syncCart();
+    injectProductAssets();
+    injectCatalogueAssets();
+  }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount, { once: true });
   else mount();
 })();
