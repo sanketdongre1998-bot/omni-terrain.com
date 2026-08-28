@@ -70,6 +70,21 @@ html.ot-perf-lite .ot-stage-glow,
 html.ot-perf-lite .ot-marquee-track{animation:none!important;transform:none!important}
 html.ot-perf-lite .ot-reel{transform:none!important}
 
+/* Keep region navigation readable in dark mode on both legacy and shared shells. */
+html[data-ot-theme="dark"] .market-label,
+html[data-ot-theme="dark"] .ot-site-market-label{
+  color:#d8b469!important;
+  opacity:1!important;
+}
+html[data-ot-theme="dark"] .market-strip .container>a:not(.market-link),
+html[data-ot-theme="dark"] .ot-site-market a:not(.active){
+  color:#a9b8c5!important;
+}
+html[data-ot-theme="dark"] .market-link,
+html[data-ot-theme="dark"] .ot-site-market a.active{
+  color:#e2bd72!important;
+}
+
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{
     animation-duration:.001ms!important;
