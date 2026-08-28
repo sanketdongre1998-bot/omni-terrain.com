@@ -1,0 +1,55 @@
+name: Optimize Omni Terrain storefront performance
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/optimize-storefront-performance.yml
+
+permissions:
+  contents: write
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out storefront
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate optimizer assets
+        run: |
+          python -m py_compile scripts/optimize-storefront-performance.py
+          node --check assets/storefront-performance.js
+
+      - name: Apply responsive and image performance pass
+        run: python scripts/optimize-storefront-performance.py
+
+      - name: Verify universal attachment
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          pages=list(Path('.').glob('*.html'))
+          missing=[]
+          for p in pages:
+              text=p.read_text(encoding='utf-8')
+              if 'assets/storefront-performance.css' not in text or 'assets/storefront-performance.js' not in text:
+                  missing.append(p.name)
+          if missing:
+              raise SystemExit('Performance layer missing from: ' + ', '.join(missing[:20]))
+          print('PERFORMANCE LAYER VERIFIED =', len(pages), 'HTML pages')
+          PY
+
+      - name: Commit optimized storefront
+        run: |
+          if git diff --quiet; then
+            echo "No performance updates required."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- '*.html'
+          git commit -m "Optimize images and responsive performance across storefront"
+          git push origin HEAD:main
