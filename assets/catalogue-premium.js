@@ -26,10 +26,10 @@
     if (!hero || !container) return;
     container.innerHTML = `
       <div class="cp-hero-grid">
-        <div><div class="cp-kicker">Omni Terrain / US Catalogue</div><h1>1,000 products.<br><em>One specialist store.</em></h1><p>Browse automotive, marine and RV equipment with clear manufacturer part numbers, visible customer pricing and specialist product support. Automotive is our deepest department, backed by focused marine and travel ranges.</p><div class="cp-hero-actions"><a href="automotive.html">Shop Auto Parts →</a><a href="marine.html">Marine</a><a href="rv.html">RV &amp; Overlanding</a></div></div>
-        <div class="cp-hero-panel"><strong>1,000</strong><b>curated US products</b><span>Organized across specialist categories with customer-facing pricing now visible throughout the catalogue.</span></div>
+        <div><div class="cp-kicker">Omni Terrain / US Catalogue</div><h1>Specialist depth.<br><em>One focused store.</em></h1><p>Browse automotive, marine and RV equipment with clear manufacturer part numbers, visible customer pricing and specialist product support. Automotive is our deepest department, backed by focused marine and travel ranges.</p><div class="cp-hero-actions"><a href="automotive.html">Shop Auto Parts →</a><a href="marine.html">Marine</a><a href="rv.html">RV &amp; Overlanding</a></div></div>
+        <div class="cp-hero-panel"><strong>300+</strong><b>specialist products to explore</b><span>A broad catalogue organized around real applications, established brands and clear product data.</span></div>
       </div>
-      <div class="cp-stats"><div class="cp-stat"><b>650</b><span>Automotive & towing</span></div><div class="cp-stat"><b>250</b><span>Marine equipment</span></div><div class="cp-stat"><b>100</b><span>RV & overlanding</span></div><div class="cp-stat"><b>US + UK</b><span>Regional storefronts</span></div></div>`;
+      <div class="cp-stats"><div class="cp-stat"><b>Auto first</b><span>Our deepest department</span></div><div class="cp-stat"><b>Marine</b><span>Focused equipment range</span></div><div class="cp-stat"><b>RV</b><span>Travel &amp; overlanding</span></div><div class="cp-stat"><b>US + UK</b><span>Regional storefronts</span></div></div>`;
   }
 
   function upgradeDepartments() {
@@ -39,9 +39,9 @@
     const head = section.querySelector(".section-head");
     if (head) head.innerHTML = `<div><div class="kicker">Shop by department</div><h2>Start with the terrain.</h2></div><p class="cp-section-copy">Three focused departments keep the catalogue easy to navigate before deeper filters are applied.</p>`;
     const cards = [...section.querySelectorAll(".category-card")];
-    if (cards[0]) cards[0].querySelector("small") && (cards[0].querySelector("small").textContent = "01 / PRIMARY · 650 products");
-    if (cards[1]) cards[1].querySelector("small") && (cards[1].querySelector("small").textContent = "02 / MARINE · 250 products");
-    if (cards[2]) cards[2].querySelector("small") && (cards[2].querySelector("small").textContent = "03 / TRAVEL · 100 products");
+    if (cards[0]) cards[0].querySelector("small") && (cards[0].querySelector("small").textContent = "01 / PRIMARY · DEEPEST RANGE");
+    if (cards[1]) cards[1].querySelector("small") && (cards[1].querySelector("small").textContent = "02 / MARINE · SPECIALIST RANGE");
+    if (cards[2]) cards[2].querySelector("small") && (cards[2].querySelector("small").textContent = "03 / TRAVEL · CURATED RANGE");
 
     if (!section.querySelector(".cp-brand-rail")) {
       const rail = document.createElement("div");
