@@ -84,17 +84,31 @@ def main() -> int:
         fail("us-live-products.json: no products configured"); products = {}
 
     backend = text("lib/us-checkout-products.mjs")
+    if "product.authorizationVerified === true" not in backend:
+        fail("US backend checkout registry does not enforce verified authorization")
+    else:
+        ok("US backend checkout requires verified authorization")
+
     enabled = 0
+    gated = 0
     for product_id, row in products.items():
-        if not isinstance(row, dict) or row.get("enabled") is not True: continue
+        if not isinstance(row, dict):
+            continue
+        if row.get("enabled") is not True:
+            gated += 1
+            continue
         enabled += 1
+        if row.get("authorizationVerified") is not True:
+            fail(f"{product_id}: enabled without authorizationVerified=true")
         price = int(row.get("priceCents") or 0); slug = str(row.get("slug") or ""); mpn = str(row.get("mpn") or "").strip()
         if price <= 0: fail(f"{product_id}: enabled with invalid priceCents")
         if not mpn: fail(f"{product_id}: enabled with blank MPN")
         if not slug or not (ROOT / slug).exists(): fail(f"{product_id}: enabled slug missing from storefront: {slug}")
         if f'["{product_id}"' not in backend: fail(f"{product_id}: live frontend SKU missing from backend checkout registry")
-    if enabled: ok(f"live checkout registry: {enabled} enabled product(s) cross-checked")
-    else: fail("No enabled live checkout products")
+    if enabled:
+        ok(f"live checkout registry: {enabled} enabled authorized product(s) cross-checked")
+    else:
+        ok(f"live checkout registry: 0 enabled products; {gated} candidate(s) safely gated pending authorization")
 
     product_pages = []
     for p in ROOT.glob("us-*.html"):
