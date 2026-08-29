@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import json
 import sys
 from pathlib import Path
 
@@ -34,7 +33,7 @@ def main() -> int:
         if (ROOT / route).exists(): ok(f"route exists: {route}")
         else: fail(f"Missing customer route: {route}")
 
-    for asset in ["assets/us-shell.js","assets/catalogue-controls.js","assets/product-page-premium.js","assets/product-page-premium.css","assets/universal-checkout-ui.js","assets/cart-checkout-premium.js","assets/cart-checkout-premium.css","assets/us-checkout-api-bridge.js","assets/us-live-products.json","assets/us-display-prices.js","assets/us-products.js"]:
+    for asset in ["assets/us-shell.js","assets/catalogue-controls.js","assets/product-page-premium.js","assets/product-page-premium.css","assets/universal-checkout-ui.js","assets/cart-checkout-premium.js","assets/cart-checkout-premium.css","assets/us-checkout-api-bridge.js","assets/storefront-performance.js","assets/us-display-prices.js","assets/us-products.js","lib/us-checkout-products.mjs","api/us-create-checkout-session.mjs","api/us-checkout-health.mjs"]:
         if (ROOT / asset).exists(): ok(f"asset exists: {asset}")
         else: fail(f"Missing production asset: {asset}")
 
@@ -50,65 +49,49 @@ def main() -> int:
     require("assets/catalogue-controls.js", "All brands", "brand filter")
     require("assets/catalogue-controls.js", "Price: Low to High", "catalogue sorting")
 
-    require("assets/universal-checkout-ui.js", "Check availability", "safe unavailable-product action")
-    require("assets/universal-checkout-ui.js", "Product support", "support fallback")
-    require("assets/universal-checkout-ui.js", "us-live-products.json", "checkout eligibility source")
+    require("assets/universal-checkout-ui.js", "Add to Cart", "product-page Add to Cart")
+    require("assets/universal-checkout-ui.js", "Buy Now", "product-page Buy Now")
+    require("assets/universal-checkout-ui.js", "Final product pricing is validated server-side", "server-price validation copy")
+    reject("assets/universal-checkout-ui.js", "us-live-products.json", "legacy five-SKU product-page gate")
     require("assets/product-page-premium.js", 'imageBadge.textContent = "Product image"', "professional image badge")
     reject("assets/product-page-premium.js", "Representative image", "representative-image runtime label")
 
+    require("assets/storefront-performance.js", "storefront-wide-v1", "storefront-wide cart eligibility bridge")
+    require("assets/storefront-performance.js", "OMNI_US_PRODUCTS", "cart eligibility sourced from listed catalogue")
+    require("assets/us-checkout-api-bridge.js", "omni-terrain-uk-checkout.vercel.app", "production US checkout API bridge")
+
     checkout = text("assets/cart-checkout-premium.js")
-    for token, label in [("us-live-products.json","checkout preflight eligibility"),("cart is still saved","customer-safe payment recovery"),("Price confirmation required","customer-safe missing-price copy")]:
+    for token, label in [("us-live-products.json","checkout preflight registry hook"),("cart is still saved","customer-safe payment recovery"),("Price confirmation required","customer-safe missing-price copy")]:
         if token not in checkout: fail(f"assets/cart-checkout-premium.js: missing {label}")
         else: ok(f"checkout: {label}")
+
+    backend = text("lib/us-checkout-products.mjs")
+    for token, label in [
+        ("/assets/us-products.js", "server product catalogue source"),
+        ("/assets/us-display-prices.js", "server price catalogue source"),
+        ("storefrontVerified", "server storefront verification"),
+        ("MAX_ORDER_CENTS", "server cart value guard"),
+        ("MAX_QTY", "server quantity guard"),
+    ]:
+        if token not in backend: fail(f"lib/us-checkout-products.mjs: missing {label}")
+        else: ok(f"backend: {label}")
+    reject("lib/us-checkout-products.mjs", "authorizationVerified === true", "legacy hard-coded authorization gate")
+
+    require("api/us-create-checkout-session.mjs", "await resolveUsCheckoutItems", "async server-side product/price resolution")
+    require("api/us-create-checkout-session.mjs", "server_storefront_catalogue", "Stripe pricing validation metadata")
+    require("api/us-create-checkout-session.mjs", "shipping_address_collection", "US delivery address collection")
+    require("api/us-checkout-health.mjs", 'checkoutMode: "storefront-wide"', "storefront-wide health mode")
+
+    products_source = text("assets/us-products.js")
+    product_count = products_source.count('"id":')
+    if product_count >= 900: ok(f"US product source contains {product_count} listed product records")
+    else: fail(f"US product source unexpectedly small: {product_count}")
 
     for route in ["us-catalogue.html","automotive.html","cart.html","checkout.html"]:
         require(route, "assets/us-shell.js?v=4", "versioned shared US shell")
     require("assets/us-shell.js", "/assets/product-page-premium.js?v=3", "versioned product runtime")
-    require("assets/us-shell.js", "/assets/universal-checkout-ui.js?v=2", "versioned checkout eligibility runtime")
-    require("assets/us-shell.js", "/assets/cart-checkout-premium.js?v=3", "versioned cart/checkout runtime")
-
-    try: live = json.loads((ROOT / "assets/us-live-products.json").read_text(encoding="utf-8"))
-    except Exception as exc:
-        fail(f"Invalid assets/us-live-products.json: {exc}"); live = {}
-
-    api_base = str(live.get("checkoutApiBase") or "").rstrip("/")
-    if not api_base.startswith("https://"): fail("us-live-products.json: checkoutApiBase must be HTTPS")
-    else: ok("live registry: HTTPS checkout API base")
-
-    bridge = text("assets/us-checkout-api-bridge.js")
-    if api_base and api_base not in bridge: fail("Checkout API bridge does not match us-live-products.json checkoutApiBase")
-    elif api_base: ok("checkout API bridge matches live registry")
-
-    products = live.get("products") if isinstance(live, dict) else None
-    if not isinstance(products, dict) or not products:
-        fail("us-live-products.json: no products configured"); products = {}
-
-    backend = text("lib/us-checkout-products.mjs")
-    if "product.authorizationVerified === true" not in backend:
-        fail("US backend checkout registry does not enforce verified authorization")
-    else:
-        ok("US backend checkout requires verified authorization")
-
-    enabled = 0
-    gated = 0
-    for product_id, row in products.items():
-        if not isinstance(row, dict):
-            continue
-        if row.get("enabled") is not True:
-            gated += 1
-            continue
-        enabled += 1
-        if row.get("authorizationVerified") is not True:
-            fail(f"{product_id}: enabled without authorizationVerified=true")
-        price = int(row.get("priceCents") or 0); slug = str(row.get("slug") or ""); mpn = str(row.get("mpn") or "").strip()
-        if price <= 0: fail(f"{product_id}: enabled with invalid priceCents")
-        if not mpn: fail(f"{product_id}: enabled with blank MPN")
-        if not slug or not (ROOT / slug).exists(): fail(f"{product_id}: enabled slug missing from storefront: {slug}")
-        if f'["{product_id}"' not in backend: fail(f"{product_id}: live frontend SKU missing from backend checkout registry")
-    if enabled:
-        ok(f"live checkout registry: {enabled} enabled authorized product(s) cross-checked")
-    else:
-        ok(f"live checkout registry: 0 enabled products; {gated} candidate(s) safely gated pending authorization")
+    require("assets/us-shell.js", "/assets/universal-checkout-ui.js?v=2", "shared product checkout runtime")
+    require("assets/us-shell.js", "/assets/cart-checkout-premium.js?v=3", "shared cart/checkout runtime")
 
     product_pages = []
     for p in ROOT.glob("us-*.html"):
