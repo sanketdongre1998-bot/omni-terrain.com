@@ -31,7 +31,17 @@
     return [...document.querySelectorAll("main .section")].find(sec=>sec.querySelector(".grid"))||null;
   }
 
+  function softenDepartmentCounts(){
+    if(!/^(automotive|marine|rv)(?:-|\.)/.test(file)) return;
+    const heroCopy=document.querySelector("main .hero p");
+    if(heroCopy&&/\d+\s+products/i.test(heroCopy.textContent||"")) heroCopy.textContent="Browse the specialist range · Use search and filters to narrow by brand, MPN or price.";
+    document.querySelectorAll("main .section-head .muted").forEach(node=>{
+      if(/products?\s+\d+.*of\s+\d+/i.test(node.textContent||"")) node.textContent="Curated products · Refine with search and filters";
+    });
+  }
+
   async function mount(){
+    softenDepartmentCounts();
     const section=productSection(); const grid=section?.querySelector(".grid"); if(!section||!grid) return;
     const cards=[...grid.querySelectorAll(".card")]; if(!cards.length) return;
     const products=await loadProducts();
@@ -45,7 +55,7 @@
       <select class="ot-filter-select" data-filter="brand" aria-label="Filter by brand"><option value="">All brands</option>${brands.map(b=>`<option value="${b.replace(/&/g,"&amp;").replace(/"/g,"&quot;")}">${b}</option>`).join("")}</select>
       <select class="ot-filter-select" data-filter="price" aria-label="Filter by price"><option value="">All prices</option><option value="0-50">Under $50</option><option value="50-100">$50–$100</option><option value="100-200">$100–$200</option><option value="200-999999">$200+</option></select>
       <select class="ot-filter-select" data-filter="sort" aria-label="Sort products"><option value="default">Recommended</option><option value="price-asc">Price: Low to High</option><option value="price-desc">Price: High to Low</option><option value="brand">Brand A–Z</option></select>
-    </div><div class="ot-control-meta"><span><b data-visible-count>${cards.length}</b> products on this page · Search checks the full 1,000-product catalogue.</span><button class="ot-clear-filters" type="button">Clear filters</button></div><div class="ot-search-results" role="listbox"></div>`;
+    </div><div class="ot-control-meta"><span>Showing <b data-visible-count>${cards.length}</b> results · Search across 300+ specialist products.</span><button class="ot-clear-filters" type="button">Clear filters</button></div><div class="ot-search-results" role="listbox"></div>`;
     grid.parentNode.insertBefore(controls,grid);
 
     const input=controls.querySelector(".ot-search-input");
