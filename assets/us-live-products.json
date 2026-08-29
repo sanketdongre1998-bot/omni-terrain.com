@@ -31,7 +31,7 @@
       "mpn": "PL8547TUN"
     },
     "T8WW865001S": {
-      "enabled": true,
+      "enabled": false,
       "priceCents": 12900,
       "shippingIncluded": true,
       "slug": "us-trailfx-w865001s.html",
