@@ -89,7 +89,7 @@
     }
     if (!document.querySelector('script[data-ot-universal-checkout]')) {
       const universal = document.createElement("script");
-      universal.src = "/assets/universal-checkout-ui.js?v=1";
+      universal.src = "/assets/universal-checkout-ui.js?v=2";
       universal.dataset.otUniversalCheckout = "true";
       document.body.appendChild(universal);
     }
@@ -117,7 +117,7 @@
     const appendPremium = () => {
       if (document.querySelector('script[data-ot-commerce-premium]')) return;
       const script = document.createElement("script");
-      script.src = "/assets/cart-checkout-premium.js?v=2";
+      script.src = "/assets/cart-checkout-premium.js?v=3";
       script.dataset.otCommercePremium = "true";
       document.body.appendChild(script);
     };
