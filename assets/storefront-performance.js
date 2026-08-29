@@ -6,6 +6,18 @@
   const path=decodeURIComponent(String(location.pathname||"").split("/").filter(Boolean).pop()||"").toLowerCase();
   const mobile=window.matchMedia&&window.matchMedia("(max-width:760px)").matches;
 
+  // Keep public catalogue scale messaging broad and marketplace-like rather than exposing exact inventory counts.
+  if(path===""||path==="index.html"){
+    const softenHomeCounts=()=>{
+      document.querySelectorAll(".home-proof b").forEach(node=>{
+        if(/^1,?000\+?$/.test(String(node.textContent||"").trim())) node.textContent="300+";
+      });
+      const labels=["Deepest range","Specialist range","Curated range"];
+      document.querySelectorAll(".category-home .count").forEach((node,index)=>{node.textContent=labels[index]||"Specialist range";});
+    };
+    if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",softenHomeCounts,{once:true}); else softenHomeCounts();
+  }
+
   // Load the final responsive image layer after legacy page CSS.
   if(!document.querySelector('link[data-ot-image-layout]')){
     const imageCss=document.createElement("link");imageCss.rel="stylesheet";imageCss.href="/assets/image-layout-fix.css?v=2";imageCss.dataset.otImageLayout="true";document.head.appendChild(imageCss);
@@ -13,7 +25,7 @@
   // Catalogue/department pages get the shared search + filter runtime.
   if(path==="us-catalogue.html"||/^(automotive|marine|rv)(?:-|\.)/.test(path)){
     if(!document.querySelector('script[data-ot-catalogue-controls]')){
-      const controls=document.createElement("script");controls.src="/assets/catalogue-controls.js?v=2";controls.defer=true;controls.dataset.otCatalogueControls="true";document.head.appendChild(controls);
+      const controls=document.createElement("script");controls.src="/assets/catalogue-controls.js?v=3";controls.defer=true;controls.dataset.otCatalogueControls="true";document.head.appendChild(controls);
     }
   }
 
