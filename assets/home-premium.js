@@ -72,7 +72,7 @@
             <a class="ot-secondary" href="marine.html">Shop Marine</a>
           </div>
           <div class="ot-cinema-proof" aria-label="Store highlights">
-            <div><b>1,000+</b><span>curated product records across specialist categories</span></div>
+            <div><b>300+</b><span>specialist products across focused categories</span></div>
             <div><b>15+</b><span>established manufacturers represented in the catalogue</span></div>
             <div><b>US + UK</b><span>two regional storefronts under one Omni Terrain brand</span></div>
           </div>
@@ -117,7 +117,7 @@
   metrics.innerHTML = `
     <div class="ot-metrics-inner">
       <div class="ot-metrics-intro"><small>Built as a specialist store</small><b>Depth without the clutter.</b></div>
-      <div class="ot-metric"><strong data-ot-count="1000">0</strong><span>catalogue products</span></div>
+      <div class="ot-metric"><strong data-ot-count="300">0</strong><span>specialist products</span></div>
       <div class="ot-metric"><strong data-ot-count="15">0</strong><span>established brands</span></div>
       <div class="ot-metric"><strong>3</strong><span>core terrain categories</span></div>
       <div class="ot-metric"><strong>2</strong><span>regional storefronts</span></div>
@@ -179,7 +179,7 @@
     const target = Number(node.dataset.otCount || 0);
     if (!target || node.dataset.done) return;
     node.dataset.done = "true";
-    const suffix = target >= 100 ? "+" : "+";
+    const suffix = "+";
     const duration = 900;
     const start = performance.now();
     const tick = (now) => {
