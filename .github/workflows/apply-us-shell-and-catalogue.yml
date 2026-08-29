@@ -64,10 +64,28 @@ jobs:
           if new_shell != shell_text:
               shell.write_text(new_shell, encoding='utf-8')
 
+          home = Path('index.html')
+          home_text = home.read_text(encoding='utf-8', errors='replace')
+          polished_home = home_text
+          replacements = {
+              'Browse 1,000 products and shop selected products online.': 'Browse 300+ specialist products and shop selected products online.',
+              '<b>1,000</b><span>Curated US product records</span>': '<b>300+</b><span>Specialist products across core departments</span>',
+              '<span class="count">650 products</span>': '<span class="count">Deepest range</span>',
+              '<span class="count">250 products</span>': '<span class="count">Specialist range</span>',
+              '<span class="count">100 products</span>': '<span class="count">Curated range</span>',
+          }
+          for old, new in replacements.items():
+              polished_home = polished_home.replace(old, new)
+          if polished_home != home_text:
+              home.write_text(polished_home, encoding='utf-8')
+              changed += 1
+
           print(f'US shell attached/verified across {shell_count} pages')
           print(f'HTML files changed: {changed}')
           if 'assets/catalogue-premium.js' not in Path('us-catalogue.html').read_text(encoding='utf-8'):
               raise SystemExit('Catalogue premium runtime was not attached')
+          if 'Browse 1,000 products' in Path('index.html').read_text(encoding='utf-8'):
+              raise SystemExit('Homepage exact catalogue count is still exposed')
           PY
 
       - name: Commit storefront shell updates
@@ -79,5 +97,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -- '*.html' assets/us-shell.js
-          git commit -m "Harden production storefront runtime loading"
+          git commit -m "Polish production storefront presentation"
           git push origin HEAD:main
