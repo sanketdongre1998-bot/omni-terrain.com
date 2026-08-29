@@ -83,7 +83,7 @@
     }
     if (!document.querySelector('script[data-ot-product-premium]')) {
       const script = document.createElement("script");
-      script.src = "/assets/product-page-premium.js?v=2";
+      script.src = "/assets/product-page-premium.js?v=3";
       script.dataset.otProductPremium = "true";
       document.body.appendChild(script);
     }
