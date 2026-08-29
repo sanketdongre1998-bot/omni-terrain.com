@@ -3,28 +3,32 @@
   "currency": "USD",
   "products": {
     "F37FTL5607": {
-      "enabled": true,
+      "enabled": false,
+      "authorizationVerified": false,
       "priceCents": 19999,
       "shippingIncluded": true,
       "slug": "us-fabtech-ftl5607.html",
       "mpn": "FTL5607"
     },
     "P4592852": {
-      "enabled": true,
+      "enabled": false,
+      "authorizationVerified": false,
       "priceCents": 39999,
       "shippingIncluded": true,
       "slug": "us-putco-92852.html",
       "mpn": "92852"
     },
     "P45950001": {
-      "enabled": true,
+      "enabled": false,
+      "authorizationVerified": false,
       "priceCents": 19499,
       "shippingIncluded": true,
       "slug": "us-putco-950001.html",
       "mpn": "950001"
     },
     "P44PL8547TUN": {
-      "enabled": true,
+      "enabled": false,
+      "authorizationVerified": false,
       "priceCents": 14797,
       "shippingIncluded": true,
       "slug": "us-popnlock-llc-pl8547tun.html",
@@ -32,6 +36,7 @@
     },
     "T8WW865001S": {
       "enabled": false,
+      "authorizationVerified": false,
       "priceCents": 12900,
       "shippingIncluded": true,
       "slug": "us-trailfx-w865001s.html",
