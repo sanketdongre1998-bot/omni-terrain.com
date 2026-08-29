@@ -1,0 +1,68 @@
+name: Deploy checkout backend to Vercel production
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "api/**"
+      - "lib/**"
+      - "assets/shield-products.js"
+      - ".github/workflows/deploy-checkout-production.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: omni-terrain-checkout-production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: team_euKBOwWNtTMSKSLBKlphq06m
+      VERCEL_PROJECT_ID: prj_fk54pELaM6UYaQVHmClxZHmG91Ps
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+
+      - name: Require Vercel deployment token
+        shell: bash
+        run: |
+          if [ -z "$VERCEL_TOKEN" ]; then
+            echo "VERCEL_TOKEN repository secret is required for production deployment."
+            exit 1
+          fi
+
+      - name: Prepare isolated checkout backend
+        shell: bash
+        run: |
+          set -euo pipefail
+          DEPLOY_DIR="$RUNNER_TEMP/omni-terrain-checkout"
+          mkdir -p "$DEPLOY_DIR/assets" "$DEPLOY_DIR/.vercel"
+          cp -R api lib "$DEPLOY_DIR/"
+          cp assets/shield-products.js "$DEPLOY_DIR/assets/shield-products.js"
+          printf '%s\n' '{"orgId":"team_euKBOwWNtTMSKSLBKlphq06m","projectId":"prj_fk54pELaM6UYaQVHmClxZHmG91Ps"}' > "$DEPLOY_DIR/.vercel/project.json"
+          echo "DEPLOY_DIR=$DEPLOY_DIR" >> "$GITHUB_ENV"
+
+      - name: Deploy production backend
+        shell: bash
+        run: npx --yes vercel@latest deploy "$DEPLOY_DIR" --prod --yes --token "$VERCEL_TOKEN" --scope sanketdongre1998-4875s-projects
+
+      - name: Verify production US checkout health
+        shell: bash
+        run: |
+          set -euo pipefail
+          for attempt in 1 2 3 4 5; do
+            body="$(curl --fail --silent --show-error --max-time 30 https://omni-terrain-uk-checkout.vercel.app/api/us-checkout-health || true)"
+            echo "$body"
+            if echo "$body" | grep -q '"stripeConfigured":true' && echo "$body" | grep -Eq '"commerceReadyProducts":[1-9][0-9]*'; then
+              exit 0
+            fi
+            sleep 8
+          done
+          echo "Production checkout health did not report Stripe configured with commerce-ready products."
+          exit 1
