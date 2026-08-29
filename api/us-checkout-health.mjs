@@ -1,5 +1,5 @@
 import { corsHeaders, json } from "../lib/cors.mjs";
-import { getCommerceReadyUsProducts } from "../lib/us-checkout-products.mjs";
+import { getCommerceReadyUsProductCount } from "../lib/us-checkout-products.mjs";
 import { stripeUsSecret } from "../lib/stripe-us-api.mjs";
 
 function stripeConfigured() {
@@ -14,12 +14,27 @@ export function OPTIONS(request) {
   return new Response(null, { status: 204, headers: corsHeaders(request) });
 }
 
-export function GET(request) {
-  return json({
-    ok: true,
-    store: "us",
-    currency: "USD",
-    stripeConfigured: stripeConfigured(),
-    commerceReadyProducts: getCommerceReadyUsProducts().length,
-  }, 200, request);
+export async function GET(request) {
+  try {
+    const commerceReadyProducts = await getCommerceReadyUsProductCount();
+    return json({
+      ok: true,
+      store: "us",
+      currency: "USD",
+      stripeConfigured: stripeConfigured(),
+      catalogueSource: "omni-terrain.com",
+      checkoutMode: "storefront-wide",
+      commerceReadyProducts,
+    }, 200, request);
+  } catch (error) {
+    console.error("US checkout health error", error?.message || error);
+    return json({
+      ok: false,
+      store: "us",
+      currency: "USD",
+      stripeConfigured: stripeConfigured(),
+      commerceReadyProducts: 0,
+      error: "US checkout catalogue is temporarily unavailable.",
+    }, 503, request);
+  }
 }
