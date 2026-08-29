@@ -26,8 +26,8 @@ jobs:
           import re
 
           root = Path('.')
-          shell_tag = '<script defer src="assets/us-shell.js"></script>'
-          catalogue_tag = '<script defer src="assets/catalogue-premium.js"></script>'
+          shell_tag = '<script defer src="assets/us-shell.js?v=4"></script>'
+          catalogue_tag = '<script defer src="assets/catalogue-premium.js?v=2"></script>'
           changed = 0
           shell_count = 0
 
@@ -42,20 +42,31 @@ jobs:
                   continue
 
               original = text
-              if 'assets/us-shell.js' not in text:
+              if 'assets/us-shell.js' in text:
+                  text = re.sub(r'<script\s+defer\s+src=["\']assets/us-shell\.js(?:\?v=[^"\']+)?["\']></script>', shell_tag, text, flags=re.I)
+              else:
                   text = text.replace('</body>', shell_tag + '</body>', 1)
                   shell_count += 1
 
-              if path.name == 'us-catalogue.html' and 'assets/catalogue-premium.js' not in text:
-                  text = text.replace('</body>', catalogue_tag + '</body>', 1)
+              if path.name == 'us-catalogue.html':
+                  if 'assets/catalogue-premium.js' in text:
+                      text = re.sub(r'<script\s+defer\s+src=["\']assets/catalogue-premium\.js(?:\?v=[^"\']+)?["\']></script>', catalogue_tag, text, flags=re.I)
+                  else:
+                      text = text.replace('</body>', catalogue_tag + '</body>', 1)
 
               if text != original:
                   path.write_text(text, encoding='utf-8')
                   changed += 1
 
+          shell = Path('assets/us-shell.js')
+          shell_text = shell.read_text(encoding='utf-8')
+          new_shell = shell_text.replace('/assets/universal-checkout-ui.js?v=1', '/assets/universal-checkout-ui.js?v=2').replace('/assets/cart-checkout-premium.js?v=2', '/assets/cart-checkout-premium.js?v=3')
+          if new_shell != shell_text:
+              shell.write_text(new_shell, encoding='utf-8')
+
           print(f'US shell attached/verified across {shell_count} pages')
           print(f'HTML files changed: {changed}')
-          if not Path('us-catalogue.html').read_text(encoding='utf-8').find('assets/catalogue-premium.js') >= 0:
+          if 'assets/catalogue-premium.js' not in Path('us-catalogue.html').read_text(encoding='utf-8'):
               raise SystemExit('Catalogue premium runtime was not attached')
           PY
 
@@ -67,6 +78,6 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -- '*.html'
-          git commit -m "Unify US storefront header footer and catalogue design"
+          git add -- '*.html' assets/us-shell.js
+          git commit -m "Harden production storefront runtime loading"
           git push origin HEAD:main
