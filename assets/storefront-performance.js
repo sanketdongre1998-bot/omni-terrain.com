@@ -6,6 +6,31 @@
   const path=decodeURIComponent(String(location.pathname||"").split("/").filter(Boolean).pop()||"").toLowerCase();
   const mobile=window.matchMedia&&window.matchMedia("(max-width:760px)").matches;
 
+  // Cart/checkout now treat every listed, priced US storefront product as an online-commerce item.
+  // The payment API still re-resolves product IDs and prices from the published storefront catalogue server-side.
+  if((path==="cart.html"||path==="checkout.html")&&!window.__OMNI_STOREFRONT_WIDE_CHECKOUT_FETCH__){
+    window.__OMNI_STOREFRONT_WIDE_CHECKOUT_FETCH__=true;
+    const nativeFetch=window.fetch.bind(window);
+    window.fetch=function omniStorefrontWideFetch(input,init){
+      try{
+        const raw=typeof input==="string"?input:(input instanceof URL?input.href:(input instanceof Request?input.url:""));
+        const url=new URL(raw,location.href);
+        if(url.origin===location.origin&&url.pathname.endsWith("/assets/us-live-products.json")){
+          const products={};
+          if(typeof OMNI_US_PRODUCTS!=="undefined"&&Array.isArray(OMNI_US_PRODUCTS)){
+            for(const product of OMNI_US_PRODUCTS){
+              const id=String(product&&product.id||"").trim();
+              if(!id||String(product&&product.decision||"LIST").toUpperCase()!=="LIST") continue;
+              products[id]={enabled:true,priceCents:1,storefrontWide:true};
+            }
+          }
+          return Promise.resolve(new Response(JSON.stringify({version:"storefront-wide-v1",products}),{status:200,headers:{"Content-Type":"application/json","Cache-Control":"no-store"}}));
+        }
+      }catch(_){ }
+      return nativeFetch(input,init);
+    };
+  }
+
   // Keep public catalogue scale messaging broad and marketplace-like rather than exposing exact inventory counts.
   if(path===""||path==="index.html"){
     const softenHomeCounts=()=>{
