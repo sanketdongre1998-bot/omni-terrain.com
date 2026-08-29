@@ -15,7 +15,7 @@ TRUTHY = {'YES','Y','TRUE','1','APPROVED','PASS'}
 MAP_OK = TRUTHY | {'NA','N/A','NOT_APPLICABLE','NOT APPLICABLE'}
 # Keep a broad, store-sized checkout candidate pool while preserving the
 # storefront's category mix: ~65% Auto, 25% Marine, 10% RV.
-QUOTAS = {'AUTO':195,'MARINE':75,'RV':30}
+QUOTAS = {'AUTO':325,'MARINE':125,'RV':50}
 
 
 def clean(v): return str(v or '').strip()
@@ -153,10 +153,9 @@ def choose(rows, target):
         if r['VCPN'] in LIVE_FIRST and r['VCPN'] not in seen:
             chosen.append(r); seen.add(r['VCPN'])
 
-    # Scale the category targets if --target differs from the default 300.
+    # Scale category targets if --target differs from the default batch size.
     quota_total = sum(QUOTAS.values())
     scaled = {cat: max(1, round(target * quota / quota_total)) for cat, quota in QUOTAS.items()}
-    # Correct rounding so the scaled quotas sum exactly to target.
     while sum(scaled.values()) > target:
         cat = max(scaled, key=scaled.get)
         if scaled[cat] > 1: scaled[cat] -= 1
@@ -189,7 +188,7 @@ def main():
     p.add_argument('--approvals', default=str(DEFAULT_APPROVALS))
     p.add_argument('--out', default=str(DEFAULT_OUT))
     p.add_argument('--summary', default=str(DEFAULT_SUMMARY))
-    p.add_argument('--target', type=int, default=300)
+    p.add_argument('--target', type=int, default=500)
     a = p.parse_args()
 
     launch = read_csv(Path(a.launch))
