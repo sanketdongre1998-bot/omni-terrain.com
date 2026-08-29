@@ -60,7 +60,7 @@ jobs:
 
           shell = Path('assets/us-shell.js')
           shell_text = shell.read_text(encoding='utf-8')
-          new_shell = shell_text.replace('/assets/universal-checkout-ui.js?v=1', '/assets/universal-checkout-ui.js?v=2').replace('/assets/cart-checkout-premium.js?v=2', '/assets/cart-checkout-premium.js?v=3')
+          new_shell = shell_text.replace('/assets/universal-checkout-ui.js?v=1', '/assets/universal-checkout-ui.js?v=2').replace('/assets/cart-checkout-premium.js?v=2', '/assets/cart-checkout-premium.js?v=3').replace('/assets/product-page-premium.js?v=2', '/assets/product-page-premium.js?v=3')
           if new_shell != shell_text:
               shell.write_text(new_shell, encoding='utf-8')
 
