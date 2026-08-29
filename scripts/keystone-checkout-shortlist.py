@@ -13,7 +13,9 @@ DEFAULT_SUMMARY = BASE / 'launch_shortlist_summary.json'
 LIVE_FIRST = {'F37FTL5607','P4592852','P45950001','P44PL8547TUN','T8WW865001S'}
 TRUTHY = {'YES','Y','TRUE','1','APPROVED','PASS'}
 MAP_OK = TRUTHY | {'NA','N/A','NOT_APPLICABLE','NOT APPLICABLE'}
-QUOTAS = {'AUTO':30,'MARINE':12,'RV':8}
+# Keep a broad, store-sized checkout candidate pool while preserving the
+# storefront's category mix: ~65% Auto, 25% Marine, 10% RV.
+QUOTAS = {'AUTO':195,'MARINE':75,'RV':30}
 
 
 def clean(v): return str(v or '').strip()
@@ -151,7 +153,19 @@ def choose(rows, target):
         if r['VCPN'] in LIVE_FIRST and r['VCPN'] not in seen:
             chosen.append(r); seen.add(r['VCPN'])
 
-    for cat, quota in QUOTAS.items():
+    # Scale the category targets if --target differs from the default 300.
+    quota_total = sum(QUOTAS.values())
+    scaled = {cat: max(1, round(target * quota / quota_total)) for cat, quota in QUOTAS.items()}
+    # Correct rounding so the scaled quotas sum exactly to target.
+    while sum(scaled.values()) > target:
+        cat = max(scaled, key=scaled.get)
+        if scaled[cat] > 1: scaled[cat] -= 1
+        else: break
+    while sum(scaled.values()) < target:
+        cat = max(QUOTAS, key=lambda c: QUOTAS[c] / max(1, scaled[c]))
+        scaled[cat] += 1
+
+    for cat, quota in scaled.items():
         have = sum(1 for r in chosen if r['CategoryInferred'] == cat)
         for r in by_cat.get(cat, []):
             if have >= quota: break
@@ -175,7 +189,7 @@ def main():
     p.add_argument('--approvals', default=str(DEFAULT_APPROVALS))
     p.add_argument('--out', default=str(DEFAULT_OUT))
     p.add_argument('--summary', default=str(DEFAULT_SUMMARY))
-    p.add_argument('--target', type=int, default=50)
+    p.add_argument('--target', type=int, default=300)
     a = p.parse_args()
 
     launch = read_csv(Path(a.launch))
