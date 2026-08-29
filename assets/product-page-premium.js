@@ -19,6 +19,17 @@
     return {};
   })();
 
+  const imageBadge = visual.querySelector(".image-badge");
+  if (imageBadge) imageBadge.textContent = "Product image";
+
+  // Remove the legacy enquiry CTA once the production product runtime is active.
+  // Live products receive Add to Cart / Buy Now; other products receive the
+  // customer-safe availability actions from universal-checkout-ui.js.
+  copy.querySelector(".notice")?.remove();
+  copy.querySelectorAll("p").forEach((node) => {
+    if (node.querySelector("a.button")) node.remove();
+  });
+
   const breadcrumb = document.querySelector(".breadcrumb");
   if (breadcrumb && !document.querySelector(".ot-product-confidence")) {
     const row = document.createElement("div");
@@ -37,10 +48,12 @@
     const ready = () => {
       image.dataset.otImageReady = "1";
       visual.classList.remove("ot-image-failed");
+      if (imageBadge) imageBadge.textContent = "Product image";
     };
     const failed = () => {
       image.dataset.otImageReady = "1";
       visual.classList.add("ot-image-failed");
+      if (imageBadge) imageBadge.textContent = "Image unavailable";
     };
     if (image.complete) {
       if (image.naturalWidth) ready(); else failed();
@@ -65,6 +78,7 @@
       const viewerImage = viewer.querySelector("img");
       const close = viewer.querySelector(".ot-image-viewer-close");
       const openViewer = () => {
+        if (visual.classList.contains("ot-image-failed")) return;
         if (!image.currentSrc && !image.src) return;
         viewerImage.src = image.currentSrc || image.src;
         viewerImage.alt = image.alt || schema.name || "Product image";
@@ -85,6 +99,7 @@
     }
   } else {
     visual.classList.add("ot-image-failed");
+    if (imageBadge) imageBadge.textContent = "Image unavailable";
   }
 
   const facts = copy.querySelector(".facts");
