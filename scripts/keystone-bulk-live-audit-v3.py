@@ -5,6 +5,8 @@ import argparse
 import csv
 import importlib.util
 import json
+import os
+import re
 import shutil
 import subprocess
 import sys
@@ -17,6 +19,40 @@ V2 = ROOT / 'keystone-bulk-live-audit-v2.py'
 BASE = ROOT / 'keystone-bulk-live-audit.py'
 AUDIT = ROOT / 'feed/website_bulk_live_audit.csv'
 STATUS_OUT = ROOT / 'feed/us-stock-status.json'
+HISTORY = Path('/home/ubuntu/.bash_history')
+
+
+def _history_value(name: str) -> str:
+    if not HISTORY.exists():
+        return ''
+    try:
+        source = HISTORY.read_text(encoding='utf-8', errors='ignore')
+    except Exception:
+        return ''
+    pattern = re.compile(r'(?:^|[\s;&|])(?:export\s+)?' + re.escape(name) + r'\s*=\s*(?:"([^"]+)"|\'([^\']+)\'|([^\s;&|]+))', re.MULTILINE)
+    matches = pattern.findall(source)
+    if not matches:
+        return ''
+    quoted_double, quoted_single, bare = matches[-1]
+    return (quoted_double or quoted_single or bare).strip()
+
+
+def load_credentials_safely():
+    if not os.environ.get('KEYSTONE_API_KEY'):
+        value = _history_value('KEYSTONE_API_KEY')
+        if value:
+            os.environ['KEYSTONE_API_KEY'] = value
+            print('KEYSTONE_API_KEY = loaded securely from local shell history', flush=True)
+    if not os.environ.get('KEYSTONE_ACCOUNT_NO'):
+        value = _history_value('KEYSTONE_ACCOUNT_NO')
+        if value:
+            os.environ['KEYSTONE_ACCOUNT_NO'] = value
+            print('KEYSTONE_ACCOUNT_NO = loaded securely from local shell history', flush=True)
+        else:
+            os.environ['KEYSTONE_ACCOUNT_NO'] = '176325'
+            print('KEYSTONE_ACCOUNT_NO = using configured customer account', flush=True)
+    if not os.environ.get('KEYSTONE_API_KEY'):
+        raise SystemExit('KEYSTONE_API_KEY could not be recovered securely. Do not print shell history; re-enter the production key into a protected .env file instead.')
 
 
 def run_v2(args):
@@ -25,7 +61,7 @@ def run_v2(args):
     cmd = [sys.executable, str(V2), '--workers', str(args.workers), '--zip', args.zip]
     if args.publish:
         cmd.append('--publish')
-    subprocess.run(cmd, check=True)
+    subprocess.run(cmd, check=True, env=os.environ.copy())
 
 
 def load_prices():
@@ -121,6 +157,7 @@ def main():
     ap.add_argument('--workers', type=int, default=8)
     ap.add_argument('--publish', action='store_true')
     args = ap.parse_args()
+    load_credentials_safely()
     run_v2(args)
     build_status()
     if args.publish:
