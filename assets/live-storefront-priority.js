@@ -73,7 +73,7 @@
       grid.innerHTML = featured.map((x, i) => {
         const p = x.product, r = x.row;
         const desc = String(p.description || "").split(". ")[0].slice(0, 150);
-        const badge = r.shippingIncluded ? "Free U.S. shipping" : "Ready to buy";
+        const badge = r.shippingIncluded ? "Free standard shipping" : "Ready to buy";
         const priceLabel = r.shippingIncluded ? "Featured price · Free shipping" : "Featured price";
         return `<article class="live-card" data-live-id="${esc(x.id)}"><a class="live-media" href="${esc(p.slug)}"><span class="live-badge">${esc(badge)}</span><img src="${esc(images[i])}" alt="${esc(p.title || p.mpn)}" decoding="async" loading="${i === 0 ? "eager" : "lazy"}"></a><div class="live-body"><div class="live-brand"><span>${esc(p.brand || "Omni Terrain")}</span><span>${esc(p.mpn || "")}</span></div><h3>${esc(p.title || p.mpn)}</h3><p>${esc(desc || "Available for secure online checkout.")}</p><div class="live-card-footer"><div class="live-price"><small>${esc(priceLabel)}</small>${money(r.priceCents)}</div><a class="live-link" href="${esc(p.slug)}">Buy online →</a></div></div></article>`;
       }).join("");
@@ -83,7 +83,7 @@
       const copy = section?.querySelector(".section-head p");
       if (eyebrow) eyebrow.textContent = "Featured checkout deals";
       if (heading) heading.textContent = "Featured products, ready to buy.";
-      if (copy) copy.textContent = "A focused launch selection chosen for a cleaner buying path. Featured products marked Free U.S. shipping include standard delivery in the contiguous United States.";
+      if (copy) copy.textContent = "A focused launch selection chosen for a cleaner buying path. Featured products marked Free standard shipping include delivery in the contiguous United States.";
     }
 
     const heroCandidate = enabled.find(x => x.id === heroId) || featured[0];
@@ -103,7 +103,7 @@
         if (small) small.textContent = `${p.brand || "Omni Terrain"} · MPN ${p.mpn || ""}`;
         if (h2) h2.textContent = p.title || p.mpn || "Checkout-ready product";
         if (price) { price.removeAttribute("data-live-price"); price.textContent = money(r.priceCents); }
-        if (foot) foot.textContent = r.shippingIncluded ? "Featured online deal · Free standard U.S. shipping included" : "In stock · Secure online checkout available";
+        if (foot) foot.textContent = r.shippingIncluded ? "Featured online deal · Free standard shipping in the contiguous U.S." : "In stock · Secure online checkout available";
       }
     }
 
@@ -120,7 +120,7 @@
     if (launch) {
       const allFeaturedShipFree = featured.length > 0 && featured.every(x => x.row.shippingIncluded === true);
       launch.textContent = allFeaturedShipFree
-        ? "Launch offer: Free standard U.S. shipping on featured checkout-ready products."
+        ? "Launch offer: Free standard shipping on featured checkout-ready products in the contiguous U.S."
         : "Checkout-ready featured products are shown first across the US storefront.";
     }
   }
