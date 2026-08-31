@@ -65,6 +65,14 @@
     document.head.appendChild(css);
   }
 
+  function injectStockStatusAssets() {
+    if (document.querySelector('script[data-ot-stock-status]')) return;
+    const script = document.createElement("script");
+    script.src = "/assets/us-stock-status-ui.js?v=1";
+    script.dataset.otStockStatus = "true";
+    document.body.appendChild(script);
+  }
+
   function injectProductAssets() {
     if (!document.querySelector(".product-layout") || !document.querySelector(".product-copy")) return;
     if (!document.querySelector('link[data-ot-product-premium]')) {
@@ -202,6 +210,7 @@
     mountHeader();
     mountFooter();
     syncCart();
+    injectStockStatusAssets();
     injectProductAssets();
     injectCatalogueAssets();
     injectCommerceAssets();
