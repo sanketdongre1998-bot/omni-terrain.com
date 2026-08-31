@@ -6,30 +6,8 @@
   const path=decodeURIComponent(String(location.pathname||"").split("/").filter(Boolean).pop()||"").toLowerCase();
   const mobile=window.matchMedia&&window.matchMedia("(max-width:760px)").matches;
 
-  // Cart/checkout now treat every listed, priced US storefront product as an online-commerce item.
-  // The payment API still re-resolves product IDs and prices from the published storefront catalogue server-side.
-  if((path==="cart.html"||path==="checkout.html")&&!window.__OMNI_STOREFRONT_WIDE_CHECKOUT_FETCH__){
-    window.__OMNI_STOREFRONT_WIDE_CHECKOUT_FETCH__=true;
-    const nativeFetch=window.fetch.bind(window);
-    window.fetch=function omniStorefrontWideFetch(input,init){
-      try{
-        const raw=typeof input==="string"?input:(input instanceof URL?input.href:(input instanceof Request?input.url:""));
-        const url=new URL(raw,location.href);
-        if(url.origin===location.origin&&url.pathname.endsWith("/assets/us-live-products.json")){
-          const products={};
-          if(typeof OMNI_US_PRODUCTS!=="undefined"&&Array.isArray(OMNI_US_PRODUCTS)){
-            for(const product of OMNI_US_PRODUCTS){
-              const id=String(product&&product.id||"").trim();
-              if(!id||String(product&&product.decision||"LIST").toUpperCase()!=="LIST") continue;
-              products[id]={enabled:true,priceCents:1,storefrontWide:true};
-            }
-          }
-          return Promise.resolve(new Response(JSON.stringify({version:"storefront-wide-v1",products}),{status:200,headers:{"Content-Type":"application/json","Cache-Control":"no-store"}}));
-        }
-      }catch(_){ }
-      return nativeFetch(input,init);
-    };
-  }
+  // Checkout eligibility now comes only from the published authorization-gated registry.
+  // Do not synthesize storefront-wide eligibility in the browser.
 
   // Keep public catalogue scale messaging broad and marketplace-like rather than exposing exact inventory counts.
   if(path===""||path==="index.html"){
@@ -41,16 +19,23 @@
       document.querySelectorAll(".category-home .count").forEach((node,index)=>{node.textContent=labels[index]||"Specialist range";});
     };
     if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",softenHomeCounts,{once:true}); else softenHomeCounts();
+    if(!document.querySelector('script[data-ot-live-priority]')){
+      const priority=document.createElement("script");
+      priority.src="/assets/live-storefront-priority.js?v=1";
+      priority.defer=true;
+      priority.dataset.otLivePriority="true";
+      document.head.appendChild(priority);
+    }
   }
 
   // Load the final responsive image layer after legacy page CSS.
   if(!document.querySelector('link[data-ot-image-layout]')){
     const imageCss=document.createElement("link");imageCss.rel="stylesheet";imageCss.href="/assets/image-layout-fix.css?v=2";imageCss.dataset.otImageLayout="true";document.head.appendChild(imageCss);
   }
-  // Catalogue/department pages get the shared search + filter runtime.
+  // Catalogue/department pages get the shared checkout-ready search + filter runtime.
   if(path==="us-catalogue.html"||/^(automotive|marine|rv)(?:-|\.)/.test(path)){
     if(!document.querySelector('script[data-ot-catalogue-controls]')){
-      const controls=document.createElement("script");controls.src="/assets/catalogue-controls.js?v=3";controls.defer=true;controls.dataset.otCatalogueControls="true";document.head.appendChild(controls);
+      const controls=document.createElement("script");controls.src="/assets/catalogue-controls.js?v=4";controls.defer=true;controls.dataset.otCatalogueControls="true";document.head.appendChild(controls);
     }
   }
 
