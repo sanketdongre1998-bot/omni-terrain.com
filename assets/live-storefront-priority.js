@@ -54,7 +54,11 @@
       .filter(x => x.product && x.product.slug);
     if (!enabled.length) return;
 
-    const priorityIds = ["HUS33055", "A1360817"];
+    // Deliberate launch merchandising: broad-use/low-fitment products with healthy stock and
+    // commercial room are shown first. HUS33055 remains the hero because its single-SKU
+    // Stripe checkout has already been smoke-tested end to end.
+    const priorityIds = ["HUS81147", "HUS33055", "HUS81148", "B5224066464"];
+    const heroId = "HUS33055";
     enabled.sort((a, b) => {
       const ai = priorityIds.indexOf(a.id), bi = priorityIds.indexOf(b.id);
       if (ai >= 0 || bi >= 0) return (ai < 0 ? 999 : ai) - (bi < 0 ? 999 : bi);
@@ -69,26 +73,29 @@
       grid.innerHTML = featured.map((x, i) => {
         const p = x.product, r = x.row;
         const desc = String(p.description || "").split(". ")[0].slice(0, 150);
-        return `<article class="live-card" data-live-id="${esc(x.id)}"><a class="live-media" href="${esc(p.slug)}"><span class="live-badge">Ready to buy</span><img src="${esc(images[i])}" alt="${esc(p.title || p.mpn)}" decoding="async" loading="${i === 0 ? "eager" : "lazy"}"></a><div class="live-body"><div class="live-brand"><span>${esc(p.brand || "Omni Terrain")}</span><span>${esc(p.mpn || "")}</span></div><h3>${esc(p.title || p.mpn)}</h3><p>${esc(desc || "Available for secure online checkout.")}</p><div class="live-card-footer"><div class="live-price"><small>Online price</small>${money(r.priceCents)}</div><a class="live-link" href="${esc(p.slug)}">Buy online →</a></div></div></article>`;
+        const badge = r.shippingIncluded ? "Free U.S. shipping" : "Ready to buy";
+        const priceLabel = r.shippingIncluded ? "Featured price · Free shipping" : "Featured price";
+        return `<article class="live-card" data-live-id="${esc(x.id)}"><a class="live-media" href="${esc(p.slug)}"><span class="live-badge">${esc(badge)}</span><img src="${esc(images[i])}" alt="${esc(p.title || p.mpn)}" decoding="async" loading="${i === 0 ? "eager" : "lazy"}"></a><div class="live-body"><div class="live-brand"><span>${esc(p.brand || "Omni Terrain")}</span><span>${esc(p.mpn || "")}</span></div><h3>${esc(p.title || p.mpn)}</h3><p>${esc(desc || "Available for secure online checkout.")}</p><div class="live-card-footer"><div class="live-price"><small>${esc(priceLabel)}</small>${money(r.priceCents)}</div><a class="live-link" href="${esc(p.slug)}">Buy online →</a></div></div></article>`;
       }).join("");
       const section = grid.closest(".home-section");
       const eyebrow = section?.querySelector(".section-head .eyebrow");
       const heading = section?.querySelector(".section-head h2");
       const copy = section?.querySelector(".section-head p");
-      if (eyebrow) eyebrow.textContent = "Available for checkout";
-      if (heading) heading.textContent = "Shop online now.";
-      if (copy) copy.textContent = "Products shown here are currently enabled for secure online checkout, with supplier availability and shipping checks completed.";
+      if (eyebrow) eyebrow.textContent = "Featured checkout deals";
+      if (heading) heading.textContent = "Featured products, ready to buy.";
+      if (copy) copy.textContent = "A focused launch selection chosen for a cleaner buying path. Featured products marked Free U.S. shipping include standard delivery in the contiguous United States.";
     }
 
-    const first = featured[0];
-    if (first) {
-      const p = first.product, r = first.row;
+    const heroCandidate = enabled.find(x => x.id === heroId) || featured[0];
+    if (heroCandidate) {
+      const p = heroCandidate.product, r = heroCandidate.row;
+      const heroImage = await productImage(p.slug);
       const hero = document.querySelector(".hero-showcase");
       if (hero) {
         hero.href = p.slug;
         hero.setAttribute("aria-label", `View ${p.brand || "product"} ${p.mpn || ""}`.trim());
         const img = hero.querySelector("img");
-        if (img) { img.src = images[0]; img.alt = p.title || p.mpn || "Checkout-ready product"; }
+        if (img) { img.src = heroImage; img.alt = p.title || p.mpn || "Checkout-ready product"; }
         const small = hero.querySelector(".hero-showcase-top small");
         const h2 = hero.querySelector(".hero-showcase-top h2");
         const price = hero.querySelector(".hero-price");
@@ -96,7 +103,7 @@
         if (small) small.textContent = `${p.brand || "Omni Terrain"} · MPN ${p.mpn || ""}`;
         if (h2) h2.textContent = p.title || p.mpn || "Checkout-ready product";
         if (price) { price.removeAttribute("data-live-price"); price.textContent = money(r.priceCents); }
-        if (foot) foot.textContent = "In stock · Secure online checkout available";
+        if (foot) foot.textContent = r.shippingIncluded ? "Featured online deal · Free standard U.S. shipping included" : "In stock · Secure online checkout available";
       }
     }
 
@@ -110,7 +117,12 @@
     if (brandLabel) brandLabel.textContent = "Brands available to buy online";
 
     const launch = document.querySelector(".launch-strip .container span:last-child");
-    if (launch) launch.textContent = "Checkout-ready products are shown first across the US storefront.";
+    if (launch) {
+      const allFeaturedShipFree = featured.length > 0 && featured.every(x => x.row.shippingIncluded === true);
+      launch.textContent = allFeaturedShipFree
+        ? "Launch offer: Free standard U.S. shipping on featured checkout-ready products."
+        : "Checkout-ready featured products are shown first across the US storefront.";
+    }
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount, { once: true });
