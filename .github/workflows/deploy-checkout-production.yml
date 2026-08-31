@@ -50,7 +50,7 @@ jobs:
 
       - name: Deploy production backend
         shell: bash
-        run: npx --yes vercel@latest deploy "$DEPLOY_DIR" --prod --yes --token "$VERCEL_TOKEN" --scope sanketdongre1998-4875s-projects
+        run: npx --yes vercel@latest deploy "$DEPLOY_DIR" --prod --yes --token "$VERCEL_TOKEN"
 
       - name: Verify production US checkout health
         shell: bash
@@ -59,10 +59,10 @@ jobs:
           for attempt in 1 2 3 4 5; do
             body="$(curl --fail --silent --show-error --max-time 30 https://omni-terrain-uk-checkout.vercel.app/api/us-checkout-health || true)"
             echo "$body"
-            if echo "$body" | grep -q '"stripeConfigured":true' && echo "$body" | grep -Eq '"commerceReadyProducts":[1-9][0-9]*'; then
+            if echo "$body" | grep -q '"stripeConfigured":true' && echo "$body" | grep -q '"checkoutMode":"authorization-gated"' && echo "$body" | grep -q '"commerceReadyProducts":0'; then
               exit 0
             fi
             sleep 8
           done
-          echo "Production checkout health did not report Stripe configured with commerce-ready products."
+          echo "Production checkout health did not report the expected authorization-gated zero-product safe state."
           exit 1
