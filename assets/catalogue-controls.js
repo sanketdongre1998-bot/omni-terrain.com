@@ -5,8 +5,9 @@
   if (!(file==="us-catalogue.html"||/^(automotive|marine|rv)(?:-|\.)/.test(file))) return;
   window.__OMNI_CATALOGUE_CONTROLS__=true;
 
-  const money=n=>Number.isFinite(n)?new Intl.NumberFormat("en-US",{style:"currency",currency:"USD"}).format(n):"";
   const text=node=>String(node?.textContent||"").replace(/\s+/g," ").trim();
+  const basename=value=>{try{return decodeURIComponent(String(value||"").split("?")[0].split("#")[0].split("/").pop()||"").toLowerCase();}catch(_){return String(value||"").toLowerCase();}};
+  const cardSlug=card=>basename(card.querySelector('a.card-link[href],a[href^="us-"]')?.getAttribute("href")||"");
   const priceOf=card=>{
     const raw=text(card.querySelector(".ot-live-inline-price,.ot-display-price,.price"));
     const n=Number(raw.replace(/[^0-9.]/g,""));
@@ -23,8 +24,17 @@
       try{ if(typeof OMNI_US_PRODUCTS!=="undefined"&&Array.isArray(OMNI_US_PRODUCTS)) return resolve(OMNI_US_PRODUCTS); }catch(_){ }
       const existing=document.querySelector('script[data-ot-us-products]');
       if(existing){existing.addEventListener("load",()=>{try{resolve(Array.isArray(OMNI_US_PRODUCTS)?OMNI_US_PRODUCTS:[])}catch(_){resolve([])}},{once:true});return;}
-      const s=document.createElement("script");s.src="/assets/us-products.js?v=3";s.dataset.otUsProducts="true";s.onload=()=>{try{resolve(Array.isArray(OMNI_US_PRODUCTS)?OMNI_US_PRODUCTS:[])}catch(_){resolve([])}};s.onerror=()=>resolve([]);document.head.appendChild(s);
+      const s=document.createElement("script");s.src="/assets/us-products.js?v=4";s.dataset.otUsProducts="true";s.onload=()=>{try{resolve(Array.isArray(OMNI_US_PRODUCTS)?OMNI_US_PRODUCTS:[])}catch(_){resolve([])}};s.onerror=()=>resolve([]);document.head.appendChild(s);
     });
+  }
+
+  async function loadLiveSlugs(){
+    try{
+      const response=await fetch("/assets/us-live-products.json?v=checkout-pool-301",{cache:"no-store"});
+      if(!response.ok)return new Set();
+      const data=await response.json();
+      return new Set(Object.values(data?.products||{}).filter(p=>p&&p.enabled===true&&p.authorizationVerified===true&&Number(p.priceCents)>0&&p.slug).map(p=>basename(p.slug)));
+    }catch(_){return new Set();}
   }
 
   function productSection(){
@@ -34,28 +44,36 @@
   function softenDepartmentCounts(){
     if(!/^(automotive|marine|rv)(?:-|\.)/.test(file)) return;
     const heroCopy=document.querySelector("main .hero p");
-    if(heroCopy&&/\d+\s+products/i.test(heroCopy.textContent||"")) heroCopy.textContent="Browse the specialist range · Use search and filters to narrow by brand, MPN or price.";
-    document.querySelectorAll("main .section-head .muted").forEach(node=>{
-      if(/products?\s+\d+.*of\s+\d+/i.test(node.textContent||"")) node.textContent="Curated products · Refine with search and filters";
-    });
+    if(heroCopy) heroCopy.textContent="Browse products currently enabled for secure online checkout. Use search and filters to narrow by brand, MPN or price.";
+    document.querySelectorAll("main .section-head .muted").forEach(node=>{node.textContent="Available to buy online · Refine with search and filters";});
   }
 
   async function mount(){
     softenDepartmentCounts();
     const section=productSection(); const grid=section?.querySelector(".grid"); if(!section||!grid) return;
-    const cards=[...grid.querySelectorAll(".card")]; if(!cards.length) return;
-    const products=await loadProducts();
+    const allCards=[...grid.querySelectorAll(".card")]; if(!allCards.length) return;
+    const [products,liveSlugs]=await Promise.all([loadProducts(),loadLiveSlugs()]);
+    if(!liveSlugs.size) return;
+
+    const cards=allCards.filter(card=>liveSlugs.has(cardSlug(card)));
+    allCards.forEach(card=>{
+      const live=liveSlugs.has(cardSlug(card));
+      card.classList.toggle("ot-card-hidden",!live);
+      card.setAttribute("aria-hidden",live?"false":"true");
+      if(!live) card.dataset.otCheckoutSuppressed="true";
+    });
+
     const defaultOrder=new Map(cards.map((c,i)=>[c,i]));
     const brands=[...new Set(cards.map(brandOf).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
 
     const controls=document.createElement("div");
     controls.className="ot-catalogue-controls";
     controls.innerHTML=`<div class="ot-control-row">
-      <div class="ot-search-wrap"><input class="ot-search-input" type="search" autocomplete="off" spellcheck="false" placeholder="Search product, brand or MPN" aria-label="Search products"><span class="ot-search-icon">⌕</span></div>
+      <div class="ot-search-wrap"><input class="ot-search-input" type="search" autocomplete="off" spellcheck="false" placeholder="Search available product, brand or MPN" aria-label="Search products available online"><span class="ot-search-icon">⌕</span></div>
       <select class="ot-filter-select" data-filter="brand" aria-label="Filter by brand"><option value="">All brands</option>${brands.map(b=>`<option value="${b.replace(/&/g,"&amp;").replace(/"/g,"&quot;")}">${b}</option>`).join("")}</select>
       <select class="ot-filter-select" data-filter="price" aria-label="Filter by price"><option value="">All prices</option><option value="0-50">Under $50</option><option value="50-100">$50–$100</option><option value="100-200">$100–$200</option><option value="200-999999">$200+</option></select>
       <select class="ot-filter-select" data-filter="sort" aria-label="Sort products"><option value="default">Recommended</option><option value="price-asc">Price: Low to High</option><option value="price-desc">Price: High to Low</option><option value="brand">Brand A–Z</option></select>
-    </div><div class="ot-control-meta"><span>Showing <b data-visible-count>${cards.length}</b> results · Search across 300+ specialist products.</span><button class="ot-clear-filters" type="button">Clear filters</button></div><div class="ot-search-results" role="listbox"></div>`;
+    </div><div class="ot-control-meta"><span>Showing <b data-visible-count>${cards.length}</b> products available for secure checkout.</span><button class="ot-clear-filters" type="button">Clear filters</button></div><div class="ot-search-results" role="listbox"></div>`;
     grid.parentNode.insertBefore(controls,grid);
 
     const input=controls.querySelector(".ot-search-input");
@@ -68,7 +86,8 @@
     function apply(){
       const q=input.value.trim().toLowerCase(); const brand=brandSel.value; const range=priceSel.value;
       let visible=0;
-      cards.forEach(card=>{
+      allCards.forEach(card=>{
+        if(card.dataset.otCheckoutSuppressed==="true"){card.classList.add("ot-card-hidden");return;}
         let ok=!q||haystack(card).includes(q);
         if(ok&&brand) ok=brandOf(card)===brand;
         if(ok&&range){const [lo,hi]=range.split("-").map(Number);const p=priceOf(card);ok=Number.isFinite(p)&&p>=lo&&p<hi;}
@@ -86,8 +105,8 @@
     function showSuggestions(){
       const q=input.value.trim().toLowerCase();
       if(q.length<2){results.classList.remove("open");results.innerHTML="";return;}
-      const hits=products.filter(p=>[p.title,p.brand,p.mpn,p.description].join(" ").toLowerCase().includes(q)).slice(0,10);
-      results.innerHTML=hits.length?hits.map(p=>`<a class="ot-search-result" role="option" href="${p.slug}"><span><strong>${String(p.title||p.mpn).replace(/</g,"&lt;").replace(/>/g,"&gt;")}</strong><span>${String(p.brand||"")} · MPN ${String(p.mpn||"")}</span></span><em>View →</em></a>`).join(""):`<div class="ot-no-result">No exact catalogue match. Try a brand name, MPN or simpler product term.</div>`;
+      const hits=products.filter(p=>liveSlugs.has(basename(p.slug))&&[p.title,p.brand,p.mpn,p.description].join(" ").toLowerCase().includes(q)).slice(0,10);
+      results.innerHTML=hits.length?hits.map(p=>`<a class="ot-search-result" role="option" href="${p.slug}"><span><strong>${String(p.title||p.mpn).replace(/</g,"&lt;").replace(/>/g,"&gt;")}</strong><span>${String(p.brand||"")} · MPN ${String(p.mpn||"")}</span></span><em>Buy online →</em></a>`).join(""):`<div class="ot-no-result">No checkout-ready match. Try a brand name, MPN or simpler product term.</div>`;
       results.classList.add("open");
     }
 
@@ -97,7 +116,13 @@
     document.addEventListener("click",e=>{if(!controls.contains(e.target))results.classList.remove("open")});
     input.addEventListener("focus",showSuggestions);
 
-    setTimeout(apply,450);
+    if(!cards.length){
+      const empty=document.createElement("div");
+      empty.className="ot-no-result";
+      empty.textContent="No products on this page are currently enabled for online checkout.";
+      grid.parentNode.insertBefore(empty,grid);
+    }
+    setTimeout(apply,250);
   }
 
   function addAssets(){
