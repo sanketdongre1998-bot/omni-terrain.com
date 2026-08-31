@@ -1,0 +1,10 @@
+{
+  "generatedAtUTC": null,
+  "source": "Keystone bulk website live audit",
+  "counts": {
+    "in_stock": 0,
+    "out_of_stock": 0,
+    "review": 0
+  },
+  "products": {}
+}
