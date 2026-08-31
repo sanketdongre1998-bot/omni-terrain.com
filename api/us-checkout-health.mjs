@@ -23,7 +23,7 @@ export async function GET(request) {
       currency: "USD",
       stripeConfigured: stripeConfigured(),
       catalogueSource: "omni-terrain.com",
-      checkoutMode: "storefront-wide",
+      checkoutMode: "authorization-gated",
       commerceReadyProducts,
     }, 200, request);
   } catch (error) {
@@ -33,6 +33,7 @@ export async function GET(request) {
       store: "us",
       currency: "USD",
       stripeConfigured: stripeConfigured(),
+      checkoutMode: "authorization-gated",
       commerceReadyProducts: 0,
       error: "US checkout catalogue is temporarily unavailable.",
     }, 503, request);
