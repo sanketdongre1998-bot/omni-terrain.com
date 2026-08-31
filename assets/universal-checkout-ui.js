@@ -82,7 +82,7 @@
       note.className = "ot-display-note";
       box.appendChild(note);
     }
-    note.textContent = "Add this item to your cart and continue to secure checkout. Final pricing and order availability are validated before payment opens.";
+    note.textContent = "Add this item to your cart and continue to secure checkout. Final product pricing is validated server-side and order availability is confirmed before payment opens.";
 
     const actions = document.createElement("div");
     actions.className = "ot-universal-actions";
