@@ -21,7 +21,7 @@
     if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",softenHomeCounts,{once:true}); else softenHomeCounts();
     if(!document.querySelector('script[data-ot-live-priority]')){
       const priority=document.createElement("script");
-      priority.src="/assets/live-storefront-priority.js?v=3";
+      priority.src="/assets/live-storefront-priority.js?v=4";
       priority.defer=true;
       priority.dataset.otLivePriority="true";
       document.head.appendChild(priority);
