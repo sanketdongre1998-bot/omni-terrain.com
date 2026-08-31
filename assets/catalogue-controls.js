@@ -18,6 +18,13 @@
     return (k.split("·")[0]||k||"Other").trim();
   };
   const haystack=card=>[text(card.querySelector("h3")),brandOf(card),text(card.querySelector(".mpn")),text(card)].join(" ").toLowerCase();
+  const featuredSlugs=[
+    "us-husky-towing-81147.html",
+    "us-husky-towing-33055.html",
+    "us-husky-towing-81148.html",
+    "us-bilstein-24-066464.html"
+  ].map(basename);
+  const featuredRank=new Map(featuredSlugs.map((slug,index)=>[slug,index]));
 
   function loadProducts(){
     return new Promise(resolve=>{
@@ -45,7 +52,7 @@
     if(!/^(automotive|marine|rv)(?:-|\.)/.test(file)) return;
     const heroCopy=document.querySelector("main .hero p");
     if(heroCopy) heroCopy.textContent="Browse products currently enabled for secure online checkout. Use search and filters to narrow by brand, MPN or price.";
-    document.querySelectorAll("main .section-head .muted").forEach(node=>{node.textContent="Available to buy online · Refine with search and filters";});
+    document.querySelectorAll("main .section-head .muted").forEach(node=>{node.textContent="Available to buy online · Featured launch products shown first";});
   }
 
   async function mount(){
@@ -98,7 +105,11 @@
       if(sortSel.value==="price-asc") sorted.sort((a,b)=>(priceOf(a)||Infinity)-(priceOf(b)||Infinity));
       else if(sortSel.value==="price-desc") sorted.sort((a,b)=>(priceOf(b)||-Infinity)-(priceOf(a)||-Infinity));
       else if(sortSel.value==="brand") sorted.sort((a,b)=>brandOf(a).localeCompare(brandOf(b)));
-      else sorted.sort((a,b)=>defaultOrder.get(a)-defaultOrder.get(b));
+      else sorted.sort((a,b)=>{
+        const ai=featuredRank.get(cardSlug(a)), bi=featuredRank.get(cardSlug(b));
+        if(ai!==undefined||bi!==undefined) return (ai===undefined?999:ai)-(bi===undefined?999:bi);
+        return defaultOrder.get(a)-defaultOrder.get(b);
+      });
       sorted.forEach(c=>grid.appendChild(c));
     }
 
