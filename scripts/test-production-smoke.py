@@ -34,7 +34,7 @@ def main() -> int:
         if (ROOT / route).exists(): ok(f"route exists: {route}")
         else: fail(f"Missing customer route: {route}")
 
-    for asset in ["assets/us-shell.js","assets/catalogue-controls.js","assets/product-page-premium.js","assets/product-page-premium.css","assets/universal-checkout-ui.js","assets/cart-checkout-premium.js","assets/cart-checkout-premium.css","assets/us-checkout-api-bridge.js","assets/storefront-performance.js","assets/us-display-prices.js","assets/us-products.js","assets/us-live-products.json","lib/us-checkout-products.mjs","api/us-create-checkout-session.mjs","api/us-checkout-health.mjs"]:
+    for asset in ["assets/us-shell.js","assets/catalogue-controls.js","assets/live-storefront-priority.js","assets/product-page-premium.js","assets/product-page-premium.css","assets/universal-checkout-ui.js","assets/cart-checkout-premium.js","assets/cart-checkout-premium.css","assets/us-checkout-api-bridge.js","assets/storefront-performance.js","assets/us-display-prices.js","assets/us-products.js","assets/us-live-products.json","lib/us-checkout-products.mjs","api/us-create-checkout-session.mjs","api/us-checkout-health.mjs"]:
         if (ROOT / asset).exists(): ok(f"asset exists: {asset}")
         else: fail(f"Missing production asset: {asset}")
 
@@ -44,11 +44,12 @@ def main() -> int:
     reject("index.html", ">250 products<", "exact Marine product count")
     reject("index.html", ">100 products<", "exact RV product count")
 
-    require("assets/catalogue-controls.js", "Search product, brand or MPN", "catalogue search")
-    require("assets/catalogue-controls.js", "No exact catalogue match", "search zero-state")
-    require("assets/catalogue-controls.js", "Search across 300+ specialist products", "cross-catalogue search messaging")
+    require("assets/catalogue-controls.js", "Search available product, brand or MPN", "checkout-ready catalogue search")
+    require("assets/catalogue-controls.js", "No checkout-ready match", "checkout-ready search zero-state")
+    require("assets/catalogue-controls.js", "products available for secure checkout", "checkout-ready catalogue messaging")
     require("assets/catalogue-controls.js", "All brands", "brand filter")
     require("assets/catalogue-controls.js", "Price: Low to High", "catalogue sorting")
+    require("assets/catalogue-controls.js", "authorizationVerified===true", "browse visibility requires authorization")
 
     require("assets/universal-checkout-ui.js", "Add to Cart", "product-page Add to Cart")
     require("assets/universal-checkout-ui.js", "Buy Now", "product-page Buy Now")
@@ -57,8 +58,9 @@ def main() -> int:
     require("assets/product-page-premium.js", 'imageBadge.textContent = "Product image"', "professional image badge")
     reject("assets/product-page-premium.js", "Representative image", "representative-image runtime label")
 
-    require("assets/storefront-performance.js", "storefront-wide-v1", "storefront-wide cart eligibility bridge")
-    require("assets/storefront-performance.js", "OMNI_US_PRODUCTS", "cart eligibility sourced from listed catalogue")
+    reject("assets/storefront-performance.js", "storefront-wide-v1", "legacy storefront-wide cart eligibility bridge")
+    require("assets/storefront-performance.js", "Checkout eligibility now comes only from the published authorization-gated registry", "authorization-gated frontend eligibility")
+    require("assets/storefront-performance.js", "live-storefront-priority.js", "checkout-ready homepage priority runtime")
     require("assets/us-checkout-api-bridge.js", "omni-terrain-uk-checkout.vercel.app", "production US checkout API bridge")
 
     checkout = text("assets/cart-checkout-premium.js")
@@ -86,8 +88,11 @@ def main() -> int:
         live_registry = json.loads(text("assets/us-live-products.json") or "{}")
         live_products = live_registry.get("products", {}) if isinstance(live_registry, dict) else {}
         bad_enabled = [pid for pid, row in live_products.items() if isinstance(row, dict) and row.get("enabled") is True and row.get("authorizationVerified") is not True]
+        enabled_count = sum(1 for row in live_products.values() if isinstance(row, dict) and row.get("enabled") is True and row.get("authorizationVerified") is True and int(row.get("priceCents") or 0) > 0)
         if bad_enabled: fail(f"Authorization registry enables unverified products: {', '.join(bad_enabled[:10])}")
         else: ok("authorization registry has no enabled-unverified products")
+        if enabled_count > 0: ok(f"authorization registry has {enabled_count} checkout-ready products")
+        else: fail("authorization registry has no checkout-ready products")
     except Exception as exc:
         fail(f"assets/us-live-products.json: invalid authorization registry ({exc})")
 
