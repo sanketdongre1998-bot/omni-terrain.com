@@ -7,6 +7,13 @@
 
   const money = cents => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format((Number(cents) || 0) / 100);
   const esc = value => String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+  const launchOffers = {
+    HUS81147: {
+      priceCents: 11999,
+      compareAtCents: 12626,
+      label: "Limited Launch Deal"
+    }
+  };
 
   function loadProducts() {
     return new Promise(resolve => {
@@ -50,13 +57,17 @@
     const productById = new Map(products.map(p => [String(p.id), p]));
     const enabled = Object.entries(registry.products || {})
       .filter(([, row]) => row && row.enabled === true && row.authorizationVerified === true && Number(row.priceCents) > 0)
-      .map(([id, row]) => ({ id, row, product: productById.get(String(id)) }))
+      .map(([id, row]) => {
+        const offer = launchOffers[id];
+        const effectiveRow = offer ? { ...row, priceCents: offer.priceCents, launchOffer: offer } : row;
+        return { id, row: effectiveRow, product: productById.get(String(id)) };
+      })
       .filter(x => x.product && x.product.slug);
     if (!enabled.length) return;
 
     // Deliberate launch merchandising: broad-use/low-fitment products with healthy stock and
-    // commercial room are shown first. HUS33055 remains the hero because its single-SKU
-    // Stripe checkout has already been smoke-tested end to end.
+    // commercial room are shown first. HUS33055 remains the hero until the discounted 81147
+    // single-SKU Stripe checkout is smoke-tested end to end at its launch price.
     const priorityIds = ["HUS81147", "HUS33055", "HUS81148", "B5224066464"];
     const heroId = "HUS33055";
     enabled.sort((a, b) => {
@@ -72,10 +83,15 @@
     if (grid) {
       grid.innerHTML = featured.map((x, i) => {
         const p = x.product, r = x.row;
+        const promo = launchOffers[x.id];
+        const savings = promo ? promo.compareAtCents - promo.priceCents : 0;
         const desc = String(p.description || "").split(". ")[0].slice(0, 150);
-        const badge = r.shippingIncluded ? "Free standard shipping" : "Ready to buy";
+        const badge = promo ? `Launch deal · Save ${money(savings)}` : (r.shippingIncluded ? "Free standard shipping" : "Ready to buy");
         const priceLabel = r.shippingIncluded ? "Featured price · Free shipping" : "Featured price";
-        return `<article class="live-card" data-live-id="${esc(x.id)}"><a class="live-media" href="${esc(p.slug)}"><span class="live-badge">${esc(badge)}</span><img src="${esc(images[i])}" alt="${esc(p.title || p.mpn)}" decoding="async" loading="${i === 0 ? "eager" : "lazy"}"></a><div class="live-body"><div class="live-brand"><span>${esc(p.brand || "Omni Terrain")}</span><span>${esc(p.mpn || "")}</span></div><h3>${esc(p.title || p.mpn)}</h3><p>${esc(desc || "Available for secure online checkout.")}</p><div class="live-card-footer"><div class="live-price"><small>${esc(priceLabel)}</small>${money(r.priceCents)}</div><a class="live-link" href="${esc(p.slug)}">Buy online →</a></div></div></article>`;
+        const priceMeta = promo
+          ? `<small><s>${money(promo.compareAtCents)}</s> · Save ${money(savings)}</small>`
+          : `<small>${esc(priceLabel)}</small>`;
+        return `<article class="live-card" data-live-id="${esc(x.id)}"><a class="live-media" href="${esc(p.slug)}"><span class="live-badge">${esc(badge)}</span><img src="${esc(images[i])}" alt="${esc(p.title || p.mpn)}" decoding="async" loading="${i === 0 ? "eager" : "lazy"}"></a><div class="live-body"><div class="live-brand"><span>${esc(p.brand || "Omni Terrain")}</span><span>${esc(p.mpn || "")}</span></div><h3>${esc(p.title || p.mpn)}</h3><p>${esc(desc || "Available for secure online checkout.")}</p><div class="live-card-footer"><div class="live-price">${priceMeta}${money(r.priceCents)}</div><a class="live-link" href="${esc(p.slug)}">Buy online →</a></div></div></article>`;
       }).join("");
       const section = grid.closest(".home-section");
       const eyebrow = section?.querySelector(".section-head .eyebrow");
@@ -83,7 +99,7 @@
       const copy = section?.querySelector(".section-head p");
       if (eyebrow) eyebrow.textContent = "Featured checkout deals";
       if (heading) heading.textContent = "Featured products, ready to buy.";
-      if (copy) copy.textContent = "A focused launch selection chosen for a cleaner buying path. Featured products marked Free standard shipping include delivery in the contiguous United States.";
+      if (copy) copy.textContent = "A focused launch selection chosen for a cleaner buying path, including limited launch pricing where shown and free standard shipping on eligible featured products in the contiguous United States.";
     }
 
     const heroCandidate = enabled.find(x => x.id === heroId) || featured[0];
@@ -118,10 +134,7 @@
 
     const launch = document.querySelector(".launch-strip .container span:last-child");
     if (launch) {
-      const allFeaturedShipFree = featured.length > 0 && featured.every(x => x.row.shippingIncluded === true);
-      launch.textContent = allFeaturedShipFree
-        ? "Launch offer: Free standard shipping on featured checkout-ready products in the contiguous U.S."
-        : "Checkout-ready featured products are shown first across the US storefront.";
+      launch.textContent = "Limited launch deal: HUSKY 4-Bike Hitch Rack now $119.99 with free standard shipping in the contiguous U.S.";
     }
   }
 
