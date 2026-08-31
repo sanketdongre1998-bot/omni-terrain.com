@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
@@ -33,7 +34,7 @@ def main() -> int:
         if (ROOT / route).exists(): ok(f"route exists: {route}")
         else: fail(f"Missing customer route: {route}")
 
-    for asset in ["assets/us-shell.js","assets/catalogue-controls.js","assets/product-page-premium.js","assets/product-page-premium.css","assets/universal-checkout-ui.js","assets/cart-checkout-premium.js","assets/cart-checkout-premium.css","assets/us-checkout-api-bridge.js","assets/storefront-performance.js","assets/us-display-prices.js","assets/us-products.js","lib/us-checkout-products.mjs","api/us-create-checkout-session.mjs","api/us-checkout-health.mjs"]:
+    for asset in ["assets/us-shell.js","assets/catalogue-controls.js","assets/product-page-premium.js","assets/product-page-premium.css","assets/universal-checkout-ui.js","assets/cart-checkout-premium.js","assets/cart-checkout-premium.css","assets/us-checkout-api-bridge.js","assets/storefront-performance.js","assets/us-display-prices.js","assets/us-products.js","assets/us-live-products.json","lib/us-checkout-products.mjs","api/us-create-checkout-session.mjs","api/us-checkout-health.mjs"]:
         if (ROOT / asset).exists(): ok(f"asset exists: {asset}")
         else: fail(f"Missing production asset: {asset}")
 
@@ -52,7 +53,7 @@ def main() -> int:
     require("assets/universal-checkout-ui.js", "Add to Cart", "product-page Add to Cart")
     require("assets/universal-checkout-ui.js", "Buy Now", "product-page Buy Now")
     require("assets/universal-checkout-ui.js", "Final product pricing is validated server-side", "server-price validation copy")
-    reject("assets/universal-checkout-ui.js", "us-live-products.json", "legacy five-SKU product-page gate")
+    reject("assets/universal-checkout-ui.js", "us-live-products.json", "product-page UI does not grant server authorization")
     require("assets/product-page-premium.js", 'imageBadge.textContent = "Product image"', "professional image badge")
     reject("assets/product-page-premium.js", "Representative image", "representative-image runtime label")
 
@@ -69,18 +70,31 @@ def main() -> int:
     for token, label in [
         ("/assets/us-products.js", "server product catalogue source"),
         ("/assets/us-display-prices.js", "server price catalogue source"),
+        ("/assets/us-live-products.json", "server authorization registry source"),
+        ("approval.enabled !== true", "explicit checkout enable gate"),
+        ("approval.authorizationVerified !== true", "explicit authorization gate"),
+        ("authorizationVerified !== true", "cart authorization re-check"),
         ("storefrontVerified", "server storefront verification"),
         ("MAX_ORDER_CENTS", "server cart value guard"),
         ("MAX_QTY", "server quantity guard"),
     ]:
         if token not in backend: fail(f"lib/us-checkout-products.mjs: missing {label}")
         else: ok(f"backend: {label}")
-    reject("lib/us-checkout-products.mjs", "authorizationVerified === true", "legacy hard-coded authorization gate")
+    reject("lib/us-checkout-products.mjs", "enabled: true,\n      operatorApproved: true,\n      storefrontVerified: true", "unguarded storefront-wide enable block")
+
+    try:
+        live_registry = json.loads(text("assets/us-live-products.json") or "{}")
+        live_products = live_registry.get("products", {}) if isinstance(live_registry, dict) else {}
+        bad_enabled = [pid for pid, row in live_products.items() if isinstance(row, dict) and row.get("enabled") is True and row.get("authorizationVerified") is not True]
+        if bad_enabled: fail(f"Authorization registry enables unverified products: {', '.join(bad_enabled[:10])}")
+        else: ok("authorization registry has no enabled-unverified products")
+    except Exception as exc:
+        fail(f"assets/us-live-products.json: invalid authorization registry ({exc})")
 
     require("api/us-create-checkout-session.mjs", "await resolveUsCheckoutItems", "async server-side product/price resolution")
     require("api/us-create-checkout-session.mjs", "server_storefront_catalogue", "Stripe pricing validation metadata")
     require("api/us-create-checkout-session.mjs", "shipping_address_collection", "US delivery address collection")
-    require("api/us-checkout-health.mjs", 'checkoutMode: "storefront-wide"', "storefront-wide health mode")
+    require("api/us-checkout-health.mjs", 'checkoutMode: "authorization-gated"', "authorization-gated health mode")
 
     products_source = text("assets/us-products.js")
     product_count = products_source.count('"id":')
