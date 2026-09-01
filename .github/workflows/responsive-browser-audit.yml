@@ -37,5 +37,8 @@ jobs:
           cat /tmp/omni-http.log
           exit 1
 
-      - name: Audit all responsive layouts
+      - name: Audit light responsive layouts
         run: node scripts/responsive-browser-audit.mjs
+
+      - name: Audit dark responsive layouts
+        run: node scripts/dark-theme-browser-audit.mjs
