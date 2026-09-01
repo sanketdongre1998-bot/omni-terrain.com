@@ -3,6 +3,7 @@
   const API = "https://omni-terrain-uk-checkout.vercel.app";
   const CART_KEY = "omniTerrainUsCart";
   const PURCHASE_KEY = "omniTerrainTrackedPurchase";
+  const ATTR_KEY = "omniTerrainAdAttribution";
   const params = new URLSearchParams(location.search);
   const sessionId = params.get("session_id") || "";
   const status = document.getElementById("otOrderVerification");
@@ -12,6 +13,7 @@
 
   const money = cents => new Intl.NumberFormat("en-US", {style:"currency",currency:"USD"}).format((Number(cents)||0)/100);
   const esc = value => String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+  const attribution = () => { try { return JSON.parse(localStorage.getItem(ATTR_KEY) || "{}"); } catch (_) { return {}; } };
 
   function trackedPurchase(data) {
     if (!data?.id || sessionStorage.getItem(`${PURCHASE_KEY}:${data.id}`)) return;
@@ -32,6 +34,7 @@
         items,
       },
       promotion_savings: Number(data.promotion_savings_cents || 0) / 100,
+      traffic_attribution: attribution().last || {},
     });
   }
 
