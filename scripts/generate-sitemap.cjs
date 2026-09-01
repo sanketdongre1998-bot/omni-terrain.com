@@ -5,10 +5,11 @@ const ukProducts = require("../assets/shield-products.js");
 
 const root = path.resolve(__dirname, "..");
 const site = "https://omni-terrain.com";
-const lastModified = "2026-07-28";
+const lastModified = "2026-09-01";
 
 const corePages = [
   "",
+  "deals.html",
   "us-catalogue.html",
   "automotive.html",
   "rv-solar.html",
