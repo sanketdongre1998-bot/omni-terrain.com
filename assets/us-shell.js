@@ -32,7 +32,7 @@
   }
 
   function brand() {
-    return `<span class="ot-site-wordmark"><span class="ot-site-wordmark-main">OMNI</span><span class="ot-site-wordmark-sub">Terrain</span><span class="ot-site-wordmark-meta">Road / Water / Power</span></span>`;
+    return `<img class="ot-brand-logo-image" src="/assets/omni-terrain-logo-lock.webp?v=3" alt="Omni Terrain" width="240" height="56" decoding="async">`;
   }
 
   function injectFonts() {
@@ -54,28 +54,28 @@
   }
 
   function ensureStyle(selector, href, dataKey) {
-  const existing = document.querySelector(selector);
-  if (existing) {
-    if (existing.tagName === "LINK" && existing.getAttribute("href") !== href) existing.setAttribute("href", href);
-    return existing;
+    const existing = document.querySelector(selector);
+    if (existing) {
+      if (existing.tagName === "LINK" && existing.getAttribute("href") !== href) existing.setAttribute("href", href);
+      return existing;
+    }
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = href;
+    if (dataKey) link.dataset[dataKey] = "true";
+    document.head.appendChild(link);
+    return link;
   }
-  const link = document.createElement("link");
-  link.rel = "stylesheet";
-  link.href = href;
-  if (dataKey) link.dataset[dataKey] = "true";
-  document.head.appendChild(link);
-  return link;
-}
 
-function injectCss() {
-  ensureStyle('link[href*="storefront-performance.css"]', "/assets/storefront-performance.css", "otStorefrontPerformance");
-  ensureStyle('link[href*="us-shell.css"]', "/assets/us-shell.css?v=4", "otUsShell");
-  ensureStyle('link[data-ot-image-layout-fix],link[data-ot-image-layout],link[href*="image-layout-fix.css"]', "/assets/image-layout-fix.css?v=2", "otImageLayoutFix");
-  ensureStyle('link[data-ot-responsive-hardening],link[href*="responsive-hardening.css"]', "/assets/responsive-hardening.css?v=4", "otResponsiveHardening");
-  ensureStyle('link[data-ot-brand-speed],link[href*="brand-speed.css"]', "/assets/brand-speed.css?v=6", "otBrandSpeed");
-}
+  function injectCss() {
+    ensureStyle('link[href*="storefront-performance.css"]', "/assets/storefront-performance.css", "otStorefrontPerformance");
+    ensureStyle('link[href*="us-shell.css"]', "/assets/us-shell.css?v=4", "otUsShell");
+    ensureStyle('link[data-ot-image-layout-fix],link[data-ot-image-layout],link[href*="image-layout-fix.css"]', "/assets/image-layout-fix.css?v=2", "otImageLayoutFix");
+    ensureStyle('link[data-ot-responsive-hardening],link[href*="responsive-hardening.css"]', "/assets/responsive-hardening.css?v=4", "otResponsiveHardening");
+    ensureStyle('link[data-ot-brand-speed],link[href*="brand-speed.css"]', "/assets/brand-speed.css?v=7", "otBrandSpeed");
+  }
 
-function injectStockStatusAssets() {
+  function injectStockStatusAssets() {
     if (!(isCatalogue || isProduct) || document.querySelector('script[data-ot-stock-status]')) return;
     const script = document.createElement("script");
     script.src = "/assets/us-stock-status-ui.js?v=1";
@@ -188,7 +188,7 @@ function injectStockStatusAssets() {
       <div class="ot-site-announcement"><div class="ot-shell-container"><span><strong>Omni Terrain US:</strong> Specialist automotive, marine, RV &amp; 12V products.</span><a href="deals.html">Shop 7 featured deals →</a></div></div>
       <div class="ot-site-market"><div class="ot-shell-container"><span class="ot-site-market-label">Store region</span><a class="active" href="index.html">United States</a><a href="uk.html">United Kingdom</a><span class="ot-site-market-note">U.S. pricing · Secure online checkout</span></div></div>
       <header class="ot-site-header" id="otSiteHeader"><div class="ot-shell-container ot-site-header-main">
-        <a class="ot-site-brand" href="index.html" aria-label="Omni Terrain home">${brand()}</a>
+        <a class="ot-site-brand ot-logo-direct" href="index.html" aria-label="Omni Terrain home">${brand()}</a>
         <nav class="ot-site-nav" aria-label="US store navigation"><a href="index.html">Home</a><a class="${active("catalogue")}" href="us-catalogue.html">Shop All</a><a class="${active("deals")}" href="deals.html">Deals</a><a class="${active("auto")}" href="automotive.html">Auto Parts</a><a class="${active("marine")}" href="marine.html">Marine</a><a class="${active("rv")}" href="rv.html">RV &amp; Overlanding</a><a class="${active("help")}" href="contact-and-order-help.html">Help</a></nav>
         <div class="ot-site-actions"><a class="ot-site-cart" href="cart.html">Cart <span class="ot-site-cart-count" data-cart-count>${cartCount()}</span></a><button class="ot-site-menu" id="otSiteMenu" type="button" aria-expanded="false" aria-controls="otSiteMobileNav">Menu</button></div>
       </div><nav class="ot-site-mobile-nav" id="otSiteMobileNav" aria-label="US mobile navigation"><a href="index.html">Home</a><a href="us-catalogue.html">Shop All Products</a><a href="deals.html">Featured Deals</a><a href="automotive.html">Auto Parts</a><a href="marine.html">Marine</a><a href="rv.html">RV &amp; Overlanding</a><a href="cart.html">Cart</a><a href="checkout.html">Checkout</a><a href="contact-and-order-help.html">Contact &amp; Support</a></nav></header>`;
@@ -218,7 +218,7 @@ function injectStockStatusAssets() {
 
     const footer = document.createElement("footer");
     footer.className = "ot-site-footer";
-    footer.innerHTML = `<div class="ot-shell-container"><div class="ot-site-footer-grid"><div><a class="ot-site-brand" href="index.html">${brand()}</a><p class="ot-site-footer-copy">Specialist automotive, marine, RV and 12V parts for road, water and travel.</p><p class="ot-site-legal"><strong>US operator:</strong> PRP Xpert LLC · 30 N Gould St Ste R, Sheridan, WY 82801 · procurement@omni-terrain.com</p></div><div><div class="ot-site-footer-heading">Shop US</div><div class="ot-site-footer-links"><a href="deals.html">Featured Deals</a><a href="us-catalogue.html">All Products</a><a href="automotive.html">Auto Parts</a><a href="marine.html">Marine</a><a href="rv.html">RV &amp; Overlanding</a></div></div><div><div class="ot-site-footer-heading">Checkout &amp; support</div><div class="ot-site-footer-links"><a href="cart.html">Cart</a><a href="checkout.html">Checkout</a><a href="contact-and-order-help.html">Contact &amp; Order Help</a><a href="tel:+13075330570">+1 307-533-0570</a></div></div><div><div class="ot-site-footer-heading">Policies</div><div class="ot-site-footer-links"><a href="shipping-delivery-policy.html">Shipping</a><a href="returns-refunds-policy.html">Returns</a><a href="privacy-policy.html">Privacy</a><a href="terms-conditions.html">Terms</a></div></div></div><div class="ot-site-footer-bottom"><span>© 2026 Omni Terrain. All rights reserved.</span><span>US Store · Specialist parts for road, water and travel</span></div></div>`;
+    footer.innerHTML = `<div class="ot-shell-container"><div class="ot-site-footer-grid"><div><a class="ot-site-brand ot-logo-direct" href="index.html">${brand()}</a><p class="ot-site-footer-copy">Specialist automotive, marine, RV and 12V parts for road, water and travel.</p><p class="ot-site-legal"><strong>US operator:</strong> PRP Xpert LLC · 30 N Gould St Ste R, Sheridan, WY 82801 · procurement@omni-terrain.com</p></div><div><div class="ot-site-footer-heading">Shop US</div><div class="ot-site-footer-links"><a href="deals.html">Featured Deals</a><a href="us-catalogue.html">All Products</a><a href="automotive.html">Auto Parts</a><a href="marine.html">Marine</a><a href="rv.html">RV &amp; Overlanding</a></div></div><div><div class="ot-site-footer-heading">Checkout &amp; support</div><div class="ot-site-footer-links"><a href="cart.html">Cart</a><a href="checkout.html">Checkout</a><a href="contact-and-order-help.html">Contact &amp; Order Help</a><a href="tel:+13075330570">+1 307-533-0570</a></div></div><div><div class="ot-site-footer-heading">Policies</div><div class="ot-site-footer-links"><a href="shipping-delivery-policy.html">Shipping</a><a href="returns-refunds-policy.html">Returns</a><a href="privacy-policy.html">Privacy</a><a href="terms-conditions.html">Terms</a></div></div></div><div class="ot-site-footer-bottom"><span>© 2026 Omni Terrain. All rights reserved.</span><span>US Store · Specialist parts for road, water and travel</span></div></div>`;
     document.body.appendChild(footer);
 
     const mobile = document.createElement("div");
