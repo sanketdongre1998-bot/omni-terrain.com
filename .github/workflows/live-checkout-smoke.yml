@@ -1,0 +1,27 @@
+name: Live US Checkout Smoke
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/live-checkout-smoke.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  live-checkout-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out storefront
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Smoke live authorization, Stripe sessions and OMNI5
+        run: python scripts/live-checkout-smoke.py
