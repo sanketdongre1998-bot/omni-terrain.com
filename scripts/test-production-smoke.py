@@ -34,22 +34,30 @@ def main() -> int:
         if (ROOT / route).exists(): ok(f"route exists: {route}")
         else: fail(f"Missing customer route: {route}")
 
-    for asset in ["assets/us-shell.js","assets/catalogue-controls.js","assets/live-storefront-priority.js","assets/product-page-premium.js","assets/product-page-premium.css","assets/universal-checkout-ui.js","assets/cart-checkout-premium.js","assets/cart-checkout-premium.css","assets/us-checkout-api-bridge.js","assets/storefront-performance.js","assets/us-display-prices.js","assets/us-products.js","assets/us-live-products.json","lib/us-checkout-products.mjs","api/us-create-checkout-session.mjs","api/us-checkout-health.mjs"]:
+    for asset in ["assets/us-shell.js","assets/catalogue-controls.js","assets/live-storefront-priority.js","assets/customer-marketing-copy.js","assets/product-page-premium.js","assets/product-page-premium.css","assets/universal-checkout-ui.js","assets/cart-checkout-premium.js","assets/cart-checkout-premium.css","assets/us-checkout-api-bridge.js","assets/storefront-performance.js","assets/us-display-prices.js","assets/us-products.js","assets/us-live-products.json","lib/us-checkout-products.mjs","api/us-create-checkout-session.mjs","api/us-checkout-health.mjs"]:
         if (ROOT / asset).exists(): ok(f"asset exists: {asset}")
         else: fail(f"Missing production asset: {asset}")
 
-    require("index.html", "300+ specialist products", "subtle catalogue depth copy")
+    require("index.html", "Products across automotive, marine and RV", "customer-facing catalogue depth copy")
+    require("index.html", "Upgrade more. Spend less.", "retail featured-deals headline")
     reject("index.html", "Browse 1,000 products", "exact 1,000-product launch copy")
     reject("index.html", ">650 products<", "exact Auto product count")
     reject("index.html", ">250 products<", "exact Marine product count")
     reject("index.html", ">100 products<", "exact RV product count")
+    reject("index.html", "Five products priced to win", "internal winning-product language")
+    reject("index.html", "operating gates", "internal operating-gate language")
+    reject("index.html", "Clear availability gates", "internal availability-gate language")
+    reject("index.html", "Auto first", "internal department-priority language")
 
-    require("assets/catalogue-controls.js", "Search available product, brand or MPN", "checkout-ready catalogue search")
-    require("assets/catalogue-controls.js", "No checkout-ready match", "checkout-ready search zero-state")
-    require("assets/catalogue-controls.js", "products available for secure checkout", "checkout-ready catalogue messaging")
+    require("assets/catalogue-controls.js", "Search brand, product or MPN", "customer catalogue search")
+    require("assets/catalogue-controls.js", "No matching products", "customer search zero-state")
+    require("assets/catalogue-controls.js", "Shop by brand, MPN or price", "customer catalogue messaging")
     require("assets/catalogue-controls.js", "All brands", "brand filter")
     require("assets/catalogue-controls.js", "Price: Low to High", "catalogue sorting")
     require("assets/catalogue-controls.js", "authorizationVerified===true", "browse visibility requires authorization")
+    require("assets/live-storefront-priority.js", "Featured auto & truck deals", "retail featured-deals merchandising")
+    require("assets/live-storefront-priority.js", "Upgrade more. Spend less.", "retail promotion headline")
+    require("assets/customer-marketing-copy.js", "Shop with confidence.", "customer-first trust copy")
 
     require("assets/universal-checkout-ui.js", "Add to Cart", "product-page Add to Cart")
     require("assets/universal-checkout-ui.js", "Buy Now", "product-page Buy Now")
@@ -60,7 +68,8 @@ def main() -> int:
 
     reject("assets/storefront-performance.js", "storefront-wide-v1", "legacy storefront-wide cart eligibility bridge")
     require("assets/storefront-performance.js", "Checkout eligibility now comes only from the published authorization-gated registry", "authorization-gated frontend eligibility")
-    require("assets/storefront-performance.js", "live-storefront-priority.js", "checkout-ready homepage priority runtime")
+    require("assets/storefront-performance.js", "live-storefront-priority.js", "homepage priority runtime")
+    require("assets/storefront-performance.js", "customer-marketing-copy.js", "customer marketing copy runtime")
     require("assets/us-checkout-api-bridge.js", "omni-terrain-uk-checkout.vercel.app", "production US checkout API bridge")
 
     checkout = text("assets/cart-checkout-premium.js")
