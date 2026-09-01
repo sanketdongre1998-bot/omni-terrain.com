@@ -1,82 +1,13 @@
-/* Omni Terrain brand lock + lightweight render hardening */
-
-/* FINAL BRAND LOCK: exact approved OMNI | TERRAIN artwork, no badge/crest. */
-.ot-brand-crest,.brand>.ot-brand-crest,.ot-site-brand>.ot-brand-crest,
-.brand>.brand-badge,.brand>.brand-mark,.brand>.logo-badge,.brand>.logo-mark,
-.ot-site-brand>.brand-badge,.ot-site-brand>.brand-mark,.ot-site-brand>.logo-badge,.ot-site-brand>.logo-mark{display:none!important}
-
-.ot-site-brand,.brand{
-  display:inline-flex!important;
-  align-items:center!important;
-  justify-content:flex-start!important;
-  gap:0!important;
-  min-width:0!important;
-  min-height:56px!important;
-  text-decoration:none!important;
-  line-height:0!important;
-  background:none!important;
-  border:0!important;
-}
-
-/* Hide the legacy text wordmark; the approved artwork is rendered below. */
-.ot-site-brand>.ot-site-wordmark,.brand>.wordmark,#site-header .brand>.wordmark,#header .brand>.wordmark{display:none!important}
+/* Exact locked Omni Terrain artwork, sitewide. */
+.ot-brand-crest,.brand>.ot-brand-crest,.ot-site-brand>.ot-brand-crest,.brand>.brand-badge,.brand>.brand-mark,.brand>.logo-badge,.brand>.logo-mark,.ot-site-brand>.brand-badge,.ot-site-brand>.brand-mark,.ot-site-brand>.logo-badge,.ot-site-brand>.logo-mark{display:none!important}
+.ot-site-brand,.brand{display:inline-flex!important;align-items:center!important;justify-content:flex-start!important;gap:0!important;min-width:0!important;text-decoration:none!important;line-height:0!important;background:none!important;border:0!important;overflow:visible!important}
+.ot-site-brand>.ot-site-wordmark,.brand>.wordmark,#site-header .brand>.wordmark,#header .brand>.wordmark,.ot-brand-logo-image{display:none!important}
 .ot-site-brand::after,.brand::after{content:none!important;display:none!important}
-
-/* No-JS fallback: render the complete approved SVG directly from /assets. */
-.ot-site-brand::before,.brand::before{
-  content:""!important;
-  display:block!important;
-  width:240px!important;
-  height:68px!important;
-  flex:0 0 240px!important;
-  background:url('/assets/omni-terrain-logo-final.svg?v=10') left center/contain no-repeat!important;
-}
-
-/* JS-enhanced path: use a normal IMG. Never hide this image. */
-.ot-site-brand.ot-logo-direct::before,.brand.ot-logo-direct::before{display:none!important}
-.ot-brand-logo-image{
-  display:block!important;
-  visibility:visible!important;
-  opacity:1!important;
-  width:240px!important;
-  height:68px!important;
-  max-width:240px!important;
-  flex:0 0 240px!important;
-  object-fit:contain!important;
-  object-position:left center!important;
-  border:0!important;
-  background:transparent!important;
-  box-shadow:none!important;
-}
-
-#header .brand,.header .brand,.ot-site-header .ot-site-brand,.ot-site-footer .ot-site-brand{min-height:68px!important}
-
-@media(max-width:860px){
-  .ot-site-brand::before,.brand::before{width:205px!important;height:58px!important;flex-basis:205px!important}
-  .ot-brand-logo-image{width:205px!important;height:58px!important;max-width:205px!important;flex-basis:205px!important}
-  #header .brand,.header .brand,.ot-site-header .ot-site-brand{min-height:58px!important}
-}
-@media(max-width:480px){
-  .ot-site-brand::before,.brand::before{width:178px!important;height:50px!important;flex-basis:178px!important}
-  .ot-brand-logo-image{width:178px!important;height:50px!important;max-width:178px!important;flex-basis:178px!important}
-  #header .brand,.header .brand,.ot-site-header .ot-site-brand{min-height:50px!important}
-}
-@media(max-width:360px){
-  .ot-site-brand::before,.brand::before{width:158px!important;height:45px!important;flex-basis:158px!important}
-  .ot-brand-logo-image{width:158px!important;height:45px!important;max-width:158px!important;flex-basis:158px!important}
-}
-
-/* Below-fold render skipping. */
-@supports (content-visibility:auto){
-  .brand-strip,.home-section,.support-band,.ot-site-footer,body>footer,main>section:not(:first-child){content-visibility:auto;contain-intrinsic-size:1px 680px}
-  .live-card,.card,.ot-deal-card,.category-home,.why-card{contain:layout paint style}
-}
-
-@media(max-width:760px){
-  .hero-showcase-info,.ot-site-header,.mobile-store-bar,.ot-site-mobile-bar{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
-  .home-hero-shell,.why-shell,.live-card,.card,.ot-deal-card{box-shadow:none!important}
-}
-
-html.ot-perf-lite .hero-showcase img,html.ot-perf-lite .live-media img,html.ot-perf-lite .product-visual img{filter:none!important}
-html.ot-perf-lite *{scroll-behavior:auto!important}
-@media(prefers-reduced-motion:reduce){.live-card,.card,.category-home,.button,a,button{transition:none!important}}
+.ot-site-brand::before,.brand::before,.ot-site-brand.ot-logo-direct::before,.brand.ot-logo-direct::before{content:""!important;display:block!important;width:300px!important;height:80px!important;flex:0 0 300px!important;background:url('/assets/omni-terrain-logo-header.webp?v=1') left center/contain no-repeat!important}
+#header .brand,.header .brand,.ot-site-header .ot-site-brand,.ot-site-footer .ot-site-brand{min-height:80px!important}
+@media(max-width:860px){.ot-site-brand::before,.brand::before,.ot-site-brand.ot-logo-direct::before,.brand.ot-logo-direct::before{width:255px!important;height:68px!important;flex-basis:255px!important}#header .brand,.header .brand,.ot-site-header .ot-site-brand{min-height:68px!important}}
+@media(max-width:480px){.ot-site-brand::before,.brand::before,.ot-site-brand.ot-logo-direct::before,.brand.ot-logo-direct::before{width:220px!important;height:59px!important;flex-basis:220px!important}#header .brand,.header .brand,.ot-site-header .ot-site-brand{min-height:59px!important}}
+@media(max-width:360px){.ot-site-brand::before,.brand::before,.ot-site-brand.ot-logo-direct::before,.brand.ot-logo-direct::before{width:195px!important;height:52px!important;flex-basis:195px!important}}
+@supports (content-visibility:auto){.brand-strip,.home-section,.support-band,.ot-site-footer,body>footer,main>section:not(:first-child){content-visibility:auto;contain-intrinsic-size:1px 680px}.live-card,.card,.ot-deal-card,.category-home,.why-card{contain:layout paint style}}
+@media(max-width:760px){.hero-showcase-info,.ot-site-header,.mobile-store-bar,.ot-site-mobile-bar{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}.home-hero-shell,.why-shell,.live-card,.card,.ot-deal-card{box-shadow:none!important}}
+html.ot-perf-lite .hero-showcase img,html.ot-perf-lite .live-media img,html.ot-perf-lite .product-visual img{filter:none!important}html.ot-perf-lite *{scroll-behavior:auto!important}@media(prefers-reduced-motion:reduce){.live-card,.card,.category-home,.button,a,button{transition:none!important}}
