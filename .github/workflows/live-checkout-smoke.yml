@@ -11,6 +11,7 @@ on:
 permissions:
   contents: read
 
+# Final paid-search launch gate: session creation only; no payment is submitted.
 jobs:
   live-checkout-smoke:
     runs-on: ubuntu-latest
