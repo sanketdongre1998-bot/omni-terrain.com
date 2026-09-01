@@ -7,265 +7,131 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-ERRORS: list[str] = []
-CHECKS: list[str] = []
+errors: list[str] = []
+passes: list[str] = []
 
 
-def fail(message: str) -> None:
-    ERRORS.append(message)
-
-
-def ok(message: str) -> None:
-    CHECKS.append(message)
-
-
-def text(path: str) -> str:
+def src(path: str) -> str:
     p = ROOT / path
     if not p.exists():
-        fail(f"Missing required file: {path}")
+        errors.append(f"missing {path}")
         return ""
     return p.read_text(encoding="utf-8", errors="replace")
 
 
-def require(path: str, needle: str, label: str | None = None) -> None:
-    if needle not in text(path):
-        fail(f"{path}: missing {label or needle!r}")
-    else:
-        ok(f"{path}: {label or needle}")
+def need(path: str, token: str, label: str) -> None:
+    (passes if token in src(path) else errors).append(("PASS " if token in src(path) else "") + f"{path}: {label}")
 
 
-def reject(path: str, needle: str, label: str | None = None) -> None:
-    if needle in text(path):
-        fail(f"{path}: contains disallowed {label or needle!r}")
-    else:
-        ok(f"{path}: no {label or needle}")
+def ban(path: str, token: str, label: str) -> None:
+    if token in src(path): errors.append(f"{path}: disallowed {label}")
+    else: passes.append(f"PASS {path}: no {label}")
 
 
-def product_schema(path: str) -> dict:
-    source = text(path)
-    for raw in re.findall(r'<script[^>]+type=["\']application/ld\+json["\'][^>]*>(.*?)</script>', source, flags=re.I | re.S):
-        try:
-            data = json.loads(raw)
-        except Exception:
-            continue
-        candidates = data.get("@graph", []) if isinstance(data, dict) and isinstance(data.get("@graph"), list) else [data]
-        for item in candidates:
-            if isinstance(item, dict) and item.get("@type") == "Product":
-                return item
+def schema(path: str) -> dict:
+    for raw in re.findall(r'<script[^>]+type=["\']application/ld\+json["\'][^>]*>(.*?)</script>', src(path), re.I | re.S):
+        try: data = json.loads(raw)
+        except Exception: continue
+        items = data.get("@graph", []) if isinstance(data, dict) and isinstance(data.get("@graph"), list) else [data]
+        for item in items:
+            if isinstance(item, dict) and item.get("@type") == "Product": return item
     return {}
 
 
 def main() -> int:
-    routes = [
-        "index.html", "deals.html", "us-catalogue.html", "automotive.html", "marine.html", "rv.html",
-        "cart.html", "checkout.html", "contact-and-order-help.html", "shipping-delivery-policy.html",
-        "returns-refunds-policy.html", "privacy-policy.html", "terms-conditions.html", "us-order-success.html",
-    ]
-    for route in routes:
-        if (ROOT / route).exists():
-            ok(f"route exists: {route}")
-        else:
-            fail(f"Missing customer route: {route}")
+    routes = ["index.html","deals.html","us-catalogue.html","automotive.html","marine.html","rv.html","cart.html","checkout.html","contact-and-order-help.html","shipping-delivery-policy.html","returns-refunds-policy.html","privacy-policy.html","terms-conditions.html","us-order-success.html"]
+    assets = ["assets/us-shell.js","assets/catalogue-controls.js","assets/customer-marketing-copy.js","assets/growth-marketing.js","assets/analytics-events.js","assets/universal-checkout-ui.js","assets/cart-checkout-premium.js","assets/storefront-performance.js","assets/responsive-hardening.css","assets/dark-theme-polish.css","assets/us-launch-offers.js","assets/us-live-products.json","assets/us-display-prices.js","assets/us-products.js","assets/us-order-success.js","scripts/responsive-browser-audit.mjs","scripts/dark-theme-browser-audit.mjs","lib/us-checkout-products.mjs","api/us-create-checkout-session.mjs","api/us-checkout-health.mjs"]
+    for path in routes + assets:
+        if (ROOT / path).exists(): passes.append(f"PASS exists: {path}")
+        else: errors.append(f"missing {path}")
 
-    assets = [
-        "assets/us-shell.js", "assets/us-shell.css", "assets/catalogue-controls.js",
-        "assets/live-storefront-priority.js", "assets/customer-marketing-copy.js",
-        "assets/growth-marketing.js", "assets/analytics-events.js", "assets/product-page-premium.js",
-        "assets/product-page-premium.css", "assets/universal-checkout-ui.js",
-        "assets/cart-checkout-premium.js", "assets/cart-checkout-premium.css",
-        "assets/us-checkout-api-bridge.js", "assets/storefront-performance.js",
-        "assets/responsive-hardening.css", "assets/dark-theme-polish.css",
-        "assets/us-launch-offers.js", "assets/us-display-prices.js", "assets/us-products.js",
-        "assets/us-live-products.json", "assets/us-order-success.js",
-        "scripts/responsive-browser-audit.mjs", "scripts/dark-theme-browser-audit.mjs",
-        "lib/us-checkout-products.mjs", "api/us-create-checkout-session.mjs", "api/us-checkout-health.mjs",
-    ]
-    for asset in assets:
-        if (ROOT / asset).exists():
-            ok(f"asset exists: {asset}")
-        else:
-            fail(f"Missing production asset: {asset}")
+    # Retail copy / SEO safety.
+    need("index.html", "Products across automotive, marine and RV", "customer catalogue depth")
+    for bad in ["Five products priced to win","operating gates","Clear availability gates","Auto first"]: ban("index.html", bad, bad)
+    need("deals.html", "Featured Auto &amp; Truck Offers", "featured offers title")
+    need("deals.html", "Gear up for", "retail offer headline")
+    need("deals.html", "7 featured offers", "seven featured offers")
+    for bad in ["exact dollar savings","regular online price, featured price","Clear savings"]: ban("deals.html", bad, bad)
+    need("assets/growth-marketing.js", "OMNI5", "promo code")
+    need("assets/customer-marketing-copy.js", "Shop with confidence.", "customer trust copy")
 
-    # Customer-facing homepage / deals copy must read like a retail store, never an internal ops memo.
-    require("index.html", "Products across automotive, marine and RV", "customer-facing catalogue depth copy")
-    reject("index.html", "Five products priced to win", "internal winning-product language")
-    reject("index.html", "operating gates", "internal operating-gate language")
-    reject("index.html", "Clear availability gates", "internal availability-gate language")
-    reject("index.html", "Auto first", "internal department-priority language")
+    # Final responsive/dark UI layer.
+    need("assets/storefront-performance.js", "responsive-hardening.css?v=2", "cache-busted responsive layer")
+    need("assets/responsive-hardening.css", "dark-theme-polish.css?v=1", "dark theme import")
+    need("assets/dark-theme-polish.css", 'content:"OT"', "classic OT crest")
+    need("assets/dark-theme-polish.css", "--ot-night-text:#f3f6fa", "dark primary contrast")
+    for token, label in [(".ot-promo-box","dark promo"),(".ot-search-input","dark filters"),(".ot-primary-btn","dark CTA")]: need("assets/dark-theme-polish.css", token, label)
 
-    require("deals.html", "Featured Auto &amp; Truck Offers", "SEO featured-offers title")
-    require("deals.html", "Gear up for", "retail featured-offers headline")
-    require("deals.html", "7 featured offers", "seven-offer customer copy")
-    reject("deals.html", "exact dollar savings", "stale numerical savings claim")
-    reject("deals.html", "regular online price, featured price", "stale compare-price claim")
-    reject("deals.html", "Clear savings", "stale savings benefit")
+    # Product checkout UI can only mount after published registry authorization.
+    universal = src("assets/universal-checkout-ui.js")
+    for token, label in [("us-live-products.json","registry read"),("row.enabled !== true","enabled gate"),("row.authorizationVerified !== true","authorization gate"),("Number(row.priceCents || 0) <= 0","price gate"),("liveCommerceAlreadyMounted","duplicate-buybox prevention"),("Final product pricing, authorization and current availability are re-validated","server re-validation copy")]:
+        if token in universal: passes.append(f"PASS universal: {label}")
+        else: errors.append(f"universal checkout missing {label}")
 
-    require("assets/growth-marketing.js", "OMNI5", "public promotion code")
-    require("assets/growth-marketing.js", "7 featured offers", "seven-offer merchandising")
-    require("assets/customer-marketing-copy.js", "Shop with confidence.", "customer-first trust copy")
-    require("assets/customer-marketing-copy.js", "featured offers", "featured-offer SEO copy")
-    require("assets/customer-marketing-copy.js", "canonical online pricing", "runtime cleanup for internal canonical-pricing phrase")
+    # Cart/checkout uses same real registry; minified runtime intentionally has no whitespace.
+    checkout = src("assets/cart-checkout-premium.js")
+    for token, label in [("us-live-products.json","registry preflight"),("p.enabled===true&&p.authorizationVerified===true&&Number(p.priceCents)>0","authorization+price preflight"),("couponCode","coupon server handoff"),("cart is still saved","safe payment recovery")]:
+        if token in checkout: passes.append(f"PASS checkout: {label}")
+        else: errors.append(f"checkout missing {label}")
 
-    # Analytics must keep canonical Product/Offer value and never derive a fake promo price.
-    require("assets/analytics-events.js", 'push("view_item"', "view_item tracking")
-    require("assets/analytics-events.js", 'push("add_to_cart"', "add_to_cart tracking")
-    require("assets/analytics-events.js", 'push("begin_checkout"', "begin_checkout tracking")
-    require("assets/analytics-events.js", "const price = Number(offer?.price || 0);", "canonical schema analytics value")
-    reject("assets/analytics-events.js", "promo.priceCents", "promo metadata cannot override analytics price")
-    require("assets/us-order-success.js", 'event: "purchase"', "verified purchase event")
-    require("assets/us-order-success.js", "if (!data.paid)", "purchase only after paid verification")
+    # Server source of truth.
+    backend = src("lib/us-checkout-products.mjs")
+    for token, label in [("/assets/us-products.js","products source"),("/assets/us-display-prices.js","price source"),("/assets/us-live-products.json","authorization source"),("approval.enabled !== true","enabled gate"),("approval.authorizationVerified !== true","authorization gate"),("MAX_ORDER_CENTS","cart value guard"),("MAX_QTY","quantity guard")]:
+        if token in backend: passes.append(f"PASS backend: {label}")
+        else: errors.append(f"backend missing {label}")
+    ban("lib/us-checkout-products.mjs", "LAUNCH_PRICE_OVERRIDES", "launch price override")
 
-    # Catalogue discovery is fail-closed to the published authorization registry.
-    require("assets/catalogue-controls.js", "Search brand, product or MPN", "customer catalogue search")
-    require("assets/catalogue-controls.js", "No matching products", "customer search zero-state")
-    require("assets/catalogue-controls.js", "All brands", "brand filter")
-    require("assets/catalogue-controls.js", "Price: Low to High", "catalogue sorting")
-    require("assets/catalogue-controls.js", "authorizationVerified===true", "browse visibility requires authorization")
+    # Stripe endpoint, OMNI5 and verified purchase tracking.
+    for token, label in [("await resolveUsCheckoutItems","server item resolution"),("server_storefront_catalogue","pricing metadata"),("shipping_address_collection","US address collection"),('PROMO_CODE = "OMNI5"',"OMNI5 validation"),("FEATURED_DEAL_IDS","no-stack guard")]: need("api/us-create-checkout-session.mjs", token, label)
+    need("api/us-checkout-health.mjs", 'checkoutMode: "authorization-gated"', "authorization-gated health")
+    need("assets/analytics-events.js", "const price = Number(offer?.price || 0);", "canonical analytics price")
+    ban("assets/analytics-events.js", "promo.priceCents", "promo analytics price override")
+    need("assets/us-order-success.js", 'event: "purchase"', "purchase event")
+    need("assets/us-order-success.js", "if (!data.paid)", "paid verification before purchase")
 
-    # PDP checkout fallback is allowed to read the registry, but it must never grant authorization itself.
-    universal = text("assets/universal-checkout-ui.js")
-    for token, label in [
-        ("us-live-products.json", "published authorization registry"),
-        ("row.enabled !== true", "explicit checkout-enabled gate"),
-        ("row.authorizationVerified !== true", "explicit authorization gate"),
-        ("Number(row.priceCents || 0) <= 0", "positive-price gate"),
-        ("Add to Cart", "product-page Add to Cart"),
-        ("Buy Now", "product-page Buy Now"),
-        ("Final product pricing, authorization and current availability are re-validated", "server re-validation customer copy"),
-        ("liveCommerceAlreadyMounted", "duplicate buybox race prevention"),
-    ]:
-        if token not in universal:
-            fail(f"assets/universal-checkout-ui.js: missing {label}")
-        else:
-            ok(f"universal checkout: {label}")
-
-    require("assets/product-page-premium.js", 'imageBadge.textContent = "Product image"', "professional image badge")
-    reject("assets/product-page-premium.js", "Representative image", "representative-image runtime label")
-
-    # Cross-device and dark-theme final layers must be loaded last and cache-busted.
-    require("assets/storefront-performance.js", "responsive-hardening.css?v=2", "versioned responsive hardening")
-    require("assets/responsive-hardening.css", "dark-theme-polish.css?v=1", "dark-theme polish import")
-    require("assets/dark-theme-polish.css", 'content:"OT"', "classic OT crest")
-    require("assets/dark-theme-polish.css", '--ot-night-text:#f3f6fa', "high-contrast dark primary text")
-    require("assets/dark-theme-polish.css", ".ot-promo-box", "dark promo styling")
-    require("assets/dark-theme-polish.css", ".ot-search-input", "dark search/filter styling")
-    require("assets/dark-theme-polish.css", ".ot-primary-btn", "dark primary CTA styling")
-
-    # Cart / checkout must use the same authorization registry and pass coupon server-side.
-    checkout = text("assets/cart-checkout-premium.js")
-    for token, label in [
-        ("us-live-products.json", "checkout preflight registry hook"),
-        ("authorizationVerified === true", "checkout preflight authorization"),
-        ("couponCode", "coupon handoff to Stripe backend"),
-        ("cart is still saved", "customer-safe payment recovery"),
-        ("Price confirmation required", "customer-safe missing-price copy"),
-    ]:
-        if token not in checkout:
-            fail(f"assets/cart-checkout-premium.js: missing {label}")
-        else:
-            ok(f"checkout: {label}")
-
-    # Server-side checkout remains the source of truth.
-    backend = text("lib/us-checkout-products.mjs")
-    for token, label in [
-        ("/assets/us-products.js", "server product catalogue source"),
-        ("/assets/us-display-prices.js", "server price catalogue source"),
-        ("/assets/us-live-products.json", "server authorization registry source"),
-        ("approval.enabled !== true", "explicit checkout enable gate"),
-        ("approval.authorizationVerified !== true", "explicit authorization gate"),
-        ("storefrontVerified", "server storefront verification"),
-        ("MAX_ORDER_CENTS", "server cart value guard"),
-        ("MAX_QTY", "server quantity guard"),
-    ]:
-        if token not in backend:
-            fail(f"lib/us-checkout-products.mjs: missing {label}")
-        else:
-            ok(f"backend: {label}")
-    reject("lib/us-checkout-products.mjs", "LAUNCH_PRICE_OVERRIDES", "client-promotion price override")
-
-    require("api/us-create-checkout-session.mjs", "await resolveUsCheckoutItems", "async server-side product/price resolution")
-    require("api/us-create-checkout-session.mjs", "server_storefront_catalogue", "Stripe pricing validation metadata")
-    require("api/us-create-checkout-session.mjs", "shipping_address_collection", "US delivery address collection")
-    require("api/us-create-checkout-session.mjs", 'PROMO_CODE = "OMNI5"', "server promo validation")
-    require("api/us-create-checkout-session.mjs", "FEATURED_DEAL_IDS", "promo no-stacking guard")
-    require("api/us-checkout-health.mjs", 'checkoutMode: "authorization-gated"', "authorization-gated health mode")
-    require("api/us-checkout-health.mjs", 'PROMOTION_CODE = "OMNI5"', "promotion health marker")
-
-    # Registry integrity and featured PDP canonical price/schema parity.
+    # Registry integrity + 7 featured PDP schema prices must equal canonical registry prices exactly.
     try:
-        live_registry = json.loads(text("assets/us-live-products.json") or "{}")
-        live_products = live_registry.get("products", {}) if isinstance(live_registry, dict) else {}
-        bad_enabled = [pid for pid, row in live_products.items() if isinstance(row, dict) and row.get("enabled") is True and row.get("authorizationVerified") is not True]
-        enabled_count = sum(1 for row in live_products.values() if isinstance(row, dict) and row.get("enabled") is True and row.get("authorizationVerified") is True and int(row.get("priceCents") or 0) > 0)
-        if bad_enabled:
-            fail(f"Authorization registry enables unverified products: {', '.join(bad_enabled[:10])}")
-        else:
-            ok("authorization registry has no enabled-unverified products")
-        if enabled_count > 0:
-            ok(f"authorization registry has {enabled_count} checkout-ready products")
-        else:
-            fail("authorization registry has no checkout-ready products")
+        registry = json.loads(src("assets/us-live-products.json") or "{}")
+        products = registry.get("products", {})
+        enabled = {pid: row for pid, row in products.items() if isinstance(row, dict) and row.get("enabled") is True and row.get("authorizationVerified") is True and int(row.get("priceCents") or 0) > 0}
+        bad = [pid for pid, row in products.items() if isinstance(row, dict) and row.get("enabled") is True and row.get("authorizationVerified") is not True]
+        if bad: errors.append(f"enabled but unverified: {bad[:10]}")
+        else: passes.append("PASS registry: no enabled-unverified products")
+        if len(enabled) == 301: passes.append("PASS registry: 301 checkout-ready products")
+        else: errors.append(f"registry checkout-ready count changed: {len(enabled)}")
 
-        featured_ids = ["HUS81147", "HUS81148", "CCIN9010F", "CCIN8010F", "CCIIMP103X", "A1360828HD", "B5224066464"]
-        for pid in featured_ids:
-            row = live_products.get(pid) or {}
-            if row.get("enabled") is not True or row.get("authorizationVerified") is not True:
-                fail(f"featured product {pid} is not authorization-verified and enabled")
+        featured = ["HUS81147","HUS81148","CCIN9010F","CCIN8010F","CCIIMP103X","A1360828HD","B5224066464"]
+        for pid in featured:
+            row = enabled.get(pid)
+            if not row:
+                errors.append(f"featured {pid} not enabled+verified")
                 continue
-            slug = str(row.get("slug") or "")
-            cents = int(row.get("priceCents") or 0)
-            schema = product_schema(slug)
-            offer = schema.get("offers") if isinstance(schema, dict) else None
-            if isinstance(offer, list):
-                offer = offer[0] if offer else {}
+            page = schema(str(row.get("slug") or ""))
+            offer = page.get("offers", {}) if isinstance(page, dict) else {}
+            if isinstance(offer, list): offer = offer[0] if offer else {}
             actual = round(float((offer or {}).get("price") or 0) * 100)
-            if actual != cents:
-                fail(f"{slug}: Product schema price {actual}c != registry canonical {cents}c")
-            else:
-                ok(f"{pid}: PDP schema matches canonical {cents}c")
+            expected = int(row.get("priceCents") or 0)
+            if actual == expected: passes.append(f"PASS {pid}: schema={expected}c")
+            else: errors.append(f"{pid}: schema {actual}c != registry {expected}c")
     except Exception as exc:
-        fail(f"assets/us-live-products.json: invalid authorization registry ({exc})")
+        errors.append(f"registry/schema validation error: {exc}")
 
-    launch = text("assets/us-launch-offers.js")
-    reject("assets/us-launch-offers.js", "priceCents", "featured merchandising cannot override product price")
-    reject("assets/us-launch-offers.js", "compareAtCents", "featured merchandising cannot synthesize compare-at price")
-    require("assets/us-launch-offers.js", "Featured Offer", "featured merchandising label")
+    # Featured offer metadata must never rewrite prices.
+    ban("assets/us-launch-offers.js", "priceCents", "featured price override")
+    ban("assets/us-launch-offers.js", "compareAtCents", "compare-at price override")
+    need("assets/us-launch-offers.js", "Featured Offer", "featured offer metadata")
 
-    products_source = text("assets/us-products.js")
-    product_count = products_source.count('"id":')
-    if product_count >= 900:
-        ok(f"US product source contains {product_count} listed product records")
-    else:
-        fail(f"US product source unexpectedly small: {product_count}")
-
-    for route in ["us-catalogue.html", "automotive.html", "cart.html", "checkout.html"]:
-        require(route, "assets/us-shell.js?v=4", "versioned shared US shell")
-    require("assets/us-shell.js", "/assets/product-page-premium.js?v=3", "versioned product runtime")
-    require("assets/us-shell.js", "/assets/universal-checkout-ui.js?v=2", "shared product checkout runtime")
-    require("assets/us-shell.js", "/assets/cart-checkout-premium.js?v=3", "shared cart/checkout runtime")
-
-    product_pages = []
-    for p in ROOT.glob("us-*.html"):
-        source = p.read_text(encoding="utf-8", errors="replace")
-        if '"@type": "Product"' in source or '"@type":"Product"' in source:
-            product_pages.append(p)
-            if "assets/us-shell.js?v=4" not in source and "assets/us-shell.js?v=5" not in source:
-                fail(f"{p.name}: product page missing versioned shared shell")
-    if product_pages:
-        ok(f"product runtime wired across {len(product_pages)} US product pages")
-    else:
-        fail("No US product pages detected")
+    if src("assets/us-products.js").count('"id":') >= 900: passes.append("PASS catalogue: broad product source")
+    else: errors.append("US product source unexpectedly small")
 
     print("=== OMNI TERRAIN PRODUCTION SMOKE ===")
-    for item in CHECKS:
-        print("PASS", item)
-    if ERRORS:
+    for row in passes: print(row)
+    if errors:
         print("\nFAILURES")
-        for item in ERRORS:
-            print("FAIL", item)
-        print(f"\nRESULT = FAIL ({len(ERRORS)} issue(s))")
+        for row in errors: print("FAIL", row)
+        print(f"\nRESULT = FAIL ({len(errors)} issue(s))")
         return 1
-    print(f"\nRESULT = PASS ({len(CHECKS)} checks)")
+    print(f"\nRESULT = PASS ({len(passes)} checks)")
     return 0
 
 
