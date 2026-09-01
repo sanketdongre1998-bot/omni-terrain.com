@@ -1,0 +1,58 @@
+/* Omni Terrain cross-device hardening. Loaded last so it can safely correct legacy layers. */
+
+/* Shared header controls: comfortable touch targets without increasing desktop clutter. */
+.ot-site-cart,.ot-site-menu,.cart-link,.menu-btn{min-height:44px!important;box-sizing:border-box}
+.ot-site-menu,.menu-btn{min-width:52px;padding-left:12px!important;padding-right:12px!important}
+.ot-site-brand,.brand{min-width:0}
+
+/* Product-page controls and confidence row must never create page-level overflow. */
+body.ot-product-page .ot-image-zoom{min-height:44px!important;padding-left:14px!important;padding-right:14px!important}
+body.ot-product-page .ot-product-confidence{max-width:100%}
+body.ot-product-page .ot-product-confidence span{max-width:100%;white-space:normal}
+
+/* Cart quantity controls are primary touch targets. */
+.ot-qty{grid-template-columns:44px 40px 44px!important}
+.ot-qty button{width:44px;min-width:44px;height:44px!important;min-height:44px}
+.ot-remove{min-height:44px;padding:0 8px}
+
+/* Horizontal brand rails are intentionally scrollable inside their own box, not the page. */
+.cp-brand-rail,.brand-strip-inner{max-width:100%;min-width:0}
+.cp-brand-rail{overscroll-behavior-inline:contain}
+
+@media(max-width:860px){
+  .ot-site-header-main{grid-template-columns:minmax(0,1fr) auto!important;gap:8px!important}
+  .ot-site-actions{min-width:0!important;gap:6px!important;max-width:100%}
+  .ot-site-cart{padding-left:9px!important;padding-right:9px!important}
+  .ot-site-mobile-nav{width:100%!important;max-width:100%!important;margin:0!important;box-sizing:border-box!important;left:auto!important;right:auto!important;transform:none!important}
+}
+
+@media(max-width:760px){
+  /* Homepage uses its older header names; match the shared shell behavior. */
+  #header .header-main{grid-template-columns:minmax(0,1fr) auto!important;gap:8px!important}
+  #header .header-actions{min-width:0!important;gap:6px!important;max-width:100%}
+  #header .cart-link{padding-left:9px!important;padding-right:9px!important}
+  #header .mobile-nav{width:100%!important;max-width:100%!important;margin:0!important;box-sizing:border-box!important;left:auto!important;right:auto!important;transform:none!important}
+
+  body.ot-product-page .ot-product-confidence{display:flex!important;flex-wrap:wrap!important;overflow:visible!important;gap:6px!important;padding-bottom:0!important}
+  body.ot-product-page .ot-product-confidence span{flex:1 1 auto!important;min-width:0!important;min-height:36px!important;padding:7px 9px!important;line-height:1.3!important}
+  body.ot-product-page .ot-image-tools{gap:7px!important}
+  body.ot-product-page .ot-image-hint{white-space:normal;line-height:1.25}
+
+  .ot-promo-button,.ot-promo-input{min-height:44px!important;height:44px!important}
+  .ot-deal-button{min-height:48px!important}
+}
+
+@media(max-width:360px){
+  /* The full wordmark plus Cart + Menu cannot fit reliably at 320px. Keep the brand identity concise. */
+  .ot-site-wordmark-sub,.ot-site-wordmark-meta,#header .wordmark-sub,#header .wordmark-meta{display:none!important}
+  .ot-site-wordmark,#header .wordmark{display:block!important;padding-bottom:5px!important}
+  .ot-site-wordmark-main,#header .wordmark-main{font-size:29px!important;letter-spacing:.07em!important}
+  .ot-site-cart,.cart-link{font-size:10px!important}
+  .ot-site-cart-count,.cart-count{margin-left:5px!important}
+  .ot-shell-container,#header .container{width:min(100% - 16px,var(--ot-shell-max,1400px))!important}
+}
+
+@media(max-width:330px){
+  .ot-site-cart,.cart-link{padding-left:7px!important;padding-right:7px!important}
+  .ot-site-menu,.menu-btn{min-width:48px!important;padding-left:8px!important;padding-right:8px!important}
+}
