@@ -2,6 +2,9 @@ import { corsHeaders, json } from "../lib/cors.mjs";
 import { getCommerceReadyUsProductCount } from "../lib/us-checkout-products.mjs";
 import { stripeUsSecret } from "../lib/stripe-us-api.mjs";
 
+const FEATURED_DEALS = 7;
+const PROMOTION_CODE = "OMNI5";
+
 function stripeConfigured() {
   try {
     return stripeUsSecret().startsWith("sk_");
@@ -25,6 +28,9 @@ export async function GET(request) {
       catalogueSource: "omni-terrain.com",
       checkoutMode: "authorization-gated",
       commerceReadyProducts,
+      featuredDeals: FEATURED_DEALS,
+      promotionCode: PROMOTION_CODE,
+      promotionRule: "$5 off eligible regular-priced orders of $150+; featured deals excluded",
     }, 200, request);
   } catch (error) {
     console.error("US checkout health error", error?.message || error);
@@ -35,6 +41,8 @@ export async function GET(request) {
       stripeConfigured: stripeConfigured(),
       checkoutMode: "authorization-gated",
       commerceReadyProducts: 0,
+      featuredDeals: FEATURED_DEALS,
+      promotionCode: PROMOTION_CODE,
       error: "US checkout catalogue is temporarily unavailable.",
     }, 503, request);
   }
