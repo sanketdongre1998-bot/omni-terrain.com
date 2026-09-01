@@ -8,31 +8,24 @@
   function assignText(node, value) {
     if (node && value && node.textContent !== value) node.textContent = value;
   }
-
-  function setText(selector, value) {
-    assignText(document.querySelector(selector), value);
-  }
-
+  function setText(selector, value) { assignText(document.querySelector(selector), value); }
   function setMeta(name, content, property = false) {
     const selector = property ? `meta[property="${name}"]` : `meta[name="${name}"]`;
     const node = document.querySelector(selector);
     if (node && content && node.getAttribute("content") !== content) node.setAttribute("content", content);
   }
-
-  function setNode(root, selector, value) {
-    assignText(root?.querySelector(selector), value);
-  }
+  function setNode(root, selector, value) { assignText(root?.querySelector(selector), value); }
 
   function homeCopy() {
     const title = "Automotive, Marine & RV Parts Online | Omni Terrain";
     if (document.title !== title) document.title = title;
-    const description = "Shop automotive, towing, marine and RV parts at Omni Terrain. Find products by brand and MPN, get fitment help, featured savings and secure U.S. checkout.";
+    const description = "Shop automotive, towing, marine and RV parts at Omni Terrain. Find products by brand and MPN, get fitment help, featured offers and secure U.S. checkout.";
     setMeta("description", description);
     setMeta("og:title", "Omni Terrain | Automotive, Marine & RV Parts", true);
-    setMeta("og:description", "Shop automotive, towing, marine and RV parts by brand and MPN, with featured savings, fitment help and secure U.S. checkout.", true);
+    setMeta("og:description", "Shop automotive, towing, marine and RV parts by brand and MPN, with featured offers, fitment help and secure U.S. checkout.", true);
 
     setText(".market-note", "U.S. pricing · Secure online checkout");
-    setText(".launch-strip .container span:last-child", "Featured deals · Free standard shipping on featured offers in the contiguous U.S.");
+    setText(".launch-strip .container span:last-child", "Featured offers · Free standard shipping on featured items in the contiguous U.S.");
     setText(".home-hero-copy p", "Shop automotive, towing, marine, RV and 12V parts by brand and manufacturer part number. Discover featured offers, fitment-focused product details and secure U.S. checkout.");
 
     const proofs = [...document.querySelectorAll(".home-proof > div")];
@@ -102,15 +95,17 @@
       if (node.children.length) return;
       const raw = String(node.textContent || "").trim();
       if (!raw) return;
-      if (/five products priced to win/i.test(raw)) assignText(node, "Upgrade more. Spend less.");
-      else if (/focused launch selection combines real checkout/i.test(raw)) assignText(node, "Save on towing, truck and suspension essentials with secure online checkout and free standard shipping on featured offers in the contiguous U.S.");
-      else if (/product eligibility and checkout coverage will expand/i.test(raw)) assignText(node, "Shop featured offers with clear pricing, free shipping on eligible deals and secure online checkout.");
+      if (/five products priced to win/i.test(raw)) assignText(node, "Featured auto & truck offers.");
+      else if (/focused launch selection combines real checkout/i.test(raw)) assignText(node, "Shop towing, truck and suspension essentials with secure online checkout and free standard shipping on featured offers in the contiguous U.S.");
+      else if (/product eligibility and checkout coverage will expand/i.test(raw)) assignText(node, "Shop featured offers with clear pricing, free shipping on eligible items and secure online checkout.");
       else if (/checkout coverage expands only as products clear/i.test(raw)) assignText(node, "See online pricing, shipping offers and availability at a glance, then check out securely.");
-      else if (/available to buy online · five launch deals shown first/i.test(raw)) assignText(node, "Shop by brand, MPN or price · Featured deals highlighted");
+      else if (/available to buy online · five launch deals shown first/i.test(raw)) assignText(node, "Shop by brand, MPN or price · Featured offers highlighted");
       else if (/products available for secure checkout/i.test(raw)) assignText(node, raw.replace(/products available for secure checkout/i, "products"));
       else if (/brands in our launch deals/i.test(raw)) assignText(node, "Featured brands");
-      else if (/launch pricing is live on 5 featured products/i.test(raw)) assignText(node, "Featured deals · Free standard shipping on featured offers in the contiguous U.S.");
+      else if (/launch pricing is live on 5 featured products/i.test(raw)) assignText(node, "Featured offers · Free standard shipping on featured items in the contiguous U.S.");
       else if (/selected online product · standard us shipping included/i.test(raw)) assignText(node, "Free standard shipping in the contiguous U.S.");
+      else if (/seven checkout-ready automotive offers/i.test(raw)) assignText(node, "Shop seven featured auto and truck picks with free standard shipping in the contiguous U.S. and secure Stripe checkout.");
+      else if (/canonical online pricing/i.test(raw)) assignText(node, "Featured auto & truck picks");
     });
   }
 
