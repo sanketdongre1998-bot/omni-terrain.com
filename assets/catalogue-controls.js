@@ -7,6 +7,7 @@
 
   const text=node=>String(node?.textContent||"").replace(/\s+/g," ").trim();
   const basename=value=>{try{return decodeURIComponent(String(value||"").split("?")[0].split("#")[0].split("/").pop()||"").toLowerCase();}catch(_){return String(value||"").toLowerCase();}};
+  const money=cents=>new Intl.NumberFormat("en-US",{style:"currency",currency:"USD",minimumFractionDigits:2}).format((Number(cents)||0)/100);
   const cardSlug=card=>basename(card.querySelector('a.card-link[href],a[href^="us-"]')?.getAttribute("href")||"");
   const priceOf=card=>{
     const raw=text(card.querySelector(".ot-live-inline-price,.ot-display-price,.price"));
@@ -18,12 +19,15 @@
     return (k.split("·")[0]||k||"Other").trim();
   };
   const haystack=card=>[text(card.querySelector("h3")),brandOf(card),text(card.querySelector(".mpn")),text(card)].join(" ").toLowerCase();
-  const featuredSlugs=[
-    "us-husky-towing-81147.html",
-    "us-husky-towing-33055.html",
-    "us-husky-towing-81148.html",
-    "us-bilstein-24-066464.html"
-  ].map(basename);
+
+  const launchOffers=new Map([
+    ["us-husky-towing-81147.html",{priceCents:11999,compareAtCents:12626}],
+    ["us-husky-towing-81148.html",{priceCents:14999,compareAtCents:15828}],
+    ["us-coast2coast-iwcn8010f.html",{priceCents:19999,compareAtCents:21900}],
+    ["us-air-lift-60828hd.html",{priceCents:20499,compareAtCents:21399}],
+    ["us-bilstein-24-066464.html",{priceCents:13299,compareAtCents:13697}]
+  ].map(([slug,offer])=>[basename(slug),offer]));
+  const featuredSlugs=[...launchOffers.keys()];
   const featuredRank=new Map(featuredSlugs.map((slug,index)=>[slug,index]));
 
   function loadProducts(){
@@ -52,7 +56,28 @@
     if(!/^(automotive|marine|rv)(?:-|\.)/.test(file)) return;
     const heroCopy=document.querySelector("main .hero p");
     if(heroCopy) heroCopy.textContent="Browse products currently enabled for secure online checkout. Use search and filters to narrow by brand, MPN or price.";
-    document.querySelectorAll("main .section-head .muted").forEach(node=>{node.textContent="Available to buy online · Featured launch products shown first";});
+    document.querySelectorAll("main .section-head .muted").forEach(node=>{node.textContent="Available to buy online · Five launch deals shown first";});
+  }
+
+  function decorateLaunchCard(card){
+    const offer=launchOffers.get(cardSlug(card));
+    if(!offer)return;
+    let target=card.querySelector(".ot-live-inline-price,.ot-display-price,.price");
+    if(!target){
+      target=document.createElement("div");
+      target.className="ot-live-inline-price";
+      const link=card.querySelector(".card-link");
+      if(link?.parentNode)link.parentNode.insertBefore(target,link);
+    }
+    if(target){target.className="ot-live-inline-price";target.textContent=money(offer.priceCents);}
+    let note=card.querySelector(".ot-launch-card-note");
+    if(!note){
+      note=document.createElement("div");
+      note.className="ot-launch-card-note";
+      target?.insertAdjacentElement("afterend",note);
+    }
+    if(note)note.innerHTML=`Launch deal · <s>${money(offer.compareAtCents)}</s> · Save ${money(offer.compareAtCents-offer.priceCents)}`;
+    card.dataset.otLaunchDeal="true";
   }
 
   async function mount(){
@@ -68,6 +93,7 @@
       card.classList.toggle("ot-card-hidden",!live);
       card.setAttribute("aria-hidden",live?"false":"true");
       if(!live) card.dataset.otCheckoutSuppressed="true";
+      else decorateLaunchCard(card);
     });
 
     const defaultOrder=new Map(cards.map((c,i)=>[c,i]));
@@ -82,6 +108,13 @@
       <select class="ot-filter-select" data-filter="sort" aria-label="Sort products"><option value="default">Recommended</option><option value="price-asc">Price: Low to High</option><option value="price-desc">Price: High to Low</option><option value="brand">Brand A–Z</option></select>
     </div><div class="ot-control-meta"><span>Showing <b data-visible-count>${cards.length}</b> products available for secure checkout.</span><button class="ot-clear-filters" type="button">Clear filters</button></div><div class="ot-search-results" role="listbox"></div>`;
     grid.parentNode.insertBefore(controls,grid);
+
+    if(!document.getElementById("otLaunchCardStyles")){
+      const style=document.createElement("style");
+      style.id="otLaunchCardStyles";
+      style.textContent=".ot-launch-card-note{margin:4px 0 8px;color:#167047;font-size:11px;font-weight:800}.ot-launch-card-note s{color:#7a8490;font-weight:600}.card[data-ot-launch-deal=true]{border-color:#d7b04c}";
+      document.head.appendChild(style);
+    }
 
     const input=controls.querySelector(".ot-search-input");
     const brandSel=controls.querySelector('[data-filter="brand"]');
@@ -133,7 +166,7 @@
       empty.textContent="No products on this page are currently enabled for online checkout.";
       grid.parentNode.insertBefore(empty,grid);
     }
-    setTimeout(apply,250);
+    setTimeout(()=>{cards.forEach(decorateLaunchCard);apply();},250);
   }
 
   function addAssets(){
