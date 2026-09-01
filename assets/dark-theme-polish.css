@@ -1,0 +1,265 @@
+/* Omni Terrain dark-theme + classic brand polish. Loaded after legacy theme rules. */
+:root{
+  --ot-night:#07111d;
+  --ot-night-2:#0b1927;
+  --ot-night-3:#102235;
+  --ot-night-4:#172c40;
+  --ot-night-line:#2a4053;
+  --ot-night-text:#f3f6fa;
+  --ot-night-body:#d7e0e8;
+  --ot-night-muted:#aab8c5;
+  --ot-night-soft:#8fa0af;
+  --ot-night-gold:#d8b469;
+  --ot-night-gold-2:#ead49e;
+  --ot-night-green:#9fe0bc;
+}
+
+/* Classic brand mark: compact heritage OT crest + wordmark. */
+.ot-site-brand,#header .brand,.header .brand{gap:10px!important;align-items:center!important}
+.ot-site-brand::before,#header .brand::before,.header .brand::before{
+  content:"OT";
+  display:inline-grid;
+  place-items:center;
+  flex:0 0 36px;
+  width:36px;
+  height:40px;
+  box-sizing:border-box;
+  clip-path:polygon(18% 0,82% 0,100% 18%,100% 72%,50% 100%,0 72%,0 18%);
+  border:1px solid #b98b43;
+  background:linear-gradient(155deg,#fffdf7 0%,#f0e3c8 100%);
+  color:#071a30;
+  box-shadow:inset 0 0 0 2px rgba(198,154,80,.22),0 5px 14px rgba(7,26,48,.08);
+  font:800 15px/1 "Barlow Condensed",Manrope,sans-serif;
+  letter-spacing:.09em;
+  text-indent:.09em;
+}
+.ot-site-wordmark-main,#header .wordmark-main{letter-spacing:.085em!important}
+.ot-site-wordmark-sub,#header .wordmark-sub{letter-spacing:.16em!important}
+
+html[data-ot-theme="dark"] .ot-site-brand::before,
+html[data-ot-theme="dark"] #header .brand::before,
+html[data-ot-theme="dark"] .header .brand::before{
+  border-color:var(--ot-night-gold);
+  background:linear-gradient(155deg,#162b3d 0%,#08131f 100%);
+  color:var(--ot-night-gold-2);
+  box-shadow:inset 0 0 0 2px rgba(216,180,105,.18),0 7px 20px rgba(0,0,0,.32);
+}
+html[data-ot-theme="dark"] .ot-site-wordmark-main,
+html[data-ot-theme="dark"] #header .wordmark-main{color:#f5f2e9!important}
+html[data-ot-theme="dark"] .ot-site-wordmark-sub,
+html[data-ot-theme="dark"] #header .wordmark-sub{color:var(--ot-night-gold)!important;border-left-color:rgba(216,180,105,.72)!important}
+html[data-ot-theme="dark"] .ot-site-wordmark-meta,
+html[data-ot-theme="dark"] #header .wordmark-meta{color:#9fb0be!important}
+html[data-ot-theme="dark"] .ot-site-wordmark:after,
+html[data-ot-theme="dark"] #header .wordmark:after{background:linear-gradient(90deg,var(--ot-night-gold) 0 27%,transparent 27% 33%,var(--ot-night-gold) 33% 68%,transparent 68% 74%,var(--ot-night-gold) 74%)!important}
+
+/* Dark typography hierarchy. */
+html[data-ot-theme="dark"] body{background:var(--ot-night)!important;color:var(--ot-night-body)!important}
+html[data-ot-theme="dark"] h1,
+html[data-ot-theme="dark"] h2,
+html[data-ot-theme="dark"] h3,
+html[data-ot-theme="dark"] h4,
+html[data-ot-theme="dark"] .product-copy h1,
+html[data-ot-theme="dark"] .live-card h3,
+html[data-ot-theme="dark"] .category-home h3,
+html[data-ot-theme="dark"] .section-head h2,
+html[data-ot-theme="dark"] .ot-deal-card h2,
+html[data-ot-theme="dark"] .ot-commerce-card-head h2,
+html[data-ot-theme="dark"] .ot-summary h2,
+html[data-ot-theme="dark"] .ot-checkout-panel h2{color:var(--ot-night-text)!important}
+html[data-ot-theme="dark"] p,
+html[data-ot-theme="dark"] li,
+html[data-ot-theme="dark"] .section-head p,
+html[data-ot-theme="dark"] .live-card p,
+html[data-ot-theme="dark"] .ot-deal-card p,
+html[data-ot-theme="dark"] .ot-commerce-card-head p,
+html[data-ot-theme="dark"] .ot-checkout-panel>p,
+html[data-ot-theme="dark"] .ot-payment-box p{color:var(--ot-night-body)!important}
+html[data-ot-theme="dark"] .muted,
+html[data-ot-theme="dark"] .mpn,
+html[data-ot-theme="dark"] .breadcrumb,
+html[data-ot-theme="dark"] .legal-note,
+html[data-ot-theme="dark"] .ot-unit-price,
+html[data-ot-theme="dark"] .ot-checkout-line span,
+html[data-ot-theme="dark"] .ot-cart-meta,
+html[data-ot-theme="dark"] .ot-site-footer-copy,
+html[data-ot-theme="dark"] .ot-site-legal,
+html[data-ot-theme="dark"] .ot-site-footer-bottom{color:var(--ot-night-muted)!important}
+
+/* Navigation / market / footer links. */
+html[data-ot-theme="dark"] .ot-site-nav a,
+html[data-ot-theme="dark"] .nav-links a,
+html[data-ot-theme="dark"] .nav a,
+html[data-ot-theme="dark"] .mobile-nav a,
+html[data-ot-theme="dark"] .ot-site-mobile-nav a,
+html[data-ot-theme="dark"] .ot-site-footer-links a,
+html[data-ot-theme="dark"] .card-link,
+html[data-ot-theme="dark"] .live-link{color:#e2e9ef!important}
+html[data-ot-theme="dark"] .ot-site-nav a:hover,
+html[data-ot-theme="dark"] .ot-site-nav a.active,
+html[data-ot-theme="dark"] .nav-links a:hover,
+html[data-ot-theme="dark"] .nav-links a.active,
+html[data-ot-theme="dark"] .card-link:hover,
+html[data-ot-theme="dark"] .live-link:hover{color:var(--ot-night-gold-2)!important}
+html[data-ot-theme="dark"] .ot-site-market,
+html[data-ot-theme="dark"] .market-strip{background:var(--ot-night-2)!important;border-color:var(--ot-night-line)!important}
+html[data-ot-theme="dark"] .ot-site-market-label,
+html[data-ot-theme="dark"] .market-label{color:var(--ot-night-gold)!important}
+html[data-ot-theme="dark"] .ot-site-market a:not(.active),
+html[data-ot-theme="dark"] .market-strip a:not(.active){color:#b8c5cf!important}
+
+/* Card and surface consistency. */
+html[data-ot-theme="dark"] .card,
+html[data-ot-theme="dark"] .live-card,
+html[data-ot-theme="dark"] .category-card:not(:first-child),
+html[data-ot-theme="dark"] .category-home:not(:first-child),
+html[data-ot-theme="dark"] .brand-strip-inner,
+html[data-ot-theme="dark"] .hero-showcase-info,
+html[data-ot-theme="dark"] .product-copy,
+html[data-ot-theme="dark"] .ot-commerce-card,
+html[data-ot-theme="dark"] .ot-deal-card,
+html[data-ot-theme="dark"] .ot-deals-info div,
+html[data-ot-theme="dark"] .ot-product-support div,
+html[data-ot-theme="dark"] .fact,
+html[data-ot-theme="dark"] .ot-search-results,
+html[data-ot-theme="dark"] .ot-catalogue-controls{
+  background:var(--ot-night-2)!important;
+  border-color:var(--ot-night-line)!important;
+  color:var(--ot-night-body)!important;
+  box-shadow:0 14px 34px rgba(0,0,0,.18)!important;
+}
+html[data-ot-theme="dark"] .media,
+html[data-ot-theme="dark"] .live-media,
+html[data-ot-theme="dark"] .ot-deal-media,
+html[data-ot-theme="dark"] .product-visual,
+html[data-ot-theme="dark"] .hero-showcase{
+  background:linear-gradient(145deg,#14283a,#0b1825)!important;
+  border-color:var(--ot-night-line)!important;
+}
+html[data-ot-theme="dark"] .media img,
+html[data-ot-theme="dark"] .live-media img,
+html[data-ot-theme="dark"] .ot-deal-media img,
+html[data-ot-theme="dark"] .product-visual img,
+html[data-ot-theme="dark"] .hero-showcase img{background:#fff!important;border-radius:10px}
+
+/* Prices and product metadata. */
+html[data-ot-theme="dark"] .price,
+html[data-ot-theme="dark"] .product-price,
+html[data-ot-theme="dark"] .live-price,
+html[data-ot-theme="dark"] .hero-price,
+html[data-ot-theme="dark"] .ot-live-price,
+html[data-ot-theme="dark"] .ot-live-inline-price,
+html[data-ot-theme="dark"] .ot-display-big,
+html[data-ot-theme="dark"] .ot-display-price,
+html[data-ot-theme="dark"] .ot-line-price,
+html[data-ot-theme="dark"] .ot-deal-price,
+html[data-ot-theme="dark"] .ot-checkout-line strong,
+html[data-ot-theme="dark"] .ot-summary-row strong{color:var(--ot-night-text)!important}
+html[data-ot-theme="dark"] .live-brand,
+html[data-ot-theme="dark"] .ot-deal-brand,
+html[data-ot-theme="dark"] .ot-cart-brand,
+html[data-ot-theme="dark"] .kicker,
+html[data-ot-theme="dark"] .home-kicker,
+html[data-ot-theme="dark"] .ot-growth-kicker{color:var(--ot-night-gold-2)!important}
+html[data-ot-theme="dark"] .live-badge,
+html[data-ot-theme="dark"] .ot-deal-badge,
+html[data-ot-theme="dark"] .status.buy,
+html[data-ot-theme="dark"] .ot-live-stock{background:#123628!important;color:var(--ot-night-green)!important}
+
+/* Buy boxes / promo / offer surfaces. */
+html[data-ot-theme="dark"] .ot-live-buybox,
+html[data-ot-theme="dark"] .ot-display-buybox,
+html[data-ot-theme="dark"] .ot-payment-box{background:var(--ot-night-3)!important;border-color:#344c60!important;color:var(--ot-night-body)!important}
+html[data-ot-theme="dark"] .ot-live-label,
+html[data-ot-theme="dark"] .ot-display-label{color:var(--ot-night-gold-2)!important}
+html[data-ot-theme="dark"] .ot-live-shipping,
+html[data-ot-theme="dark"] .ot-launch-shipping{color:var(--ot-night-green)!important}
+html[data-ot-theme="dark"] .ot-launch-ribbon{background:#3a2f16!important;color:#f0d594!important;border:1px solid #66552d!important}
+html[data-ot-theme="dark"] .ot-promo-box,
+html[data-ot-theme="dark"] .ot-checkout-promo,
+html[data-ot-theme="dark"] .ot-summary-note,
+html[data-ot-theme="dark"] .notice,
+html[data-ot-theme="dark"] .policy-callout,
+html[data-ot-theme="dark"] .launch-strip,
+html[data-ot-theme="dark"] .mini-note{background:#201d15!important;border-color:#65552d!important;color:#eadcaf!important}
+html[data-ot-theme="dark"] .ot-promo-box>strong,
+html[data-ot-theme="dark"] .ot-checkout-promo strong,
+html[data-ot-theme="dark"] .ot-summary-note strong{color:#f0dda9!important}
+html[data-ot-theme="dark"] .ot-promo-box p{color:#d8ccab!important}
+html[data-ot-theme="dark"] .ot-promo-message{color:#9fe0bc!important}
+html[data-ot-theme="dark"] .ot-promo-message.error{color:#ffb1a6!important}
+
+/* Forms, search and filters. */
+html[data-ot-theme="dark"] input,
+html[data-ot-theme="dark"] select,
+html[data-ot-theme="dark"] textarea,
+html[data-ot-theme="dark"] .ot-search-input,
+html[data-ot-theme="dark"] .ot-filter-select{
+  background:var(--ot-night-3)!important;
+  border-color:#3a5266!important;
+  color:var(--ot-night-text)!important;
+}
+html[data-ot-theme="dark"] input::placeholder,
+html[data-ot-theme="dark"] textarea::placeholder{color:#a5b4c1!important;opacity:1}
+html[data-ot-theme="dark"] option{background:#102235;color:#f3f6fa}
+html[data-ot-theme="dark"] .ot-search-result{border-color:#263c4f!important;color:var(--ot-night-body)!important}
+html[data-ot-theme="dark"] .ot-search-result:hover{background:#142a3d!important}
+html[data-ot-theme="dark"] .ot-search-result strong{color:var(--ot-night-text)!important}
+html[data-ot-theme="dark"] .ot-clear-filters{color:#dce6ee!important;border-color:#456075!important}
+
+/* Buttons: guaranteed readable foreground/background. */
+html[data-ot-theme="dark"] .button.dark,
+html[data-ot-theme="dark"] .button.primary,
+html[data-ot-theme="dark"] .ot-live-button:not(.secondary),
+html[data-ot-theme="dark"] .ot-primary-btn,
+html[data-ot-theme="dark"] .ot-deal-button,
+html[data-ot-theme="dark"] .ot-promo-button{background:#d8b469!important;border-color:#d8b469!important;color:#07111d!important}
+html[data-ot-theme="dark"] .button.outline,
+html[data-ot-theme="dark"] .ot-live-button.secondary,
+html[data-ot-theme="dark"] .ot-display-action,
+html[data-ot-theme="dark"] .ot-secondary-btn{background:#102235!important;border-color:#486176!important;color:#eef4f8!important}
+html[data-ot-theme="dark"] button:focus-visible,
+html[data-ot-theme="dark"] a:focus-visible,
+html[data-ot-theme="dark"] input:focus-visible,
+html[data-ot-theme="dark"] select:focus-visible{outline:3px solid rgba(216,180,105,.38)!important;outline-offset:2px!important}
+
+/* Cart / checkout details. */
+html[data-ot-theme="dark"] .ot-cart-item,
+html[data-ot-theme="dark"] .ot-checkout-line,
+html[data-ot-theme="dark"] .ot-summary-row,
+html[data-ot-theme="dark"] .ot-commerce-card-head{border-color:#24394c!important}
+html[data-ot-theme="dark"] .ot-cart-meta span,
+html[data-ot-theme="dark"] .ot-pay-trust div{background:#112437!important;border-color:#2c4255!important;color:#b9c7d1!important}
+html[data-ot-theme="dark"] .ot-pay-trust b{color:#eef4f8!important}
+html[data-ot-theme="dark"] .ot-qty{background:#102235!important;border-color:#3a5266!important;color:#eef4f8!important}
+html[data-ot-theme="dark"] .ot-qty button{background:#172c40!important;color:#eef4f8!important}
+html[data-ot-theme="dark"] .ot-remove{color:#ffaaa0!important}
+
+/* Product confidence/facts. */
+html[data-ot-theme="dark"] .ot-product-confidence span{background:#112437!important;border-color:#30495d!important;color:#d8e2e9!important}
+html[data-ot-theme="dark"] .facts{background:#2b4052!important;border-color:#2b4052!important}
+html[data-ot-theme="dark"] .fact small{color:#9fb0be!important}
+html[data-ot-theme="dark"] .fact strong,
+html[data-ot-theme="dark"] .ot-product-support b{color:#eef4f8!important}
+html[data-ot-theme="dark"] .ot-product-support span{color:#b2c0cb!important}
+
+/* Marketing banner copy should retain hierarchy. */
+html[data-ot-theme="dark"] .ot-growth-banner p{color:#d9e3eb!important}
+html[data-ot-theme="dark"] .ot-growth-code{color:#f3f6fa!important;border-color:rgba(255,255,255,.24)!important}
+html[data-ot-theme="dark"] .ot-growth-code strong{color:#f0cf86!important}
+html[data-ot-theme="dark"] .ot-growth-benefits span{color:#edf3f7!important;border-color:rgba(255,255,255,.22)!important;background:rgba(255,255,255,.08)!important}
+html[data-ot-theme="dark"] .ot-growth-terms{color:#b6c5d0!important}
+
+/* Theme toggle stays above the mobile shop bar without covering CTAs. */
+html[data-ot-theme="dark"] .ot-theme-toggle{border-color:#385066!important;background:rgba(12,27,42,.97)!important;color:#f3f6fa!important}
+
+@media(max-width:760px){
+  .ot-site-brand::before,#header .brand::before,.header .brand::before{flex-basis:32px;width:32px;height:36px;font-size:13px}
+}
+@media(max-width:360px){
+  .ot-site-brand::before,#header .brand::before,.header .brand::before{flex-basis:28px;width:28px;height:32px;font-size:12px}
+  .ot-site-brand,#header .brand,.header .brand{gap:6px!important}
+}
+@media(max-width:330px){
+  .ot-site-brand::before,#header .brand::before,.header .brand::before{display:none!important}
+}
