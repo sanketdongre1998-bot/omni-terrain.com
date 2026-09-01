@@ -1,0 +1,41 @@
+name: Responsive Browser Audit
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  responsive-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright
+        run: |
+          npm install --no-save --no-package-lock playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Start local storefront
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/omni-http.log 2>&1 &
+          echo $! > /tmp/omni-http.pid
+          for i in {1..20}; do
+            curl -fsS http://127.0.0.1:4173/index.html >/dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/omni-http.log
+          exit 1
+
+      - name: Audit all responsive layouts
+        run: node scripts/responsive-browser-audit.mjs
