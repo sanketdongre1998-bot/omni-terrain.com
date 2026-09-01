@@ -1,0 +1,53 @@
+/* Omni Terrain classic brand + render performance layer */
+
+/* Retire the old pseudo badge so the brand has one intentional mark only. */
+.ot-site-brand::before,#header .brand::before,.header .brand::before{content:none!important;display:none!important}
+
+.ot-site-brand,.brand{display:inline-flex!important;align-items:center!important;gap:11px!important;min-width:0;text-decoration:none}
+.ot-brand-crest{display:inline-grid;place-items:center;flex:0 0 43px;width:43px;height:48px;color:#0a2035}
+.ot-brand-crest svg{display:block;width:43px;height:48px;overflow:visible}
+.ot-brand-crest .ot-crest-frame{fill:#fbf7ee;stroke:#b98b43;stroke-width:1.45}
+.ot-brand-crest .ot-crest-o{fill:none;stroke:currentColor;stroke-width:2.15}
+.ot-brand-crest .ot-crest-t{fill:none;stroke:currentColor;stroke-width:2.15;stroke-linecap:square}
+.ot-brand-crest .ot-crest-road{fill:none;stroke:#b98b43;stroke-width:1.35;stroke-linecap:round}
+
+.ot-site-wordmark,#header .wordmark,.header .wordmark{display:grid!important;grid-template-columns:auto auto!important;grid-template-rows:auto auto!important;column-gap:9px!important;row-gap:3px!important;align-items:end!important;position:relative!important;padding:1px 0 7px!important;line-height:1!important}
+.ot-site-wordmark-main,#header .wordmark-main,.header .wordmark-main{font-family:"Barlow Condensed",Arial Narrow,Arial,sans-serif!important;font-size:2.22rem!important;font-weight:800!important;line-height:.68!important;letter-spacing:.085em!important;transform:none!important;color:#071a30}
+.ot-site-wordmark-sub,#header .wordmark-sub,.header .wordmark-sub{font-family:"Barlow Condensed",Arial Narrow,Arial,sans-serif!important;font-size:.77rem!important;font-weight:800!important;line-height:1!important;letter-spacing:.16em!important;padding:0 0 2px 9px!important;border-left:1px solid rgba(198,154,80,.62)!important;color:#b88736!important;text-transform:uppercase}
+.ot-site-wordmark-meta,#header .wordmark-meta,.header .wordmark-meta{grid-column:1/-1!important;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace!important;font-size:.39rem!important;font-weight:700!important;line-height:1!important;letter-spacing:.15em!important;color:#778696!important;text-transform:uppercase}
+.ot-site-wordmark::after,#header .wordmark::after,.header .wordmark::after{content:""!important;position:absolute!important;left:0!important;right:0!important;bottom:0!important;height:1px!important;background:linear-gradient(90deg,#c69a50 0 30%,transparent 30% 36%,#c69a50 36% 70%,transparent 70% 76%,#c69a50 76%)!important}
+
+html[data-ot-theme="dark"] .ot-brand-crest{color:#f0e2bc}
+html[data-ot-theme="dark"] .ot-brand-crest .ot-crest-frame{fill:#0d1c2b;stroke:#d8b469}
+html[data-ot-theme="dark"] .ot-brand-crest .ot-crest-road{stroke:#d8b469}
+html[data-ot-theme="dark"] .ot-site-wordmark-main,html[data-ot-theme="dark"] #header .wordmark-main,html[data-ot-theme="dark"] .header .wordmark-main{color:#f4f6f8!important}
+html[data-ot-theme="dark"] .ot-site-wordmark-sub,html[data-ot-theme="dark"] #header .wordmark-sub,html[data-ot-theme="dark"] .header .wordmark-sub{color:#d8b469!important;border-left-color:rgba(216,180,105,.7)!important}
+html[data-ot-theme="dark"] .ot-site-wordmark-meta,html[data-ot-theme="dark"] #header .wordmark-meta,html[data-ot-theme="dark"] .header .wordmark-meta{color:#9fb0bd!important}
+
+/* Below-fold render skipping: browser lays these out only as they approach viewport. */
+@supports (content-visibility:auto){
+  .brand-strip,.home-section,.support-band,.ot-site-footer,body>footer,main>section:not(:first-child){content-visibility:auto;contain-intrinsic-size:1px 680px}
+  .live-card,.card,.ot-deal-card,.category-home,.why-card{contain:layout paint style}
+}
+
+/* Lower paint cost on smaller and lower-power devices. */
+@media(max-width:760px){
+  .hero-showcase-info,.ot-site-header,.mobile-store-bar,.ot-site-mobile-bar{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+  .home-hero-shell,.why-shell,.live-card,.card,.ot-deal-card{box-shadow:none!important}
+  .ot-brand-crest{flex-basis:35px;width:35px;height:40px}
+  .ot-brand-crest svg{width:35px;height:40px}
+  .ot-site-wordmark-main,#header .wordmark-main,.header .wordmark-main{font-size:1.86rem!important}
+}
+
+@media(max-width:390px){
+  .ot-site-brand,.brand{gap:7px!important}
+  .ot-brand-crest{flex-basis:31px;width:31px;height:36px}
+  .ot-brand-crest svg{width:31px;height:36px}
+  .ot-site-wordmark-sub,.ot-site-wordmark-meta,#header .wordmark-sub,#header .wordmark-meta,.header .wordmark-sub,.header .wordmark-meta{display:none!important}
+  .ot-site-wordmark,#header .wordmark,.header .wordmark{display:block!important;padding-bottom:4px!important}
+  .ot-site-wordmark-main,#header .wordmark-main,.header .wordmark-main{font-size:1.72rem!important;letter-spacing:.07em!important}
+}
+
+html.ot-perf-lite .hero-showcase img,html.ot-perf-lite .live-media img,html.ot-perf-lite .product-visual img{filter:none!important}
+html.ot-perf-lite *{scroll-behavior:auto!important}
+@media(prefers-reduced-motion:reduce){.live-card,.card,.category-home,.button,a,button{transition:none!important}}
