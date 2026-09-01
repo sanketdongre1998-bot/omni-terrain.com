@@ -1,0 +1,53 @@
+name: One-time homepage logo cache bust
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/home-logo-cache-bust.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-homepage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Force final logo asset versions on homepage
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          text = p.read_text(encoding='utf-8')
+          text = text.replace('assets/brand-speed.css?v=1', 'assets/brand-speed.css?v=5')
+          text = text.replace('assets/brand-speed.css?v=2', 'assets/brand-speed.css?v=5')
+          text = text.replace('assets/brand-speed.css?v=3', 'assets/brand-speed.css?v=5')
+          text = text.replace('assets/brand-speed.css?v=4', 'assets/brand-speed.css?v=5')
+          text = text.replace('assets/storefront-performance.js?v=3', 'assets/storefront-performance.js?v=4')
+          p.write_text(text, encoding='utf-8')
+          assert 'assets/brand-speed.css?v=5' in text
+          assert 'assets/storefront-performance.js?v=4' in text
+          PY
+
+      - name: Commit homepage cache bust
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- index.html; then
+            echo "Homepage already uses final logo asset versions."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Force final logo assets on homepage"
+          git push origin HEAD:main
