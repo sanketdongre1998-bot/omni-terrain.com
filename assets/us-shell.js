@@ -32,7 +32,7 @@
   }
 
   function brand() {
-    return `<img class="ot-brand-logo-image" src="https://raw.githubusercontent.com/sanketdongre1998-bot/omni-terrain.com/main/assets/omni-terrain-logo-lock.webp" alt="Omni Terrain" width="240" height="56" decoding="async">`;
+    return `<img class="ot-brand-logo-image" src="/assets/omni-terrain-logo-final.svg?v=10" alt="Omni Terrain" width="240" height="68" decoding="async" loading="eager">`;
   }
 
   function injectFonts() {
@@ -72,7 +72,7 @@
     ensureStyle('link[href*="us-shell.css"]', "/assets/us-shell.css?v=4", "otUsShell");
     ensureStyle('link[data-ot-image-layout-fix],link[data-ot-image-layout],link[href*="image-layout-fix.css"]', "/assets/image-layout-fix.css?v=2", "otImageLayoutFix");
     ensureStyle('link[data-ot-responsive-hardening],link[href*="responsive-hardening.css"]', "/assets/responsive-hardening.css?v=4", "otResponsiveHardening");
-    ensureStyle('link[data-ot-brand-speed],link[href*="brand-speed.css"]', "/assets/brand-speed.css?v=9", "otBrandSpeed");
+    ensureStyle('link[data-ot-brand-speed],link[href*="brand-speed.css"]', "/assets/brand-speed.css?v=10", "otBrandSpeed");
   }
 
   function injectStockStatusAssets() {
