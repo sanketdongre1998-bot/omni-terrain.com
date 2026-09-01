@@ -37,15 +37,17 @@
 
   /* Growth and analytics are non-render-critical; don't compete with LCP. */
   idle(()=>{
-    if(!document.querySelector('script[data-ot-growth-marketing],script[src*="growth-marketing.js"]')){
-      const growth=document.createElement("script");growth.src="/assets/growth-marketing.js?v=2";growth.defer=true;growth.dataset.otGrowthMarketing="true";document.head.appendChild(growth);
+    const existingGrowth=document.querySelector('script[data-ot-growth-marketing],script[src*="growth-marketing.js"]');
+    if(!existingGrowth){
+      const growth=document.createElement("script");growth.src="/assets/growth-marketing.js?v=3";growth.defer=true;growth.dataset.otGrowthMarketing="true";document.head.appendChild(growth);
+    } else if(existingGrowth.src && !existingGrowth.src.includes("growth-marketing.js?v=3")) {
+      existingGrowth.src="/assets/growth-marketing.js?v=3";
     }
     if(!document.querySelector('script[data-ot-analytics-events]')){
       const analytics=document.createElement("script");analytics.src="/assets/analytics-events.js?v=2";analytics.defer=true;analytics.dataset.otAnalyticsEvents="true";document.head.appendChild(analytics);
     }
   },1500);
 
-  // Keep public catalogue scale messaging broad and customer-friendly.
   if(path===""||path==="index.html"){
     const softenHomeCounts=()=>{
       upgradeBrands();
@@ -61,10 +63,8 @@
     }
   }
 
-  /* Dedupe the image layout layer across shell/performance loaders. */
   ensureCss('link[data-ot-image-layout],link[data-ot-image-layout-fix],link[href*="image-layout-fix.css"]',"/assets/image-layout-fix.css?v=2","otImageLayout");
 
-  // Catalogue/department pages get the shared search + filter runtime.
   if(path==="us-catalogue.html"||/^(automotive|marine|rv)(?:-|\.)/.test(path)){
     if(!document.querySelector('script[data-ot-catalogue-controls]')){
       const controls=document.createElement("script");controls.src="/assets/catalogue-controls.js?v=9";controls.defer=true;controls.dataset.otCatalogueControls="true";document.head.appendChild(controls);
