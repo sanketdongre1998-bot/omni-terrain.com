@@ -1,0 +1,149 @@
+name: Fix visible approved Omni Terrain logo
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/fix-visible-approved-logo.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix-logo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Wire correct light and dark background logo variants
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s assets/omni-terrain-logo-header-light.webp
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          HEADER = "/assets/omni-terrain-logo-header-light.webp?v=1"
+          FOOTER = "/assets/omni-terrain-logo-header.webp?v=1"
+
+          # Homepage: force the visible approved dark-navy/gold lockup in the white header.
+          p = Path("index.html")
+          t = p.read_text(encoding="utf-8")
+          t = t.replace('src="/assets/omni-terrain-logo-header.webp?v=2"', f'src="{HEADER}"', 1)
+          t = t.replace('width="300" height="80"', 'width="300" height="50"', 1)
+          p.write_text(t, encoding="utf-8")
+
+          # Runtime: choose correct artwork based on background/context instead of forcing one asset everywhere.
+          p = Path("assets/storefront-performance.js")
+          t = p.read_text(encoding="utf-8")
+          t = re.sub(
+              r'const LOCKED_LOGO_SRC="[^"]+";',
+              f'const LOCKED_LOGO_SRC="{HEADER}";\n  const LOCKED_FOOTER_LOGO_SRC="{FOOTER}";',
+              t,
+              count=1,
+          )
+          needle = 'if(!brand) return;\n    brand.querySelectorAll'
+          if needle in t and 'const targetSrc=brand.closest("footer,.ot-site-footer")' not in t:
+              t = t.replace(
+                  needle,
+                  'if(!brand) return;\n    const targetSrc=brand.closest("footer,.ot-site-footer")?LOCKED_FOOTER_LOGO_SRC:LOCKED_LOGO_SRC;\n    brand.querySelectorAll',
+                  1,
+              )
+          t = t.replace('img.src=LOCKED_LOGO_SRC;', 'img.src=targetSrc;')
+          t = t.replace('img.getAttribute("src")!==LOCKED_LOGO_SRC', 'img.getAttribute("src")!==targetSrc')
+          t = t.replace('img.setAttribute("src",LOCKED_LOGO_SRC)', 'img.setAttribute("src",targetSrc)')
+          t = re.sub(r'/assets/brand-speed\.css\?v=\d+', '/assets/brand-speed.css?v=13', t)
+          p.write_text(t, encoding="utf-8")
+
+          # Shared US shell: header gets light-background artwork; footer keeps white/gold dark-background artwork.
+          p = Path("assets/us-shell.js")
+          t = p.read_text(encoding="utf-8")
+          t = re.sub(
+              r'  function brand\(\) \{.*?\n  \}\n\n  function injectFonts',
+              '''  function brand(variant = "header") {
+    const src = variant === "footer" ? "/assets/omni-terrain-logo-header.webp?v=1" : "/assets/omni-terrain-logo-header-light.webp?v=1";
+    return `<img class="ot-brand-logo-image" src="${src}" alt="Omni Terrain" width="300" height="50" decoding="async" loading="eager">`;
+  }
+
+  function injectFonts''',
+              t,
+              count=1,
+              flags=re.S,
+          )
+          t = t.replace('${brand()}', '${brand("header")}', 1)
+          t = t.replace('${brand()}', '${brand("footer")}', 1)
+          t = re.sub(r'/assets/brand-speed\.css\?v=\d+', '/assets/brand-speed.css?v=13', t)
+          p.write_text(t, encoding="utf-8")
+
+          # Final sizing overrides: match the actual approved horizontal lockup aspect ratio.
+          p = Path("assets/brand-speed.css")
+          t = p.read_text(encoding="utf-8")
+          marker = '/* APPROVED VISIBLE LOGO VARIANT OVERRIDES */'
+          if marker in t:
+              t = t.split(marker, 1)[0].rstrip() + "\n"
+          t += r'''
+
+/* APPROVED VISIBLE LOGO VARIANT OVERRIDES */
+#header .brand,.ot-site-header .ot-site-brand{min-height:58px!important}
+#header .ot-brand-logo-image,.ot-site-header .ot-brand-logo-image{
+  display:block!important;visibility:visible!important;opacity:1!important;
+  width:300px!important;height:50px!important;max-width:300px!important;max-height:50px!important;
+  flex:0 0 300px!important;object-fit:contain!important;object-position:left center!important;
+}
+.ot-site-footer .ot-site-brand,footer .brand{min-height:64px!important}
+.ot-site-footer .ot-brand-logo-image,footer .ot-brand-logo-image{
+  display:block!important;visibility:visible!important;opacity:1!important;
+  width:240px!important;height:64px!important;max-width:240px!important;max-height:64px!important;
+  flex:0 0 240px!important;object-fit:contain!important;object-position:left center!important;
+}
+@media(max-width:860px){
+  #header .ot-brand-logo-image,.ot-site-header .ot-brand-logo-image{width:235px!important;height:40px!important;max-width:235px!important;max-height:40px!important;flex-basis:235px!important}
+}
+@media(max-width:480px){
+  #header .ot-brand-logo-image,.ot-site-header .ot-brand-logo-image{width:205px!important;height:35px!important;max-width:205px!important;max-height:35px!important;flex-basis:205px!important}
+}
+'''
+          p.write_text(t, encoding="utf-8")
+
+          # Force fresh CSS/runtime across every page.
+          for p in Path('.').glob('*.html'):
+              t = p.read_text(encoding='utf-8')
+              t = re.sub(r'(?<!/)assets/brand-speed\.css\?v=\d+', 'assets/brand-speed.css?v=13', t)
+              t = re.sub(r'/assets/brand-speed\.css\?v=\d+', '/assets/brand-speed.css?v=13', t)
+              t = re.sub(r'(?<!/)assets/storefront-performance\.js\?v=\d+', 'assets/storefront-performance.js?v=13', t)
+              t = re.sub(r'/assets/storefront-performance\.js\?v=\d+', '/assets/storefront-performance.js?v=13', t)
+              t = re.sub(r'(?<!/)assets/us-shell\.js\?v=\d+', 'assets/us-shell.js?v=13', t)
+              t = re.sub(r'/assets/us-shell\.js\?v=\d+', '/assets/us-shell.js?v=13', t)
+              p.write_text(t, encoding='utf-8')
+
+          # Sanity checks before committing.
+          assert Path('assets/omni-terrain-logo-header-light.webp').stat().st_size > 5000
+          assert 'omni-terrain-logo-header-light.webp?v=1' in Path('index.html').read_text(encoding='utf-8')
+          assert 'LOCKED_FOOTER_LOGO_SRC' in Path('assets/storefront-performance.js').read_text(encoding='utf-8')
+          assert 'brand("footer")' in Path('assets/us-shell.js').read_text(encoding='utf-8')
+          assert 'APPROVED VISIBLE LOGO VARIANT OVERRIDES' in Path('assets/brand-speed.css').read_text(encoding='utf-8')
+          PY
+
+          # Remove the old temporary logo mutation jobs so nothing rewrites this again.
+          rm -f .github/workflows/force-locked-logo.yml
+          rm -f .github/workflows/home-logo-cache-bust.yml
+
+      - name: Commit permanent visible logo fix
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes needed."
+            exit 0
+          fi
+          git commit -m "Fix approved Omni Terrain logo visibility permanently"
+          git push origin HEAD:main
