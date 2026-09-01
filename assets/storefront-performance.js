@@ -25,11 +25,11 @@
   if(!usesUsShell){
     ensureCss('link[data-ot-image-layout],link[data-ot-image-layout-fix],link[href*="image-layout-fix.css"]',"/assets/image-layout-fix.css?v=2","otImageLayout");
     ensureCss('link[data-ot-responsive-hardening],link[href*="responsive-hardening.css"]',"/assets/responsive-hardening.css?v=4","otResponsiveHardening");
-    ensureCss('link[data-ot-brand-speed],link[href*="brand-speed.css"]',"/assets/brand-speed.css?v=10","otBrandSpeed");
+    ensureCss('link[data-ot-brand-speed],link[href*="brand-speed.css"]',"/assets/brand-speed.css?v=11","otBrandSpeed");
   }
 
   /* FINAL LOGO LOCK: complete approved SVG asset. */
-  const LOCKED_LOGO_SRC="/assets/omni-terrain-logo-final.svg?v=10";
+  const LOCKED_LOGO_SRC="/assets/omni-terrain-logo-header.webp?v=1";
   const mountLockedLogo=(brand)=>{
     if(!brand) return;
     brand.querySelectorAll(".ot-brand-crest,.brand-badge,.brand-mark,.logo-badge,.logo-mark").forEach(node=>node.remove());
