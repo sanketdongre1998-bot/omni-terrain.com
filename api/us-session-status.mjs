@@ -30,6 +30,8 @@ export async function GET(request) {
       customer_email: session.customer_details?.email || session.customer_email || null,
       customer_name: session.customer_details?.name || null,
       cart: session.metadata?.cart || null,
+      promotion_code: session.metadata?.promo_code || null,
+      promotion_savings_cents: Number(session.metadata?.promo_savings_cents || 0),
     }, 200, request);
   } catch (error) {
     console.error("US checkout status error", error?.message || error);
