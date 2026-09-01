@@ -22,20 +22,14 @@
     return link;
   };
 
-  /*
-    CSS ownership is deliberately split:
-    - homepage / legacy pages: this runtime provides the final hardening layers;
-    - US shell pages: us-shell.js owns the same layers in a deterministic order.
-    This prevents both scripts from racing to append or downgrade stylesheets.
-  */
   if(!usesUsShell){
     ensureCss('link[data-ot-image-layout],link[data-ot-image-layout-fix],link[href*="image-layout-fix.css"]',"/assets/image-layout-fix.css?v=2","otImageLayout");
     ensureCss('link[data-ot-responsive-hardening],link[href*="responsive-hardening.css"]',"/assets/responsive-hardening.css?v=4","otResponsiveHardening");
-    ensureCss('link[data-ot-brand-speed],link[href*="brand-speed.css"]',"/assets/brand-speed.css?v=9","otBrandSpeed");
+    ensureCss('link[data-ot-brand-speed],link[href*="brand-speed.css"]',"/assets/brand-speed.css?v=10","otBrandSpeed");
   }
 
-  /* FINAL LOGO LOCK: exact approved OMNI | TERRAIN artwork as a real image. */
-  const LOCKED_LOGO_SRC="https://raw.githubusercontent.com/sanketdongre1998-bot/omni-terrain.com/main/assets/omni-terrain-logo-lock.webp";
+  /* FINAL LOGO LOCK: complete approved SVG asset. */
+  const LOCKED_LOGO_SRC="/assets/omni-terrain-logo-final.svg?v=10";
   const mountLockedLogo=(brand)=>{
     if(!brand) return;
     brand.querySelectorAll(".ot-brand-crest,.brand-badge,.brand-mark,.logo-badge,.logo-mark").forEach(node=>node.remove());
@@ -45,15 +39,18 @@
       img.className="ot-brand-logo-image";
       img.alt="Omni Terrain";
       img.width=240;
-      img.height=56;
+      img.height=68;
       img.decoding="async";
+      img.loading="eager";
       img.src=LOCKED_LOGO_SRC;
       brand.replaceChildren(img);
     }else if(img.getAttribute("src")!==LOCKED_LOGO_SRC){
       img.setAttribute("src",LOCKED_LOGO_SRC);
     }
     brand.classList.add("ot-logo-direct");
-    img.addEventListener("error",()=>{img.hidden=true;brand.classList.remove("ot-logo-direct");},{once:true});
+    img.hidden=false;
+    img.style.display="block";
+    img.addEventListener("error",()=>{brand.classList.remove("ot-logo-direct");},{once:true});
   };
   const upgradeBrands=()=>document.querySelectorAll(".brand,.ot-site-brand").forEach(mountLockedLogo);
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",upgradeBrands,{once:true});else upgradeBrands();
