@@ -2,6 +2,5 @@ User-agent: *
 
 Allow: /
 
-
-
 Sitemap: https://omni-terrain.com/sitemap.xml
+Sitemap: https://omni-terrain.com/sitemap-deals.xml
