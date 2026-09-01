@@ -40,7 +40,7 @@ def schema(path: str) -> dict:
 
 def main() -> int:
     routes = ["index.html","deals.html","us-catalogue.html","automotive.html","marine.html","rv.html","cart.html","checkout.html","contact-and-order-help.html","shipping-delivery-policy.html","returns-refunds-policy.html","privacy-policy.html","terms-conditions.html","us-order-success.html"]
-    assets = ["assets/us-shell.js","assets/catalogue-controls.js","assets/customer-marketing-copy.js","assets/growth-marketing.js","assets/analytics-events.js","assets/universal-checkout-ui.js","assets/cart-checkout-premium.js","assets/storefront-performance.js","assets/responsive-hardening.css","assets/dark-theme-polish.css","assets/us-launch-offers.js","assets/us-live-products.json","assets/us-display-prices.js","assets/us-products.js","assets/us-order-success.js","scripts/responsive-browser-audit.mjs","scripts/dark-theme-browser-audit.mjs","lib/us-checkout-products.mjs","api/us-create-checkout-session.mjs","api/us-checkout-health.mjs"]
+    assets = ["assets/us-shell.js","assets/catalogue-controls.js","assets/customer-marketing-copy.js","assets/growth-marketing.js","assets/analytics-events.js","assets/universal-checkout-ui.js","assets/cart-checkout-premium.js","assets/storefront-performance.js","assets/responsive-hardening.css","assets/dark-theme-polish.css","assets/brand-speed.css","assets/us-launch-offers.js","assets/us-live-products.json","assets/us-display-prices.js","assets/us-products.js","assets/us-order-success.js","scripts/responsive-browser-audit.mjs","scripts/dark-theme-browser-audit.mjs","lib/us-checkout-products.mjs","api/us-create-checkout-session.mjs","api/us-checkout-health.mjs"]
     for path in routes + assets:
         if (ROOT / path).exists(): passes.append(f"PASS exists: {path}")
         else: errors.append(f"missing {path}")
@@ -55,10 +55,12 @@ def main() -> int:
     need("assets/growth-marketing.js", "OMNI5", "promo code")
     need("assets/customer-marketing-copy.js", "Shop with confidence.", "customer trust copy")
 
-    # Final responsive/dark UI layer.
-    need("assets/storefront-performance.js", "responsive-hardening.css?v=2", "cache-busted responsive layer")
+    # Final responsive/dark/brand UI layer.
+    need("assets/storefront-performance.js", "responsive-hardening.css?v=3", "cache-busted responsive layer")
+    need("assets/storefront-performance.js", "brand-speed.css?v=1", "classic brand-speed layer")
     need("assets/responsive-hardening.css", "dark-theme-polish.css?v=1", "dark theme import")
-    need("assets/dark-theme-polish.css", 'content:"OT"', "classic OT crest")
+    need("assets/brand-speed.css", ".ot-brand-crest", "classic SVG crest styling")
+    need("assets/brand-speed.css", "content-visibility:auto", "below-fold render skipping")
     need("assets/dark-theme-polish.css", "--ot-night-text:#f3f6fa", "dark primary contrast")
     for token, label in [(".ot-promo-box","dark promo"),(".ot-search-input","dark filters"),(".ot-primary-btn","dark CTA")]: need("assets/dark-theme-polish.css", token, label)
 
