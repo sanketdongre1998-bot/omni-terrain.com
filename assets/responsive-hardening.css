@@ -45,10 +45,9 @@ body.ot-product-page .ot-product-confidence span{max-width:100%;white-space:norm
 }
 
 @media(max-width:360px){
-  /* The full wordmark plus Cart + Menu cannot fit reliably at 320px. Keep the brand identity concise. */
+  /* The approved graphic is rendered by brand-speed.css. Never re-expose its hidden fallback wordmark. */
   .ot-site-wordmark-sub,.ot-site-wordmark-meta,#header .wordmark-sub,#header .wordmark-meta{display:none!important}
-  .ot-site-wordmark,#header .wordmark{display:block!important;padding-bottom:5px!important}
-  .ot-site-wordmark-main,#header .wordmark-main{font-size:29px!important;letter-spacing:.07em!important}
+  .ot-site-wordmark,#header .wordmark{display:none!important;padding-bottom:0!important}
   .ot-site-cart,.cart-link{font-size:10px!important}
   .ot-site-cart-count,.cart-count{margin-left:5px!important}
   .ot-shell-container,#header .container{width:min(100% - 16px,var(--ot-shell-max,1400px))!important}
