@@ -1,4 +1,4 @@
-name: Embed exact locked logo in production CSS
+name: Bust Omni Terrain logo assets
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 jobs:
-  embed-logo:
+  bust-logo-cache:
     runs-on: ubuntu-latest
     steps:
       - name: Check out main
@@ -20,79 +20,52 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Inline the exact approved WebP and bust caches
+      - name: Force fresh SVG-logo CSS and JS URLs sitewide
         shell: bash
         run: |
           set -euo pipefail
           python3 - <<'PY'
           from pathlib import Path
-          import base64
           import re
 
-          logo_path = Path('assets/omni-terrain-logo-lock.webp')
-          css_path = Path('assets/brand-speed.css')
-          assert logo_path.is_file() and logo_path.stat().st_size > 0, 'Locked logo asset is missing'
+          for p in Path('.').glob('*.html'):
+              text = p.read_text(encoding='utf-8')
+              text = re.sub(r'(?<!/)assets/brand-speed\.css\?v=\d+', 'assets/brand-speed.css?v=10', text)
+              text = re.sub(r'/assets/brand-speed\.css\?v=\d+', '/assets/brand-speed.css?v=10', text)
+              text = re.sub(r'(?<!/)assets/storefront-performance\.js\?v=\d+', 'assets/storefront-performance.js?v=10', text)
+              text = re.sub(r'/assets/storefront-performance\.js\?v=\d+', '/assets/storefront-performance.js?v=10', text)
+              text = re.sub(r'(?<!/)assets/us-shell\.js\?v=\d+', 'assets/us-shell.js?v=10', text)
+              text = re.sub(r'/assets/us-shell\.js\?v=\d+', '/assets/us-shell.js?v=10', text)
+              p.write_text(text, encoding='utf-8')
 
-          data_uri = 'data:image/webp;base64,' + base64.b64encode(logo_path.read_bytes()).decode('ascii')
-          css = css_path.read_text(encoding='utf-8')
-
-          # Replace only the logo background source. The exact approved WebP bytes now travel
-          # inside brand-speed.css, so production no longer depends on any separate image URL.
-          css, count = re.subn(
-              r"background-image:url\((?:'|\")?[^)]*omni-terrain-logo-lock\.webp[^)]*\)(?:'|\")?!important;",
-              f"background-image:url(\"{data_uri}\")!important;",
-              css,
-              count=1,
-          )
-          if count != 1:
-              # Current production-safe CSS may point to the raw GitHub URL. Match the whole
-              # existing background-image declaration in the locked-brand block as fallback.
-              marker = '.ot-site-brand::before,.brand::before,'
-              start = css.find(marker)
-              if start < 0:
-                  raise SystemExit('Locked brand CSS block not found')
-              pos = css.find('background-image:', start)
-              end = css.find(';', pos)
-              if pos < 0 or end < 0:
-                  raise SystemExit('Locked brand background-image declaration not found')
-              css = css[:pos] + f'background-image:url("{data_uri}")!important' + css[end:]
-
-          css_path.write_text(css, encoding='utf-8')
-          assert 'data:image/webp;base64,' in css
-
-          # Both runtime shells must request the new embedded CSS version.
+          # Ensure runtimes themselves cannot downgrade the CSS request.
           for name in ['assets/storefront-performance.js', 'assets/us-shell.js']:
               p = Path(name)
               text = p.read_text(encoding='utf-8')
-              text = re.sub(r'/assets/brand-speed\.css\?v=\d+', '/assets/brand-speed.css?v=9', text)
+              text = re.sub(r'/assets/brand-speed\.css\?v=\d+', '/assets/brand-speed.css?v=10', text)
               p.write_text(text, encoding='utf-8')
 
-          # Every page gets a fresh CSS/runtime URL so stale browser/CDN caches cannot retain
-          # the broken image render. us-shell is also cache-busted because it can own CSS order.
-          for p in Path('.').glob('*.html'):
-              text = p.read_text(encoding='utf-8')
-              text = re.sub(r'(?<!/)assets/brand-speed\.css\?v=\d+', 'assets/brand-speed.css?v=9', text)
-              text = re.sub(r'/assets/brand-speed\.css\?v=\d+', '/assets/brand-speed.css?v=9', text)
-              text = re.sub(r'(?<!/)assets/storefront-performance\.js\?v=\d+', 'assets/storefront-performance.js?v=8', text)
-              text = re.sub(r'/assets/storefront-performance\.js\?v=\d+', '/assets/storefront-performance.js?v=8', text)
-              text = re.sub(r'(?<!/)assets/us-shell\.js\?v=\d+', 'assets/us-shell.js?v=8', text)
-              text = re.sub(r'/assets/us-shell\.js\?v=\d+', '/assets/us-shell.js?v=8', text)
-              p.write_text(text, encoding='utf-8')
-
-          assert '/assets/brand-speed.css?v=9' in Path('assets/storefront-performance.js').read_text(encoding='utf-8')
-          assert '/assets/brand-speed.css?v=9' in Path('assets/us-shell.js').read_text(encoding='utf-8')
+          # Guardrails: the broken WebP must not be the active logo source anymore.
+          sf = Path('assets/storefront-performance.js').read_text(encoding='utf-8')
+          us = Path('assets/us-shell.js').read_text(encoding='utf-8')
+          css = Path('assets/brand-speed.css').read_text(encoding='utf-8')
+          assert 'omni-terrain-logo-final.svg?v=10' in sf
+          assert 'omni-terrain-logo-final.svg?v=10' in us
+          assert 'omni-terrain-logo-final.svg?v=10' in css
+          assert 'brand-speed.css?v=10' in sf
+          assert 'brand-speed.css?v=10' in us
           PY
 
-      - name: Commit embedded-logo build
+      - name: Commit fresh asset versions
         shell: bash
         run: |
           set -euo pipefail
           if git diff --quiet; then
-            echo "Exact logo is already embedded."
+            echo "Logo assets already use v10."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/brand-speed.css assets/storefront-performance.js assets/us-shell.js '*.html'
-          git commit -m "Embed exact locked logo in storefront CSS"
+          git add assets/storefront-performance.js assets/us-shell.js '*.html'
+          git commit -m "Force fresh SVG logo assets sitewide"
           git push origin HEAD:main
