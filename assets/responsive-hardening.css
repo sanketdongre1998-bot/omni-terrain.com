@@ -1,3 +1,5 @@
+@import url('/assets/dark-theme-polish.css?v=1');
+
 /* Omni Terrain cross-device hardening. Loaded last so it can safely correct legacy layers. */
 
 /* Shared header controls: comfortable touch targets without increasing desktop clutter. */
