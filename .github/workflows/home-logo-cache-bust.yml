@@ -1,4 +1,4 @@
-name: One-time homepage logo cache bust
+name: Force production locked logo
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 jobs:
-  update-homepage:
+  update-logo:
     runs-on: ubuntu-latest
     steps:
       - name: Check out main
@@ -20,33 +20,49 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Force exact locked logo asset versions on homepage
+      - name: Force exact locked logo and bust cached assets
         shell: bash
         run: |
           set -euo pipefail
           python3 - <<'PY'
           from pathlib import Path
-          p = Path('index.html')
-          text = p.read_text(encoding='utf-8')
-          for version in range(1, 7):
-              text = text.replace(f'assets/brand-speed.css?v={version}', 'assets/brand-speed.css?v=7')
-          for version in range(1, 6):
-              text = text.replace(f'assets/storefront-performance.js?v={version}', 'assets/storefront-performance.js?v=6')
-          p.write_text(text, encoding='utf-8')
-          assert 'assets/brand-speed.css?v=7' in text
-          assert 'assets/storefront-performance.js?v=6' in text
+
+          raw_logo = 'https://raw.githubusercontent.com/sanketdongre1998-bot/omni-terrain.com/main/assets/omni-terrain-logo-lock.webp'
+
+          # Make both runtime shells use the exact locked artwork from a source that is
+          # independent of the currently-broken production /assets image route.
+          for name in ['assets/storefront-performance.js', 'assets/us-shell.js']:
+              p = Path(name)
+              text = p.read_text(encoding='utf-8')
+              text = text.replace('/assets/omni-terrain-logo-lock.webp?v=3', raw_logo)
+              text = text.replace('/assets/brand-speed.css?v=7', '/assets/brand-speed.css?v=8')
+              p.write_text(text, encoding='utf-8')
+
+          # Bust homepage/static-page CSS and JS caches so browsers cannot keep the broken render.
+          for p in Path('.').glob('*.html'):
+              text = p.read_text(encoding='utf-8')
+              for version in range(1, 8):
+                  text = text.replace(f'assets/brand-speed.css?v={version}', 'assets/brand-speed.css?v=8')
+                  text = text.replace(f'/assets/brand-speed.css?v={version}', '/assets/brand-speed.css?v=8')
+              for version in range(1, 7):
+                  text = text.replace(f'assets/storefront-performance.js?v={version}', 'assets/storefront-performance.js?v=7')
+                  text = text.replace(f'/assets/storefront-performance.js?v={version}', '/assets/storefront-performance.js?v=7')
+              p.write_text(text, encoding='utf-8')
+
+          assert raw_logo in Path('assets/storefront-performance.js').read_text(encoding='utf-8')
+          assert raw_logo in Path('assets/us-shell.js').read_text(encoding='utf-8')
           PY
 
-      - name: Commit homepage cache bust
+      - name: Commit production logo fix
         shell: bash
         run: |
           set -euo pipefail
-          if git diff --quiet -- index.html; then
-            echo "Homepage already uses exact locked-logo asset versions."
+          if git diff --quiet; then
+            echo "Production logo fix already applied."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html
-          git commit -m "Force exact locked logo assets on homepage"
+          git add assets/storefront-performance.js assets/us-shell.js '*.html'
+          git commit -m "Force exact locked logo on production"
           git push origin HEAD:main
