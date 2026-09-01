@@ -1,0 +1,112 @@
+name: Apply exact locked Omni Terrain logo
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/force-locked-logo.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  lock-logo-sitewide:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Mount exact approved logo as a real image
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s assets/omni-terrain-logo-lock.webp
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          logo = '/assets/omni-terrain-logo-lock.webp?v=3'
+
+          # Homepage / legacy shell runtime: replace text/badge branding with the exact artwork IMG.
+          p = Path('assets/storefront-performance.js')
+          text = p.read_text(encoding='utf-8')
+          text = text.replace('/assets/brand-speed.css?v=6', '/assets/brand-speed.css?v=7')
+          pattern = re.compile(r'''  /\* FINAL LOGO LOCK:.*?\n  if\(!document\.querySelector\('script\[data-ot-ad-readiness\]'\)\)\{''', re.S)
+          replacement = '''  /* FINAL LOGO LOCK: exact approved OMNI | TERRAIN artwork as a real image. */
+  const LOCKED_LOGO_SRC="/assets/omni-terrain-logo-lock.webp?v=3";
+  const mountLockedLogo=(brand)=>{
+    if(!brand) return;
+    brand.querySelectorAll(".ot-brand-crest,.brand-badge,.brand-mark,.logo-badge,.logo-mark").forEach(node=>node.remove());
+    let img=brand.querySelector("img.ot-brand-logo-image");
+    if(!img){
+      img=document.createElement("img");
+      img.className="ot-brand-logo-image";
+      img.alt="Omni Terrain";
+      img.width=240;
+      img.height=56;
+      img.decoding="async";
+      img.src=LOCKED_LOGO_SRC;
+      brand.replaceChildren(img);
+    }else if(img.getAttribute("src")!==LOCKED_LOGO_SRC){
+      img.setAttribute("src",LOCKED_LOGO_SRC);
+    }
+    brand.classList.add("ot-logo-direct");
+    img.addEventListener("error",()=>{img.hidden=true;brand.classList.remove("ot-logo-direct");},{once:true});
+  };
+  const upgradeBrands=()=>document.querySelectorAll(".brand,.ot-site-brand").forEach(mountLockedLogo);
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",upgradeBrands,{once:true});else upgradeBrands();
+
+  if(!document.querySelector('script[data-ot-ad-readiness]')){'''
+          text2, n = pattern.subn(replacement, text, count=1)
+          if n != 1:
+            raise SystemExit(f'Could not patch storefront logo block: matches={n}')
+          p.write_text(text2, encoding='utf-8')
+
+          # US shell: generate the exact locked logo directly in header and footer.
+          p = Path('assets/us-shell.js')
+          text = p.read_text(encoding='utf-8')
+          text = text.replace('/assets/brand-speed.css?v=6', '/assets/brand-speed.css?v=7')
+          brand_pattern = re.compile(r'''  function brand\(\) \{.*?\n  \}\n\n  function injectFonts''', re.S)
+          brand_replacement = '''  function brand() {
+    return `<img class="ot-brand-logo-image" src="/assets/omni-terrain-logo-lock.webp?v=3" alt="Omni Terrain" width="240" height="56" decoding="async">`;
+  }
+
+  function injectFonts'''
+          text2, n = brand_pattern.subn(brand_replacement, text, count=1)
+          if n != 1:
+            raise SystemExit(f'Could not patch us-shell brand(): matches={n}')
+          text2 = text2.replace('class="ot-site-brand" href="index.html"', 'class="ot-site-brand ot-logo-direct" href="index.html"')
+          p.write_text(text2, encoding='utf-8')
+
+          # Cache-bust every HTML page that already carries the shared assets.
+          for p in Path('.').glob('*.html'):
+            text = p.read_text(encoding='utf-8')
+            new = text.replace('brand-speed.css?v=6', 'brand-speed.css?v=7')
+            new = new.replace('brand-speed.css?v=5', 'brand-speed.css?v=7')
+            new = new.replace('storefront-performance.js?v=5', 'storefront-performance.js?v=6')
+            new = new.replace('storefront-performance.js?v=4', 'storefront-performance.js?v=6')
+            if new != text:
+              p.write_text(new, encoding='utf-8')
+          PY
+
+          grep -q 'ot-brand-logo-image' assets/storefront-performance.js
+          grep -q 'omni-terrain-logo-lock.webp?v=3' assets/us-shell.js
+          grep -q 'brand-speed.css?v=7' assets/storefront-performance.js
+
+      - name: Commit locked logo wiring
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet; then
+            echo "Locked logo wiring already applied."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/storefront-performance.js assets/us-shell.js '*.html'
+          git commit -m "Render exact locked Omni Terrain logo sitewide"
+          git push origin HEAD:main
