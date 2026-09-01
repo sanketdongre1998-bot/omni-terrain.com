@@ -15,7 +15,7 @@
 
   /* Critical last-mile layers: layout, contrast and the approved name-led brand. */
   ensureCss('link[data-ot-responsive-hardening],link[href*="responsive-hardening.css"]',"/assets/responsive-hardening.css?v=3","otResponsiveHardening");
-  ensureCss('link[data-ot-brand-speed],link[href*="brand-speed.css"]',"/assets/brand-speed.css?v=3","otBrandSpeed");
+  ensureCss('link[data-ot-brand-speed],link[href*="brand-speed.css"]',"/assets/brand-speed.css?v=4","otBrandSpeed");
 
   /* FINAL LOGO LOCK: keep only OMNI | TERRAIN wordmark, never a legacy OT badge. */
   const upgradeBrands=()=>{
