@@ -31,12 +31,8 @@
     return "";
   }
 
-  function crest() {
-    return `<span class="ot-brand-crest" aria-hidden="true"><svg viewBox="0 0 48 48" focusable="false"><path class="ot-crest-frame" d="M24 3 41 10v13c0 10.7-6.6 17.4-17 22C13.6 40.4 7 33.7 7 23V10L24 3Z"/><rect class="ot-crest-o" x="12" y="15" width="13" height="16" rx="6.5"/><path class="ot-crest-t" d="M27 16h10M32 16v16"/><path class="ot-crest-road" d="M13 36h22"/></svg></span>`;
-  }
-
   function brand() {
-    return `${crest()}<span class="ot-site-wordmark"><span class="ot-site-wordmark-main">OMNI</span><span class="ot-site-wordmark-sub">Terrain</span><span class="ot-site-wordmark-meta">Road / Water / Power</span></span>`;
+    return `<span class="ot-site-wordmark"><span class="ot-site-wordmark-main">OMNI</span><span class="ot-site-wordmark-sub">Terrain</span><span class="ot-site-wordmark-meta">Road / Water / Power</span></span>`;
   }
 
   function injectFonts() {
@@ -166,7 +162,7 @@
     const load = () => {
       if (document.querySelector('script[data-ot-growth-marketing],script[src*="growth-marketing.js"]')) return;
       const script = document.createElement("script");
-      script.src = "/assets/growth-marketing.js?v=2";
+      script.src = "/assets/growth-marketing.js?v=3";
       script.dataset.otGrowthMarketing = "true";
       script.defer = true;
       document.body.appendChild(script);
