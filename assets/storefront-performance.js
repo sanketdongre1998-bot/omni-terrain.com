@@ -21,7 +21,7 @@
     if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",softenHomeCounts,{once:true}); else softenHomeCounts();
     if(!document.querySelector('script[data-ot-live-priority]')){
       const priority=document.createElement("script");
-      priority.src="/assets/live-storefront-priority.js?v=4";
+      priority.src="/assets/live-storefront-priority.js?v=5";
       priority.defer=true;
       priority.dataset.otLivePriority="true";
       document.head.appendChild(priority);
@@ -35,7 +35,7 @@
   // Catalogue/department pages get the shared checkout-ready search + filter runtime.
   if(path==="us-catalogue.html"||/^(automotive|marine|rv)(?:-|\.)/.test(path)){
     if(!document.querySelector('script[data-ot-catalogue-controls]')){
-      const controls=document.createElement("script");controls.src="/assets/catalogue-controls.js?v=5";controls.defer=true;controls.dataset.otCatalogueControls="true";document.head.appendChild(controls);
+      const controls=document.createElement("script");controls.src="/assets/catalogue-controls.js?v=6";controls.defer=true;controls.dataset.otCatalogueControls="true";document.head.appendChild(controls);
     }
   }
 
