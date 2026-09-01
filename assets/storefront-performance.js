@@ -6,6 +6,15 @@
   const path=decodeURIComponent(String(location.pathname||"").split("/").filter(Boolean).pop()||"").toLowerCase();
   const mobile=window.matchMedia&&window.matchMedia("(max-width:760px)").matches;
 
+  // Always load the last-mile responsive layer after legacy page CSS.
+  if(!document.querySelector('link[data-ot-responsive-hardening]')){
+    const responsive=document.createElement("link");
+    responsive.rel="stylesheet";
+    responsive.href="/assets/responsive-hardening.css?v=1";
+    responsive.dataset.otResponsiveHardening="true";
+    document.head.appendChild(responsive);
+  }
+
   if(!document.querySelector('script[data-ot-customer-copy]')){
     const marketing=document.createElement("script");
     marketing.src="/assets/customer-marketing-copy.js?v=1";
@@ -14,9 +23,9 @@
     document.head.appendChild(marketing);
   }
 
-  if(!document.querySelector('script[data-ot-growth-marketing]')){
+  if(!document.querySelector('script[data-ot-growth-marketing],script[src*="growth-marketing.js"]')){
     const growth=document.createElement("script");
-    growth.src="/assets/growth-marketing.js?v=1";
+    growth.src="/assets/growth-marketing.js?v=2";
     growth.defer=true;
     growth.dataset.otGrowthMarketing="true";
     document.head.appendChild(growth);
@@ -59,7 +68,7 @@
   // Catalogue/department pages get the shared search + filter runtime.
   if(path==="us-catalogue.html"||/^(automotive|marine|rv)(?:-|\.)/.test(path)){
     if(!document.querySelector('script[data-ot-catalogue-controls]')){
-      const controls=document.createElement("script");controls.src="/assets/catalogue-controls.js?v=8";controls.defer=true;controls.dataset.otCatalogueControls="true";document.head.appendChild(controls);
+      const controls=document.createElement("script");controls.src="/assets/catalogue-controls.js?v=9";controls.defer=true;controls.dataset.otCatalogueControls="true";document.head.appendChild(controls);
     }
   }
 
@@ -102,7 +111,6 @@
     }catch(_){ }
   };
 
-  // Runtime fallback for images added dynamically after HTML parsing.
   const tuneImage = (img, index = 1) => {
     if (!img || img.dataset.otPerfTuned) return;
     img.dataset.otPerfTuned = "1";
@@ -138,7 +146,6 @@
     window.addEventListener("pagehide", () => observer.disconnect(), { once: true });
   }
 
-  // Avoid expensive decorative work while the tab is hidden.
   document.addEventListener("visibilitychange", () => {
     document.documentElement.classList.toggle("ot-page-hidden", document.hidden);
   });
