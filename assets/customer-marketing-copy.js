@@ -4,21 +4,28 @@
   window.__OMNI_CUSTOMER_MARKETING_COPY__ = true;
 
   const path = decodeURIComponent(String(location.pathname || "").split("/").filter(Boolean).pop() || "index.html").toLowerCase();
-  const money = value => String(value || "").trim();
+
+  function assignText(node, value) {
+    if (node && value && node.textContent !== value) node.textContent = value;
+  }
 
   function setText(selector, value) {
-    const node = document.querySelector(selector);
-    if (node && value) node.textContent = value;
+    assignText(document.querySelector(selector), value);
   }
 
   function setMeta(name, content, property = false) {
     const selector = property ? `meta[property="${name}"]` : `meta[name="${name}"]`;
     const node = document.querySelector(selector);
-    if (node && content) node.setAttribute("content", content);
+    if (node && content && node.getAttribute("content") !== content) node.setAttribute("content", content);
+  }
+
+  function setNode(root, selector, value) {
+    assignText(root?.querySelector(selector), value);
   }
 
   function homeCopy() {
-    document.title = "Automotive, Marine & RV Parts Online | Omni Terrain";
+    const title = "Automotive, Marine & RV Parts Online | Omni Terrain";
+    if (document.title !== title) document.title = title;
     const description = "Shop automotive, towing, marine and RV parts at Omni Terrain. Find products by brand and MPN, get fitment help, featured savings and secure U.S. checkout.";
     setMeta("description", description);
     setMeta("og:title", "Omni Terrain | Automotive, Marine & RV Parts", true);
@@ -29,16 +36,13 @@
     setText(".home-hero-copy p", "Shop automotive, towing, marine, RV and 12V parts by brand and manufacturer part number. Discover featured offers, fitment-focused product details and secure U.S. checkout.");
 
     const proofs = [...document.querySelectorAll(".home-proof > div")];
-    if (proofs[0]) { const b=proofs[0].querySelector("b"), s=proofs[0].querySelector("span"); if(b)b.textContent="300+"; if(s)s.textContent="Products across automotive, marine and RV"; }
-    if (proofs[1]) { const b=proofs[1].querySelector("b"), s=proofs[1].querySelector("span"); if(b)b.textContent="Shop by MPN"; if(s)s.textContent="Find parts using manufacturer part numbers"; }
-    if (proofs[2]) { const b=proofs[2].querySelector("b"), s=proofs[2].querySelector("span"); if(b)b.textContent="Product help"; if(s)s.textContent="Fitment and order support when you need it"; }
+    if (proofs[0]) { assignText(proofs[0].querySelector("b"),"300+"); assignText(proofs[0].querySelector("span"),"Products across automotive, marine and RV"); }
+    if (proofs[1]) { assignText(proofs[1].querySelector("b"),"Shop by MPN"); assignText(proofs[1].querySelector("span"),"Find parts using manufacturer part numbers"); }
+    if (proofs[2]) { assignText(proofs[2].querySelector("b"),"Product help"); assignText(proofs[2].querySelector("span"),"Fitment and order support when you need it"); }
 
     setText(".brand-strip-label", "Featured brands");
     const departmentSection = [...document.querySelectorAll(".home-section")].find(sec => /Shop by department/i.test(sec.querySelector(".eyebrow")?.textContent || ""));
-    if (departmentSection) {
-      const p = departmentSection.querySelector(".section-head p");
-      if (p) p.textContent = "Browse truck, towing and suspension parts, marine electrical and navigation equipment, plus RV and overlanding essentials.";
-    }
+    if (departmentSection) assignText(departmentSection.querySelector(".section-head p"), "Browse truck, towing and suspension parts, marine electrical and navigation equipment, plus RV and overlanding essentials.");
 
     const cats = [...document.querySelectorAll(".category-home")];
     if (cats[0]) { setNode(cats[0], ".num", "01 / AUTO"); setNode(cats[0], ".count", "Truck & SUV"); }
@@ -62,41 +66,34 @@
     }
   }
 
-  function setNode(root, selector, value) {
-    const node = root?.querySelector(selector);
-    if (node && value) node.textContent = value;
-  }
-
   function catalogueCopy() {
+    let title = "";
+    let description = "";
     if (path === "us-catalogue.html") {
-      document.title = "Automotive, Marine & RV Parts Catalogue | Omni Terrain";
-      setMeta("description", "Shop Omni Terrain automotive, towing, marine and RV parts by brand, MPN and category with clear online pricing and product support.");
+      title = "Automotive, Marine & RV Parts Catalogue | Omni Terrain";
+      description = "Shop Omni Terrain automotive, towing, marine and RV parts by brand, MPN and category with clear online pricing and product support.";
     } else if (path.startsWith("automotive")) {
-      document.title = "Truck, Towing & Automotive Parts | Omni Terrain";
-      setMeta("description", "Shop truck, SUV, towing, suspension, lighting and aftermarket automotive parts by brand and MPN at Omni Terrain.");
+      title = "Truck, Towing & Automotive Parts | Omni Terrain";
+      description = "Shop truck, SUV, towing, suspension, lighting and aftermarket automotive parts by brand and MPN at Omni Terrain.";
     } else if (path.startsWith("marine")) {
-      document.title = "Marine Parts, Electrical & Boat Equipment | Omni Terrain";
-      setMeta("description", "Shop marine electrical, charging, navigation and boat equipment by brand and manufacturer part number at Omni Terrain.");
+      title = "Marine Parts, Electrical & Boat Equipment | Omni Terrain";
+      description = "Shop marine electrical, charging, navigation and boat equipment by brand and manufacturer part number at Omni Terrain.";
     } else if (path.startsWith("rv")) {
-      document.title = "RV & Overlanding Parts and Equipment | Omni Terrain";
-      setMeta("description", "Shop RV, travel, towing and overlanding parts and equipment for road trips, campsites and everyday adventure at Omni Terrain.");
+      title = "RV & Overlanding Parts and Equipment | Omni Terrain";
+      description = "Shop RV, travel, towing and overlanding parts and equipment for road trips, campsites and everyday adventure at Omni Terrain.";
     }
-
-    document.querySelectorAll(".ot-control-meta span").forEach(node => {
-      const count = node.querySelector("b")?.textContent || "";
-      if (count) node.innerHTML = `Showing <b data-visible-count>${count}</b> products.`;
-    });
+    if (title && document.title !== title) document.title = title;
+    if (description) setMeta("description", description);
   }
 
   function productCopy() {
-    document.querySelectorAll(".ot-live-trust").forEach(node => {
-      node.textContent = "Secure checkout powered by Stripe · Free standard shipping on eligible items · Product support from Omni Terrain.";
-    });
+    const trust = "Secure checkout powered by Stripe · Free standard shipping on eligible items · Product support from Omni Terrain.";
+    document.querySelectorAll(".ot-live-trust").forEach(node => assignText(node, trust));
     document.querySelectorAll(".ot-live-label").forEach(node => {
-      if (/online price|launch price/i.test(node.textContent || "")) node.textContent = "Online price";
+      if (/online price|launch price/i.test(node.textContent || "")) assignText(node, "Online price");
     });
     document.querySelectorAll(".ot-live-stock").forEach(node => {
-      if (/available online/i.test(node.textContent || "")) node.textContent = "In stock online";
+      if (/available online/i.test(node.textContent || "")) assignText(node, "In stock online");
     });
   }
 
@@ -105,15 +102,15 @@
       if (node.children.length) return;
       const raw = String(node.textContent || "").trim();
       if (!raw) return;
-      if (/five products priced to win/i.test(raw)) node.textContent = "Upgrade more. Spend less.";
-      else if (/focused launch selection combines real checkout/i.test(raw)) node.textContent = "Save on towing, truck and suspension essentials with secure online checkout and free standard shipping on featured offers in the contiguous U.S.";
-      else if (/product eligibility and checkout coverage will expand/i.test(raw)) node.textContent = "Shop featured offers with clear pricing, free shipping on eligible deals and secure online checkout.";
-      else if (/checkout coverage expands only as products clear/i.test(raw)) node.textContent = "See online pricing, shipping offers and availability at a glance, then check out securely.";
-      else if (/available to buy online · five launch deals shown first/i.test(raw)) node.textContent = "Shop by brand, MPN or price · Featured deals highlighted";
-      else if (/products available for secure checkout/i.test(raw)) node.textContent = raw.replace(/products available for secure checkout/i, "products");
-      else if (/brands in our launch deals/i.test(raw)) node.textContent = "Featured brands";
-      else if (/launch pricing is live on 5 featured products/i.test(raw)) node.textContent = "Featured deals · Free standard shipping on featured offers in the contiguous U.S.";
-      else if (/selected online product · standard us shipping included/i.test(raw)) node.textContent = "Free standard shipping in the contiguous U.S.";
+      if (/five products priced to win/i.test(raw)) assignText(node, "Upgrade more. Spend less.");
+      else if (/focused launch selection combines real checkout/i.test(raw)) assignText(node, "Save on towing, truck and suspension essentials with secure online checkout and free standard shipping on featured offers in the contiguous U.S.");
+      else if (/product eligibility and checkout coverage will expand/i.test(raw)) assignText(node, "Shop featured offers with clear pricing, free shipping on eligible deals and secure online checkout.");
+      else if (/checkout coverage expands only as products clear/i.test(raw)) assignText(node, "See online pricing, shipping offers and availability at a glance, then check out securely.");
+      else if (/available to buy online · five launch deals shown first/i.test(raw)) assignText(node, "Shop by brand, MPN or price · Featured deals highlighted");
+      else if (/products available for secure checkout/i.test(raw)) assignText(node, raw.replace(/products available for secure checkout/i, "products"));
+      else if (/brands in our launch deals/i.test(raw)) assignText(node, "Featured brands");
+      else if (/launch pricing is live on 5 featured products/i.test(raw)) assignText(node, "Featured deals · Free standard shipping on featured offers in the contiguous U.S.");
+      else if (/selected online product · standard us shipping included/i.test(raw)) assignText(node, "Free standard shipping in the contiguous U.S.");
     });
   }
 
