@@ -72,7 +72,7 @@
     ensureStyle('link[href*="us-shell.css"]', "/assets/us-shell.css?v=4", "otUsShell");
     ensureStyle('link[data-ot-image-layout-fix],link[data-ot-image-layout],link[href*="image-layout-fix.css"]', "/assets/image-layout-fix.css?v=2", "otImageLayoutFix");
     ensureStyle('link[data-ot-responsive-hardening],link[href*="responsive-hardening.css"]', "/assets/responsive-hardening.css?v=4", "otResponsiveHardening");
-    ensureStyle('link[data-ot-brand-speed],link[href*="brand-speed.css"]', "/assets/brand-speed.css?v=8", "otBrandSpeed");
+    ensureStyle('link[data-ot-brand-speed],link[href*="brand-speed.css"]', "/assets/brand-speed.css?v=9", "otBrandSpeed");
   }
 
   function injectStockStatusAssets() {

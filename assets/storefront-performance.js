@@ -31,7 +31,7 @@
   if(!usesUsShell){
     ensureCss('link[data-ot-image-layout],link[data-ot-image-layout-fix],link[href*="image-layout-fix.css"]',"/assets/image-layout-fix.css?v=2","otImageLayout");
     ensureCss('link[data-ot-responsive-hardening],link[href*="responsive-hardening.css"]',"/assets/responsive-hardening.css?v=4","otResponsiveHardening");
-    ensureCss('link[data-ot-brand-speed],link[href*="brand-speed.css"]',"/assets/brand-speed.css?v=8","otBrandSpeed");
+    ensureCss('link[data-ot-brand-speed],link[href*="brand-speed.css"]',"/assets/brand-speed.css?v=9","otBrandSpeed");
   }
 
   /* FINAL LOGO LOCK: exact approved OMNI | TERRAIN artwork as a real image. */
