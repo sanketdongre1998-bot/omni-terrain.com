@@ -31,18 +31,31 @@
   if(!usesUsShell){
     ensureCss('link[data-ot-image-layout],link[data-ot-image-layout-fix],link[href*="image-layout-fix.css"]',"/assets/image-layout-fix.css?v=2","otImageLayout");
     ensureCss('link[data-ot-responsive-hardening],link[href*="responsive-hardening.css"]',"/assets/responsive-hardening.css?v=4","otResponsiveHardening");
-    ensureCss('link[data-ot-brand-speed],link[href*="brand-speed.css"]',"/assets/brand-speed.css?v=6","otBrandSpeed");
+    ensureCss('link[data-ot-brand-speed],link[href*="brand-speed.css"]',"/assets/brand-speed.css?v=7","otBrandSpeed");
   }
 
-  /* FINAL LOGO LOCK: keep only the approved Omni Terrain artwork, never a legacy badge. */
-  const upgradeBrands=()=>{
-    document.querySelectorAll(".ot-brand-crest,.brand-badge,.brand-mark,.logo-badge,.logo-mark").forEach(node=>node.remove());
-    document.querySelectorAll(".brand,.ot-site-brand").forEach(brand=>{
-      [...brand.children].forEach(child=>{
-        if(!child.classList.contains("wordmark")&&!child.classList.contains("ot-site-wordmark")) child.remove();
-      });
-    });
+  /* FINAL LOGO LOCK: exact approved OMNI | TERRAIN artwork as a real image. */
+  const LOCKED_LOGO_SRC="/assets/omni-terrain-logo-lock.webp?v=3";
+  const mountLockedLogo=(brand)=>{
+    if(!brand) return;
+    brand.querySelectorAll(".ot-brand-crest,.brand-badge,.brand-mark,.logo-badge,.logo-mark").forEach(node=>node.remove());
+    let img=brand.querySelector("img.ot-brand-logo-image");
+    if(!img){
+      img=document.createElement("img");
+      img.className="ot-brand-logo-image";
+      img.alt="Omni Terrain";
+      img.width=240;
+      img.height=56;
+      img.decoding="async";
+      img.src=LOCKED_LOGO_SRC;
+      brand.replaceChildren(img);
+    }else if(img.getAttribute("src")!==LOCKED_LOGO_SRC){
+      img.setAttribute("src",LOCKED_LOGO_SRC);
+    }
+    brand.classList.add("ot-logo-direct");
+    img.addEventListener("error",()=>{img.hidden=true;brand.classList.remove("ot-logo-direct");},{once:true});
   };
+  const upgradeBrands=()=>document.querySelectorAll(".brand,.ot-site-brand").forEach(mountLockedLogo);
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",upgradeBrands,{once:true});else upgradeBrands();
 
   if(!document.querySelector('script[data-ot-ad-readiness]')){
