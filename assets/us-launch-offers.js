@@ -7,9 +7,37 @@
     HUS81147: {
       priceCents: 11999,
       compareAtCents: 12626,
-      label: "Limited Launch Deal",
+      label: "Launch Deal",
       shippingIncluded: true,
       slug: "us-husky-towing-81147.html"
+    },
+    HUS81148: {
+      priceCents: 14999,
+      compareAtCents: 15828,
+      label: "Launch Deal",
+      shippingIncluded: true,
+      slug: "us-husky-towing-81148.html"
+    },
+    CCIN8010F: {
+      priceCents: 19999,
+      compareAtCents: 21900,
+      label: "Launch Deal",
+      shippingIncluded: true,
+      slug: "us-coast2coast-iwcn8010f.html"
+    },
+    A1360828HD: {
+      priceCents: 20499,
+      compareAtCents: 21399,
+      label: "Launch Deal",
+      shippingIncluded: true,
+      slug: "us-air-lift-60828hd.html"
+    },
+    B5224066464: {
+      priceCents: 13299,
+      compareAtCents: 13697,
+      label: "Launch Deal",
+      shippingIncluded: true,
+      slug: "us-bilstein-24-066464.html"
     }
   };
   window.OMNI_US_LAUNCH_OFFERS = OFFERS;
@@ -54,10 +82,14 @@
     }).format(Number(cents || 0) / 100);
   }
 
-  function decorateOfferPage() {
+  function currentOffer() {
     const page = decodeURIComponent(String(location.pathname || "").split("/").filter(Boolean).pop() || "").toLowerCase();
-    const offer = OFFERS.HUS81147;
-    if (page !== offer.slug) return;
+    return Object.values(OFFERS).find(offer => String(offer.slug || "").toLowerCase() === page) || null;
+  }
+
+  function decorateOfferPage() {
+    const offer = currentOffer();
+    if (!offer) return;
     const box = document.querySelector(".ot-live-buybox");
     if (!box || box.dataset.otLaunchDecorated) return;
     box.dataset.otLaunchDecorated = "1";
