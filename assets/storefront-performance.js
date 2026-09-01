@@ -22,6 +22,14 @@
     document.head.appendChild(growth);
   }
 
+  if(!document.querySelector('script[data-ot-analytics-events]')){
+    const analytics=document.createElement("script");
+    analytics.src="/assets/analytics-events.js?v=1";
+    analytics.defer=true;
+    analytics.dataset.otAnalyticsEvents="true";
+    document.head.appendChild(analytics);
+  }
+
   // Checkout eligibility now comes only from the published authorization-gated registry.
   // Do not synthesize storefront-wide eligibility in the browser.
 
