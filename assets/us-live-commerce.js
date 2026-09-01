@@ -77,6 +77,12 @@
     style.textContent = `
       .ot-live-buybox{margin:24px 0;padding:22px;border:1px solid #d9c28f;border-radius:16px;background:linear-gradient(135deg,#fffdf8,#f8f1e3);box-shadow:0 12px 30px rgba(7,26,48,.07)}
       .ot-live-label{font-size:11px;font-weight:850;text-transform:uppercase;letter-spacing:.09em;color:#8b6a31}.ot-live-price{margin:7px 0 2px;font-size:36px;line-height:1;font-weight:900;color:#071a30;letter-spacing:-.035em}.ot-live-shipping{margin:8px 0 18px;color:#52606d;font-size:13px}.ot-live-actions{display:flex;flex-wrap:wrap;gap:10px}.ot-live-button{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 18px;border:0;border-radius:10px;background:#071a30;color:#fff!important;text-decoration:none;font-weight:850;cursor:pointer}.ot-live-button.secondary{background:#fff;color:#071a30!important;border:1px solid #071a30}.ot-live-trust{margin-top:14px;padding-top:12px;border-top:1px solid rgba(7,26,48,.08);color:#65717d;font-size:12px;line-height:1.55}.ot-live-inline-price{margin-top:4px;color:#071a30;font-size:20px;font-weight:900}.ot-live-stock{display:inline-flex;width:max-content;padding:6px 9px;border-radius:999px;background:#e5f5ec;color:#167047;font-size:11px;font-weight:850}
+      html[data-ot-theme="dark"] .ot-live-buybox .ot-live-price,
+      html[data-ot-theme="dark"] .ot-live-inline-price{
+        color:#fff!important;
+        -webkit-text-fill-color:#fff!important;
+        opacity:1!important;
+      }
       @media(max-width:760px){.ot-live-actions{display:grid;grid-template-columns:1fr}.ot-live-button{width:100%;min-height:50px}}
     `;
     document.head.appendChild(style);
