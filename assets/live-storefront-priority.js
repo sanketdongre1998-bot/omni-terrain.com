@@ -10,14 +10,18 @@
   const launchOffers = {
     HUS81147: { priceCents: 11999, compareAtCents: 12626, label: "Featured Deal" },
     HUS81148: { priceCents: 14999, compareAtCents: 15828, label: "Featured Deal" },
+    CCIN9010F: { priceCents: 21999, compareAtCents: 23900, label: "Featured Deal" },
     CCIN8010F: { priceCents: 19999, compareAtCents: 21900, label: "Featured Deal" },
+    CCIIMP103X: { priceCents: 16999, compareAtCents: 18065, label: "Featured Deal" },
     A1360828HD: { priceCents: 20499, compareAtCents: 21399, label: "Featured Deal" },
     B5224066464: { priceCents: 13299, compareAtCents: 13697, label: "Featured Deal" }
   };
   const marketingDescriptions = {
     HUS81147: "Carry up to four bikes with a hitch-mounted rack built for road trips, weekend rides and everyday transport.",
     HUS81148: "Add serious cargo space with a 500 lb hitch-mounted carrier for road trips, hauling and everyday utility.",
+    CCIN9010F: "Chrome front wheel simulator designed for compatible 2019–2025 Ram 3500 applications with a bold factory-style finish.",
     CCIN8010F: "Chrome front wheel simulator designed for compatible 2003–2018 Ram 3500 applications.",
+    CCIIMP103X: "Chrome wheel-cover upgrade for compatible 2022–2025 Toyota Tundra applications with an 18-inch six-spoke design.",
     A1360828HD: "Load-support air spring kit for compatible Ram 1500 applications, designed to improve stability under load.",
     B5224066464: "Bilstein B8 5100 shock absorber for compatible Ram 2500/3500 trucks with lifted suspension applications."
   };
@@ -72,7 +76,7 @@
       .filter(x => x.product && x.product.slug);
     if (!enabled.length) return;
 
-    const priorityIds = ["HUS81147", "HUS81148", "CCIN8010F", "A1360828HD", "B5224066464"];
+    const priorityIds = ["HUS81147", "HUS81148", "CCIN9010F", "CCIN8010F", "CCIIMP103X", "A1360828HD", "B5224066464"];
     const heroId = "HUS81147";
     enabled.sort((a, b) => {
       const ai = priorityIds.indexOf(a.id), bi = priorityIds.indexOf(b.id);
@@ -80,7 +84,7 @@
       return String(a.product.brand || "").localeCompare(String(b.product.brand || "")) || String(a.product.mpn || "").localeCompare(String(b.product.mpn || ""));
     });
 
-    const featured = enabled.slice(0, 5);
+    const featured = enabled.slice(0, 7);
     const images = await Promise.all(featured.map(x => productImage(x.product.slug)));
 
     const grid = document.querySelector(".live-grid");
@@ -101,9 +105,9 @@
       const eyebrow = section?.querySelector(".section-head .eyebrow");
       const heading = section?.querySelector(".section-head h2");
       const copy = section?.querySelector(".section-head p");
-      if (eyebrow) eyebrow.textContent = "Featured auto & truck deals";
+      if (eyebrow) eyebrow.textContent = "7 featured auto & truck deals";
       if (heading) heading.textContent = "Upgrade more. Spend less.";
-      if (copy) copy.textContent = "Save on towing, truck and suspension essentials with secure online checkout and free standard shipping on featured offers in the contiguous U.S.";
+      if (copy) copy.textContent = "Save on towing, truck, wheel and suspension upgrades with secure online checkout and free standard shipping on featured offers in the contiguous U.S.";
     }
 
     const heroCandidate = enabled.find(x => x.id === heroId) || featured[0];
@@ -141,7 +145,7 @@
 
     const launch = document.querySelector(".launch-strip .container span:last-child");
     if (launch) {
-      launch.textContent = "Featured deals · Free standard shipping on featured offers in the contiguous U.S.";
+      launch.textContent = "7 featured deals · Free standard shipping on featured offers in the contiguous U.S.";
     }
   }
 
