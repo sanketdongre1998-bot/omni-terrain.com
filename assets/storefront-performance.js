@@ -6,11 +6,11 @@
   const path=decodeURIComponent(String(location.pathname||"").split("/").filter(Boolean).pop()||"").toLowerCase();
   const mobile=window.matchMedia&&window.matchMedia("(max-width:760px)").matches;
 
-  // Always load the last-mile responsive layer after legacy page CSS.
+  // Always load the last-mile responsive + dark-theme layer after legacy page CSS.
   if(!document.querySelector('link[data-ot-responsive-hardening]')){
     const responsive=document.createElement("link");
     responsive.rel="stylesheet";
-    responsive.href="/assets/responsive-hardening.css?v=1";
+    responsive.href="/assets/responsive-hardening.css?v=2";
     responsive.dataset.otResponsiveHardening="true";
     document.head.appendChild(responsive);
   }
