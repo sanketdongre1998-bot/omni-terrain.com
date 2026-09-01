@@ -9,50 +9,40 @@
 .ot-site-brand>.ot-site-wordmark,.brand>.wordmark,#site-header .brand>.wordmark,#header .brand>.wordmark{display:none!important}
 .ot-site-brand::after,.brand::after{content:none!important;display:none!important}
 
-/* Fallback artwork if JavaScript has not mounted the real image yet. */
-.ot-site-brand::before,.brand::before{
+/*
+  Production-safe logo render.
+  The storefront server is currently not serving the newly-added local WebP reliably,
+  so use the exact same approved repo asset from GitHub's raw CDN until the asset sync is corrected.
+*/
+.ot-site-brand::before,.brand::before,
+.ot-site-brand.ot-logo-direct::before,.brand.ot-logo-direct::before{
   content:""!important;
   display:block!important;
   width:240px!important;
   height:56px!important;
   flex:0 0 240px!important;
-  background-image:url('/assets/omni-terrain-logo-lock.webp?v=3')!important;
+  background-image:url('https://raw.githubusercontent.com/sanketdongre1998-bot/omni-terrain.com/main/assets/omni-terrain-logo-lock.webp')!important;
   background-repeat:no-repeat!important;
   background-position:left center!important;
   background-size:contain!important;
   pointer-events:none!important;
 }
 
-/* Preferred render path: the exact locked artwork is a real IMG, not CSS-generated branding. */
-.ot-site-brand.ot-logo-direct::before,.brand.ot-logo-direct::before{display:none!important}
-.ot-brand-logo-image{
-  display:block!important;
-  width:240px!important;
-  height:56px!important;
-  max-width:none!important;
-  flex:0 0 240px!important;
-  object-fit:contain!important;
-  object-position:left center!important;
-  border:0!important;
-  background:transparent!important;
-  box-shadow:none!important;
-}
+/* Hide the broken local IMG completely; the exact same artwork is rendered above. */
+.ot-brand-logo-image{display:none!important;width:0!important;height:0!important;max-width:0!important;flex:0 0 0!important;overflow:hidden!important}
 
 #header .brand,.header .brand,.ot-site-header .ot-site-brand,.ot-site-footer .ot-site-brand{min-height:56px!important}
 
 @media(max-width:860px){
-  .ot-site-brand::before,.brand::before{width:205px!important;height:47px!important;flex-basis:205px!important}
-  .ot-brand-logo-image{width:205px!important;height:47px!important;flex-basis:205px!important}
+  .ot-site-brand::before,.brand::before,.ot-site-brand.ot-logo-direct::before,.brand.ot-logo-direct::before{width:205px!important;height:47px!important;flex-basis:205px!important}
   #header .brand,.header .brand,.ot-site-header .ot-site-brand{min-height:47px!important}
 }
 @media(max-width:480px){
-  .ot-site-brand::before,.brand::before{width:178px!important;height:41px!important;flex-basis:178px!important}
-  .ot-brand-logo-image{width:178px!important;height:41px!important;flex-basis:178px!important}
+  .ot-site-brand::before,.brand::before,.ot-site-brand.ot-logo-direct::before,.brand.ot-logo-direct::before{width:178px!important;height:41px!important;flex-basis:178px!important}
   #header .brand,.header .brand,.ot-site-header .ot-site-brand{min-height:41px!important}
 }
 @media(max-width:360px){
-  .ot-site-brand::before,.brand::before{width:160px!important;height:37px!important;flex-basis:160px!important}
-  .ot-brand-logo-image{width:160px!important;height:37px!important;flex-basis:160px!important}
+  .ot-site-brand::before,.brand::before,.ot-site-brand.ot-logo-direct::before,.brand.ot-logo-direct::before{width:160px!important;height:37px!important;flex-basis:160px!important}
 }
 
 /* Below-fold render skipping: browser lays these out only as they approach viewport. */
