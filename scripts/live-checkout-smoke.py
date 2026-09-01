@@ -60,7 +60,6 @@ def main() -> int:
         else:
             errors.append(f"{product_id}: checkout session failed HTTP {status}: {body.get('error', 'missing Stripe URL')}")
 
-    # Eligible non-featured cart should accept OMNI5.
     status, body = request_json(API, {"items": [{"id": "HUS33055", "qty": 2}], "couponCode": "OMNI5"})
     promo = body.get("promotion") or {}
     if status == 200 and valid_checkout_url(body.get("url")) and promo.get("code") == "OMNI5" and int(promo.get("savingsCents") or 0) == 500:
@@ -68,8 +67,9 @@ def main() -> int:
     else:
         errors.append(f"OMNI5 eligible-cart smoke failed HTTP {status}: {body.get('error', 'promotion marker missing')}")
 
-    # Featured offers must reject coupon stacking before a Stripe session is opened.
-    status, body = request_json(API, {"items": [{"id": "HUS81147", "qty": 1}], "couponCode": "OMNI5"})
+    # HUS81148 is itself above the $150 promo minimum, so this isolates the no-stacking guard
+    # instead of being rejected first by the minimum-order rule.
+    status, body = request_json(API, {"items": [{"id": "HUS81148", "qty": 1}], "couponCode": "OMNI5"})
     message = str(body.get("error") or "")
     if status == 400 and "cannot be combined" in message.lower():
         passes.append("PASS OMNI5: featured-offer stacking rejected")
