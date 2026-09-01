@@ -8,23 +8,25 @@
   const idle=(fn,timeout=1200)=>{"requestIdleCallback" in window?requestIdleCallback(fn,{timeout}):setTimeout(fn,Math.min(timeout,700));};
 
   const ensureCss=(selector,href,datasetKey)=>{
-    if(document.querySelector(selector))return;
+    const existing=document.querySelector(selector);
+    if(existing){ if(existing.tagName==="LINK"&&existing.href&&!existing.href.includes(href.split("?")[1]||"__none__")) existing.href=href; return; }
     const link=document.createElement("link");link.rel="stylesheet";link.href=href;if(datasetKey)link.dataset[datasetKey]="true";document.head.appendChild(link);
   };
 
-  /* Critical last-mile layers: load immediately because they fix layout/contrast/brand. */
+  /* Critical last-mile layers: layout, contrast and the approved name-led brand. */
   ensureCss('link[data-ot-responsive-hardening],link[href*="responsive-hardening.css"]',"/assets/responsive-hardening.css?v=3","otResponsiveHardening");
-  ensureCss('link[data-ot-brand-speed],link[href*="brand-speed.css"]',"/assets/brand-speed.css?v=1","otBrandSpeed");
+  ensureCss('link[data-ot-brand-speed],link[href*="brand-speed.css"]',"/assets/brand-speed.css?v=2","otBrandSpeed");
 
-  const crestMarkup=()=>'<span class="ot-brand-crest" aria-hidden="true"><svg viewBox="0 0 48 48" focusable="false"><path class="ot-crest-frame" d="M24 3 41 10v13c0 10.7-6.6 17.4-17 22C13.6 40.4 7 33.7 7 23V10L24 3Z"/><rect class="ot-crest-o" x="12" y="15" width="13" height="16" rx="6.5"/><path class="ot-crest-t" d="M27 16h10M32 16v16"/><path class="ot-crest-road" d="M13 36h22"/></svg></span>';
+  /* The approved logo is wordmark-first. Remove any older experimental badge/crest. */
   const upgradeBrands=()=>{
-    document.querySelectorAll(".brand,.ot-site-brand").forEach(brand=>{
-      if(brand.querySelector(".ot-brand-crest"))return;
-      const wordmark=brand.querySelector(".wordmark,.ot-site-wordmark");
-      if(wordmark)wordmark.insertAdjacentHTML("beforebegin",crestMarkup());
-    });
+    document.querySelectorAll(".ot-brand-crest").forEach(node=>node.remove());
   };
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",upgradeBrands,{once:true});else upgradeBrands();
+
+  /* Capture paid-search attribution without blocking first paint. */
+  if(!document.querySelector('script[data-ot-ad-readiness]')){
+    const ads=document.createElement("script");ads.src="/assets/ad-readiness.js?v=1";ads.defer=true;ads.dataset.otAdReadiness="true";document.head.appendChild(ads);
+  }
 
   /* Customer copy can wait until the first frame has settled. */
   idle(()=>{
@@ -39,7 +41,7 @@
       const growth=document.createElement("script");growth.src="/assets/growth-marketing.js?v=2";growth.defer=true;growth.dataset.otGrowthMarketing="true";document.head.appendChild(growth);
     }
     if(!document.querySelector('script[data-ot-analytics-events]')){
-      const analytics=document.createElement("script");analytics.src="/assets/analytics-events.js?v=1";analytics.defer=true;analytics.dataset.otAnalyticsEvents="true";document.head.appendChild(analytics);
+      const analytics=document.createElement("script");analytics.src="/assets/analytics-events.js?v=2";analytics.defer=true;analytics.dataset.otAnalyticsEvents="true";document.head.appendChild(analytics);
     }
   },1500);
 
