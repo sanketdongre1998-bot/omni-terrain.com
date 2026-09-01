@@ -40,7 +40,7 @@ def schema(path: str) -> dict:
 
 def main() -> int:
     routes = ["index.html","deals.html","us-catalogue.html","automotive.html","marine.html","rv.html","cart.html","checkout.html","contact-and-order-help.html","shipping-delivery-policy.html","returns-refunds-policy.html","privacy-policy.html","terms-conditions.html","us-order-success.html"]
-    assets = ["assets/us-shell.js","assets/catalogue-controls.js","assets/customer-marketing-copy.js","assets/growth-marketing.js","assets/analytics-events.js","assets/universal-checkout-ui.js","assets/cart-checkout-premium.js","assets/storefront-performance.js","assets/responsive-hardening.css","assets/dark-theme-polish.css","assets/brand-speed.css","assets/us-launch-offers.js","assets/us-live-products.json","assets/us-display-prices.js","assets/us-products.js","assets/us-order-success.js","scripts/responsive-browser-audit.mjs","scripts/dark-theme-browser-audit.mjs","lib/us-checkout-products.mjs","api/us-create-checkout-session.mjs","api/us-checkout-health.mjs"]
+    assets = ["assets/us-shell.js","assets/catalogue-controls.js","assets/customer-marketing-copy.js","assets/growth-marketing.js","assets/ad-readiness.js","assets/analytics-events.js","assets/universal-checkout-ui.js","assets/cart-checkout-premium.js","assets/storefront-performance.js","assets/responsive-hardening.css","assets/dark-theme-polish.css","assets/brand-speed.css","assets/us-launch-offers.js","assets/us-live-products.json","assets/us-display-prices.js","assets/us-products.js","assets/us-order-success.js","scripts/responsive-browser-audit.mjs","scripts/dark-theme-browser-audit.mjs","lib/us-checkout-products.mjs","api/us-create-checkout-session.mjs","api/us-checkout-health.mjs"]
     for path in routes + assets:
         if (ROOT / path).exists(): passes.append(f"PASS exists: {path}")
         else: errors.append(f"missing {path}")
@@ -54,12 +54,15 @@ def main() -> int:
     for bad in ["exact dollar savings","regular online price, featured price","Clear savings"]: ban("deals.html", bad, bad)
     need("assets/growth-marketing.js", "OMNI5", "promo code")
     need("assets/customer-marketing-copy.js", "Shop with confidence.", "customer trust copy")
+    need("assets/ad-readiness.js", "gclid", "paid-search attribution capture")
+    need("assets/ad-readiness.js", "Clear online pricing", "retail ad landing copy")
 
-    # Final responsive/dark/brand UI layer.
+    # Final responsive/dark/approved-brand UI layer.
     need("assets/storefront-performance.js", "responsive-hardening.css?v=3", "cache-busted responsive layer")
-    need("assets/storefront-performance.js", "brand-speed.css?v=1", "classic brand-speed layer")
+    need("assets/storefront-performance.js", "brand-speed.css?v=2", "locked brand-speed layer")
     need("assets/responsive-hardening.css", "dark-theme-polish.css?v=1", "dark theme import")
-    need("assets/brand-speed.css", ".ot-brand-crest", "classic SVG crest styling")
+    need("assets/brand-speed.css", "Locked brand direction", "approved wordmark styling")
+    need("assets/brand-speed.css", "terrain-route", "route detail in approved wordmark")
     need("assets/brand-speed.css", "content-visibility:auto", "below-fold render skipping")
     need("assets/dark-theme-polish.css", "--ot-night-text:#f3f6fa", "dark primary contrast")
     for token, label in [(".ot-promo-box","dark promo"),(".ot-search-input","dark filters"),(".ot-primary-btn","dark CTA")]: need("assets/dark-theme-polish.css", token, label)
@@ -87,9 +90,11 @@ def main() -> int:
     for token, label in [("await resolveUsCheckoutItems","server item resolution"),("server_storefront_catalogue","pricing metadata"),("shipping_address_collection","US address collection"),('PROMO_CODE = "OMNI5"',"OMNI5 validation"),("FEATURED_DEAL_IDS","no-stack guard")]: need("api/us-create-checkout-session.mjs", token, label)
     need("api/us-checkout-health.mjs", 'checkoutMode: "authorization-gated"', "authorization-gated health")
     need("assets/analytics-events.js", "const price = Number(offer?.price || 0);", "canonical analytics price")
+    need("assets/analytics-events.js", "traffic_attribution", "attribution on ecommerce events")
     ban("assets/analytics-events.js", "promo.priceCents", "promo analytics price override")
     need("assets/us-order-success.js", 'event: "purchase"', "purchase event")
     need("assets/us-order-success.js", "if (!data.paid)", "paid verification before purchase")
+    need("assets/us-order-success.js", "traffic_attribution", "attribution on verified purchase")
 
     # Registry integrity + 7 featured PDP schema prices must equal canonical registry prices exactly.
     try:
