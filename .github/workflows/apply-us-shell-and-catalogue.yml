@@ -26,7 +26,9 @@ jobs:
           import re
 
           root = Path('.')
-          shell_tag = '<script defer src="assets/us-shell.js?v=4"></script>'
+          shell_tag = '<script defer src="assets/us-shell.js?v=5"></script>'
+          performance_tag = '<script defer src="assets/storefront-performance.js?v=3"></script>'
+          theme_tag = '<script defer src="assets/theme-toggle.js?v=2"></script>'
           catalogue_tag = '<script defer src="assets/catalogue-premium.js?v=2"></script>'
           changed = 0
           shell_count = 0
@@ -38,15 +40,25 @@ jobs:
                   continue
               if re.search(r'<html[^>]+lang=["\']en-gb["\']', text, flags=re.I):
                   continue
-              if path.name == 'index.html':
-                  continue
 
               original = text
-              if 'assets/us-shell.js' in text:
-                  text = re.sub(r'<script\s+defer\s+src=["\']assets/us-shell\.js(?:\?v=[^"\']+)?["\']></script>', shell_tag, text, flags=re.I)
+
+              # Every US page gets a fresh performance runtime URL so browser caches
+              # cannot retain the old logo/render behavior.
+              if 'assets/storefront-performance.js' in text:
+                  text = re.sub(r'<script\s+defer\s+src=["\']assets/storefront-performance\.js(?:\?v=[^"\']+)?["\']></script>', performance_tag, text, flags=re.I)
               else:
-                  text = text.replace('</body>', shell_tag + '</body>', 1)
-                  shell_count += 1
+                  text = text.replace('</body>', performance_tag + '</body>', 1)
+
+              if 'assets/theme-toggle.js' in text:
+                  text = re.sub(r'<script\s+defer\s+src=["\']assets/theme-toggle\.js(?:\?v=[^"\']+)?["\']></script>', theme_tag, text, flags=re.I)
+
+              if path.name != 'index.html':
+                  if 'assets/us-shell.js' in text:
+                      text = re.sub(r'<script\s+defer\s+src=["\']assets/us-shell\.js(?:\?v=[^"\']+)?["\']></script>', shell_tag, text, flags=re.I)
+                  else:
+                      text = text.replace('</body>', shell_tag + '</body>', 1)
+                      shell_count += 1
 
               if path.name == 'us-catalogue.html':
                   if 'assets/catalogue-premium.js' in text:
@@ -86,6 +98,8 @@ jobs:
               raise SystemExit('Catalogue premium runtime was not attached')
           if 'Browse 1,000 products' in Path('index.html').read_text(encoding='utf-8'):
               raise SystemExit('Homepage exact catalogue count is still exposed')
+          if 'storefront-performance.js?v=3' not in Path('index.html').read_text(encoding='utf-8'):
+              raise SystemExit('Homepage performance cache-bust missing')
           PY
 
       - name: Commit storefront shell updates
@@ -97,5 +111,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -- '*.html' assets/us-shell.js
-          git commit -m "Polish production storefront presentation"
+          git commit -m "Refresh classic brand and performance runtime"
           git push origin HEAD:main
