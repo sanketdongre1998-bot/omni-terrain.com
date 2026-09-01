@@ -6,18 +6,35 @@
   const path=decodeURIComponent(String(location.pathname||"").split("/").filter(Boolean).pop()||"").toLowerCase();
   const mobile=window.matchMedia&&window.matchMedia("(max-width:760px)").matches;
   const idle=(fn,timeout=1200)=>{"requestIdleCallback" in window?requestIdleCallback(fn,{timeout}):setTimeout(fn,Math.min(timeout,700));};
+  const usesUsShell=Boolean(document.querySelector('script[src*="us-shell.js"]'));
 
   const ensureCss=(selector,href,datasetKey)=>{
     const existing=document.querySelector(selector);
-    if(existing){ if(existing.tagName==="LINK"&&existing.href&&!existing.href.includes(href.split("?")[1]||"__none__")) existing.href=href; return; }
-    const link=document.createElement("link");link.rel="stylesheet";link.href=href;if(datasetKey)link.dataset[datasetKey]="true";document.head.appendChild(link);
+    if(existing){
+      if(existing.tagName==="LINK"&&existing.getAttribute("href")!==href) existing.setAttribute("href",href);
+      return existing;
+    }
+    const link=document.createElement("link");
+    link.rel="stylesheet";
+    link.href=href;
+    if(datasetKey)link.dataset[datasetKey]="true";
+    document.head.appendChild(link);
+    return link;
   };
 
-  /* Critical last-mile layers: layout, contrast and the approved name-led brand. */
-  ensureCss('link[data-ot-responsive-hardening],link[href*="responsive-hardening.css"]',"/assets/responsive-hardening.css?v=3","otResponsiveHardening");
-  ensureCss('link[data-ot-brand-speed],link[href*="brand-speed.css"]',"/assets/brand-speed.css?v=4","otBrandSpeed");
+  /*
+    CSS ownership is deliberately split:
+    - homepage / legacy pages: this runtime provides the final hardening layers;
+    - US shell pages: us-shell.js owns the same layers in a deterministic order.
+    This prevents both scripts from racing to append or downgrade stylesheets.
+  */
+  if(!usesUsShell){
+    ensureCss('link[data-ot-image-layout],link[data-ot-image-layout-fix],link[href*="image-layout-fix.css"]',"/assets/image-layout-fix.css?v=2","otImageLayout");
+    ensureCss('link[data-ot-responsive-hardening],link[href*="responsive-hardening.css"]',"/assets/responsive-hardening.css?v=4","otResponsiveHardening");
+    ensureCss('link[data-ot-brand-speed],link[href*="brand-speed.css"]',"/assets/brand-speed.css?v=6","otBrandSpeed");
+  }
 
-  /* FINAL LOGO LOCK: keep only OMNI | TERRAIN wordmark, never a legacy OT badge. */
+  /* FINAL LOGO LOCK: keep only the approved Omni Terrain artwork, never a legacy badge. */
   const upgradeBrands=()=>{
     document.querySelectorAll(".ot-brand-crest,.brand-badge,.brand-mark,.logo-badge,.logo-mark").forEach(node=>node.remove());
     document.querySelectorAll(".brand,.ot-site-brand").forEach(brand=>{
@@ -64,8 +81,6 @@
       const priority=document.createElement("script");priority.src="/assets/live-storefront-priority.js?v=7";priority.defer=true;priority.dataset.otLivePriority="true";document.head.appendChild(priority);
     }
   }
-
-  ensureCss('link[data-ot-image-layout],link[data-ot-image-layout-fix],link[href*="image-layout-fix.css"]',"/assets/image-layout-fix.css?v=2","otImageLayout");
 
   if(path==="us-catalogue.html"||/^(automotive|marine|rv)(?:-|\.)/.test(path)){
     if(!document.querySelector('script[data-ot-catalogue-controls]')){
@@ -130,7 +145,6 @@
 
   if ("MutationObserver" in window) {
     const observer = new MutationObserver((mutations) => {
-      upgradeBrands();
       for (const mutation of mutations) {
         for (const node of mutation.addedNodes) {
           if (!(node instanceof Element)) continue;
