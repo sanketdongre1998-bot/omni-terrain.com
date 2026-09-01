@@ -5,11 +5,17 @@
 
   window.dataLayer = window.dataLayer || [];
   const CART_KEY = "omniTerrainUsCart";
+  const ATTR_KEY = "omniTerrainAdAttribution";
   const path = decodeURIComponent(String(location.pathname || "").split("/").filter(Boolean).pop() || "index.html").toLowerCase();
+
+  function attribution() {
+    if (window.OMNI_AD_ATTRIBUTION) return window.OMNI_AD_ATTRIBUTION;
+    try { return JSON.parse(localStorage.getItem(ATTR_KEY) || "{}"); } catch (_) { return {}; }
+  }
 
   function push(event, ecommerce = {}, extra = {}) {
     window.dataLayer.push({ ecommerce: null });
-    window.dataLayer.push({ event, ecommerce, ...extra });
+    window.dataLayer.push({ event, ecommerce, traffic_attribution: attribution().last || {}, ...extra });
   }
 
   function productSchema() {
@@ -33,8 +39,6 @@
     const price = Number(offer?.price || 0);
     let id = String(schema.sku || schema.mpn || "").trim();
 
-    // Featured-offer metadata identifies the internal catalogue ID only.
-    // It never overrides the canonical Product/Offer price used for analytics.
     const launches = window.OMNI_US_LAUNCH_OFFERS || {};
     for (const [launchId, promo] of Object.entries(launches)) {
       if (String(promo?.slug || "").toLowerCase() === path) {
@@ -84,7 +88,7 @@
       push("begin_checkout", { currency: "USD", items: cartItems() });
     }
     if (target.matches('a[href*="deals.html"]')) {
-      window.dataLayer.push({ event: "select_promotion", promotion_name: "Featured Auto & Truck Offers" });
+      window.dataLayer.push({ event: "select_promotion", promotion_name: "Featured Auto & Truck Offers", traffic_attribution: attribution().last || {} });
     }
   }, { capture: true });
 
@@ -97,7 +101,7 @@
   }, { capture: true });
 
   if (path === "deals.html") {
-    window.dataLayer.push({ event: "view_promotion", promotion_name: "Featured Auto & Truck Offers", creative_slot: "deals_page" });
+    window.dataLayer.push({ event: "view_promotion", promotion_name: "Featured Auto & Truck Offers", creative_slot: "deals_page", traffic_attribution: attribution().last || {} });
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mountViewItem, { once: true });
