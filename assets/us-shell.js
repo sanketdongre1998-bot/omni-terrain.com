@@ -10,6 +10,8 @@
 
   const CART_KEY = "omniTerrainUsCart";
   const file = decodeURIComponent(path.split("/").filter(Boolean).pop() || "");
+  const isCatalogue = file === "us-catalogue.html" || /^(automotive|marine|rv)(?:-|\.)/.test(file);
+  const isProduct = /^us-/.test(file) && file !== "us-catalogue.html";
   if (/^(automotive|marine|rv)(?:-|\.)/.test(file)) document.documentElement.classList.add("ot-department-page");
 
   function cartCount() {
@@ -29,8 +31,12 @@
     return "";
   }
 
+  function crest() {
+    return `<span class="ot-brand-crest" aria-hidden="true"><svg viewBox="0 0 48 48" focusable="false"><path class="ot-crest-frame" d="M24 3 41 10v13c0 10.7-6.6 17.4-17 22C13.6 40.4 7 33.7 7 23V10L24 3Z"/><rect class="ot-crest-o" x="12" y="15" width="13" height="16" rx="6.5"/><path class="ot-crest-t" d="M27 16h10M32 16v16"/><path class="ot-crest-road" d="M13 36h22"/></svg></span>`;
+  }
+
   function brand() {
-    return `<span class="ot-site-wordmark"><span class="ot-site-wordmark-main">OMNI</span><span class="ot-site-wordmark-sub">Terrain</span><span class="ot-site-wordmark-meta">Road / Water / Power</span></span>`;
+    return `${crest()}<span class="ot-site-wordmark"><span class="ot-site-wordmark-main">OMNI</span><span class="ot-site-wordmark-sub">Terrain</span><span class="ot-site-wordmark-meta">Road / Water / Power</span></span>`;
   }
 
   function injectFonts() {
@@ -44,7 +50,9 @@
     if (!document.querySelector('link[href*="fonts.googleapis.com/css2"][href*="Barlow"]')) {
       const font = document.createElement("link");
       font.rel = "stylesheet";
-      font.href = "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Teko:wght@500;600;700&display=swap";
+      font.media = "print";
+      font.href = "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=DM+Mono:wght@500&family=Manrope:wght@500;600;700;800&display=swap";
+      font.onload = () => { font.media = "all"; };
       document.head.appendChild(font);
     }
   }
@@ -53,12 +61,12 @@
     if (document.querySelector('link[href^="assets/us-shell.css"],link[href^="/assets/us-shell.css"]')) return;
     const link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = "/assets/us-shell.css?v=3";
+    link.href = "/assets/us-shell.css?v=4";
     document.head.appendChild(link);
   }
 
   function injectImageLayoutFix() {
-    if (document.querySelector('link[data-ot-image-layout-fix]')) return;
+    if (document.querySelector('link[data-ot-image-layout-fix],link[href*="image-layout-fix.css"]')) return;
     const css = document.createElement("link");
     css.rel = "stylesheet";
     css.href = "/assets/image-layout-fix.css?v=2";
@@ -67,10 +75,11 @@
   }
 
   function injectStockStatusAssets() {
-    if (document.querySelector('script[data-ot-stock-status]')) return;
+    if (!(isCatalogue || isProduct) || document.querySelector('script[data-ot-stock-status]')) return;
     const script = document.createElement("script");
     script.src = "/assets/us-stock-status-ui.js?v=1";
     script.dataset.otStockStatus = "true";
+    script.defer = true;
     document.body.appendChild(script);
   }
 
@@ -94,22 +103,24 @@
       const script = document.createElement("script");
       script.src = "/assets/product-page-premium.js?v=3";
       script.dataset.otProductPremium = "true";
+      script.defer = true;
       document.body.appendChild(script);
     }
     if (!document.querySelector('script[data-ot-universal-checkout]')) {
       const universal = document.createElement("script");
       universal.src = "/assets/universal-checkout-ui.js?v=2";
       universal.dataset.otUniversalCheckout = "true";
+      universal.defer = true;
       document.body.appendChild(universal);
     }
   }
 
   function injectCatalogueAssets() {
-    if (!(file === "us-catalogue.html" || /^(automotive|marine|rv)(?:-|\.)/.test(file))) return;
-    if (document.querySelector('script[data-ot-catalogue-controls]')) return;
+    if (!isCatalogue || document.querySelector('script[data-ot-catalogue-controls]')) return;
     const script = document.createElement("script");
-    script.src = "/assets/catalogue-controls.js?v=7";
+    script.src = "/assets/catalogue-controls.js?v=9";
     script.dataset.otCatalogueControls = "true";
+    script.defer = true;
     document.body.appendChild(script);
   }
 
@@ -128,6 +139,7 @@
       const script = document.createElement("script");
       script.src = "/assets/cart-checkout-premium.js?v=3";
       script.dataset.otCommercePremium = "true";
+      script.defer = true;
       document.body.appendChild(script);
     };
 
@@ -139,6 +151,7 @@
         const bridge = document.createElement("script");
         bridge.src = "/assets/us-checkout-api-bridge.js?v=1";
         bridge.dataset.otCheckoutApiBridge = "true";
+        bridge.defer = true;
         bridge.addEventListener("load", appendPremium, { once: true });
         bridge.addEventListener("error", appendPremium, { once: true });
         document.body.appendChild(bridge);
@@ -149,11 +162,17 @@
   }
 
   function injectGrowthAssets() {
-    if (document.querySelector('script[data-ot-growth-marketing]')) return;
-    const script = document.createElement("script");
-    script.src = "/assets/growth-marketing.js?v=1";
-    script.dataset.otGrowthMarketing = "true";
-    document.body.appendChild(script);
+    if (document.querySelector('script[data-ot-growth-marketing],script[src*="growth-marketing.js"]')) return;
+    const load = () => {
+      if (document.querySelector('script[data-ot-growth-marketing],script[src*="growth-marketing.js"]')) return;
+      const script = document.createElement("script");
+      script.src = "/assets/growth-marketing.js?v=2";
+      script.dataset.otGrowthMarketing = "true";
+      script.defer = true;
+      document.body.appendChild(script);
+    };
+    if ("requestIdleCallback" in window) requestIdleCallback(load, { timeout: 1400 });
+    else setTimeout(load, 700);
   }
 
   function mountHeader() {
