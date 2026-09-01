@@ -5,6 +5,7 @@
 
   const CART_KEY = "omniTerrainUsCart";
   const MAX_QTY = 10;
+  const REGISTRY_URL = "/assets/us-live-products.json?v=authorization-4";
 
   function schemaProduct() {
     for (const node of document.querySelectorAll('script[type="application/ld+json"]')) {
@@ -53,13 +54,24 @@
     return cart.find((item) => item.id === id)?.quantity || 1;
   }
 
+  async function eligibility(id) {
+    try {
+      const response = await fetch(REGISTRY_URL, { cache: "no-store" });
+      if (!response.ok) return null;
+      const data = await response.json();
+      const row = data?.products?.[id];
+      if (!row || row.enabled !== true || row.authorizationVerified !== true || Number(row.priceCents || 0) <= 0) return null;
+      return row;
+    } catch (_) {
+      return null;
+    }
+  }
+
   function ensureBuybox() {
     let box = document.querySelector(".ot-live-buybox, .ot-display-buybox, .ot-online-buybox");
     if (box) return box;
-
     const copy = document.querySelector(".product-copy");
     if (!copy) return null;
-
     box = document.createElement("div");
     box.className = "ot-display-buybox";
     const facts = copy.querySelector(".facts");
@@ -68,8 +80,13 @@
     return box;
   }
 
+  function liveCommerceAlreadyMounted() {
+    const box = document.querySelector(".ot-live-buybox");
+    return Boolean(box && (box.querySelector("[data-ot-add]") || box.querySelector("[data-ot-buy]") || box.querySelector(".ot-live-actions")));
+  }
+
   function mountCheckout(box, id) {
-    if (!box || box.dataset.otUniversalCheckout === "true") return;
+    if (!box || box.dataset.otUniversalCheckout === "true" || liveCommerceAlreadyMounted()) return;
     box.dataset.otUniversalCheckout = "true";
     box.classList.add("ot-universal-buybox", "ot-online-buybox");
 
@@ -82,7 +99,7 @@
       note.className = "ot-display-note";
       box.appendChild(note);
     }
-    note.textContent = "Add this item to your cart and continue to secure checkout. Final product pricing is validated server-side and order availability is confirmed before payment opens.";
+    note.textContent = "Add this item to your cart and continue to secure checkout. Final product pricing, authorization and current availability are re-validated before payment opens.";
 
     const actions = document.createElement("div");
     actions.className = "ot-universal-actions";
@@ -104,19 +121,29 @@
     });
   }
 
-  function mount(attempt = 0) {
-    if (!isUsProductPage()) {
-      if (attempt < 30 && document.readyState !== "complete") setTimeout(() => mount(attempt + 1), 150);
+  async function mount() {
+    if (!isUsProductPage()) return;
+    const id = productId();
+    if (!id) return;
+
+    const approved = await eligibility(id);
+    if (!approved) {
+      // Non-authorized / non-live product pages remain informational. Never
+      // synthesize a Buy Now button or add them to the online cart.
+      document.querySelectorAll(".ot-universal-buybox").forEach(node => node.remove());
       return;
     }
 
-    const id = productId();
-    const box = ensureBuybox();
-    if (!id || !box) {
-      if (attempt < 30) setTimeout(() => mount(attempt + 1), 150);
-      return;
+    // The primary live-commerce runtime owns approved PDPs. Give it time to
+    // mount first; this script is only a resilience fallback if that runtime
+    // fails to render for an otherwise approved SKU.
+    for (let attempt = 0; attempt < 18; attempt++) {
+      if (liveCommerceAlreadyMounted()) return;
+      await new Promise(resolve => setTimeout(resolve, 100));
     }
-    mountCheckout(box, id);
+
+    if (liveCommerceAlreadyMounted()) return;
+    mountCheckout(ensureBuybox(), id);
   }
 
   const css = document.createElement("style");
