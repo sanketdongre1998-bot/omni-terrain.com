@@ -1,7 +1,11 @@
 /* Omni Terrain locked wordmark + render performance layer */
 
-/* Locked brand direction: name-led OMNI | TERRAIN. No shield/badge. */
-.ot-brand-crest,.brand>.ot-brand-crest,.ot-site-brand>.ot-brand-crest{display:none!important}
+/* FINAL BRAND LOCK: OMNI | TERRAIN + ROAD / WATER / POWER. No shield/badge. */
+.ot-brand-crest,.brand>.ot-brand-crest,.ot-site-brand>.ot-brand-crest,
+.brand>.brand-badge,.brand>.brand-mark,.brand>.logo-badge,.brand>.logo-mark,
+.ot-site-brand>.brand-badge,.ot-site-brand>.brand-mark,.ot-site-brand>.logo-badge,.ot-site-brand>.logo-mark{display:none!important}
+.brand::before,.brand::after,.ot-site-brand::before,.ot-site-brand::after{content:none!important;display:none!important}
+.brand>:not(.wordmark),.ot-site-brand>:not(.ot-site-wordmark){display:none!important}
 .ot-site-brand,.brand{display:inline-flex!important;align-items:center!important;gap:0!important;min-width:0;text-decoration:none}
 
 .ot-site-wordmark,#header .wordmark,.header .wordmark{display:grid!important;grid-template-columns:auto auto!important;grid-template-rows:auto auto!important;column-gap:10px!important;row-gap:4px!important;align-items:end!important;position:relative!important;padding:2px 0 8px!important;line-height:1!important}
