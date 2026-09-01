@@ -52,11 +52,19 @@
     return [...document.querySelectorAll("main .section")].find(sec=>sec.querySelector(".grid"))||null;
   }
 
-  function softenDepartmentCounts(){
-    if(!/^(automotive|marine|rv)(?:-|\.)/.test(file)) return;
+  function customerDepartmentCopy(){
     const heroCopy=document.querySelector("main .hero p");
-    if(heroCopy) heroCopy.textContent="Browse products currently enabled for secure online checkout. Use search and filters to narrow by brand, MPN or price.";
-    document.querySelectorAll("main .section-head .muted").forEach(node=>{node.textContent="Available to buy online · Five launch deals shown first";});
+    if(file==="us-catalogue.html"){
+      if(heroCopy) heroCopy.textContent="Shop automotive, towing, marine and RV parts by brand, MPN and category, with clear pricing and product support when you need it.";
+      return;
+    }
+    if(!/^(automotive|marine|rv)(?:-|\.)/.test(file)) return;
+    if(heroCopy){
+      if(file.startsWith("automotive")) heroCopy.textContent="Shop truck, SUV, towing, suspension, lighting and aftermarket automotive parts by brand and manufacturer part number.";
+      else if(file.startsWith("marine")) heroCopy.textContent="Shop marine electrical, charging, navigation and boat-support equipment by brand and manufacturer part number.";
+      else heroCopy.textContent="Shop RV, travel, towing and overlanding equipment for road trips, campsites and everyday adventures.";
+    }
+    document.querySelectorAll("main .section-head .muted").forEach(node=>{node.textContent="Shop by brand, MPN or price · Featured deals highlighted";});
   }
 
   function decorateLaunchCard(card){
@@ -76,12 +84,12 @@
       note.className="ot-launch-card-note";
       target?.insertAdjacentElement("afterend",note);
     }
-    if(note)note.innerHTML=`Launch deal · <s>${money(offer.compareAtCents)}</s> · Save ${money(offer.compareAtCents-offer.priceCents)}`;
+    if(note)note.innerHTML=`Featured deal · <s>${money(offer.compareAtCents)}</s> · Save ${money(offer.compareAtCents-offer.priceCents)}`;
     card.dataset.otLaunchDeal="true";
   }
 
   async function mount(){
-    softenDepartmentCounts();
+    customerDepartmentCopy();
     const section=productSection(); const grid=section?.querySelector(".grid"); if(!section||!grid) return;
     const allCards=[...grid.querySelectorAll(".card")]; if(!allCards.length) return;
     const [products,liveSlugs]=await Promise.all([loadProducts(),loadLiveSlugs()]);
@@ -102,11 +110,11 @@
     const controls=document.createElement("div");
     controls.className="ot-catalogue-controls";
     controls.innerHTML=`<div class="ot-control-row">
-      <div class="ot-search-wrap"><input class="ot-search-input" type="search" autocomplete="off" spellcheck="false" placeholder="Search available product, brand or MPN" aria-label="Search products available online"><span class="ot-search-icon">⌕</span></div>
+      <div class="ot-search-wrap"><input class="ot-search-input" type="search" autocomplete="off" spellcheck="false" placeholder="Search brand, product or MPN" aria-label="Search products"><span class="ot-search-icon">⌕</span></div>
       <select class="ot-filter-select" data-filter="brand" aria-label="Filter by brand"><option value="">All brands</option>${brands.map(b=>`<option value="${b.replace(/&/g,"&amp;").replace(/"/g,"&quot;")}">${b}</option>`).join("")}</select>
       <select class="ot-filter-select" data-filter="price" aria-label="Filter by price"><option value="">All prices</option><option value="0-50">Under $50</option><option value="50-100">$50–$100</option><option value="100-200">$100–$200</option><option value="200-999999">$200+</option></select>
-      <select class="ot-filter-select" data-filter="sort" aria-label="Sort products"><option value="default">Recommended</option><option value="price-asc">Price: Low to High</option><option value="price-desc">Price: High to Low</option><option value="brand">Brand A–Z</option></select>
-    </div><div class="ot-control-meta"><span>Showing <b data-visible-count>${cards.length}</b> products available for secure checkout.</span><button class="ot-clear-filters" type="button">Clear filters</button></div><div class="ot-search-results" role="listbox"></div>`;
+      <select class="ot-filter-select" data-filter="sort" aria-label="Sort products"><option value="default">Featured</option><option value="price-asc">Price: Low to High</option><option value="price-desc">Price: High to Low</option><option value="brand">Brand A–Z</option></select>
+    </div><div class="ot-control-meta"><span>Showing <b data-visible-count>${cards.length}</b> products.</span><button class="ot-clear-filters" type="button">Clear filters</button></div><div class="ot-search-results" role="listbox"></div>`;
     grid.parentNode.insertBefore(controls,grid);
 
     if(!document.getElementById("otLaunchCardStyles")){
@@ -150,7 +158,7 @@
       const q=input.value.trim().toLowerCase();
       if(q.length<2){results.classList.remove("open");results.innerHTML="";return;}
       const hits=products.filter(p=>liveSlugs.has(basename(p.slug))&&[p.title,p.brand,p.mpn,p.description].join(" ").toLowerCase().includes(q)).slice(0,10);
-      results.innerHTML=hits.length?hits.map(p=>`<a class="ot-search-result" role="option" href="${p.slug}"><span><strong>${String(p.title||p.mpn).replace(/</g,"&lt;").replace(/>/g,"&gt;")}</strong><span>${String(p.brand||"")} · MPN ${String(p.mpn||"")}</span></span><em>Buy online →</em></a>`).join(""):`<div class="ot-no-result">No checkout-ready match. Try a brand name, MPN or simpler product term.</div>`;
+      results.innerHTML=hits.length?hits.map(p=>`<a class="ot-search-result" role="option" href="${p.slug}"><span><strong>${String(p.title||p.mpn).replace(/</g,"&lt;").replace(/>/g,"&gt;")}</strong><span>${String(p.brand||"")} · MPN ${String(p.mpn||"")}</span></span><em>Shop now →</em></a>`).join(""):`<div class="ot-no-result">No matching products. Try a brand, MPN or broader search.</div>`;
       results.classList.add("open");
     }
 
@@ -163,7 +171,7 @@
     if(!cards.length){
       const empty=document.createElement("div");
       empty.className="ot-no-result";
-      empty.textContent="No products on this page are currently enabled for online checkout.";
+      empty.textContent="No matching products found.";
       grid.parentNode.insertBefore(empty,grid);
     }
     setTimeout(()=>{cards.forEach(decorateLaunchCard);apply();},250);
