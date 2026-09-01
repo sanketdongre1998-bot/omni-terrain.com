@@ -1,28 +1,25 @@
-/* Omni Terrain classic brand + render performance layer */
+/* Omni Terrain locked wordmark + render performance layer */
 
-/* Retire the old pseudo badge so the brand has one intentional mark only. */
-.ot-site-brand::before,#header .brand::before,.header .brand::before{content:none!important;display:none!important}
+/* Locked brand direction: name-led OMNI | TERRAIN. No shield/badge. */
+.ot-brand-crest,.brand>.ot-brand-crest,.ot-site-brand>.ot-brand-crest{display:none!important}
+.ot-site-brand,.brand{display:inline-flex!important;align-items:center!important;gap:0!important;min-width:0;text-decoration:none}
 
-.ot-site-brand,.brand{display:inline-flex!important;align-items:center!important;gap:11px!important;min-width:0;text-decoration:none}
-.ot-brand-crest{display:inline-grid;place-items:center;flex:0 0 43px;width:43px;height:48px;color:#0a2035}
-.ot-brand-crest svg{display:block;width:43px;height:48px;overflow:visible}
-.ot-brand-crest .ot-crest-frame{fill:#fbf7ee;stroke:#b98b43;stroke-width:1.45}
-.ot-brand-crest .ot-crest-o{fill:none;stroke:currentColor;stroke-width:2.15}
-.ot-brand-crest .ot-crest-t{fill:none;stroke:currentColor;stroke-width:2.15;stroke-linecap:square}
-.ot-brand-crest .ot-crest-road{fill:none;stroke:#b98b43;stroke-width:1.35;stroke-linecap:round}
+.ot-site-wordmark,#header .wordmark,.header .wordmark{display:grid!important;grid-template-columns:auto auto!important;grid-template-rows:auto auto!important;column-gap:10px!important;row-gap:4px!important;align-items:end!important;position:relative!important;padding:2px 0 8px!important;line-height:1!important}
+.ot-site-wordmark-main,#header .wordmark-main,.header .wordmark-main{position:relative!important;font-family:"Barlow Condensed","Arial Narrow",Arial,sans-serif!important;font-size:2.25rem!important;font-weight:800!important;line-height:.7!important;letter-spacing:.09em!important;color:#071a30!important;text-transform:uppercase!important}
+/* Subtle terrain-route slash through the O area of OMNI. */
+.ot-site-wordmark-main::before,#header .wordmark-main::before,.header .wordmark-main::before{content:""!important;position:absolute!important;left:.08em!important;top:48%!important;width:.62em!important;height:1.5px!important;background:#c69a50!important;transform:rotate(-12deg)!important;transform-origin:center!important;opacity:.95!important;pointer-events:none!important}
+.ot-site-wordmark-main::after,#header .wordmark-main::after,.header .wordmark-main::after{content:""!important;position:absolute!important;left:.26em!important;top:33%!important;width:.13em!important;height:.13em!important;border-radius:50%!important;background:#c69a50!important;box-shadow:.28em .11em 0 #c69a50!important;pointer-events:none!important}
 
-.ot-site-wordmark,#header .wordmark,.header .wordmark{display:grid!important;grid-template-columns:auto auto!important;grid-template-rows:auto auto!important;column-gap:9px!important;row-gap:3px!important;align-items:end!important;position:relative!important;padding:1px 0 7px!important;line-height:1!important}
-.ot-site-wordmark-main,#header .wordmark-main,.header .wordmark-main{font-family:"Barlow Condensed",Arial Narrow,Arial,sans-serif!important;font-size:2.22rem!important;font-weight:800!important;line-height:.68!important;letter-spacing:.085em!important;transform:none!important;color:#071a30}
-.ot-site-wordmark-sub,#header .wordmark-sub,.header .wordmark-sub{font-family:"Barlow Condensed",Arial Narrow,Arial,sans-serif!important;font-size:.77rem!important;font-weight:800!important;line-height:1!important;letter-spacing:.16em!important;padding:0 0 2px 9px!important;border-left:1px solid rgba(198,154,80,.62)!important;color:#b88736!important;text-transform:uppercase}
-.ot-site-wordmark-meta,#header .wordmark-meta,.header .wordmark-meta{grid-column:1/-1!important;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace!important;font-size:.39rem!important;font-weight:700!important;line-height:1!important;letter-spacing:.15em!important;color:#778696!important;text-transform:uppercase}
-.ot-site-wordmark::after,#header .wordmark::after,.header .wordmark::after{content:""!important;position:absolute!important;left:0!important;right:0!important;bottom:0!important;height:1px!important;background:linear-gradient(90deg,#c69a50 0 30%,transparent 30% 36%,#c69a50 36% 70%,transparent 70% 76%,#c69a50 76%)!important}
+.ot-site-wordmark-sub,#header .wordmark-sub,.header .wordmark-sub{font-family:"Barlow Condensed","Arial Narrow",Arial,sans-serif!important;font-size:.78rem!important;font-weight:800!important;line-height:1!important;letter-spacing:.17em!important;padding:0 0 2px 10px!important;border-left:1px solid rgba(198,154,80,.72)!important;color:#b88736!important;text-transform:uppercase!important}
+.ot-site-wordmark-meta,#header .wordmark-meta,.header .wordmark-meta{grid-column:1/-1!important;position:relative!important;padding-left:38px!important;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace!important;font-size:.39rem!important;font-weight:700!important;line-height:1!important;letter-spacing:.16em!important;color:#778696!important;text-transform:uppercase!important;white-space:nowrap!important}
+/* Three small tracks = road / water / power. */
+.ot-site-wordmark-meta::before,#header .wordmark-meta::before,.header .wordmark-meta::before{content:""!important;position:absolute!important;left:0!important;top:50%!important;width:30px!important;height:2px!important;transform:translateY(-50%)!important;background:linear-gradient(90deg,#c69a50 0 27%,transparent 27% 36%,#7f9fb4 36% 63%,transparent 63% 72%,#c69a50 72% 100%)!important}
+.ot-site-wordmark::after,#header .wordmark::after,.header .wordmark::after{content:""!important;position:absolute!important;left:0!important;right:0!important;bottom:0!important;height:1px!important;background:linear-gradient(90deg,#c69a50 0 31%,transparent 31% 37%,#c69a50 37% 68%,transparent 68% 74%,#c69a50 74%)!important}
 
-html[data-ot-theme="dark"] .ot-brand-crest{color:#f0e2bc}
-html[data-ot-theme="dark"] .ot-brand-crest .ot-crest-frame{fill:#0d1c2b;stroke:#d8b469}
-html[data-ot-theme="dark"] .ot-brand-crest .ot-crest-road{stroke:#d8b469}
 html[data-ot-theme="dark"] .ot-site-wordmark-main,html[data-ot-theme="dark"] #header .wordmark-main,html[data-ot-theme="dark"] .header .wordmark-main{color:#f4f6f8!important}
-html[data-ot-theme="dark"] .ot-site-wordmark-sub,html[data-ot-theme="dark"] #header .wordmark-sub,html[data-ot-theme="dark"] .header .wordmark-sub{color:#d8b469!important;border-left-color:rgba(216,180,105,.7)!important}
+html[data-ot-theme="dark"] .ot-site-wordmark-sub,html[data-ot-theme="dark"] #header .wordmark-sub,html[data-ot-theme="dark"] .header .wordmark-sub{color:#d8b469!important;border-left-color:rgba(216,180,105,.72)!important}
 html[data-ot-theme="dark"] .ot-site-wordmark-meta,html[data-ot-theme="dark"] #header .wordmark-meta,html[data-ot-theme="dark"] .header .wordmark-meta{color:#9fb0bd!important}
+html[data-ot-theme="dark"] .ot-site-wordmark-main::before,html[data-ot-theme="dark"] #header .wordmark-main::before,html[data-ot-theme="dark"] .header .wordmark-main::before,html[data-ot-theme="dark"] .ot-site-wordmark-main::after,html[data-ot-theme="dark"] #header .wordmark-main::after,html[data-ot-theme="dark"] .header .wordmark-main::after{background:#d8b469!important}
 
 /* Below-fold render skipping: browser lays these out only as they approach viewport. */
 @supports (content-visibility:auto){
@@ -34,18 +31,13 @@ html[data-ot-theme="dark"] .ot-site-wordmark-meta,html[data-ot-theme="dark"] #he
 @media(max-width:760px){
   .hero-showcase-info,.ot-site-header,.mobile-store-bar,.ot-site-mobile-bar{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
   .home-hero-shell,.why-shell,.live-card,.card,.ot-deal-card{box-shadow:none!important}
-  .ot-brand-crest{flex-basis:35px;width:35px;height:40px}
-  .ot-brand-crest svg{width:35px;height:40px}
-  .ot-site-wordmark-main,#header .wordmark-main,.header .wordmark-main{font-size:1.86rem!important}
+  .ot-site-wordmark-main,#header .wordmark-main,.header .wordmark-main{font-size:1.9rem!important}
 }
 
 @media(max-width:390px){
-  .ot-site-brand,.brand{gap:7px!important}
-  .ot-brand-crest{flex-basis:31px;width:31px;height:36px}
-  .ot-brand-crest svg{width:31px;height:36px}
   .ot-site-wordmark-sub,.ot-site-wordmark-meta,#header .wordmark-sub,#header .wordmark-meta,.header .wordmark-sub,.header .wordmark-meta{display:none!important}
   .ot-site-wordmark,#header .wordmark,.header .wordmark{display:block!important;padding-bottom:4px!important}
-  .ot-site-wordmark-main,#header .wordmark-main,.header .wordmark-main{font-size:1.72rem!important;letter-spacing:.07em!important}
+  .ot-site-wordmark-main,#header .wordmark-main,.header .wordmark-main{font-size:1.76rem!important;letter-spacing:.08em!important}
 }
 
 html.ot-perf-lite .hero-showcase img,html.ot-perf-lite .live-media img,html.ot-perf-lite .product-visual img{filter:none!important}
