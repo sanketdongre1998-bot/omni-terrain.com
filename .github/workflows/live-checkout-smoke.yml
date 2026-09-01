@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - ".github/workflows/live-checkout-smoke.yml"
+      - "scripts/live-checkout-smoke.py"
 
 permissions:
   contents: read
