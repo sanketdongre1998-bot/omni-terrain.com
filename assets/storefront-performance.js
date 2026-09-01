@@ -15,27 +15,29 @@
 
   /* Critical last-mile layers: layout, contrast and the approved name-led brand. */
   ensureCss('link[data-ot-responsive-hardening],link[href*="responsive-hardening.css"]',"/assets/responsive-hardening.css?v=3","otResponsiveHardening");
-  ensureCss('link[data-ot-brand-speed],link[href*="brand-speed.css"]',"/assets/brand-speed.css?v=2","otBrandSpeed");
+  ensureCss('link[data-ot-brand-speed],link[href*="brand-speed.css"]',"/assets/brand-speed.css?v=3","otBrandSpeed");
 
-  /* The approved logo is wordmark-first. Remove any older experimental badge/crest. */
+  /* FINAL LOGO LOCK: keep only OMNI | TERRAIN wordmark, never a legacy OT badge. */
   const upgradeBrands=()=>{
-    document.querySelectorAll(".ot-brand-crest").forEach(node=>node.remove());
+    document.querySelectorAll(".ot-brand-crest,.brand-badge,.brand-mark,.logo-badge,.logo-mark").forEach(node=>node.remove());
+    document.querySelectorAll(".brand,.ot-site-brand").forEach(brand=>{
+      [...brand.children].forEach(child=>{
+        if(!child.classList.contains("wordmark")&&!child.classList.contains("ot-site-wordmark")) child.remove();
+      });
+    });
   };
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",upgradeBrands,{once:true});else upgradeBrands();
 
-  /* Capture paid-search attribution without blocking first paint. */
   if(!document.querySelector('script[data-ot-ad-readiness]')){
     const ads=document.createElement("script");ads.src="/assets/ad-readiness.js?v=1";ads.defer=true;ads.dataset.otAdReadiness="true";document.head.appendChild(ads);
   }
 
-  /* Customer copy can wait until the first frame has settled. */
   idle(()=>{
     if(!document.querySelector('script[data-ot-customer-copy]')){
       const marketing=document.createElement("script");marketing.src="/assets/customer-marketing-copy.js?v=1";marketing.defer=true;marketing.dataset.otCustomerCopy="true";document.head.appendChild(marketing);
     }
   },650);
 
-  /* Growth and analytics are non-render-critical; don't compete with LCP. */
   idle(()=>{
     const existingGrowth=document.querySelector('script[data-ot-growth-marketing],script[src*="growth-marketing.js"]');
     if(!existingGrowth){
