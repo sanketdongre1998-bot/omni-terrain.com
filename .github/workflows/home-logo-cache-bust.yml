@@ -1,4 +1,4 @@
-name: Bust Omni Terrain logo assets
+name: Lock exact Omni Terrain artwork sitewide
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 jobs:
-  bust-logo-cache:
+  lock-logo-sitewide:
     runs-on: ubuntu-latest
     steps:
       - name: Check out main
@@ -20,52 +20,58 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Force fresh SVG-logo CSS and JS URLs sitewide
+      - name: Use exact approved artwork and force fresh assets
         shell: bash
         run: |
           set -euo pipefail
+          test -s assets/omni-terrain-logo-header.webp
           python3 - <<'PY'
           from pathlib import Path
           import re
 
-          for p in Path('.').glob('*.html'):
-              text = p.read_text(encoding='utf-8')
-              text = re.sub(r'(?<!/)assets/brand-speed\.css\?v=\d+', 'assets/brand-speed.css?v=10', text)
-              text = re.sub(r'/assets/brand-speed\.css\?v=\d+', '/assets/brand-speed.css?v=10', text)
-              text = re.sub(r'(?<!/)assets/storefront-performance\.js\?v=\d+', 'assets/storefront-performance.js?v=10', text)
-              text = re.sub(r'/assets/storefront-performance\.js\?v=\d+', '/assets/storefront-performance.js?v=10', text)
-              text = re.sub(r'(?<!/)assets/us-shell\.js\?v=\d+', 'assets/us-shell.js?v=10', text)
-              text = re.sub(r'/assets/us-shell\.js\?v=\d+', '/assets/us-shell.js?v=10', text)
-              p.write_text(text, encoding='utf-8')
+          logo = '/assets/omni-terrain-logo-header.webp?v=1'
 
-          # Ensure runtimes themselves cannot downgrade the CSS request.
+          # Runtime fallback must point to the same exact locked artwork.
           for name in ['assets/storefront-performance.js', 'assets/us-shell.js']:
               p = Path(name)
               text = p.read_text(encoding='utf-8')
-              text = re.sub(r'/assets/brand-speed\.css\?v=\d+', '/assets/brand-speed.css?v=10', text)
+              text = re.sub(r'https://raw\.githubusercontent\.com/[^"\']+omni-terrain-logo-lock\.webp', logo, text)
+              text = re.sub(r'/assets/omni-terrain-logo-final\.svg\?v=\d+', logo, text)
+              text = re.sub(r'/assets/omni-terrain-logo-lock\.webp\?v=\d+', logo, text)
+              text = re.sub(r'/assets/brand-speed\.css\?v=\d+', '/assets/brand-speed.css?v=11', text)
               p.write_text(text, encoding='utf-8')
 
-          # Guardrails: the broken WebP must not be the active logo source anymore.
+          # Force all pages to fetch the new CSS/runtime versions instead of stale broken-logo assets.
+          for p in Path('.').glob('*.html'):
+              text = p.read_text(encoding='utf-8')
+              text = re.sub(r'(?<!/)assets/brand-speed\.css\?v=\d+', 'assets/brand-speed.css?v=11', text)
+              text = re.sub(r'/assets/brand-speed\.css\?v=\d+', '/assets/brand-speed.css?v=11', text)
+              text = re.sub(r'(?<!/)assets/storefront-performance\.js\?v=\d+', 'assets/storefront-performance.js?v=11', text)
+              text = re.sub(r'/assets/storefront-performance\.js\?v=\d+', '/assets/storefront-performance.js?v=11', text)
+              text = re.sub(r'(?<!/)assets/us-shell\.js\?v=\d+', 'assets/us-shell.js?v=11', text)
+              text = re.sub(r'/assets/us-shell\.js\?v=\d+', '/assets/us-shell.js?v=11', text)
+              p.write_text(text, encoding='utf-8')
+
           sf = Path('assets/storefront-performance.js').read_text(encoding='utf-8')
           us = Path('assets/us-shell.js').read_text(encoding='utf-8')
           css = Path('assets/brand-speed.css').read_text(encoding='utf-8')
-          assert 'omni-terrain-logo-final.svg?v=10' in sf
-          assert 'omni-terrain-logo-final.svg?v=10' in us
-          assert 'omni-terrain-logo-final.svg?v=10' in css
-          assert 'brand-speed.css?v=10' in sf
-          assert 'brand-speed.css?v=10' in us
+          assert 'omni-terrain-logo-header.webp?v=1' in sf
+          assert 'omni-terrain-logo-header.webp?v=1' in us
+          assert 'omni-terrain-logo-header.webp?v=1' in css
+          assert 'brand-speed.css?v=11' in sf
+          assert 'brand-speed.css?v=11' in us
           PY
 
-      - name: Commit fresh asset versions
+      - name: Commit locked artwork wiring
         shell: bash
         run: |
           set -euo pipefail
           if git diff --quiet; then
-            echo "Logo assets already use v10."
+            echo "Exact locked artwork is already wired sitewide."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add assets/storefront-performance.js assets/us-shell.js '*.html'
-          git commit -m "Force fresh SVG logo assets sitewide"
+          git commit -m "Use exact locked Omni Terrain artwork sitewide"
           git push origin HEAD:main
