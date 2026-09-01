@@ -56,6 +56,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          # Ads launch gate: production must expose the current authorization-gated catalogue.
           for attempt in 1 2 3 4 5; do
             body="$(curl --fail --silent --show-error --max-time 30 https://omni-terrain-uk-checkout.vercel.app/api/us-checkout-health || true)"
             echo "$body"
