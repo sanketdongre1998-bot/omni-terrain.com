@@ -28,8 +28,8 @@
     ensureCss('link[data-ot-brand-speed],link[href*="brand-speed.css"]',"/assets/brand-speed.css?v=12","otBrandSpeed");
   }
 
-  /* FINAL LOGO LOCK: complete approved SVG asset. */
-  const LOCKED_LOGO_SRC="/assets/omni-terrain-logo-header.webp?v=2";
+  /* Approved horizontal lockup for light storefront headers. */
+  const LOCKED_LOGO_SRC="/assets/omni-terrain-logo-header-light.webp?v=1";
   const mountLockedLogo=(brand)=>{
     if(!brand) return;
     brand.querySelectorAll(".ot-brand-crest,.brand-badge,.brand-mark,.logo-badge,.logo-mark").forEach(node=>node.remove());
@@ -39,7 +39,7 @@
       img.className="ot-brand-logo-image";
       img.alt="Omni Terrain";
       img.width=300;
-      img.height=80;
+      img.height=50;
       img.decoding="async";
       img.loading="eager";
       img.src=LOCKED_LOGO_SRC;
@@ -47,9 +47,15 @@
     }else if(img.getAttribute("src")!==LOCKED_LOGO_SRC){
       img.setAttribute("src",LOCKED_LOGO_SRC);
     }
+    img.width=300;
+    img.height=50;
     brand.classList.add("ot-logo-direct");
     img.hidden=false;
     img.style.display="block";
+    img.style.visibility="visible";
+    img.style.opacity="1";
+    img.style.objectFit="contain";
+    img.style.objectPosition="left center";
     img.addEventListener("error",()=>{brand.classList.remove("ot-logo-direct");},{once:true});
   };
   const upgradeBrands=()=>document.querySelectorAll(".brand,.ot-site-brand").forEach(mountLockedLogo);
