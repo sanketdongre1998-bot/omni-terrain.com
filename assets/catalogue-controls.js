@@ -23,7 +23,9 @@
   const launchOffers=new Map([
     ["us-husky-towing-81147.html",{priceCents:11999,compareAtCents:12626}],
     ["us-husky-towing-81148.html",{priceCents:14999,compareAtCents:15828}],
+    ["us-coast2coast-iwcn9010f.html",{priceCents:21999,compareAtCents:23900}],
     ["us-coast2coast-iwcn8010f.html",{priceCents:19999,compareAtCents:21900}],
+    ["us-coast2coast-iwcimp103x.html",{priceCents:16999,compareAtCents:18065}],
     ["us-air-lift-60828hd.html",{priceCents:20499,compareAtCents:21399}],
     ["us-bilstein-24-066464.html",{priceCents:13299,compareAtCents:13697}]
   ].map(([slug,offer])=>[basename(slug),offer]));
