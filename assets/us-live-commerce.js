@@ -4,6 +4,13 @@
   const CART_KEY = "omniTerrainUsCart";
   const CONFIG_URL = "/assets/us-live-products.json";
   const MAX_QTY = 10;
+  const LAUNCH_OFFERS = {
+    HUS81147: { priceCents: 11999, compareAtCents: 12626, label: "Launch Deal" },
+    HUS81148: { priceCents: 14999, compareAtCents: 15828, label: "Launch Deal" },
+    CCIN8010F: { priceCents: 19999, compareAtCents: 21900, label: "Launch Deal" },
+    A1360828HD: { priceCents: 20499, compareAtCents: 21399, label: "Launch Deal" },
+    B5224066464: { priceCents: 13299, compareAtCents: 13697, label: "Launch Deal" },
+  };
 
   function readCart() {
     try {
@@ -76,6 +83,7 @@
       .ot-live-inline-price{margin-top:4px;color:#071a30;font-size:20px;font-weight:900}
       .ot-live-stock{display:inline-flex;width:max-content;padding:6px 9px;border-radius:999px;background:#e5f5ec;color:#167047;font-size:11px;font-weight:850}
       .ot-live-total{margin-top:18px;padding-top:16px;border-top:1px solid #e3e6e9;display:flex;justify-content:space-between;gap:20px;color:#071a30;font-weight:900}
+      .ot-live-offer-note{margin:4px 0 8px;color:#167047;font-size:11px;font-weight:800}.ot-live-offer-note s{color:#7a8490;font-weight:600}
     `;
     document.head.appendChild(style);
   }
@@ -92,7 +100,11 @@
   const live = new Map(
     Object.entries(config?.products || {})
       .filter(([, product]) => product && product.enabled === true && Number(product.priceCents) > 0)
-      .map(([id, product]) => [String(id), { ...product, id: String(id) }])
+      .map(([id, product]) => {
+        const offer = LAUNCH_OFFERS[id];
+        const effective = offer ? { ...product, priceCents: offer.priceCents, launchOffer: offer } : product;
+        return [String(id), { ...effective, id: String(id) }];
+      })
   );
 
   if (!live.size) return;
@@ -262,6 +274,16 @@
         price.textContent = money(product.priceCents);
         link.parentNode.insertBefore(price, link);
       }
+      if (product.launchOffer) {
+        let promo = card.querySelector(".ot-live-offer-note");
+        if (!promo) {
+          promo = document.createElement("div");
+          promo.className = "ot-live-offer-note";
+          const priceNode = card.querySelector(".ot-live-inline-price");
+          priceNode?.insertAdjacentElement("afterend", promo);
+        }
+        if (promo) promo.innerHTML = `Launch deal · <s>${money(product.launchOffer.compareAtCents)}</s> · Save ${money(product.launchOffer.compareAtCents - product.launchOffer.priceCents)}`;
+      }
       const status = card.querySelector(".status");
       if (status) {
         status.className = "ot-live-stock";
@@ -338,48 +360,28 @@
     if (!cart.length) return;
 
     if (!cart.every((item) => liveProduct(item.id))) {
-
       relabelCartLinks();
-
       const button = form.querySelector('button[type="submit"]');
-
       if (button) {
-
         button.disabled = true;
-
         button.textContent = "Online checkout unavailable";
-
       }
-
       const status = form.querySelector("#checkoutStatus");
-
       if (status) {
-
         status.classList.add("show");
-
         status.textContent = "One or more products in this cart are not currently enabled for online purchase. Remove those products to continue.";
-
       }
-
       return;
-
     }
 
     const apiBase = String(config?.checkoutApiBase || "").replace(/\/$/, "");
     if (!apiBase) {
-
       const button = form.querySelector('button[type="submit"]');
-
       if (button) {
-
         button.disabled = true;
-
         button.textContent = "Secure checkout temporarily unavailable";
-
       }
-
       return;
-
     }
 
     relabelCartLinks();
