@@ -8,11 +8,18 @@
   const money = cents => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format((Number(cents) || 0) / 100);
   const esc = value => String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
   const launchOffers = {
-    HUS81147: { priceCents: 11999, compareAtCents: 12626, label: "Launch Deal" },
-    HUS81148: { priceCents: 14999, compareAtCents: 15828, label: "Launch Deal" },
-    CCIN8010F: { priceCents: 19999, compareAtCents: 21900, label: "Launch Deal" },
-    A1360828HD: { priceCents: 20499, compareAtCents: 21399, label: "Launch Deal" },
-    B5224066464: { priceCents: 13299, compareAtCents: 13697, label: "Launch Deal" }
+    HUS81147: { priceCents: 11999, compareAtCents: 12626, label: "Featured Deal" },
+    HUS81148: { priceCents: 14999, compareAtCents: 15828, label: "Featured Deal" },
+    CCIN8010F: { priceCents: 19999, compareAtCents: 21900, label: "Featured Deal" },
+    A1360828HD: { priceCents: 20499, compareAtCents: 21399, label: "Featured Deal" },
+    B5224066464: { priceCents: 13299, compareAtCents: 13697, label: "Featured Deal" }
+  };
+  const marketingDescriptions = {
+    HUS81147: "Carry up to four bikes with a hitch-mounted rack built for road trips, weekend rides and everyday transport.",
+    HUS81148: "Add serious cargo space with a 500 lb hitch-mounted carrier for road trips, hauling and everyday utility.",
+    CCIN8010F: "Chrome front wheel simulator designed for compatible 2003–2018 Ram 3500 applications.",
+    A1360828HD: "Load-support air spring kit for compatible Ram 1500 applications, designed to improve stability under load.",
+    B5224066464: "Bilstein B8 5100 shock absorber for compatible Ram 2500/3500 trucks with lifted suspension applications."
   };
 
   function loadProducts() {
@@ -82,21 +89,21 @@
         const p = x.product, r = x.row;
         const promo = launchOffers[x.id];
         const savings = promo ? promo.compareAtCents - promo.priceCents : 0;
-        const desc = String(p.description || "").split(". ")[0].slice(0, 150);
-        const badge = promo ? `Launch deal · Save ${money(savings)}` : (r.shippingIncluded ? "Free standard shipping" : "Ready to buy");
-        const priceLabel = r.shippingIncluded ? "Featured price · Free shipping" : "Featured price";
+        const desc = marketingDescriptions[x.id] || String(p.description || "").split(". ")[0].slice(0, 150) || "Shop online with clear pricing and product details.";
+        const badge = promo ? `Featured deal · Save ${money(savings)}` : (r.shippingIncluded ? "Free standard shipping" : "Shop online");
+        const priceLabel = r.shippingIncluded ? "Online price · Free shipping" : "Online price";
         const priceMeta = promo
           ? `<small><s>${money(promo.compareAtCents)}</s> · Save ${money(savings)}</small>`
           : `<small>${esc(priceLabel)}</small>`;
-        return `<article class="live-card" data-live-id="${esc(x.id)}"><a class="live-media" href="${esc(p.slug)}"><span class="live-badge">${esc(badge)}</span><img src="${esc(images[i])}" alt="${esc(p.title || p.mpn)}" decoding="async" loading="${i === 0 ? "eager" : "lazy"}"></a><div class="live-body"><div class="live-brand"><span>${esc(p.brand || "Omni Terrain")}</span><span>${esc(p.mpn || "")}</span></div><h3>${esc(p.title || p.mpn)}</h3><p>${esc(desc || "Available for secure online checkout.")}</p><div class="live-card-footer"><div class="live-price">${priceMeta}${money(r.priceCents)}</div><a class="live-link" href="${esc(p.slug)}">Buy online →</a></div></div></article>`;
+        return `<article class="live-card" data-live-id="${esc(x.id)}"><a class="live-media" href="${esc(p.slug)}"><span class="live-badge">${esc(badge)}</span><img src="${esc(images[i])}" alt="${esc(p.title || p.mpn)}" decoding="async" loading="${i === 0 ? "eager" : "lazy"}"></a><div class="live-body"><div class="live-brand"><span>${esc(p.brand || "Omni Terrain")}</span><span>${esc(p.mpn || "")}</span></div><h3>${esc(p.title || p.mpn)}</h3><p>${esc(desc)}</p><div class="live-card-footer"><div class="live-price">${priceMeta}${money(r.priceCents)}</div><a class="live-link" href="${esc(p.slug)}">Shop now →</a></div></div></article>`;
       }).join("");
       const section = grid.closest(".home-section");
       const eyebrow = section?.querySelector(".section-head .eyebrow");
       const heading = section?.querySelector(".section-head h2");
       const copy = section?.querySelector(".section-head p");
-      if (eyebrow) eyebrow.textContent = "5 launch deals · Secure checkout";
-      if (heading) heading.textContent = "Five products priced to win.";
-      if (copy) copy.textContent = "Our focused launch selection combines real checkout, launch pricing and free standard shipping in the contiguous United States on these featured products.";
+      if (eyebrow) eyebrow.textContent = "Featured auto & truck deals";
+      if (heading) heading.textContent = "Upgrade more. Spend less.";
+      if (copy) copy.textContent = "Save on towing, truck and suspension essentials with secure online checkout and free standard shipping on featured offers in the contiguous U.S.";
     }
 
     const heroCandidate = enabled.find(x => x.id === heroId) || featured[0];
@@ -109,17 +116,17 @@
         hero.href = p.slug;
         hero.setAttribute("aria-label", `View ${p.brand || "product"} ${p.mpn || ""}`.trim());
         const img = hero.querySelector("img");
-        if (img) { img.src = heroImage; img.alt = p.title || p.mpn || "Checkout-ready product"; }
+        if (img) { img.src = heroImage; img.alt = p.title || p.mpn || "Featured product"; }
         const small = hero.querySelector(".hero-showcase-top small");
         const h2 = hero.querySelector(".hero-showcase-top h2");
         const price = hero.querySelector(".hero-price");
         const foot = hero.querySelector(".hero-showcase-foot span:first-child");
         if (small) small.textContent = `${p.brand || "Omni Terrain"} · MPN ${p.mpn || ""}`;
-        if (h2) h2.textContent = p.title || p.mpn || "Checkout-ready product";
+        if (h2) h2.textContent = p.title || p.mpn || "Featured product";
         if (price) { price.removeAttribute("data-live-price"); price.textContent = money(r.priceCents); }
         if (foot) foot.textContent = promo
-          ? `Launch deal · Save ${money(promo.compareAtCents - promo.priceCents)} · Free standard shipping in the contiguous U.S.`
-          : (r.shippingIncluded ? "Featured online deal · Free standard shipping in the contiguous U.S." : "In stock · Secure online checkout available");
+          ? `Featured deal · Save ${money(promo.compareAtCents - promo.priceCents)} · Free standard shipping in the contiguous U.S.`
+          : (r.shippingIncluded ? "Free standard shipping in the contiguous U.S." : "Secure online checkout");
       }
     }
 
@@ -130,11 +137,11 @@
       else node.style.display = "none";
     });
     const brandLabel = document.querySelector(".brand-strip-label");
-    if (brandLabel) brandLabel.textContent = "Brands in our launch deals";
+    if (brandLabel) brandLabel.textContent = "Featured brands";
 
     const launch = document.querySelector(".launch-strip .container span:last-child");
     if (launch) {
-      launch.textContent = "Launch pricing is live on 5 featured products with free standard shipping in the contiguous U.S.";
+      launch.textContent = "Featured deals · Free standard shipping on featured offers in the contiguous U.S.";
     }
   }
 
