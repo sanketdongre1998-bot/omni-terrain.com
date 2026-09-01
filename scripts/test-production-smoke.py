@@ -30,11 +30,11 @@ def reject(path: str, needle: str, label: str | None = None) -> None:
 
 
 def main() -> int:
-    for route in ["index.html","us-catalogue.html","automotive.html","marine.html","rv.html","cart.html","checkout.html","contact-and-order-help.html","shipping-delivery-policy.html","returns-refunds-policy.html","privacy-policy.html","terms-conditions.html"]:
+    for route in ["index.html","deals.html","us-catalogue.html","automotive.html","marine.html","rv.html","cart.html","checkout.html","contact-and-order-help.html","shipping-delivery-policy.html","returns-refunds-policy.html","privacy-policy.html","terms-conditions.html"]:
         if (ROOT / route).exists(): ok(f"route exists: {route}")
         else: fail(f"Missing customer route: {route}")
 
-    for asset in ["assets/us-shell.js","assets/catalogue-controls.js","assets/live-storefront-priority.js","assets/customer-marketing-copy.js","assets/product-page-premium.js","assets/product-page-premium.css","assets/universal-checkout-ui.js","assets/cart-checkout-premium.js","assets/cart-checkout-premium.css","assets/us-checkout-api-bridge.js","assets/storefront-performance.js","assets/us-display-prices.js","assets/us-products.js","assets/us-live-products.json","lib/us-checkout-products.mjs","api/us-create-checkout-session.mjs","api/us-checkout-health.mjs"]:
+    for asset in ["assets/us-shell.js","assets/catalogue-controls.js","assets/live-storefront-priority.js","assets/customer-marketing-copy.js","assets/growth-marketing.js","assets/analytics-events.js","assets/product-page-premium.js","assets/product-page-premium.css","assets/universal-checkout-ui.js","assets/cart-checkout-premium.js","assets/cart-checkout-premium.css","assets/us-checkout-api-bridge.js","assets/storefront-performance.js","assets/us-display-prices.js","assets/us-products.js","assets/us-live-products.json","lib/us-checkout-products.mjs","api/us-create-checkout-session.mjs","api/us-checkout-health.mjs"]:
         if (ROOT / asset).exists(): ok(f"asset exists: {asset}")
         else: fail(f"Missing production asset: {asset}")
 
@@ -49,13 +49,21 @@ def main() -> int:
     reject("index.html", "Clear availability gates", "internal availability-gate language")
     reject("index.html", "Auto first", "internal department-priority language")
 
+    require("deals.html", "Featured Auto &amp; Truck Deals", "SEO deals title")
+    require("deals.html", "Upgrade more.", "deals-page retail headline")
+    require("assets/growth-marketing.js", "OMNI5", "public promotion code")
+    require("assets/growth-marketing.js", "7 featured deals", "seven-deal banner")
+    require("assets/analytics-events.js", 'push("view_item"', "view_item tracking")
+    require("assets/analytics-events.js", 'push("add_to_cart"', "add_to_cart tracking")
+    require("assets/analytics-events.js", 'push("begin_checkout"', "begin_checkout tracking")
+
     require("assets/catalogue-controls.js", "Search brand, product or MPN", "customer catalogue search")
     require("assets/catalogue-controls.js", "No matching products", "customer search zero-state")
     require("assets/catalogue-controls.js", "Shop by brand, MPN or price", "customer catalogue messaging")
     require("assets/catalogue-controls.js", "All brands", "brand filter")
     require("assets/catalogue-controls.js", "Price: Low to High", "catalogue sorting")
     require("assets/catalogue-controls.js", "authorizationVerified===true", "browse visibility requires authorization")
-    require("assets/live-storefront-priority.js", "Featured auto & truck deals", "retail featured-deals merchandising")
+    require("assets/live-storefront-priority.js", "7 featured auto & truck deals", "retail featured-deals merchandising")
     require("assets/live-storefront-priority.js", "Upgrade more. Spend less.", "retail promotion headline")
     require("assets/customer-marketing-copy.js", "Shop with confidence.", "customer-first trust copy")
 
@@ -70,6 +78,8 @@ def main() -> int:
     require("assets/storefront-performance.js", "Checkout eligibility now comes only from the published authorization-gated registry", "authorization-gated frontend eligibility")
     require("assets/storefront-performance.js", "live-storefront-priority.js", "homepage priority runtime")
     require("assets/storefront-performance.js", "customer-marketing-copy.js", "customer marketing copy runtime")
+    require("assets/storefront-performance.js", "growth-marketing.js", "growth marketing runtime")
+    require("assets/storefront-performance.js", "analytics-events.js", "analytics event runtime")
     require("assets/us-checkout-api-bridge.js", "omni-terrain-uk-checkout.vercel.app", "production US checkout API bridge")
 
     checkout = text("assets/cart-checkout-premium.js")
@@ -108,7 +118,10 @@ def main() -> int:
     require("api/us-create-checkout-session.mjs", "await resolveUsCheckoutItems", "async server-side product/price resolution")
     require("api/us-create-checkout-session.mjs", "server_storefront_catalogue", "Stripe pricing validation metadata")
     require("api/us-create-checkout-session.mjs", "shipping_address_collection", "US delivery address collection")
+    require("api/us-create-checkout-session.mjs", 'PROMO_CODE = "OMNI5"', "server promo validation")
+    require("api/us-create-checkout-session.mjs", "FEATURED_DEAL_IDS", "promo no-stacking guard")
     require("api/us-checkout-health.mjs", 'checkoutMode: "authorization-gated"', "authorization-gated health mode")
+    require("api/us-checkout-health.mjs", 'PROMOTION_CODE = "OMNI5"', "promotion health marker")
 
     products_source = text("assets/us-products.js")
     product_count = products_source.count('"id":')
