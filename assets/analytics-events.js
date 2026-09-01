@@ -30,17 +30,19 @@
     const schema = productSchema();
     if (!schema) return null;
     const offer = Array.isArray(schema.offers) ? schema.offers[0] : schema.offers;
-    let price = Number(offer?.price || 0);
+    const price = Number(offer?.price || 0);
     let id = String(schema.sku || schema.mpn || "").trim();
-    const page = path;
+
+    // Featured-offer metadata identifies the internal catalogue ID only.
+    // It never overrides the canonical Product/Offer price used for analytics.
     const launches = window.OMNI_US_LAUNCH_OFFERS || {};
     for (const [launchId, promo] of Object.entries(launches)) {
-      if (String(promo?.slug || "").toLowerCase() === page) {
+      if (String(promo?.slug || "").toLowerCase() === path) {
         id = launchId;
-        price = Number(promo.priceCents || 0) / 100;
         break;
       }
     }
+
     return {
       item_id: id,
       item_name: String(schema.name || document.querySelector("h1")?.textContent || id).trim(),
@@ -56,16 +58,10 @@
     let cart = [];
     try { cart = JSON.parse(localStorage.getItem(CART_KEY) || "[]"); } catch (_) {}
     if (!Array.isArray(cart)) return [];
-    const launches = window.OMNI_US_LAUNCH_OFFERS || {};
-    return cart.map(row => {
-      const id = String(row?.id || "");
-      const offer = launches[id];
-      return {
-        item_id: id,
-        quantity: Math.max(1, Number(row?.quantity) || 1),
-        ...(offer ? { price: Number(offer.priceCents || 0) / 100 } : {}),
-      };
-    }).filter(item => item.item_id);
+    return cart.map(row => ({
+      item_id: String(row?.id || ""),
+      quantity: Math.max(1, Number(row?.quantity) || 1),
+    })).filter(item => item.item_id);
   }
 
   function mountViewItem() {
@@ -85,11 +81,10 @@
       push("add_to_cart", { currency: item.currency || "USD", value: Number(item.price || 0), items: [item] });
     }
     if (target.matches('a[href*="checkout.html"],#checkoutLink') || /^secure checkout/i.test(text) || /^continue to checkout/i.test(text)) {
-      const items = cartItems();
-      push("begin_checkout", { currency: "USD", items });
+      push("begin_checkout", { currency: "USD", items: cartItems() });
     }
     if (target.matches('a[href*="deals.html"]')) {
-      window.dataLayer.push({ event: "select_promotion", promotion_name: "Featured Auto & Truck Deals" });
+      window.dataLayer.push({ event: "select_promotion", promotion_name: "Featured Auto & Truck Offers" });
     }
   }, { capture: true });
 
@@ -102,7 +97,7 @@
   }, { capture: true });
 
   if (path === "deals.html") {
-    window.dataLayer.push({ event: "view_promotion", promotion_name: "Featured Auto & Truck Deals", creative_slot: "deals_page" });
+    window.dataLayer.push({ event: "view_promotion", promotion_name: "Featured Auto & Truck Offers", creative_slot: "deals_page" });
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mountViewItem, { once: true });
