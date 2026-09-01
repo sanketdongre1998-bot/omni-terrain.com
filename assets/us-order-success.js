@@ -2,6 +2,7 @@
   "use strict";
   const API = "https://omni-terrain-uk-checkout.vercel.app";
   const CART_KEY = "omniTerrainUsCart";
+  const PURCHASE_KEY = "omniTerrainTrackedPurchase";
   const params = new URLSearchParams(location.search);
   const sessionId = params.get("session_id") || "";
   const status = document.getElementById("otOrderVerification");
@@ -11,6 +12,28 @@
 
   const money = cents => new Intl.NumberFormat("en-US", {style:"currency",currency:"USD"}).format((Number(cents)||0)/100);
   const esc = value => String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+
+  function trackedPurchase(data) {
+    if (!data?.id || sessionStorage.getItem(`${PURCHASE_KEY}:${data.id}`)) return;
+    sessionStorage.setItem(`${PURCHASE_KEY}:${data.id}`, "1");
+    window.dataLayer = window.dataLayer || [];
+    const items = String(data.cart || "").split(",").map(token => {
+      const [id, qty] = token.split(":");
+      return id ? { item_id: id, quantity: Math.max(1, Number(qty) || 1) } : null;
+    }).filter(Boolean);
+    window.dataLayer.push({ ecommerce: null });
+    window.dataLayer.push({
+      event: "purchase",
+      ecommerce: {
+        transaction_id: data.id,
+        value: Number(data.amount_total || 0) / 100,
+        currency: String(data.currency || "usd").toUpperCase(),
+        coupon: data.promotion_code || undefined,
+        items,
+      },
+      promotion_savings: Number(data.promotion_savings_cents || 0) / 100,
+    });
+  }
 
   async function verify() {
     if (!/^cs_(test_|live_)?[A-Za-z0-9_]+$/.test(sessionId)) {
@@ -35,13 +58,15 @@
         return;
       }
 
+      trackedPurchase(data);
       localStorage.removeItem(CART_KEY);
+      localStorage.removeItem("omniTerrainUsCoupon");
       document.querySelectorAll("[data-cart-count]").forEach(node => { node.textContent = "0"; });
       title.textContent = "Thank you for your order";
       copy.textContent = "Your secure payment is confirmed. Omni Terrain will send order and fulfilment updates to the email used at checkout.";
       status.textContent = "Payment confirmed";
       status.className = "ot-order-status success";
-      meta.innerHTML = `<span>Order ${esc(String(data.id || "").slice(-10))}</span><span>${esc(money(data.amount_total))}</span>${data.customer_email ? `<span>${esc(data.customer_email)}</span>` : ""}`;
+      meta.innerHTML = `<span>Order ${esc(String(data.id || "").slice(-10))}</span><span>${esc(money(data.amount_total))}</span>${data.promotion_code ? `<span>Promo ${esc(data.promotion_code)}</span>` : ""}${data.customer_email ? `<span>${esc(data.customer_email)}</span>` : ""}`;
     } catch (error) {
       title.textContent = "We’re verifying your order";
       copy.textContent = "Stripe returned you to Omni Terrain, but the payment status could not be confirmed on this attempt. Do not pay again until support confirms the order status.";
