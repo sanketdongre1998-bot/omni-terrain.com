@@ -1,4 +1,4 @@
-name: Force production locked logo
+name: Embed exact locked logo in production CSS
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 jobs:
-  update-logo:
+  embed-logo:
     runs-on: ubuntu-latest
     steps:
       - name: Check out main
@@ -20,49 +20,79 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Force exact locked logo and bust cached assets
+      - name: Inline the exact approved WebP and bust caches
         shell: bash
         run: |
           set -euo pipefail
           python3 - <<'PY'
           from pathlib import Path
+          import base64
+          import re
 
-          raw_logo = 'https://raw.githubusercontent.com/sanketdongre1998-bot/omni-terrain.com/main/assets/omni-terrain-logo-lock.webp'
+          logo_path = Path('assets/omni-terrain-logo-lock.webp')
+          css_path = Path('assets/brand-speed.css')
+          assert logo_path.is_file() and logo_path.stat().st_size > 0, 'Locked logo asset is missing'
 
-          # Make both runtime shells use the exact locked artwork from a source that is
-          # independent of the currently-broken production /assets image route.
+          data_uri = 'data:image/webp;base64,' + base64.b64encode(logo_path.read_bytes()).decode('ascii')
+          css = css_path.read_text(encoding='utf-8')
+
+          # Replace only the logo background source. The exact approved WebP bytes now travel
+          # inside brand-speed.css, so production no longer depends on any separate image URL.
+          css, count = re.subn(
+              r"background-image:url\((?:'|\")?[^)]*omni-terrain-logo-lock\.webp[^)]*\)(?:'|\")?!important;",
+              f"background-image:url(\"{data_uri}\")!important;",
+              css,
+              count=1,
+          )
+          if count != 1:
+              # Current production-safe CSS may point to the raw GitHub URL. Match the whole
+              # existing background-image declaration in the locked-brand block as fallback.
+              marker = '.ot-site-brand::before,.brand::before,'
+              start = css.find(marker)
+              if start < 0:
+                  raise SystemExit('Locked brand CSS block not found')
+              pos = css.find('background-image:', start)
+              end = css.find(';', pos)
+              if pos < 0 or end < 0:
+                  raise SystemExit('Locked brand background-image declaration not found')
+              css = css[:pos] + f'background-image:url("{data_uri}")!important' + css[end:]
+
+          css_path.write_text(css, encoding='utf-8')
+          assert 'data:image/webp;base64,' in css
+
+          # Both runtime shells must request the new embedded CSS version.
           for name in ['assets/storefront-performance.js', 'assets/us-shell.js']:
               p = Path(name)
               text = p.read_text(encoding='utf-8')
-              text = text.replace('/assets/omni-terrain-logo-lock.webp?v=3', raw_logo)
-              text = text.replace('/assets/brand-speed.css?v=7', '/assets/brand-speed.css?v=8')
+              text = re.sub(r'/assets/brand-speed\.css\?v=\d+', '/assets/brand-speed.css?v=9', text)
               p.write_text(text, encoding='utf-8')
 
-          # Bust homepage/static-page CSS and JS caches so browsers cannot keep the broken render.
+          # Every page gets a fresh CSS/runtime URL so stale browser/CDN caches cannot retain
+          # the broken image render. us-shell is also cache-busted because it can own CSS order.
           for p in Path('.').glob('*.html'):
               text = p.read_text(encoding='utf-8')
-              for version in range(1, 8):
-                  text = text.replace(f'assets/brand-speed.css?v={version}', 'assets/brand-speed.css?v=8')
-                  text = text.replace(f'/assets/brand-speed.css?v={version}', '/assets/brand-speed.css?v=8')
-              for version in range(1, 7):
-                  text = text.replace(f'assets/storefront-performance.js?v={version}', 'assets/storefront-performance.js?v=7')
-                  text = text.replace(f'/assets/storefront-performance.js?v={version}', '/assets/storefront-performance.js?v=7')
+              text = re.sub(r'(?<!/)assets/brand-speed\.css\?v=\d+', 'assets/brand-speed.css?v=9', text)
+              text = re.sub(r'/assets/brand-speed\.css\?v=\d+', '/assets/brand-speed.css?v=9', text)
+              text = re.sub(r'(?<!/)assets/storefront-performance\.js\?v=\d+', 'assets/storefront-performance.js?v=8', text)
+              text = re.sub(r'/assets/storefront-performance\.js\?v=\d+', '/assets/storefront-performance.js?v=8', text)
+              text = re.sub(r'(?<!/)assets/us-shell\.js\?v=\d+', 'assets/us-shell.js?v=8', text)
+              text = re.sub(r'/assets/us-shell\.js\?v=\d+', '/assets/us-shell.js?v=8', text)
               p.write_text(text, encoding='utf-8')
 
-          assert raw_logo in Path('assets/storefront-performance.js').read_text(encoding='utf-8')
-          assert raw_logo in Path('assets/us-shell.js').read_text(encoding='utf-8')
+          assert '/assets/brand-speed.css?v=9' in Path('assets/storefront-performance.js').read_text(encoding='utf-8')
+          assert '/assets/brand-speed.css?v=9' in Path('assets/us-shell.js').read_text(encoding='utf-8')
           PY
 
-      - name: Commit production logo fix
+      - name: Commit embedded-logo build
         shell: bash
         run: |
           set -euo pipefail
           if git diff --quiet; then
-            echo "Production logo fix already applied."
+            echo "Exact logo is already embedded."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/storefront-performance.js assets/us-shell.js '*.html'
-          git commit -m "Force exact locked logo on production"
+          git add assets/brand-speed.css assets/storefront-performance.js assets/us-shell.js '*.html'
+          git commit -m "Embed exact locked logo in storefront CSS"
           git push origin HEAD:main
