@@ -5,46 +5,48 @@
 
   const path=decodeURIComponent(String(location.pathname||"").split("/").filter(Boolean).pop()||"").toLowerCase();
   const mobile=window.matchMedia&&window.matchMedia("(max-width:760px)").matches;
+  const idle=(fn,timeout=1200)=>{"requestIdleCallback" in window?requestIdleCallback(fn,{timeout}):setTimeout(fn,Math.min(timeout,700));};
 
-  // Always load the last-mile responsive + dark-theme layer after legacy page CSS.
-  if(!document.querySelector('link[data-ot-responsive-hardening]')){
-    const responsive=document.createElement("link");
-    responsive.rel="stylesheet";
-    responsive.href="/assets/responsive-hardening.css?v=2";
-    responsive.dataset.otResponsiveHardening="true";
-    document.head.appendChild(responsive);
-  }
+  const ensureCss=(selector,href,datasetKey)=>{
+    if(document.querySelector(selector))return;
+    const link=document.createElement("link");link.rel="stylesheet";link.href=href;if(datasetKey)link.dataset[datasetKey]="true";document.head.appendChild(link);
+  };
 
-  if(!document.querySelector('script[data-ot-customer-copy]')){
-    const marketing=document.createElement("script");
-    marketing.src="/assets/customer-marketing-copy.js?v=1";
-    marketing.defer=true;
-    marketing.dataset.otCustomerCopy="true";
-    document.head.appendChild(marketing);
-  }
+  /* Critical last-mile layers: load immediately because they fix layout/contrast/brand. */
+  ensureCss('link[data-ot-responsive-hardening],link[href*="responsive-hardening.css"]',"/assets/responsive-hardening.css?v=3","otResponsiveHardening");
+  ensureCss('link[data-ot-brand-speed],link[href*="brand-speed.css"]',"/assets/brand-speed.css?v=1","otBrandSpeed");
 
-  if(!document.querySelector('script[data-ot-growth-marketing],script[src*="growth-marketing.js"]')){
-    const growth=document.createElement("script");
-    growth.src="/assets/growth-marketing.js?v=2";
-    growth.defer=true;
-    growth.dataset.otGrowthMarketing="true";
-    document.head.appendChild(growth);
-  }
+  const crestMarkup=()=>'<span class="ot-brand-crest" aria-hidden="true"><svg viewBox="0 0 48 48" focusable="false"><path class="ot-crest-frame" d="M24 3 41 10v13c0 10.7-6.6 17.4-17 22C13.6 40.4 7 33.7 7 23V10L24 3Z"/><rect class="ot-crest-o" x="12" y="15" width="13" height="16" rx="6.5"/><path class="ot-crest-t" d="M27 16h10M32 16v16"/><path class="ot-crest-road" d="M13 36h22"/></svg></span>';
+  const upgradeBrands=()=>{
+    document.querySelectorAll(".brand,.ot-site-brand").forEach(brand=>{
+      if(brand.querySelector(".ot-brand-crest"))return;
+      const wordmark=brand.querySelector(".wordmark,.ot-site-wordmark");
+      if(wordmark)wordmark.insertAdjacentHTML("beforebegin",crestMarkup());
+    });
+  };
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",upgradeBrands,{once:true});else upgradeBrands();
 
-  if(!document.querySelector('script[data-ot-analytics-events]')){
-    const analytics=document.createElement("script");
-    analytics.src="/assets/analytics-events.js?v=1";
-    analytics.defer=true;
-    analytics.dataset.otAnalyticsEvents="true";
-    document.head.appendChild(analytics);
-  }
+  /* Customer copy can wait until the first frame has settled. */
+  idle(()=>{
+    if(!document.querySelector('script[data-ot-customer-copy]')){
+      const marketing=document.createElement("script");marketing.src="/assets/customer-marketing-copy.js?v=1";marketing.defer=true;marketing.dataset.otCustomerCopy="true";document.head.appendChild(marketing);
+    }
+  },650);
 
-  // Checkout eligibility now comes only from the published authorization-gated registry.
-  // Do not synthesize storefront-wide eligibility in the browser.
+  /* Growth and analytics are non-render-critical; don't compete with LCP. */
+  idle(()=>{
+    if(!document.querySelector('script[data-ot-growth-marketing],script[src*="growth-marketing.js"]')){
+      const growth=document.createElement("script");growth.src="/assets/growth-marketing.js?v=2";growth.defer=true;growth.dataset.otGrowthMarketing="true";document.head.appendChild(growth);
+    }
+    if(!document.querySelector('script[data-ot-analytics-events]')){
+      const analytics=document.createElement("script");analytics.src="/assets/analytics-events.js?v=1";analytics.defer=true;analytics.dataset.otAnalyticsEvents="true";document.head.appendChild(analytics);
+    }
+  },1500);
 
   // Keep public catalogue scale messaging broad and customer-friendly.
   if(path===""||path==="index.html"){
     const softenHomeCounts=()=>{
+      upgradeBrands();
       document.querySelectorAll(".home-proof b").forEach(node=>{
         if(/^1,?000\+?$/.test(String(node.textContent||"").trim())) node.textContent="300+";
       });
@@ -53,18 +55,13 @@
     };
     if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",softenHomeCounts,{once:true}); else softenHomeCounts();
     if(!document.querySelector('script[data-ot-live-priority]')){
-      const priority=document.createElement("script");
-      priority.src="/assets/live-storefront-priority.js?v=7";
-      priority.defer=true;
-      priority.dataset.otLivePriority="true";
-      document.head.appendChild(priority);
+      const priority=document.createElement("script");priority.src="/assets/live-storefront-priority.js?v=7";priority.defer=true;priority.dataset.otLivePriority="true";document.head.appendChild(priority);
     }
   }
 
-  // Load the final responsive image layer after legacy page CSS.
-  if(!document.querySelector('link[data-ot-image-layout]')){
-    const imageCss=document.createElement("link");imageCss.rel="stylesheet";imageCss.href="/assets/image-layout-fix.css?v=2";imageCss.dataset.otImageLayout="true";document.head.appendChild(imageCss);
-  }
+  /* Dedupe the image layout layer across shell/performance loaders. */
+  ensureCss('link[data-ot-image-layout],link[data-ot-image-layout-fix],link[href*="image-layout-fix.css"]',"/assets/image-layout-fix.css?v=2","otImageLayout");
+
   // Catalogue/department pages get the shared search + filter runtime.
   if(path==="us-catalogue.html"||/^(automotive|marine|rv)(?:-|\.)/.test(path)){
     if(!document.querySelector('script[data-ot-catalogue-controls]')){
@@ -79,7 +76,6 @@
   const lowCpu = Number(navigator.hardwareConcurrency || 8) <= 4;
   const reducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const lite = saveData || slowNetwork || reducedMotion || (lowMemory && lowCpu);
-
   if (lite) document.documentElement.classList.add("ot-perf-lite");
 
   const imageFrame = (img) => img && img.closest ? img.closest(".media,.live-media") : null;
@@ -90,11 +86,9 @@
     if (!frame) return;
     const ready = () => frame.classList.remove("ot-media-failed");
     const failed = () => frame.classList.add("ot-media-failed");
-    img.addEventListener("load", ready, { passive: true });
-    img.addEventListener("error", failed, { passive: true });
-    if (img.complete) {
-      if (img.naturalWidth) ready(); else failed();
-    }
+    img.addEventListener("load", ready, { passive: true, once:true });
+    img.addEventListener("error", failed, { passive: true, once:true });
+    if (img.complete) { if (img.naturalWidth) ready(); else failed(); }
   };
 
   const rightSizeVehicleImage=(img)=>{
@@ -127,13 +121,12 @@
     attachImageState(img);
   };
 
-  const tuneAllImages = () => {
-    document.querySelectorAll("img").forEach((img, index) => tuneImage(img, index));
-  };
-
+  const tuneAllImages = () => document.querySelectorAll("img").forEach((img, index) => tuneImage(img, index));
   tuneAllImages();
+
   if ("MutationObserver" in window) {
     const observer = new MutationObserver((mutations) => {
+      upgradeBrands();
       for (const mutation of mutations) {
         for (const node of mutation.addedNodes) {
           if (!(node instanceof Element)) continue;
@@ -143,7 +136,9 @@
       }
     });
     observer.observe(document.documentElement, { childList: true, subtree: true });
-    window.addEventListener("pagehide", () => observer.disconnect(), { once: true });
+    const stop=()=>observer.disconnect();
+    window.addEventListener("pagehide",stop,{once:true});
+    setTimeout(stop,10000);
   }
 
   document.addEventListener("visibilitychange", () => {
