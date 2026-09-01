@@ -14,6 +14,14 @@
     document.head.appendChild(marketing);
   }
 
+  if(!document.querySelector('script[data-ot-growth-marketing]')){
+    const growth=document.createElement("script");
+    growth.src="/assets/growth-marketing.js?v=1";
+    growth.defer=true;
+    growth.dataset.otGrowthMarketing="true";
+    document.head.appendChild(growth);
+  }
+
   // Checkout eligibility now comes only from the published authorization-gated registry.
   // Do not synthesize storefront-wide eligibility in the browser.
 
@@ -29,7 +37,7 @@
     if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",softenHomeCounts,{once:true}); else softenHomeCounts();
     if(!document.querySelector('script[data-ot-live-priority]')){
       const priority=document.createElement("script");
-      priority.src="/assets/live-storefront-priority.js?v=6";
+      priority.src="/assets/live-storefront-priority.js?v=7";
       priority.defer=true;
       priority.dataset.otLivePriority="true";
       document.head.appendChild(priority);
@@ -43,7 +51,7 @@
   // Catalogue/department pages get the shared search + filter runtime.
   if(path==="us-catalogue.html"||/^(automotive|marine|rv)(?:-|\.)/.test(path)){
     if(!document.querySelector('script[data-ot-catalogue-controls]')){
-      const controls=document.createElement("script");controls.src="/assets/catalogue-controls.js?v=7";controls.defer=true;controls.dataset.otCatalogueControls="true";document.head.appendChild(controls);
+      const controls=document.createElement("script");controls.src="/assets/catalogue-controls.js?v=8";controls.defer=true;controls.dataset.otCatalogueControls="true";document.head.appendChild(controls);
     }
   }
 
