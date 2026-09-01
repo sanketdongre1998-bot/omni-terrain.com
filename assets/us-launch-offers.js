@@ -7,35 +7,49 @@
     HUS81147: {
       priceCents: 11999,
       compareAtCents: 12626,
-      label: "Launch Deal",
+      label: "Featured Deal",
       shippingIncluded: true,
       slug: "us-husky-towing-81147.html"
     },
     HUS81148: {
       priceCents: 14999,
       compareAtCents: 15828,
-      label: "Launch Deal",
+      label: "Featured Deal",
       shippingIncluded: true,
       slug: "us-husky-towing-81148.html"
+    },
+    CCIN9010F: {
+      priceCents: 21999,
+      compareAtCents: 23900,
+      label: "Featured Deal",
+      shippingIncluded: true,
+      slug: "us-coast2coast-iwcn9010f.html"
     },
     CCIN8010F: {
       priceCents: 19999,
       compareAtCents: 21900,
-      label: "Launch Deal",
+      label: "Featured Deal",
       shippingIncluded: true,
       slug: "us-coast2coast-iwcn8010f.html"
+    },
+    CCIIMP103X: {
+      priceCents: 16999,
+      compareAtCents: 18065,
+      label: "Featured Deal",
+      shippingIncluded: true,
+      slug: "us-coast2coast-iwcimp103x.html"
     },
     A1360828HD: {
       priceCents: 20499,
       compareAtCents: 21399,
-      label: "Launch Deal",
+      label: "Featured Deal",
       shippingIncluded: true,
       slug: "us-air-lift-60828hd.html"
     },
     B5224066464: {
       priceCents: 13299,
       compareAtCents: 13697,
-      label: "Launch Deal",
+      label: "Featured Deal",
       shippingIncluded: true,
       slug: "us-bilstein-24-066464.html"
     }
@@ -108,7 +122,7 @@
 
     box.dataset.otLaunchDeal = "1";
     const label = box.querySelector(".ot-live-label");
-    if (label) label.textContent = "Launch price";
+    if (label) label.textContent = "Featured price";
     const price = box.querySelector(".ot-live-price");
     if (price && !box.querySelector(".ot-launch-ribbon")) {
       const ribbon = document.createElement("div");
