@@ -8,11 +8,11 @@
   const money = cents => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format((Number(cents) || 0) / 100);
   const esc = value => String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
   const launchOffers = {
-    HUS81147: {
-      priceCents: 11999,
-      compareAtCents: 12626,
-      label: "Limited Launch Deal"
-    }
+    HUS81147: { priceCents: 11999, compareAtCents: 12626, label: "Launch Deal" },
+    HUS81148: { priceCents: 14999, compareAtCents: 15828, label: "Launch Deal" },
+    CCIN8010F: { priceCents: 19999, compareAtCents: 21900, label: "Launch Deal" },
+    A1360828HD: { priceCents: 20499, compareAtCents: 21399, label: "Launch Deal" },
+    B5224066464: { priceCents: 13299, compareAtCents: 13697, label: "Launch Deal" }
   };
 
   function loadProducts() {
@@ -65,18 +65,15 @@
       .filter(x => x.product && x.product.slug);
     if (!enabled.length) return;
 
-    // Deliberate launch merchandising: broad-use/low-fitment products with healthy stock and
-    // commercial room are shown first. HUS33055 remains the hero until the discounted 81147
-    // single-SKU Stripe checkout is smoke-tested end to end at its launch price.
-    const priorityIds = ["HUS81147", "HUS33055", "HUS81148", "B5224066464"];
-    const heroId = "HUS33055";
+    const priorityIds = ["HUS81147", "HUS81148", "CCIN8010F", "A1360828HD", "B5224066464"];
+    const heroId = "HUS81147";
     enabled.sort((a, b) => {
       const ai = priorityIds.indexOf(a.id), bi = priorityIds.indexOf(b.id);
       if (ai >= 0 || bi >= 0) return (ai < 0 ? 999 : ai) - (bi < 0 ? 999 : bi);
       return String(a.product.brand || "").localeCompare(String(b.product.brand || "")) || String(a.product.mpn || "").localeCompare(String(b.product.mpn || ""));
     });
 
-    const featured = enabled.slice(0, 4);
+    const featured = enabled.slice(0, 5);
     const images = await Promise.all(featured.map(x => productImage(x.product.slug)));
 
     const grid = document.querySelector(".live-grid");
@@ -97,14 +94,15 @@
       const eyebrow = section?.querySelector(".section-head .eyebrow");
       const heading = section?.querySelector(".section-head h2");
       const copy = section?.querySelector(".section-head p");
-      if (eyebrow) eyebrow.textContent = "Featured checkout deals";
-      if (heading) heading.textContent = "Featured products, ready to buy.";
-      if (copy) copy.textContent = "A focused launch selection chosen for a cleaner buying path, including limited launch pricing where shown and free standard shipping on eligible featured products in the contiguous United States.";
+      if (eyebrow) eyebrow.textContent = "5 launch deals · Secure checkout";
+      if (heading) heading.textContent = "Five products priced to win.";
+      if (copy) copy.textContent = "Our focused launch selection combines real checkout, launch pricing and free standard shipping in the contiguous United States on these featured products.";
     }
 
     const heroCandidate = enabled.find(x => x.id === heroId) || featured[0];
     if (heroCandidate) {
       const p = heroCandidate.product, r = heroCandidate.row;
+      const promo = launchOffers[heroCandidate.id];
       const heroImage = await productImage(p.slug);
       const hero = document.querySelector(".hero-showcase");
       if (hero) {
@@ -119,22 +117,24 @@
         if (small) small.textContent = `${p.brand || "Omni Terrain"} · MPN ${p.mpn || ""}`;
         if (h2) h2.textContent = p.title || p.mpn || "Checkout-ready product";
         if (price) { price.removeAttribute("data-live-price"); price.textContent = money(r.priceCents); }
-        if (foot) foot.textContent = r.shippingIncluded ? "Featured online deal · Free standard shipping in the contiguous U.S." : "In stock · Secure online checkout available";
+        if (foot) foot.textContent = promo
+          ? `Launch deal · Save ${money(promo.compareAtCents - promo.priceCents)} · Free standard shipping in the contiguous U.S.`
+          : (r.shippingIncluded ? "Featured online deal · Free standard shipping in the contiguous U.S." : "In stock · Secure online checkout available");
       }
     }
 
-    const liveBrands = [...new Set(enabled.map(x => String(x.product.brand || "").trim()).filter(Boolean))].slice(0, 5);
+    const liveBrands = [...new Set(featured.map(x => String(x.product.brand || "").trim()).filter(Boolean))].slice(0, 5);
     const brandNodes = [...document.querySelectorAll(".brand-strip .brand-name")];
     brandNodes.forEach((node, i) => {
       if (liveBrands[i]) { node.textContent = liveBrands[i]; node.style.display = ""; }
       else node.style.display = "none";
     });
     const brandLabel = document.querySelector(".brand-strip-label");
-    if (brandLabel) brandLabel.textContent = "Brands available to buy online";
+    if (brandLabel) brandLabel.textContent = "Brands in our launch deals";
 
     const launch = document.querySelector(".launch-strip .container span:last-child");
     if (launch) {
-      launch.textContent = "Limited launch deal: HUSKY 4-Bike Hitch Rack now $119.99 with free standard shipping in the contiguous U.S.";
+      launch.textContent = "Launch pricing is live on 5 featured products with free standard shipping in the contiguous U.S.";
     }
   }
 
