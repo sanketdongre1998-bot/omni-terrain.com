@@ -40,7 +40,7 @@ def schema(path: str) -> dict:
 
 def main() -> int:
     routes = ["index.html","deals.html","us-catalogue.html","automotive.html","marine.html","rv.html","cart.html","checkout.html","contact-and-order-help.html","shipping-delivery-policy.html","returns-refunds-policy.html","privacy-policy.html","terms-conditions.html","us-order-success.html"]
-    assets = ["assets/us-shell.js","assets/firebase-auth.js","assets/firebase-auth.css","assets/catalogue-controls.js","assets/customer-marketing-copy.js","assets/growth-marketing.js","assets/offer-copy-polish.js","assets/ad-readiness.js","assets/analytics-events.js","assets/universal-checkout-ui.js","assets/cart-checkout-premium.js","assets/storefront-performance.js","assets/responsive-hardening.css","assets/dark-theme-polish.css","assets/brand-speed.css","assets/us-launch-offers.js","assets/us-live-products.json","assets/us-display-prices.js","assets/us-products.js","assets/us-order-success.js","scripts/responsive-browser-audit.mjs","scripts/dark-theme-browser-audit.mjs","lib/us-checkout-products.mjs","api/us-create-checkout-session.mjs","api/us-checkout-health.mjs"]
+    assets = ["assets/us-shell.js","assets/firebase-auth.js","assets/firebase-auth.css","assets/catalogue-controls.js","assets/catalogue-wide.js","assets/customer-marketing-copy.js","assets/growth-marketing.js","assets/offer-copy-polish.js","assets/ad-readiness.js","assets/analytics-events.js","assets/universal-checkout-ui.js","assets/cart-checkout-premium.js","assets/storefront-performance.js","assets/responsive-hardening.css","assets/dark-theme-polish.css","assets/brand-speed.css","assets/us-launch-offers.js","assets/us-live-products.json","assets/us-stock-status.json","assets/us-product-images.json","assets/us-display-prices.js","assets/us-products.js","assets/us-order-success.js","scripts/responsive-browser-audit.mjs","scripts/dark-theme-browser-audit.mjs","lib/us-checkout-products.mjs","api/us-create-checkout-session.mjs","api/us-checkout-health.mjs"]
     for path in routes + assets:
         if (ROOT / path).exists(): passes.append(f"PASS exists: {path}")
         else: errors.append(f"missing {path}")
@@ -57,6 +57,7 @@ def main() -> int:
     need("assets/live-storefront-priority.js", "standard US shipping included", "factual homepage shipping copy")
     ban("assets/live-storefront-priority.js", "Featured shipping savings", "homepage shipping-as-discount claim")
     need("assets/us-live-commerce.js", "Standard US shipping", "product-page shipping copy")
+    need("assets/us-live-commerce.js", "us-stock-status.json", "current stock-status gate")
     ban("assets/us-live-commerce.js", "Your delivery discount", "product-page shipping-as-discount claim")
     ban("assets/us-live-commerce.js", "us-display-prices.js", "broad public supplier-price injection")
     ban("assets/growth-marketing.js", "compareAtCents", "unverified compare-at pricing")
@@ -97,7 +98,7 @@ def main() -> int:
 
     # Server source of truth.
     backend = src("lib/us-checkout-products.mjs")
-    for token, label in [("/assets/us-products.js","products source"),("/assets/us-display-prices.js","price source"),("/assets/us-live-products.json","authorization source"),("approval.enabled !== true","enabled gate"),("approval.authorizationVerified !== true","authorization gate"),("price.priceCents !== approvedPriceCents","price agreement gate"),("MAX_ORDER_CENTS","cart value guard"),("MAX_QTY","quantity guard")]:
+    for token, label in [("/assets/us-products.js","products source"),("/assets/us-display-prices.js","price source"),("/assets/us-live-products.json","authorization source"),("/assets/us-stock-status.json","stock-status source"),("approval.enabled !== true","enabled gate"),("approval.authorizationVerified !== true","authorization gate"),("stock.checkoutReady !== true","current stock gate"),("price.priceCents !== approvedPriceCents","price agreement gate"),("MAX_ORDER_CENTS","cart value guard"),("MAX_QTY","quantity guard")]:
         if token in backend: passes.append(f"PASS backend: {label}")
         else: errors.append(f"backend missing {label}")
     ban("lib/us-checkout-products.mjs", "LAUNCH_PRICE_OVERRIDES", "launch price override")
@@ -115,13 +116,17 @@ def main() -> int:
     # Registry integrity + 7 featured PDP schema prices must equal canonical registry prices exactly.
     try:
         registry = json.loads(src("assets/us-live-products.json") or "{}")
+        stock = json.loads(src("assets/us-stock-status.json") or "{}")
         products = registry.get("products", {})
         enabled = {pid: row for pid, row in products.items() if isinstance(row, dict) and row.get("enabled") is True and row.get("authorizationVerified") is True and int(row.get("priceCents") or 0) > 0}
+        stock_ready = {pid: row for pid, row in stock.get("products", {}).items() if isinstance(row, dict) and row.get("checkoutReady") is True and row.get("status") == "in_stock" and row.get("liveApi") == "ORDERABLE"}
         bad = [pid for pid, row in products.items() if isinstance(row, dict) and row.get("enabled") is True and row.get("authorizationVerified") is not True]
         if bad: errors.append(f"enabled but unverified: {bad[:10]}")
         else: passes.append("PASS registry: no enabled-unverified products")
-        if len(enabled) == 301: passes.append("PASS registry: 301 checkout-ready products")
-        else: errors.append(f"registry checkout-ready count changed: {len(enabled)}")
+        if registry.get("generatedAtUTC") and stock.get("generatedAtUTC", "") >= registry.get("generatedAtUTC", ""): passes.append("PASS registry/status: stock snapshot is current")
+        else: errors.append("registry/status: stock snapshot is missing or stale")
+        if enabled and set(enabled) == set(stock_ready): passes.append(f"PASS registry/status: {len(enabled)} checkout-ready products agree")
+        else: errors.append(f"registry/status checkout-ready mismatch: registry={len(enabled)}, stock={len(stock_ready)}")
 
         featured = ["HUS81147","HUS81148","CCIN9010F","CCIN8010F","CCIIMP103X","A1360828HD","B5224066464"]
         for pid in featured:

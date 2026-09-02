@@ -45,16 +45,23 @@ jobs:
           python scripts/keystone-retailize-storefront.py --self-test
 
       - name: Validate 1000-product Wave1 storefront
-        run: python scripts/test-wave1-storefront.py
+        run: |
+          node scripts/build-us-product-images.cjs --check
+          python scripts/test-wave1-storefront.py
 
       - name: Validate isolated US checkout safety
         run: node scripts/test-us-checkout-service.mjs
 
       - name: Validate UK catalogue generator
+        shell: bash
         run: |
-          node scripts/generate-shield-uk.cjs
-          git checkout -- uk.html uk-contact.html uk-shipping-delivery-policy.html uk-returns-refunds-policy.html uk-privacy-policy.html uk-terms-conditions.html
-          git diff --exit-code
+          set -euo pipefail
+          CHECK_ROOT="$(mktemp -d)"
+          CHECK_REPO="$CHECK_ROOT/repo"
+          git worktree add --detach "$CHECK_REPO" HEAD
+          trap 'git worktree remove --force "$CHECK_REPO"' EXIT
+          node "$CHECK_REPO/scripts/generate-shield-uk.cjs"
+          node "$CHECK_REPO/scripts/test-shield-uk.cjs"
 
       - name: Validate shared commerce and routes
         run: |

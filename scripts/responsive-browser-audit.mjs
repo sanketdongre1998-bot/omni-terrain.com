@@ -200,7 +200,8 @@ for (const vp of viewports) {
       if (route === "index.html") {
         try {
           await page.waitForFunction(() => Boolean(window.__OMNI_FIREBASE_AUTH__), null, { timeout: 10000 });
-          const trigger = vp.width <= 860 ? page.locator(".ot-mobile-auth-trigger") : page.locator(".ot-auth-trigger");
+          const trigger = page.locator("[data-ot-auth-trigger]:visible").first();
+          if (await trigger.count() !== 1) throw new Error("no visible account trigger");
           await trigger.click();
           await page.waitForTimeout(120);
           const authCheck = await page.evaluate(() => {

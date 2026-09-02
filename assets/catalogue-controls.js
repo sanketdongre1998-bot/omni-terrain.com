@@ -31,10 +31,12 @@
 
   async function loadLiveRegistry(){
     try{
-      const response=await fetch("/assets/us-live-products.json?v=checkout-pool-301-auth5",{cache:"no-store"});
-      if(!response.ok)throw new Error("registry unavailable");
-      const data=await response.json();
-      const rows=Object.entries(data?.products||{}).filter(([,p])=>p&&p.enabled===true&&p.authorizationVerified===true&&Number(p.priceCents)>0&&p.slug);
+      const [registryResponse,stockResponse]=await Promise.all([fetch("/assets/us-live-products.json?v=checkout-registry",{cache:"no-store"}),fetch("/assets/us-stock-status.json?v=checkout-stock",{cache:"no-store"})]);
+      if(!registryResponse.ok||!stockResponse.ok)throw new Error("live catalogue unavailable");
+      const [data,stock]=await Promise.all([registryResponse.json(),stockResponse.json()]);
+      const registryTime=Date.parse(String(data?.generatedAtUTC||"")),stockTime=Date.parse(String(stock?.generatedAtUTC||""));
+      if(!Number.isFinite(registryTime)||!Number.isFinite(stockTime)||stockTime<registryTime)throw new Error("stock status is stale");
+      const rows=Object.entries(data?.products||{}).filter(([id,p])=>{const s=stock?.products?.[id];return p&&p.enabled===true&&p.authorizationVerified===true&&p.liveKeystoneOrderable===true&&Number(p.priceCents)>0&&p.slug&&s?.checkoutReady===true&&s?.status==="in_stock"&&s?.liveApi==="ORDERABLE"&&basename(s.slug)===basename(p.slug);});
       return {ok:true,slugs:new Set(rows.map(([,p])=>basename(p.slug)))};
     }catch(_){return {ok:false,slugs:new Set()};}
   }
@@ -122,5 +124,9 @@
   }
 
   function addAssets(){if(!document.querySelector('link[data-ot-catalogue-controls]')){const l=document.createElement("link");l.rel="stylesheet";l.href="/assets/catalogue-controls.css?v=2";l.dataset.otCatalogueControls="true";document.head.appendChild(l);}mount();}
-  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",addAssets,{once:true});else addAssets();
+  function start(){
+    if(file==="us-catalogue.html"&&!window.__OMNI_CATALOGUE_WIDE_READY__){document.addEventListener("omni:catalogue-ready",addAssets,{once:true});return;}
+    addAssets();
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start,{once:true});else start();
 })();

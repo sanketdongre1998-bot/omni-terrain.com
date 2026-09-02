@@ -102,11 +102,11 @@
   }
 
   if(path==="us-catalogue.html"||/^(automotive|marine|rv)(?:-|\.)/.test(path)){
-    if(!document.querySelector('script[data-ot-catalogue-controls]')){
-      const controls=document.createElement("script");controls.src="/assets/catalogue-controls.js?v=9";controls.defer=true;controls.dataset.otCatalogueControls="true";document.head.appendChild(controls);
-    }
     if(path==="us-catalogue.html"&&!document.querySelector('script[data-ot-catalogue-wide]')){
-      const wide=document.createElement("script");wide.src="/assets/catalogue-wide.js?v=1";wide.defer=true;wide.dataset.otCatalogueWide="true";document.head.appendChild(wide);
+      const wide=document.createElement("script");wide.src="/assets/catalogue-wide.js?v=2";wide.defer=true;wide.dataset.otCatalogueWide="true";document.head.appendChild(wide);
+    }
+    if(!document.querySelector('script[data-ot-catalogue-controls]')){
+      const controls=document.createElement("script");controls.src="/assets/catalogue-controls.js?v=10";controls.defer=true;controls.dataset.otCatalogueControls="true";document.head.appendChild(controls);
     }
   }
 

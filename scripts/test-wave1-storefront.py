@@ -16,6 +16,9 @@ ROOT = Path(".")
 MANIFEST = ROOT / "storefront-manifest.json"
 
 PRODUCT_JS = ROOT / "assets/us-products.js"
+LIVE_REGISTRY = ROOT / "assets/us-live-products.json"
+STOCK_STATUS = ROOT / "assets/us-stock-status.json"
+PRODUCT_IMAGES = ROOT / "assets/us-product-images.json"
 
 
 
@@ -61,17 +64,34 @@ check(len(set(slugs)) == 1000, "manifest slugs are not unique")
 
 
 
-check(sum(bool(p.get("checkout_ready")) for p in products) == 0,
+registry = json.loads(LIVE_REGISTRY.read_text())
+stock = json.loads(STOCK_STATUS.read_text())
+images = json.loads(PRODUCT_IMAGES.read_text())
+manifest_by_id = {p["id"]: p for p in products}
+live = {
+    pid: row for pid, row in registry.get("products", {}).items()
+    if isinstance(row, dict)
+    and row.get("enabled") is True
+    and row.get("authorizationVerified") is True
+    and row.get("liveKeystoneOrderable") is True
+    and int(row.get("priceCents") or 0) > 0
+}
+stock_ready = {
+    pid: row for pid, row in stock.get("products", {}).items()
+    if isinstance(row, dict)
+    and row.get("checkoutReady") is True
+    and row.get("status") == "in_stock"
+    and row.get("liveApi") == "ORDERABLE"
+}
 
-      "checkout_ready must remain 0")
-
-check(sum(bool(p.get("merchant_ready")) for p in products) == 0,
-
-      "merchant_ready must remain 0")
-
-check(sum(bool(p.get("paid_search")) for p in products) == 0,
-
-      "paid_search must remain 0")
+check(0 < len(live) <= len(products), f"invalid checkout-ready count: {len(live)}")
+check(bool(registry.get("generatedAtUTC")) and stock.get("generatedAtUTC", "") >= registry.get("generatedAtUTC", ""),
+      "stock status is missing a timestamp or is older than the live registry")
+check(set(live) == set(stock_ready), f"registry/stock ready IDs disagree: registry={len(live)}, stock={len(stock_ready)}")
+check(set(live).issubset(manifest_by_id), "live registry contains IDs outside the 1000-product manifest")
+check(all(manifest_by_id[pid]["slug"] == row.get("slug") == stock_ready.get(pid, {}).get("slug") for pid, row in live.items()),
+      "live registry, stock status and manifest slugs disagree")
+check(set(images.get("products", {})) == set(ids), "product image map does not cover all manifest IDs")
 
 
 

@@ -5,11 +5,34 @@ import json
 import sys
 import urllib.error
 import urllib.request
+from pathlib import Path
 from urllib.parse import urlparse
 
 API = "https://omni-terrain-uk-checkout.vercel.app/api/us-create-checkout-session"
 HEALTH = "https://omni-terrain-uk-checkout.vercel.app/api/us-checkout-health"
 ORIGIN = "https://omni-terrain.com"
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def expected_ready_count() -> int:
+    registry = json.loads((ROOT / "assets/us-live-products.json").read_text())
+    stock = json.loads((ROOT / "assets/us-stock-status.json").read_text())
+    if not registry.get("generatedAtUTC") or stock.get("generatedAtUTC", "") < registry.get("generatedAtUTC", ""):
+        raise RuntimeError("local stock status is missing or older than the live registry")
+    ready = {
+        pid for pid, row in registry.get("products", {}).items()
+        if isinstance(row, dict)
+        and row.get("enabled") is True
+        and row.get("authorizationVerified") is True
+        and row.get("liveKeystoneOrderable") is True
+        and int(row.get("priceCents") or 0) > 0
+        and stock.get("products", {}).get(pid, {}).get("checkoutReady") is True
+        and stock.get("products", {}).get(pid, {}).get("status") == "in_stock"
+        and stock.get("products", {}).get(pid, {}).get("liveApi") == "ORDERABLE"
+    }
+    if not ready:
+        raise RuntimeError("local checkout-ready registry is empty")
+    return len(ready)
 
 AD_IDS = ["HUS81147", "HUS81148", "CCIN9010F", "B5224066464"]
 errors: list[str] = []
@@ -43,11 +66,12 @@ def valid_checkout_url(value: object) -> bool:
 
 
 def main() -> int:
+    expected_ready = expected_ready_count()
     status, health = request_json(HEALTH)
     if status != 200 or health.get("ok") is not True:
         errors.append(f"health failed: HTTP {status}")
     else:
-        for key, expected in [("stripeConfigured", True), ("checkoutMode", "authorization-gated"), ("commerceReadyProducts", 301), ("featuredDeals", 7), ("promotionCode", "OMNI5")]:
+        for key, expected in [("stripeConfigured", True), ("checkoutMode", "authorization-gated"), ("commerceReadyProducts", expected_ready), ("featuredDeals", 7), ("promotionCode", "OMNI5")]:
             if health.get(key) == expected:
                 passes.append(f"PASS health {key}={expected}")
             else:

@@ -32,16 +32,30 @@
   function money(cents) {
     return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2 }).format(Number(cents || 0) / 100);
   }
+  function basename(value) {
+    try { return decodeURIComponent(String(value || "").split("?")[0].split("#")[0].split("/").pop() || "").toLowerCase(); }
+    catch (_) { return String(value || "").toLowerCase(); }
+  }
 
   let config = { products: {} };
+  let stock = { products: {} };
   try {
-    const response = await fetch(CONFIG_URL, { cache: "no-store" });
-    if (!response.ok) return;
-    config = await response.json();
+    const [registryResponse, stockResponse] = await Promise.all([
+      fetch(CONFIG_URL, { cache: "no-store" }),
+      fetch("/assets/us-stock-status.json?v=checkout-stock", { cache: "no-store" }),
+    ]);
+    if (!registryResponse.ok || !stockResponse.ok) return;
+    [config, stock] = await Promise.all([registryResponse.json(), stockResponse.json()]);
+    const registryTime = Date.parse(String(config?.generatedAtUTC || ""));
+    const stockTime = Date.parse(String(stock?.generatedAtUTC || ""));
+    if (!Number.isFinite(registryTime) || !Number.isFinite(stockTime) || stockTime < registryTime) return;
   } catch (_) { return; }
 
   const live = new Map(Object.entries(config?.products || {})
-    .filter(([, row]) => row && row.enabled === true && row.authorizationVerified === true && Number(row.priceCents || 0) > 0)
+    .filter(([id, row]) => {
+      const status = stock?.products?.[id];
+      return row && row.enabled === true && row.authorizationVerified === true && row.liveKeystoneOrderable === true && Number(row.priceCents || 0) > 0 && status?.checkoutReady === true && status?.status === "in_stock" && status?.liveApi === "ORDERABLE" && basename(status.slug) === basename(row.slug);
+    })
     .map(([id, row]) => [String(id), { ...row, id: String(id), priceCents: Number(row.priceCents) }]));
   if (!live.size) return;
 
@@ -161,6 +175,7 @@
   enhanceProductPage();
   enhanceCatalogueCards();
   updateCartCounts();
+  document.addEventListener("omni:catalogue-ready", enhanceCatalogueCards);
 
   // Do not expose the broad supplier/jobber display-price table in the public UI.
   // Public dollar prices are rendered only for authorization-verified live products above.
