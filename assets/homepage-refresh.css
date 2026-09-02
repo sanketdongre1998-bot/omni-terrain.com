@@ -44,7 +44,7 @@
 .category-home:nth-child(1){background-image:url('https://vehiclepartimages.com/ImageServerAPI?File=FAB/Images/FTL5607_1.jpg&maxheight=500&maxwidth=700')!important}
 .category-home:nth-child(2){background-image:url('https://vehiclepartimages.com/ImageServerAPI?File=HUM/Images/410190-1_1.jpg&maxheight=500&maxwidth=700')!important}
 .category-home:nth-child(3){background-image:url('https://vehiclepartimages.com/ImageServerAPI?File=VLT/Images/K88205_1.jpg&maxheight=500&maxwidth=700')!important}
-.category-home:nth-child(4){background-image:url('https://vehiclepartimages.com/ImageServerAPI?File=BLU/Images/5026-BSS_4.jpg&maxheight=500&maxwidth=700')!important}
+.category-home:nth-child(4){background-image:url('https://vehiclepartimages.com/ImageServerAPI?File=BLU/Images/5026-BSS_1.jpg&maxheight=500&maxwidth=700')!important}
 .category-home:hover{transform:translateY(-3px)!important;border-color:#d4aa51!important;box-shadow:0 14px 30px rgba(7,26,48,.12)!important}
 .category-home .num{position:absolute!important;left:17px!important;top:15px!important;color:#e1b95e!important;font-size:.52rem!important}
 .category-home .count,.category-home p{display:none!important}
@@ -127,3 +127,6 @@
   .category-home{min-height:148px!important;background-size:48% auto!important}
   .live-media{height:185px!important}.live-media img{height:148px!important}
 }
+
+/* Approved simplified homepage: duplicate runtime growth banner is intentionally hidden. */
+.ot-growth-banner{display:none!important}

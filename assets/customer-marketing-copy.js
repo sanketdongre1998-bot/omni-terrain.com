@@ -26,7 +26,7 @@
 
     setText(".market-note", "U.S. pricing · Secure online checkout");
     setText(".launch-strip .container span:last-child", "Featured offers · Free standard shipping on featured items in the contiguous U.S.");
-    setText(".home-hero-copy p", "Shop automotive, towing, marine, RV and 12V parts by brand and manufacturer part number. Discover featured offers, fitment-focused product details and secure U.S. checkout.");
+    setText(".home-hero-copy p", "Specialist automotive, marine, RV & 12V parts.");
 
     const proofs = [...document.querySelectorAll(".home-proof > div")];
     if (proofs[0]) { assignText(proofs[0].querySelector("b"),"300+"); assignText(proofs[0].querySelector("span"),"Products across automotive, marine and RV"); }
