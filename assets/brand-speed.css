@@ -1,4 +1,4 @@
-/* Omni Terrain header/logo stability hotfix. */
+/* Locked brand direction: one verified image asset and one stable header contract. */
 .ot-brand-crest,.brand>.ot-brand-crest,.ot-site-brand>.ot-brand-crest,.brand>.brand-badge,.brand>.brand-mark,.brand>.logo-badge,.brand>.logo-mark,.ot-site-brand>.brand-badge,.ot-site-brand>.brand-mark,.ot-site-brand>.logo-badge,.ot-site-brand>.logo-mark{display:none!important}
 
 .ot-site-brand,.brand{
@@ -8,16 +8,16 @@
   gap:0!important;
   width:270px!important;
   min-width:270px!important;
-  min-height:76px!important;
+  min-height:90px!important;
   text-decoration:none!important;
   line-height:0!important;
   border:0!important;
   overflow:visible!important;
   background-color:transparent!important;
-  background-image:url('/assets/omni-terrain-logo-header.webp?v=3')!important;
+  background-image:url('/assets/omni-terrain-logo.webp?v=1')!important;
   background-repeat:no-repeat!important;
   background-position:left center!important;
-  background-size:270px 76px!important;
+  background-size:270px 90px!important;
 }
 
 #header,.ot-site-header{
@@ -35,7 +35,7 @@
 #header .mobile-nav,.ot-site-mobile-nav{background:#071a30!important}
 
 #header .header-main,.ot-site-header-main{
-  min-height:84px!important;
+  min-height:96px!important;
   grid-template-columns:270px minmax(0,1fr) auto!important;
   gap:14px!important;
   padding:4px 0!important;
@@ -51,9 +51,9 @@
   visibility:visible!important;
   opacity:1!important;
   width:270px!important;
-  height:76px!important;
+  height:90px!important;
   max-width:270px!important;
-  max-height:76px!important;
+  max-height:90px!important;
   flex:0 0 270px!important;
   object-fit:contain!important;
   object-position:left center!important;
@@ -64,12 +64,12 @@
   box-shadow:none!important;
 }
 
-#header .brand,.header .brand,.ot-site-header .ot-site-brand,.ot-site-footer .ot-site-brand{min-height:76px!important}
+#header .brand,.header .brand,.ot-site-header .ot-site-brand,.ot-site-footer .ot-site-brand{min-height:90px!important}
 
 @media(max-width:1180px){
-  .ot-site-brand,.brand,#header .brand,.header .brand,.ot-site-header .ot-site-brand{width:245px!important;min-width:245px!important;min-height:69px!important;background-size:245px 69px!important}
-  .ot-brand-logo-image{width:245px!important;height:69px!important;max-width:245px!important;max-height:69px!important;flex-basis:245px!important}
-  #header .header-main,.ot-site-header-main{grid-template-columns:245px minmax(0,1fr) auto!important;gap:10px!important;min-height:78px!important;padding:4px 0!important}
+  .ot-site-brand,.brand,#header .brand,.header .brand,.ot-site-header .ot-site-brand{width:240px!important;min-width:240px!important;min-height:80px!important;background-size:240px 80px!important}
+  .ot-brand-logo-image{width:240px!important;height:80px!important;max-width:240px!important;max-height:80px!important;flex-basis:240px!important}
+  #header .header-main,.ot-site-header-main{grid-template-columns:240px minmax(0,1fr) auto!important;gap:10px!important;min-height:86px!important;padding:3px 0!important}
   #header .nav-links,.ot-site-nav{gap:12px!important;font-size:11px!important}
 }
 
@@ -80,20 +80,21 @@
 }
 
 @media(max-width:760px){
-  .ot-site-brand,.brand,#header .brand,.header .brand,.ot-site-header .ot-site-brand{width:225px!important;min-width:225px!important;min-height:63px!important;background-size:225px 63px!important}
-  .ot-brand-logo-image{width:225px!important;height:63px!important;max-width:225px!important;max-height:63px!important;flex-basis:225px!important}
-  #header .header-main,.ot-site-header-main{min-height:72px!important;padding:3px 0!important}
+  .ot-site-brand,.brand,#header .brand,.header .brand,.ot-site-header .ot-site-brand{width:210px!important;min-width:210px!important;min-height:70px!important;background-size:210px 70px!important}
+  .ot-brand-logo-image{width:210px!important;height:70px!important;max-width:210px!important;max-height:70px!important;flex-basis:210px!important}
+  #header .header-main,.ot-site-header-main{min-height:76px!important;padding:3px 0!important}
   .hero-showcase-info,.ot-site-header,.mobile-store-bar,.ot-site-mobile-bar{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
   .home-hero-shell,.why-shell,.live-card,.card,.ot-deal-card{box-shadow:none!important}
 }
 
 @media(max-width:480px){
-  .ot-site-brand,.brand,#header .brand,.header .brand,.ot-site-header .ot-site-brand{width:200px!important;min-width:200px!important;min-height:56px!important;background-size:200px 56px!important}
-  .ot-brand-logo-image{width:200px!important;height:56px!important;max-width:200px!important;max-height:56px!important;flex-basis:200px!important}
+  .ot-site-brand,.brand,#header .brand,.header .brand,.ot-site-header .ot-site-brand{width:186px!important;min-width:186px!important;min-height:62px!important;background-size:186px 62px!important}
+  .ot-brand-logo-image{width:186px!important;height:62px!important;max-width:186px!important;max-height:62px!important;flex-basis:186px!important}
 }
 @media(max-width:360px){
-  .ot-site-brand,.brand,#header .brand,.header .brand,.ot-site-header .ot-site-brand{width:178px!important;min-width:178px!important;min-height:50px!important;background-size:178px 50px!important}
-  .ot-brand-logo-image{width:178px!important;height:50px!important;max-width:178px!important;max-height:50px!important;flex-basis:178px!important}
+  #header .cart-link,.ot-site-header .ot-site-cart{display:none!important}
+  .ot-site-brand,.brand,#header .brand,.header .brand,.ot-site-header .ot-site-brand{width:165px!important;min-width:165px!important;min-height:55px!important;background-size:165px 55px!important}
+  .ot-brand-logo-image{width:165px!important;height:55px!important;max-width:165px!important;max-height:55px!important;flex-basis:165px!important}
 }
 
 @supports (content-visibility:auto){.brand-strip,.home-section,.support-band,.ot-site-footer,body>footer,main>section:not(:first-child){content-visibility:auto;contain-intrinsic-size:1px 680px}.live-card,.card,.ot-deal-card,.category-home,.why-card{contain:layout paint style}}

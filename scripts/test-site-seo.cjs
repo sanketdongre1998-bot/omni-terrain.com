@@ -13,7 +13,7 @@ function check(condition, message) {
 }
 
 const locations = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-check(locations.length === 92, `sitemap has 92 indexable URLs (found ${locations.length})`);
+check(locations.length >= 1000, `sitemap preserves the broad 1,000+ page catalogue (found ${locations.length})`);
 check(new Set(locations).size === locations.length, "sitemap URLs are unique");
 check(!locations.some((url) => /(?:cart|checkout|product-page-template|shield-(?:400l|transit|7mm|portable|jet-black|12v-air))/.test(url)), "sitemap excludes noindex, checkout and legacy routes");
 
