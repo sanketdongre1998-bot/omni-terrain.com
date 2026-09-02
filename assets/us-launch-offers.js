@@ -6,13 +6,13 @@
   // Featured offers are merchandising metadata only. Product price always comes
   // from the authorization registry / canonical display-price source.
   const OFFERS = {
-    HUS81147: { label: "Deal Unlocked", shippingIncluded: true, slug: "us-husky-towing-81147.html" },
-    HUS81148: { label: "Deal Unlocked", shippingIncluded: true, slug: "us-husky-towing-81148.html" },
-    CCIN9010F: { label: "Deal Unlocked", shippingIncluded: true, slug: "us-coast2coast-iwcn9010f.html" },
-    CCIN8010F: { label: "Deal Unlocked", shippingIncluded: true, slug: "us-coast2coast-iwcn8010f.html" },
-    CCIIMP103X: { label: "Deal Unlocked", shippingIncluded: true, slug: "us-coast2coast-iwcimp103x.html" },
-    A1360828HD: { label: "Deal Unlocked", shippingIncluded: true, slug: "us-air-lift-60828hd.html" },
-    B5224066464: { label: "Deal Unlocked", shippingIncluded: true, slug: "us-bilstein-24-066464.html" }
+    HUS81147: { label: "Featured Pick", shippingIncluded: true, slug: "us-husky-towing-81147.html" },
+    HUS81148: { label: "Featured Pick", shippingIncluded: true, slug: "us-husky-towing-81148.html" },
+    CCIN9010F: { label: "Featured Pick", shippingIncluded: true, slug: "us-coast2coast-iwcn9010f.html" },
+    CCIN8010F: { label: "Featured Pick", shippingIncluded: true, slug: "us-coast2coast-iwcn8010f.html" },
+    CCIIMP103X: { label: "Featured Pick", shippingIncluded: true, slug: "us-coast2coast-iwcimp103x.html" },
+    A1360828HD: { label: "Featured Pick", shippingIncluded: true, slug: "us-air-lift-60828hd.html" },
+    B5224066464: { label: "Featured Pick", shippingIncluded: true, slug: "us-bilstein-24-066464.html" }
   };
   window.OMNI_US_LAUNCH_OFFERS = OFFERS;
 
@@ -41,15 +41,13 @@
 
     box.dataset.otLaunchDeal = "1";
     const label = box.querySelector(".ot-live-label");
-    if (label) label.textContent = "Today's featured deal price";
+    if (label) label.textContent = "Current Omni Terrain price";
     if (!box.querySelector(".ot-launch-ribbon")) {
       const ribbon = document.createElement("div");
       ribbon.className = "ot-launch-ribbon";
       ribbon.textContent = offer.label;
       box.insertBefore(ribbon, label || box.firstChild);
     }
-    const saving = box.querySelector(".ot-live-breakdown-row.saving span");
-    if (saving) saving.textContent = "You save — free standard shipping";
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", decorateOfferPage, { once: true });
