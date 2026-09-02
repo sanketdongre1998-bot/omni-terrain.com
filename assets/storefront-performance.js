@@ -62,7 +62,7 @@
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",upgradeBrands,{once:true});else upgradeBrands();
 
   if(!document.querySelector('script[data-ot-ad-readiness]')){
-    const ads=document.createElement("script");ads.src="/assets/ad-readiness.js?v=1";ads.defer=true;ads.dataset.otAdReadiness="true";document.head.appendChild(ads);
+    const ads=document.createElement("script");ads.src="/assets/ad-readiness.js?v=2";ads.defer=true;ads.dataset.otAdReadiness="true";document.head.appendChild(ads);
   }
 
   idle(()=>{
@@ -84,15 +84,15 @@
   },1500);
 
   if(path===""||path==="index.html"){
-    const softenHomeCounts=()=>{
+    const cleanHomeProof=()=>{
       upgradeBrands();
       document.querySelectorAll(".home-proof b").forEach(node=>{
-        if(/^1,?000\+?$/.test(String(node.textContent||"").trim())) node.textContent="300+";
+        if(/^\d[\d,]*\+?$/.test(String(node.textContent||"").trim())) node.textContent="Specialist range";
       });
       const labels=["Truck & SUV","Boat & Marine","RV & Travel"];
       document.querySelectorAll(".category-home .count").forEach((node,index)=>{node.textContent=labels[index]||"Shop category";});
     };
-    if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",softenHomeCounts,{once:true}); else softenHomeCounts();
+    if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",cleanHomeProof,{once:true}); else cleanHomeProof();
     if(!document.querySelector('script[data-ot-live-priority]')){
       const priority=document.createElement("script");priority.src="/assets/live-storefront-priority.js?v=8";priority.defer=true;priority.dataset.otLivePriority="true";document.head.appendChild(priority);
     }
