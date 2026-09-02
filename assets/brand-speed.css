@@ -97,5 +97,8 @@
   .ot-brand-logo-image{width:165px!important;height:55px!important;max-width:165px!important;max-height:55px!important;flex-basis:165px!important}
 }
 
-@supports (content-visibility:auto){.brand-strip,.home-section,.support-band,.ot-site-footer,body>footer,main>section:not(:first-child){content-visibility:auto;contain-intrinsic-size:1px 680px}.live-card,.card,.ot-deal-card,.category-home,.why-card{contain:layout paint style}}
+/* Core navigation, merchandising, support and footer sections must paint
+   immediately. Deferring whole sections created large white placeholders on
+   long pages and made the storefront look broken while scrolling/capturing. */
+@supports (content-visibility:auto){.live-card,.card,.ot-deal-card,.category-home,.why-card{contain:layout paint style}}
 html.ot-perf-lite .hero-showcase img,html.ot-perf-lite .live-media img,html.ot-perf-lite .product-visual img{filter:none!important}html.ot-perf-lite *{scroll-behavior:auto!important}@media(prefers-reduced-motion:reduce){.live-card,.card,.category-home,.button,a,button{transition:none!important}}
