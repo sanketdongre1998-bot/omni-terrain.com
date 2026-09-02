@@ -4,7 +4,7 @@
   window.__OMNI_GROWTH_MARKETING__ = true;
 
   const path=decodeURIComponent(String(location.pathname||"/").split("/").filter(Boolean).pop()||"index.html").toLowerCase();
-  const CART_KEY="omniTerrainUsCart",COUPON_KEY="omniTerrainUsCoupon",PROMO_CODE="OMNI5",CAMPAIGN_KEY="omniTerrainCampaignContext";
+  const CART_KEY="omniTerrainUsCart",COUPON_KEY="omniTerrainUsCoupon",PROMO_CODE="OMNI5";
   const FEATURED_IDS=new Set(["HUS81147","HUS81148","CCIN9010F","CCIN8010F","CCIIMP103X","A1360828HD","B5224066464"]);
   const FALLBACK_OFFERS={
     HUS81147:{label:"Deal Unlocked",shippingIncluded:true,slug:"us-husky-towing-81147.html"},HUS81148:{label:"Deal Unlocked",shippingIncluded:true,slug:"us-husky-towing-81148.html"},CCIN9010F:{label:"Deal Unlocked",shippingIncluded:true,slug:"us-coast2coast-iwcn9010f.html"},CCIN8010F:{label:"Deal Unlocked",shippingIncluded:true,slug:"us-coast2coast-iwcn8010f.html"},CCIIMP103X:{label:"Deal Unlocked",shippingIncluded:true,slug:"us-coast2coast-iwcimp103x.html"},A1360828HD:{label:"Deal Unlocked",shippingIncluded:true,slug:"us-air-lift-60828hd.html"},B5224066464:{label:"Deal Unlocked",shippingIncluded:true,slug:"us-bilstein-24-066464.html"}
@@ -17,35 +17,6 @@
   const readCart=()=>{try{const data=JSON.parse(localStorage.getItem(CART_KEY)||"[]");return Array.isArray(data)?data:[];}catch(_){return[];}};
   const savedCoupon=()=>String(localStorage.getItem(COUPON_KEY)||"").trim().toUpperCase();
   const saveCoupon=code=>{const value=String(code||"").trim().toUpperCase();if(value)localStorage.setItem(COUPON_KEY,value);else localStorage.removeItem(COUPON_KEY);return value;};
-  const pushEvent=(event,data={})=>{window.dataLayer=window.dataLayer||[];window.dataLayer.push({event,...data});};
-
-  function captureCampaignContext(){
-    const params=new URLSearchParams(location.search||"");
-    const keys=["utm_source","utm_medium","utm_campaign","utm_term","utm_content","gclid","wbraid","gbraid"];
-    const fresh={};keys.forEach(key=>{const value=params.get(key);if(value)fresh[key]=value;});
-    let saved={};try{saved=JSON.parse(sessionStorage.getItem(CAMPAIGN_KEY)||"{}");}catch(_){}
-    const merged={...saved,...fresh,landing_page:saved.landing_page||location.pathname,first_seen:saved.first_seen||new Date().toISOString()};
-    try{sessionStorage.setItem(CAMPAIGN_KEY,JSON.stringify(merged));}catch(_){}
-    if(Object.keys(fresh).length)pushEvent("ot_marketing_landing",{campaign_context:merged});
-    return merged;
-  }
-
-  function trackAdsReadyEvents(){
-    if(window.__OMNI_AD_EVENT_HOOKS__)return;window.__OMNI_AD_EVENT_HOOKS__=true;
-    const campaign=captureCampaignContext();
-    document.addEventListener("click",event=>{
-      const target=event.target?.closest?.("a,button");if(!target)return;
-      const productLink=target.closest?.(".card,.ot-deal-card")?.querySelector?.('a[href^="us-"]')?.getAttribute("href")||target.getAttribute?.("href")||"";
-      const itemName=target.closest?.(".card,.ot-deal-card")?.querySelector?.("h3,h2")?.textContent?.trim()||document.querySelector("h1")?.textContent?.trim()||"";
-      if(target.matches?.(".card-link,.ot-deal-button")||target.closest?.(".ot-deal-media"))pushEvent("select_item",{item_name:itemName,item_url:productLink,campaign_context:campaign});
-      if(target.matches?.("[data-ot-add]"))pushEvent("add_to_cart",{item_name:itemName,item_url:location.pathname,campaign_context:campaign});
-      if(target.matches?.("[data-ot-buy]")||/checkout\.html(?:$|[?#])/i.test(String(target.getAttribute?.("href")||"")))pushEvent("begin_checkout",{item_name:itemName,campaign_context:campaign});
-    },true);
-    if(path==="us-order-success.html"){
-      const params=new URLSearchParams(location.search||"");
-      pushEvent("ot_order_success",{transaction_id:params.get("session_id")||params.get("order_id")||"",campaign_context:campaign});
-    }
-  }
 
   function injectStyles(){
     if(document.getElementById("otGrowthMarketingStyles"))return;
@@ -113,7 +84,7 @@
     window.fetch=async function(input,init){let url="";try{url=typeof input==="string"?input:String(input?.url||"");}catch(_){}if(/\/api\/us-create-checkout-session(?:\?|$)/i.test(url)&&init&&typeof init.body==="string"){try{const data=JSON.parse(init.body),code=savedCoupon();if(code)data.couponCode=code;init={...init,body:JSON.stringify(data)};}catch(_){}}return nativeFetch(input,init);};
   }
   function clearAfterSuccess(){if(path==="us-order-success.html")localStorage.removeItem(COUPON_KEY);}
-  function mount(){injectStyles();addDealsNav();mountHomeBanner();mountPromoBox();mountCheckoutPromo();mountDealsPage();clearAfterSuccess();trackAdsReadyEvents();}
+  function mount(){injectStyles();addDealsNav();mountHomeBanner();mountPromoBox();mountCheckoutPromo();mountDealsPage();clearAfterSuccess();}
   interceptCheckout();if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",mount,{once:true});else mount();
   if("MutationObserver"in window){let timer=0;const observer=new MutationObserver(()=>{clearTimeout(timer);timer=setTimeout(()=>{addDealsNav();mountPromoBox();mountCheckoutPromo();},100);});observer.observe(document.documentElement,{childList:true,subtree:true});window.addEventListener("pagehide",()=>observer.disconnect(),{once:true});}
 })();
