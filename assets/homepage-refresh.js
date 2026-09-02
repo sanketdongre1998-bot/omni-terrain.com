@@ -6,7 +6,85 @@
   const path=(location.pathname||'/').replace(/\/+/g,'/');
   if (!(path==='/' || path.endsWith('/index.html'))) return;
 
+  const FEATURED_OFFERS=[
+    {id:'HUS81147',slug:'us-husky-towing-81147.html'},
+    {id:'HUS81148',slug:'us-husky-towing-81148.html'},
+    {id:'CCIN9010F',slug:'us-coast2coast-iwcn9010f.html'},
+    {id:'CCIN8010F',slug:'us-coast2coast-iwcn8010f.html'},
+    {id:'CCIIMP103X',slug:'us-coast2coast-iwcimp103x.html'},
+    {id:'A1360828HD',slug:'us-air-lift-60828hd.html'},
+    {id:'B5224066464',slug:'us-bilstein-24-066464.html'}
+  ];
+  const money=cents=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format((Number(cents)||0)/100);
+  const esc=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  const basename=value=>{try{return decodeURIComponent(String(value||'').split('?')[0].split('#')[0].split('/').pop()||'').toLowerCase();}catch(_){return String(value||'').toLowerCase();}};
   const onReady=(fn)=>document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn,{once:true}):fn();
+
+  async function loadVerifiedFeaturedOffers(){
+    try{
+      const [registryResponse,stockResponse]=await Promise.all([
+        fetch('/assets/us-live-products.json?v=home-featured-verified',{cache:'no-store'}),
+        fetch('/assets/us-stock-status.json?v=home-featured-stock',{cache:'no-store'})
+      ]);
+      if(!registryResponse.ok||!stockResponse.ok)return[];
+      const [registry,stock]=await Promise.all([registryResponse.json(),stockResponse.json()]);
+      const registryTime=Date.parse(String(registry?.generatedAtUTC||'')),stockTime=Date.parse(String(stock?.generatedAtUTC||''));
+      if(!Number.isFinite(registryTime)||!Number.isFinite(stockTime)||stockTime<registryTime)return[];
+      const eligible=[];
+      for(const item of FEATURED_OFFERS){
+        const row=registry?.products?.[item.id],status=stock?.products?.[item.id];
+        if(!row||row.enabled!==true||row.authorizationVerified!==true||row.liveKeystoneOrderable!==true||Number(row.priceCents)<=0)continue;
+        if(status?.checkoutReady!==true||status?.status!=='in_stock'||status?.liveApi!=='ORDERABLE'||basename(status?.slug)!==basename(item.slug))continue;
+        const shippingCents=Math.max(0,Math.round((Number(row.shippingQuoteUSD)||0)*100));
+        const priceCents=Math.max(0,Math.round(Number(row.priceCents)||0));
+        if(!priceCents)continue;
+        eligible.push({...item,row,priceCents,shippingCents,regularDeliveredCents:priceCents+shippingCents});
+      }
+      return eligible;
+    }catch(_){return[];}
+  }
+
+  async function hydrateFeaturedOffer(item){
+    try{
+      const response=await fetch('/'+item.slug,{cache:'force-cache'});
+      if(!response.ok)return null;
+      const html=await response.text();
+      const doc=new DOMParser().parseFromString(html,'text/html');
+      const img=doc.querySelector('.product-visual img')?.getAttribute('src')||doc.querySelector('main img')?.getAttribute('src')||'';
+      const title=(doc.querySelector('main h1')?.textContent||doc.querySelector('h1')?.textContent||item.row?.mpn||'Featured product').replace(/\s+/g,' ').trim();
+      const brand=(doc.querySelector('.product-copy .kicker')?.textContent||doc.querySelector('.kicker')?.textContent||'Omni Terrain').replace(/\s+/g,' ').trim().split('·')[0].trim();
+      return {...item,img,title,brand};
+    }catch(_){return null;}
+  }
+
+  function mountDynamicShowcase(showcase,items){
+    if(!showcase||!items.length)return;
+    const image=showcase.querySelector('img');
+    const info=showcase.querySelector('.hero-showcase-info');
+    if(!image||!info)return;
+    let index=Math.floor(Date.now()/6000)%items.length;
+
+    const render=item=>{
+      if(!item)return;
+      showcase.href=item.slug;
+      showcase.setAttribute('aria-label',`View featured deal: ${item.title}`);
+      if(item.img){image.src=item.img;image.alt=item.title;}
+      const saveCents=Math.max(0,item.shippingCents);
+      const savePct=item.regularDeliveredCents>0?Math.round((saveCents/item.regularDeliveredCents)*100):0;
+      const pricing=saveCents>0
+        ? `<div class="ot-hero-deal-pricing"><div class="ot-hero-was"><span>Regular delivered value</span><s>${money(item.regularDeliveredCents)}</s></div><div class="ot-hero-now"><span>Featured price</span><strong>${money(item.priceCents)}</strong></div><div class="ot-hero-save">Save ${money(saveCents)}${savePct?` (${savePct}% off)`:''} · Free standard shipping</div></div>`
+        : `<div class="ot-hero-deal-pricing"><div class="ot-hero-now"><span>Featured price</span><strong>${money(item.priceCents)}</strong></div></div>`;
+      info.innerHTML=`<div class="hero-showcase-top"><div><small>${esc(item.brand)} · MPN ${esc(item.row?.mpn||'')}</small><h2>${esc(item.title)}</h2></div>${pricing}</div>`;
+      showcase.dataset.otFeaturedId=item.id;
+    };
+
+    render(items[index]);
+    if(items.length>1){
+      const timer=setInterval(()=>{index=(index+1)%items.length;render(items[index]);},6000);
+      window.addEventListener('pagehide',()=>clearInterval(timer),{once:true});
+    }
+  }
+
   onReady(()=>{
     if(!document.getElementById('ot-home-glitch-fixes')){
       const style=document.createElement('style');
@@ -14,6 +92,17 @@
       style.textContent=`
         .live-media img{position:relative;z-index:1}
         .live-badge{z-index:4!important;pointer-events:none}
+        .hero-showcase .hero-showcase-top{align-items:flex-end}
+        .hero-showcase .hero-showcase-top>div:first-child{min-width:0;flex:1}
+        .hero-showcase .hero-showcase-top h2{overflow-wrap:anywhere}
+        .ot-hero-deal-pricing{display:grid;min-width:190px;gap:5px;text-align:right}
+        .ot-hero-was,.ot-hero-now{display:flex;align-items:baseline;justify-content:flex-end;gap:9px}
+        .ot-hero-was span,.ot-hero-now span{color:#65717d;font:700 .48rem/1.2 "DM Mono",monospace;text-transform:uppercase}
+        .ot-hero-was s{color:#7d8995;font:800 1rem/1 "Barlow Condensed",sans-serif}
+        .ot-hero-now strong{color:#071a30;font:800 2rem/1 "Barlow Condensed",sans-serif}
+        .ot-hero-save{color:#167047;font-size:.58rem;font-weight:850}
+        html[data-ot-theme="dark"] .ot-hero-was span,html[data-ot-theme="dark"] .ot-hero-now span{color:#7d8995}
+        @media(max-width:760px){.hero-showcase .hero-showcase-top{display:grid;gap:10px}.ot-hero-deal-pricing{min-width:0;text-align:left}.ot-hero-was,.ot-hero-now{justify-content:flex-start}.ot-hero-now strong{font-size:1.65rem}}
         /* Preserve department photography when the runtime dark-theme surface rule
            uses the background shorthand. Light mode remains untouched. */
         html[data-ot-theme="dark"] .category-home:nth-child(1){background-image:url('https://vehiclepartimages.com/ImageServerAPI?File=FAB/Images/FTL5607_1.jpg&maxheight=500&maxwidth=700')!important}
@@ -46,11 +135,7 @@
 
     const showcase=document.querySelector('.hero-showcase');
     if(showcase){
-      showcase.setAttribute('aria-label','View featured Fabtech deal');
-      const info=showcase.querySelector('.hero-showcase-info');
-      if(info){
-        info.innerHTML='<div class="hero-showcase-top"><h2>Fabtech FTL5607</h2><div class="hero-price" data-live-price="F37FTL5607">$199.99</div></div>';
-      }
+      loadVerifiedFeaturedOffers().then(rows=>Promise.all(rows.map(hydrateFeaturedOffer))).then(rows=>mountDynamicShowcase(showcase,rows.filter(Boolean))).catch(()=>{});
     }
 
     const sectionHeads=[...document.querySelectorAll('.section-head')];
