@@ -8,6 +8,13 @@
 
   const onReady=(fn)=>document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn,{once:true}):fn();
   onReady(()=>{
+    if(!document.getElementById('ot-home-glitch-fixes')){
+      const style=document.createElement('style');
+      style.id='ot-home-glitch-fixes';
+      style.textContent='.live-media img{position:relative;z-index:1}.live-badge{z-index:4!important;pointer-events:none}';
+      document.head.appendChild(style);
+    }
+
     const kicker=document.querySelector('.home-kicker');
     if(kicker) kicker.textContent='AUTOMOTIVE  •  MARINE  •  RV  •  12V POWER';
 
