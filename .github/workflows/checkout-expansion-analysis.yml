@@ -1,0 +1,22 @@
+name: Checkout expansion analysis
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - scripts/checkout-expansion-analysis.py
+      - .github/workflows/checkout-expansion-analysis.yml
+      - assets/us-stock-status.json
+      - assets/us-live-products.json
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Analyze real checkout expansion headroom
+        run: python scripts/checkout-expansion-analysis.py
