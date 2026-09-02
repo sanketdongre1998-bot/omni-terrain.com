@@ -1,0 +1,85 @@
+name: Storefront Visual Audit
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  visual-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright
+        run: |
+          npm install --no-save --no-package-lock playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Start local storefront
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/omni-http.log 2>&1 &
+          for i in {1..20}; do
+            curl -fsS http://127.0.0.1:4173/index.html >/dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/omni-http.log
+          exit 1
+
+      - name: Capture storefront screenshots
+        run: |
+          mkdir -p visual-audit
+          cat > /tmp/visual-audit.mjs <<'EOF'
+          import { chromium } from 'playwright';
+          import fs from 'node:fs';
+          const base='http://127.0.0.1:4173';
+          const routes=['index.html','deals.html','us-catalogue.html','cart.html','checkout.html'];
+          const sizes=[['phone',390,844],['desktop',1440,1000]];
+          const browser=await chromium.launch({headless:true});
+          for(const [label,width,height] of sizes){
+            const context=await browser.newContext({viewport:{width,height},colorScheme:'light'});
+            await context.addInitScript(()=>{
+              try{localStorage.setItem('omniTerrainUsCart',JSON.stringify([{id:'HUS33055',quantity:2}]));}catch(_){}
+            });
+            for(const route of routes){
+              const page=await context.newPage();
+              const errors=[];
+              page.on('pageerror',e=>errors.push(String(e.message||e)));
+              await page.goto(`${base}/${route}`,{waitUntil:'networkidle',timeout:30000}).catch(async()=>{await page.goto(`${base}/${route}`,{waitUntil:'domcontentloaded',timeout:30000});});
+              await page.waitForTimeout(route==='deals.html'?1800:700);
+              const info=await page.evaluate(()=>({
+                title:document.title,
+                width:innerWidth,
+                bodyWidth:document.body.scrollWidth,
+                authTriggers:document.querySelectorAll('[data-ot-auth-trigger]').length,
+                dealCards:document.querySelectorAll('.ot-deal-card').length,
+                liveCards:document.querySelectorAll('.live-card').length,
+                brokenImages:[...document.images].filter(i=>i.complete&&i.naturalWidth===0&&!String(i.src).startsWith('data:')).map(i=>i.currentSrc||i.src).slice(0,8),
+                text:(document.querySelector('main')?.innerText||'').replace(/\s+/g,' ').slice(0,500)
+              }));
+              console.log(JSON.stringify({label,route,info,errors}));
+              await page.screenshot({path:`visual-audit/${label}-${route.replace('.html','')}.png`,fullPage:true});
+              await page.close();
+            }
+            await context.close();
+          }
+          await browser.close();
+          EOF
+          node /tmp/visual-audit.mjs
+
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: storefront-visual-audit
+          path: visual-audit/*.png
+          retention-days: 2
