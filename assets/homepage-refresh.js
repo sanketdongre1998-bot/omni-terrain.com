@@ -35,10 +35,9 @@
         const row=registry?.products?.[item.id],status=stock?.products?.[item.id];
         if(!row||row.enabled!==true||row.authorizationVerified!==true||row.liveKeystoneOrderable!==true||Number(row.priceCents)<=0)continue;
         if(status?.checkoutReady!==true||status?.status!=='in_stock'||status?.liveApi!=='ORDERABLE'||basename(status?.slug)!==basename(item.slug))continue;
-        const shippingCents=Math.max(0,Math.round((Number(row.shippingQuoteUSD)||0)*100));
         const priceCents=Math.max(0,Math.round(Number(row.priceCents)||0));
         if(!priceCents)continue;
-        eligible.push({...item,row,priceCents,shippingCents,regularDeliveredCents:priceCents+shippingCents});
+        eligible.push({...item,row,priceCents});
       }
       return eligible;
     }catch(_){return[];}
@@ -67,13 +66,9 @@
     const render=item=>{
       if(!item)return;
       showcase.href=item.slug;
-      showcase.setAttribute('aria-label',`View featured deal: ${item.title}`);
+      showcase.setAttribute('aria-label',`View featured product: ${item.title}`);
       if(item.img){image.src=item.img;image.alt=item.title;}
-      const saveCents=Math.max(0,item.shippingCents);
-      const savePct=item.regularDeliveredCents>0?Math.round((saveCents/item.regularDeliveredCents)*100):0;
-      const pricing=saveCents>0
-        ? `<div class="ot-hero-deal-pricing"><div class="ot-hero-was"><span>Regular delivered value</span><s>${money(item.regularDeliveredCents)}</s></div><div class="ot-hero-now"><span>Featured price</span><strong>${money(item.priceCents)}</strong></div><div class="ot-hero-save">Save ${money(saveCents)}${savePct?` (${savePct}% off)`:''} · Free standard shipping</div></div>`
-        : `<div class="ot-hero-deal-pricing"><div class="ot-hero-now"><span>Featured price</span><strong>${money(item.priceCents)}</strong></div></div>`;
+      const pricing=`<div class="ot-hero-deal-pricing"><div class="ot-hero-now"><span>Featured price</span><strong>${money(item.priceCents)}</strong></div><div class="ot-hero-shipping">Free standard shipping</div></div>`;
       info.innerHTML=`<div class="hero-showcase-top"><div><small>${esc(item.brand)} · MPN ${esc(item.row?.mpn||'')}</small><h2>${esc(item.title)}</h2></div>${pricing}</div>`;
       showcase.dataset.otFeaturedId=item.id;
     };
@@ -96,13 +91,12 @@
         .hero-showcase .hero-showcase-top>div:first-child{min-width:0;flex:1}
         .hero-showcase .hero-showcase-top h2{overflow-wrap:anywhere}
         .ot-hero-deal-pricing{display:grid;min-width:190px;gap:5px;text-align:right}
-        .ot-hero-was,.ot-hero-now{display:flex;align-items:baseline;justify-content:flex-end;gap:9px}
-        .ot-hero-was span,.ot-hero-now span{color:#65717d;font:700 .48rem/1.2 "DM Mono",monospace;text-transform:uppercase}
-        .ot-hero-was s{color:#7d8995;font:800 1rem/1 "Barlow Condensed",sans-serif}
+        .ot-hero-now{display:flex;align-items:baseline;justify-content:flex-end;gap:9px}
+        .ot-hero-now span{color:#65717d;font:700 .48rem/1.2 "DM Mono",monospace;text-transform:uppercase}
         .ot-hero-now strong{color:#071a30;font:800 2rem/1 "Barlow Condensed",sans-serif}
-        .ot-hero-save{color:#167047;font-size:.58rem;font-weight:850}
-        html[data-ot-theme="dark"] .ot-hero-was span,html[data-ot-theme="dark"] .ot-hero-now span{color:#7d8995}
-        @media(max-width:760px){.hero-showcase .hero-showcase-top{display:grid;gap:10px}.ot-hero-deal-pricing{min-width:0;text-align:left}.ot-hero-was,.ot-hero-now{justify-content:flex-start}.ot-hero-now strong{font-size:1.65rem}}
+        .ot-hero-shipping{color:#167047;font-size:.58rem;font-weight:850}
+        html[data-ot-theme="dark"] .ot-hero-now span{color:#7d8995}
+        @media(max-width:760px){.hero-showcase .hero-showcase-top{display:grid;gap:10px}.ot-hero-deal-pricing{min-width:0;text-align:left}.ot-hero-now{justify-content:flex-start}.ot-hero-now strong{font-size:1.65rem}}
         /* Preserve department photography when the runtime dark-theme surface rule
            uses the background shorthand. Light mode remains untouched. */
         html[data-ot-theme="dark"] .category-home:nth-child(1){background-image:url('https://vehiclepartimages.com/ImageServerAPI?File=FAB/Images/FTL5607_1.jpg&maxheight=500&maxwidth=700')!important}
