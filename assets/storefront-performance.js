@@ -78,6 +78,9 @@
     } else if(existingGrowth.src && !existingGrowth.src.includes("growth-marketing.js?v=4")) {
       existingGrowth.src="/assets/growth-marketing.js?v=4";
     }
+    if(!document.querySelector('script[data-ot-offer-savings-copy]')){
+      const savings=document.createElement("script");savings.src="/assets/offer-savings-copy.js?v=1";savings.defer=true;savings.dataset.otOfferSavingsCopy="true";document.head.appendChild(savings);
+    }
     if(!document.querySelector('script[data-ot-analytics-events]')){
       const analytics=document.createElement("script");analytics.src="/assets/analytics-events.js?v=2";analytics.defer=true;analytics.dataset.otAnalyticsEvents="true";document.head.appendChild(analytics);
     }
