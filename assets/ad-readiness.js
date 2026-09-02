@@ -31,10 +31,69 @@
     });
   }
 
+  function scrubCatalogueCounts() {
+    document.querySelectorAll(".home-proof b").forEach(node => {
+      const text = String(node.textContent || "").trim();
+      if (/^\d[\d,]*\+?$/.test(text)) node.textContent = "Specialist range";
+    });
+
+    const stats = document.querySelectorAll(".stats .stat");
+    const replacements = [
+      ["Specialist", "curated product range"],
+      ["Auto", "parts & towing"],
+      ["Marine", "parts & equipment"],
+      ["RV", "travel & overlanding"],
+    ];
+    stats.forEach((stat, index) => {
+      const bold = stat.querySelector("b");
+      const label = stat.querySelector("span");
+      if (!bold || !/^\d[\d,]*\+?$/.test(String(bold.textContent || "").trim())) return;
+      const replacement = replacements[index] || ["Specialist", "product range"];
+      bold.textContent = replacement[0];
+      if (label) label.textContent = replacement[1];
+    });
+
+    document.querySelectorAll(".category-card small").forEach(node => {
+      if (/^\s*\d[\d,]*\s+products?\s*$/i.test(String(node.textContent || ""))) {
+        node.textContent = "Browse products";
+      }
+    });
+
+    document.querySelectorAll(".hero p").forEach(node => {
+      const text = String(node.textContent || "").trim();
+      if (/^\d[\d,]*\s+products?\.\s*page\s+\d+\s+of\s+\d+\.?$/i.test(text)) {
+        node.textContent = "Browse specialist products and product details.";
+      }
+    });
+
+    document.querySelectorAll(".section-head .muted").forEach(node => {
+      if (/products?\s+\d+[–-]\d+\s+of\s+\d+/i.test(String(node.textContent || ""))) {
+        node.textContent = "Browse available products";
+      }
+    });
+
+    document.querySelectorAll('script[type="application/ld+json"]').forEach(node => {
+      try {
+        const data = JSON.parse(node.textContent || "{}");
+        let changed = false;
+        const strip = item => {
+          if (!item || typeof item !== "object") return;
+          if (Object.prototype.hasOwnProperty.call(item, "numberOfItems")) {
+            delete item.numberOfItems;
+            changed = true;
+          }
+          if (Array.isArray(item["@graph"])) item["@graph"].forEach(strip);
+        };
+        strip(data);
+        if (changed) node.textContent = JSON.stringify(data);
+      } catch (_) {}
+    });
+  }
+
   function retailCopy() {
     document.querySelectorAll(".ot-growth-banner p").forEach(node => {
-      if (/checkout-ready|canonical online pricing/i.test(node.textContent || "")) {
-        node.textContent = "Shop seven featured automotive offers with free standard shipping in the contiguous U.S. and secure online checkout.";
+      if (/checkout-ready|canonical online pricing|seven featured/i.test(node.textContent || "")) {
+        node.textContent = "Shop featured automotive offers with free standard shipping in the contiguous U.S. and secure online checkout.";
       }
     });
     document.querySelectorAll(".ot-growth-benefits span").forEach(node => {
@@ -42,6 +101,7 @@
       if (/canonical online pricing/i.test(text)) node.textContent = "Clear online pricing";
       if (/secure stripe checkout/i.test(text)) node.textContent = "Secure online checkout";
     });
+    scrubCatalogueCounts();
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", retailCopy, { once: true });
