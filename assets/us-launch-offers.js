@@ -6,13 +6,13 @@
   // Featured offers are merchandising metadata only. Product price always comes
   // from the authorization registry / canonical display-price source.
   const OFFERS = {
-    HUS81147: { label: "Featured Offer", shippingIncluded: true, slug: "us-husky-towing-81147.html" },
-    HUS81148: { label: "Featured Offer", shippingIncluded: true, slug: "us-husky-towing-81148.html" },
-    CCIN9010F: { label: "Featured Offer", shippingIncluded: true, slug: "us-coast2coast-iwcn9010f.html" },
-    CCIN8010F: { label: "Featured Offer", shippingIncluded: true, slug: "us-coast2coast-iwcn8010f.html" },
-    CCIIMP103X: { label: "Featured Offer", shippingIncluded: true, slug: "us-coast2coast-iwcimp103x.html" },
-    A1360828HD: { label: "Featured Offer", shippingIncluded: true, slug: "us-air-lift-60828hd.html" },
-    B5224066464: { label: "Featured Offer", shippingIncluded: true, slug: "us-bilstein-24-066464.html" }
+    HUS81147: { label: "Deal Unlocked", shippingIncluded: true, slug: "us-husky-towing-81147.html" },
+    HUS81148: { label: "Deal Unlocked", shippingIncluded: true, slug: "us-husky-towing-81148.html" },
+    CCIN9010F: { label: "Deal Unlocked", shippingIncluded: true, slug: "us-coast2coast-iwcn9010f.html" },
+    CCIN8010F: { label: "Deal Unlocked", shippingIncluded: true, slug: "us-coast2coast-iwcn8010f.html" },
+    CCIIMP103X: { label: "Deal Unlocked", shippingIncluded: true, slug: "us-coast2coast-iwcimp103x.html" },
+    A1360828HD: { label: "Deal Unlocked", shippingIncluded: true, slug: "us-air-lift-60828hd.html" },
+    B5224066464: { label: "Deal Unlocked", shippingIncluded: true, slug: "us-bilstein-24-066464.html" }
   };
   window.OMNI_US_LAUNCH_OFFERS = OFFERS;
 
@@ -32,16 +32,18 @@
       const style = document.createElement("style");
       style.id = "otLaunchOfferStyles";
       style.textContent = `
-        .ot-launch-ribbon{display:inline-flex;align-items:center;min-height:30px;padding:7px 10px;margin-bottom:10px;border-radius:999px;background:#fff1bf;color:#5e4300;font-size:10px;font-weight:900;letter-spacing:.06em;text-transform:uppercase}
-        .ot-launch-shipping{margin:7px 0 4px;color:#167047;font-size:11px;font-weight:850}
-        .ot-live-buybox[data-ot-launch-deal="1"]{border-color:#d7b04c;box-shadow:0 16px 36px rgba(7,26,48,.10)}
+        .ot-launch-ribbon{display:inline-flex;align-items:center;min-height:34px;padding:8px 13px;margin-bottom:11px;border-radius:999px;background:linear-gradient(135deg,#ffd944,#f2b918);color:#071a30;box-shadow:0 8px 22px rgba(185,128,0,.24);font-size:10px;font-weight:950;letter-spacing:.08em;text-transform:uppercase}
+        .ot-launch-ribbon:before{content:"★";margin-right:7px;font-size:12px}
+        .ot-launch-shipping{margin:9px 0 5px;padding:10px 12px;border-radius:10px;background:#e9f7ef;color:#12613f;font-size:11px;font-weight:900}
+        .ot-launch-shipping:before{content:"YOU SAVE ON SHIPPING · ";font-size:9px;letter-spacing:.05em}
+        .ot-live-buybox[data-ot-launch-deal="1"]{border:2px solid #e0b229;box-shadow:0 18px 42px rgba(7,26,48,.13)}
       `;
       document.head.appendChild(style);
     }
 
     box.dataset.otLaunchDeal = "1";
     const label = box.querySelector(".ot-live-label");
-    if (label) label.textContent = "Featured online offer";
+    if (label) label.textContent = "Limited-time featured deal";
     if (!box.querySelector(".ot-launch-ribbon")) {
       const ribbon = document.createElement("div");
       ribbon.className = "ot-launch-ribbon";
@@ -56,7 +58,7 @@
       price?.insertAdjacentElement("afterend", note);
     }
     const shipping = box.querySelector(".ot-live-shipping");
-    if (shipping) shipping.textContent = "Free standard shipping in the contiguous U.S.";
+    if (shipping) shipping.textContent = "Deal applied: free standard shipping in the contiguous U.S.";
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", decorateOfferPage, { once: true });

@@ -152,6 +152,7 @@ for (const vp of viewports) {
           securePayVisible: Boolean(document.querySelector("#otSecurePay") && visible(document.querySelector("#otSecurePay"))),
           promoBoxVisible: Boolean(document.querySelector(".ot-promo-box") && visible(document.querySelector(".ot-promo-box"))),
           checkoutPromoVisible: Boolean(document.querySelector(".ot-checkout-promo") && visible(document.querySelector(".ot-checkout-promo"))),
+          authTriggerCount: document.querySelectorAll("[data-ot-auth-trigger]").length,
         };
       }, { mobile: vp.mobile });
 
@@ -162,6 +163,7 @@ for (const vp of viewports) {
       if (snapshot.clippedControls.length) addFailure(key, `clipped controls ${JSON.stringify(snapshot.clippedControls)}`);
       if (snapshot.tinyPrimaryControls.length) addFailure(key, `mobile primary tap targets under 40px ${JSON.stringify(snapshot.tinyPrimaryControls)}`);
       if (snapshot.duplicateIds.length) addFailure(key, `duplicate DOM ids ${snapshot.duplicateIds.join(",")}`);
+      if (snapshot.authTriggerCount < 2) addFailure(key, `expected desktop and mobile account triggers, got ${snapshot.authTriggerCount}`);
       if (pageErrors.length) addFailure(key, `page errors ${pageErrors.join(" | ")}`);
       if (localHttpErrors.length) addFailure(key, `same-origin HTTP errors ${[...new Set(localHttpErrors)].join(" | ")}`);
 
@@ -192,6 +194,29 @@ for (const vp of viewports) {
             return { ok: nav.classList.contains("open") && button.getAttribute("aria-expanded") === "true" && r.left >= -2 && r.right <= innerWidth + 2, left:r.left, right:r.right, width:innerWidth };
           });
           if (!menuCheck.ok) addFailure(key, `mobile menu failed/open overflow ${JSON.stringify(menuCheck)}`);
+        }
+      }
+
+      if (route === "index.html") {
+        try {
+          await page.waitForFunction(() => Boolean(window.__OMNI_FIREBASE_AUTH__), null, { timeout: 10000 });
+          const trigger = vp.width <= 860 ? page.locator(".ot-mobile-auth-trigger") : page.locator(".ot-auth-trigger");
+          await trigger.click();
+          await page.waitForTimeout(120);
+          const authCheck = await page.evaluate(() => {
+            const overlay = document.querySelector("#otAuthOverlay");
+            const button = document.querySelector("[data-ot-google-signin]");
+            return {
+              open: Boolean(overlay && !overlay.hidden),
+              googleButton: Boolean(button && /continue with google/i.test(button.textContent || "")),
+              privacyLink: Boolean(document.querySelector('#otAuthDialog a[href="privacy-policy.html"]')),
+            };
+          });
+          if (!authCheck.open || !authCheck.googleButton || !authCheck.privacyLink) addFailure(key, `Google account dialog failed ${JSON.stringify(authCheck)}`);
+          else addPass(`${key} Google account dialog checked`);
+          await page.locator("[data-ot-auth-close]").click();
+        } catch (error) {
+          addFailure(key, `Google account UI exception: ${error?.message || error}`);
         }
       }
 

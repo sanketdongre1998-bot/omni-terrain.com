@@ -40,13 +40,13 @@ def schema(path: str) -> dict:
 
 def main() -> int:
     routes = ["index.html","deals.html","us-catalogue.html","automotive.html","marine.html","rv.html","cart.html","checkout.html","contact-and-order-help.html","shipping-delivery-policy.html","returns-refunds-policy.html","privacy-policy.html","terms-conditions.html","us-order-success.html"]
-    assets = ["assets/us-shell.js","assets/catalogue-controls.js","assets/customer-marketing-copy.js","assets/growth-marketing.js","assets/ad-readiness.js","assets/analytics-events.js","assets/universal-checkout-ui.js","assets/cart-checkout-premium.js","assets/storefront-performance.js","assets/responsive-hardening.css","assets/dark-theme-polish.css","assets/brand-speed.css","assets/us-launch-offers.js","assets/us-live-products.json","assets/us-display-prices.js","assets/us-products.js","assets/us-order-success.js","scripts/responsive-browser-audit.mjs","scripts/dark-theme-browser-audit.mjs","lib/us-checkout-products.mjs","api/us-create-checkout-session.mjs","api/us-checkout-health.mjs"]
+    assets = ["assets/us-shell.js","assets/firebase-auth.js","assets/firebase-auth.css","assets/catalogue-controls.js","assets/customer-marketing-copy.js","assets/growth-marketing.js","assets/ad-readiness.js","assets/analytics-events.js","assets/universal-checkout-ui.js","assets/cart-checkout-premium.js","assets/storefront-performance.js","assets/responsive-hardening.css","assets/dark-theme-polish.css","assets/brand-speed.css","assets/us-launch-offers.js","assets/us-live-products.json","assets/us-display-prices.js","assets/us-products.js","assets/us-order-success.js","scripts/responsive-browser-audit.mjs","scripts/dark-theme-browser-audit.mjs","lib/us-checkout-products.mjs","api/us-create-checkout-session.mjs","api/us-checkout-health.mjs"]
     for path in routes + assets:
         if (ROOT / path).exists(): passes.append(f"PASS exists: {path}")
         else: errors.append(f"missing {path}")
 
     # Retail copy / SEO safety.
-    need("index.html", "Products across automotive, marine and RV", "customer catalogue depth")
+    need("index.html", "Automotive, marine and RV products", "customer catalogue depth")
     for bad in ["Five products priced to win","operating gates","Clear availability gates","Auto first"]: ban("index.html", bad, bad)
     need("deals.html", "Featured Auto &amp; Truck Offers", "featured offers title")
     need("deals.html", "Gear up for", "retail offer headline")
@@ -57,12 +57,19 @@ def main() -> int:
     need("assets/ad-readiness.js", "gclid", "paid-search attribution capture")
     need("assets/ad-readiness.js", "Clear online pricing", "retail ad landing copy")
 
+    # Google account sign-in uses Firebase Auth with no additional Google scopes.
+    for token, label in [("omni-terrain.firebaseapp.com","Firebase auth domain"),("new GoogleAuthProvider()","Google provider"),("signInWithPopup(auth, provider)","popup sign-in"),("browserLocalPersistence","persistent browser session"),("onAuthStateChanged","auth state observer"),("prefillCheckout(currentUser)","signed-in checkout prefill")]: need("assets/firebase-auth.js", token, label)
+    ban("assets/firebase-auth.js", ".addScope(", "extra Google OAuth scope")
+    need("assets/us-shell.js", "data-ot-auth-trigger", "shared account trigger")
+    need("index.html", "assets/firebase-auth.js?v=1", "homepage account module")
+    need("privacy-policy.html", "Google account profile", "Firebase account privacy notice")
+
     # Final responsive/dark/approved-brand UI layer.
     need("assets/storefront-performance.js", "responsive-hardening.css?v=4", "cache-busted responsive layer")
     need("assets/storefront-performance.js", "brand-speed.css?v=15", "locked brand-speed layer")
     need("assets/responsive-hardening.css", "dark-theme-polish.css?v=1", "dark theme import")
     need("assets/brand-speed.css", "Locked brand direction", "approved wordmark styling")
-    need("assets/brand-speed.css", "omni-terrain-logo.webp?v=1", "verified approved wordmark asset")
+    need("assets/brand-speed.css", "omni-terrain-logo-crisp.svg?v=2", "crisp vector wordmark asset")
     need("assets/brand-speed.css", "content-visibility:auto", "below-fold render skipping")
     need("assets/dark-theme-polish.css", "--ot-night-text:#f3f6fa", "dark primary contrast")
     for token, label in [(".ot-promo-box","dark promo"),(".ot-search-input","dark filters"),(".ot-primary-btn","dark CTA")]: need("assets/dark-theme-polish.css", token, label)
@@ -126,7 +133,7 @@ def main() -> int:
     # Featured offer metadata must never rewrite prices.
     ban("assets/us-launch-offers.js", "priceCents", "featured price override")
     ban("assets/us-launch-offers.js", "compareAtCents", "compare-at price override")
-    need("assets/us-launch-offers.js", "Featured Offer", "featured offer metadata")
+    need("assets/us-launch-offers.js", "Deal Unlocked", "featured offer metadata")
 
     if src("assets/us-products.js").count('"id":') >= 900: passes.append("PASS catalogue: broad product source")
     else: errors.append("US product source unexpectedly small")

@@ -111,7 +111,7 @@
     if (!document.querySelector(".store-catalogue")) return;
 
     setMeta("robots", "index,follow");
-    setMeta("description", "Browse 1,000 curated Auto Parts, Marine and RV product records. Add products to the Omni Terrain request cart for availability, pricing and shipping review.");
+    setMeta("description", "Browse 1,000 curated Auto Parts, Marine and RV product detailss. Add products to the Omni Terrain request cart for availability, pricing and shipping review.");
 
     const statusChip = document.querySelector(".availability-strip .status-chip");
     const availabilityText = document.querySelector(".availability-strip .container span:last-child");
@@ -119,7 +119,7 @@
     if (availabilityText) availabilityText.textContent = "Products can be added to the request cart. Availability, price, shipping and return terms are confirmed before payment.";
 
     const introSummary = document.querySelector(".store-intro-summary p");
-    if (introSummary) introSummary.textContent = "Product records are available for review now. Final availability, price and shipping are confirmed before an order is accepted.";
+    if (introSummary) introSummary.textContent = "Product detailss are available for review now. Final availability, price and shipping are confirmed before an order is accepted.";
 
     const productsHeading = document.querySelector(".store-products-heading p");
     if (productsHeading) productsHeading.textContent = "Use the category filters to narrow the range. Each page includes the manufacturer part number, specifications, fitment notes and an availability-review request option.";

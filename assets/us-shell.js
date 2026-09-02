@@ -32,7 +32,7 @@
   }
 
   function brand() {
-    return `<img class="ot-brand-logo-image" src="/assets/omni-terrain-logo.webp?v=1" alt="Omni Terrain — Road, Water, Power" width="270" height="90" decoding="async" loading="eager" fetchpriority="high">`;
+    return `<img class="ot-brand-logo-image" src="/assets/omni-terrain-logo-crisp.svg?v=2" alt="Omni Terrain — Road, Water, Power" width="270" height="75" decoding="async" loading="eager" fetchpriority="high">`;
   }
 
   function injectFonts() {
@@ -176,6 +176,16 @@
     else setTimeout(load, 700);
   }
 
+  function injectAuthAssets() {
+    ensureStyle('link[data-ot-firebase-auth],link[href*="firebase-auth.css"]', "/assets/firebase-auth.css?v=1", "otFirebaseAuth");
+    if (document.querySelector('script[data-ot-firebase-auth],script[src*="firebase-auth.js"]')) return;
+    const script = document.createElement("script");
+    script.type = "module";
+    script.src = "/assets/firebase-auth.js?v=1";
+    script.dataset.otFirebaseAuth = "true";
+    document.body.appendChild(script);
+  }
+
   function mountHeader() {
     document.documentElement.classList.add("ot-shell-loaded");
     document.querySelectorAll("body > .topbar, body > .announcement, body > .market-strip").forEach((node) => node.remove());
@@ -190,8 +200,8 @@
       <header class="ot-site-header" id="otSiteHeader"><div class="ot-shell-container ot-site-header-main">
         <a class="ot-site-brand ot-logo-direct" href="index.html" aria-label="Omni Terrain home">${brand()}</a>
         <nav class="ot-site-nav" aria-label="US store navigation"><a href="index.html">Home</a><a class="${active("catalogue")}" href="us-catalogue.html">Shop All</a><a class="${active("deals")}" href="deals.html">Deals</a><a class="${active("auto")}" href="automotive.html">Auto Parts</a><a class="${active("marine")}" href="marine.html">Marine</a><a class="${active("rv")}" href="rv.html">RV &amp; Overlanding</a><a class="${active("help")}" href="contact-and-order-help.html">Help</a></nav>
-        <div class="ot-site-actions"><a class="ot-site-cart" href="cart.html">Cart <span class="ot-site-cart-count" data-cart-count>${cartCount()}</span></a><button class="ot-site-menu" id="otSiteMenu" type="button" aria-expanded="false" aria-controls="otSiteMobileNav">Menu</button></div>
-      </div><nav class="ot-site-mobile-nav" id="otSiteMobileNav" aria-label="US mobile navigation"><a href="index.html">Home</a><a href="us-catalogue.html">Shop All Products</a><a href="deals.html">Featured Deals</a><a href="automotive.html">Auto Parts</a><a href="marine.html">Marine</a><a href="rv.html">RV &amp; Overlanding</a><a href="cart.html">Cart</a><a href="checkout.html">Checkout</a><a href="contact-and-order-help.html">Contact &amp; Support</a></nav></header>`;
+        <div class="ot-site-actions"><button class="ot-auth-trigger" type="button" data-ot-auth-trigger aria-haspopup="dialog" aria-controls="otAuthDialog"><span class="ot-auth-trigger-label">Sign in</span></button><a class="ot-site-cart" href="cart.html">Cart <span class="ot-site-cart-count" data-cart-count>${cartCount()}</span></a><button class="ot-site-menu" id="otSiteMenu" type="button" aria-expanded="false" aria-controls="otSiteMobileNav">Menu</button></div>
+      </div><nav class="ot-site-mobile-nav" id="otSiteMobileNav" aria-label="US mobile navigation"><button class="ot-mobile-auth-trigger" type="button" data-ot-auth-trigger aria-haspopup="dialog" aria-controls="otAuthDialog">Sign in / Create account</button><a href="index.html">Home</a><a href="us-catalogue.html">Shop All Products</a><a href="deals.html">Featured Deals</a><a href="automotive.html">Auto Parts</a><a href="marine.html">Marine</a><a href="rv.html">RV &amp; Overlanding</a><a href="cart.html">Cart</a><a href="checkout.html">Checkout</a><a href="contact-and-order-help.html">Contact &amp; Support</a></nav></header>`;
     document.body.insertBefore(shell, document.body.firstChild);
 
     const header = document.getElementById("otSiteHeader");
@@ -238,6 +248,7 @@
     mountHeader();
     mountFooter();
     syncCart();
+    injectAuthAssets();
     injectStockStatusAssets();
     injectProductAssets();
     injectCatalogueAssets();
