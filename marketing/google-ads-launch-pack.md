@@ -1,143 +1,125 @@
 # Omni Terrain — Google Ads Search Launch Pack
 
-Status: **UPLOAD READY / KEEP PAUSED UNTIL CONVERSION TAG TEST PASSES**
+Status: **DRAFT / DO NOT ENABLE YET**
 
-Campaign: `US | Search | Featured Auto | MPN Intent`
+Campaign working name: `US | Search | High-Intent MPN Test`
 
-## Launch scope
+## Locked first-week budget
 
-Initial paid traffic is deliberately limited to the seven current featured products below. This follows the Omni Terrain rule that catalogue depth and paid-ad scope are separate: the store may list many products, while ads only target a small verified subset.
+- **$50 TOTAL for the first 7-day test.**
+- Use a **Campaign total budget** with a 7-day start/end date when available so the campaign cannot exceed the $50 test cap.
+- Do not substitute `$30/day`, `$7.14/day`, or any other daily budget for this locked first-week test without explicit approval.
 
-| SKU | Brand / MPN | Landing page | Live registry price | Featured shipping |
-|---|---|---|---:|---|
-| HUS81147 | HUSKY Towing 81147 | `/us-husky-towing-81147.html` | $126.26 | Included |
-| HUS81148 | HUSKY Towing 81148 | `/us-husky-towing-81148.html` | $158.28 | Included |
-| CCIN9010F | Coast2Coast IWCN9010F | `/us-coast2coast-iwcn9010f.html` | $239.00 | Included |
-| CCIN8010F | Coast2Coast IWCN8010F | `/us-coast2coast-iwcn8010f.html` | $219.00 | Included |
-| CCIIMP103X | Coast2Coast IWCIMP103X | `/us-coast2coast-iwcimp103x.html` | $180.65 | Included |
-| A1360828HD | Air Lift 60828HD | `/us-air-lift-60828hd.html` | $213.99 | Included |
-| B5224066464 | Bilstein 24-066464 | `/us-bilstein-24-066464.html` | $136.97 | Included |
+## Store depth vs paid scope
 
-**Do not hard-code these prices in ad copy.** The live authorization registry remains the storefront source of truth and prices/availability can change.
+The storefront can remain broad for customer trust, discovery and SEO. Paid traffic must stay on a **very small, verified subset**. Catalogue size is not the ad-product count.
 
-Marine is not included in the first paid campaign. The Marine storefront now surfaces its existing strictly checkout-ready inventory across pagination, but Marine ads should wait until the exact Marine SKUs have their own margin/market/ad review.
+## Current seven-product draft — NOT approved for spend
 
-## Files
+The seven products used in the current draft RSA/keyword CSVs were assembled as a technical ad-pack test. They are **not the final paid-search SKU set**. Fresh market checks show the current set is not clean enough to spend on at current prices.
 
-- `google-ads-search-rsa.csv` — 2 paused responsive search ads per product ad group.
-- `google-ads-keywords.csv` — exact + phrase high-intent MPN/product keywords only.
-- `google-ads-negative-keywords.csv` — conservative irrelevant-intent exclusions.
-- `google-ads-assets.csv` — sitelinks, callouts and a brand structured snippet.
+| SKU | Brand / MPN | Omni price | Market finding | Paid status |
+|---|---|---:|---|---|
+| HUS81147 | HUSKY 81147 | $126.26 | Walmart currently shows $93.77 with free shipping | EXCLUDE at current price |
+| HUS81148 | HUSKY 81148 | $158.28 | Walmart currently shows $123.99 with free shipping | EXCLUDE at current price |
+| CCIN9010F | Coast2Coast IWCN9010F | $239.00 | AutoZone currently shows $126.99; other market offers are also materially lower | EXCLUDE at current price |
+| CCIN8010F | Coast2Coast IWCN8010F | $219.00 | Walmart Business currently shows $93.47; AutoZone shows $133.99 | EXCLUDE at current price |
+| CCIIMP103X | Coast2Coast IWCIMP103X | $180.65 | AutoZone currently shows $132.99 | HOLD — reprice/economics review only |
+| A1360828HD | Air Lift 60828HD | $213.99 | Air Lift official price is $213.99 | LOWER PRIORITY — parity, no price edge |
+| B5224066464 | Bilstein 24-066464 | $136.97 | JEGS currently shows $123.00 | EXCLUDE at current price |
 
-All ad and keyword rows are intentionally `Paused` to prevent accidental spend during import.
+**Do not enable the existing 7-product CSVs.** Keep all rows paused until a new final 3–5 SKU paid set passes the complete gate below.
 
-## Recommended campaign settings
+## Complete ad-product gate
 
-- Campaign type: Search.
-- Goal: Sales.
-- Networks: Google Search only at launch. Turn Search Partners off for the first test.
-- Locations: United States.
-- Location option: people **in or regularly in** the targeted locations; do not use interest-only location expansion.
+A product is eligible for paid search only when all of these are true at the same time:
+
+1. live registry `enabled === true`;
+2. supplier / website authorization verified;
+3. supplier API currently ORDERABLE;
+4. storefront stock is checkout-ready and in stock;
+5. current selling price is positive;
+6. shipping promise is currently valid;
+7. no MAP / channel restriction blocks the offer;
+8. **current delivered price is competitive against exact-MPN U.S. retailers / marketplaces**;
+9. **supplier cost + shipping + Stripe fees + return reserve + risk reserve + expected ad cost still leave acceptable contribution**;
+10. landing page, image, MPN, fitment/application text and checkout all work on mobile and desktop.
+
+The existing CI validator covers the technical live/checkout portion. It does **not** prove market competitiveness or paid-ad profitability; those checks must be completed before any ad group is enabled.
+
+## Correct first-test campaign settings
+
+- Campaign type: **Search**.
+- Goal: Sales / Purchase measurement.
+- Network: **Google Search only** for the first controlled test; Search Partners OFF.
+- Location: United States.
+- Location option: people **in or regularly in** the targeted United States locations; do not use interest-only expansion.
 - Language: English.
-- Budget: **$30/day total** for the first 7-day controlled test ($210 planned test spend).
-- Bidding after conversion tracking is verified: **Maximize Conversions** with `Purchase` as the only primary sales conversion.
-- Do not use broad match in the first launch. Start with the exact/phrase MPN intent already in the CSV.
+- Budget: **$50 campaign total for 7 days**.
+- Keywords: exact MPN + very tight phrase intent only. No broad match in week 1.
 - Auto-tagging: ON.
-- Ad rotation/asset optimization: allow Google to combine RSA assets; no headline pinning unless a later policy or legal requirement makes it necessary.
+- Initial paid SKU count: **3–5 maximum**, preferably 3–4 if query volume is sufficient.
 
-## Ad copy strategy
+## Bidding for the $50 test
 
-The ads deliberately avoid fake discounts, fake crossed-out prices, unsupported superlatives, and price-match/free-return claims.
+Do **not** default this zero-history $50 test to Maximize Conversions simply because Purchase tracking exists.
 
-Primary customer value propositions:
+For the first controlled test:
+
+- use **Maximize Clicks with a maximum CPC bid limit**, or Manual CPC if account controls make that cleaner;
+- set the CPC ceiling from real Google keyword estimates plus each SKU's allowable ad-cost headroom — **do not guess a generic CPC cap**;
+- keep `Purchase` as the primary sales conversion;
+- keep `view_item`, `add_to_cart`, and `begin_checkout` as secondary/observation signals initially;
+- consider conversion-based Smart Bidding only after clean purchase data is actually accumulating.
+
+## Ad copy rules
+
+Never advertise a crossed-out price, `% off`, `save $X`, lowest-price claim, price-match claim, free-return claim or other promotional comparison unless the exact claim is supported by a current, defensible reference price/policy.
+
+Safe launch value propositions:
 
 1. Exact brand + MPN relevance.
-2. Clear online pricing.
-3. Check online availability.
+2. Clear current online price.
+3. Current online availability.
 4. Secure U.S. checkout.
 5. Product / fitment support before ordering.
-6. Free standard shipping on the seven current featured offers in the contiguous U.S.
-
-`OMNI5` can remain an on-site regular-order promotion, but it is **not** used in the seven featured-product ads because featured shipping offers are excluded from stacking with that coupon.
+6. Free standard shipping only where the current product offer genuinely includes it.
 
 ## Current site tracking plumbing
 
-The repo already has a useful ecommerce tracking layer:
+The repository already contains useful ecommerce event plumbing:
 
 - `assets/ad-readiness.js` captures first/last attribution including UTM parameters, `gclid`, `gbraid`, `wbraid`, and `gad_source`.
 - `assets/analytics-events.js` pushes `view_item`, `add_to_cart`, `begin_checkout`, `view_promotion`, and `select_promotion` into `window.dataLayer`.
-- `assets/us-order-success.js` verifies the Stripe Checkout session server-side before pushing the `purchase` event. Purchase events include transaction ID, revenue, currency, coupon, items and traffic attribution, and are locally deduplicated.
+- `assets/us-order-success.js` verifies the Stripe Checkout session server-side before pushing the `purchase` event with transaction ID, revenue, currency, items and attribution.
 
-### One required account-side step before enabling spend
+### Required before any spend
 
-The repository currently does **not** contain an actual Google tag / Google Tag Manager container ID. `dataLayer` events by themselves do not send conversions to Google Ads.
+The repository still needs the actual Google tag / GTM connection before Google Ads can receive those purchase conversions.
 
-Before campaign enablement:
+Before enabling a campaign:
 
-1. Create/select the Google Ads Purchase conversion action (or linked GA4 purchase conversion).
-2. Install/connect the actual Google tag or GTM container for `omni-terrain.com`.
-3. Map the verified `purchase` dataLayer event as the primary Purchase conversion with dynamic value and currency.
-4. Keep `view_item`, `add_to_cart`, and `begin_checkout` secondary/observation conversions initially so bidding is optimized to completed purchases rather than micro-conversions.
-5. Use Tag Assistant / Google Ads diagnostics and complete one controlled test checkout to confirm exactly one purchase conversion fires with the Stripe transaction ID and correct value.
-6. Only then change campaign/ad/keyword status from Paused to Enabled.
+1. verify the correct Google Ads account and billing/business identity — do not assume an email/account from prior drafts;
+2. create/select the Google Ads `Purchase` conversion action (or correctly linked GA4 purchase conversion);
+3. connect the actual Google tag or GTM container to `omni-terrain.com`;
+4. map the verified purchase event with dynamic value, currency and unique transaction ID;
+5. complete one controlled test checkout and confirm exactly one Purchase conversion fires with the correct value;
+6. confirm the final paid SKUs still pass live stock/auth/MAP/market/economics gates;
+7. only then enable the final campaign.
 
-Do not send raw customer email, phone or address in ad URLs or plain-text analytics events. Enhanced conversions should be configured through Google's supported hashed first-party-data flow only after the Google tag/account is connected and consent/privacy handling is confirmed.
+## First-week operating rule
 
-## Search-term control
+- Review search terms and spend daily.
+- Add clearly irrelevant searches to negatives.
+- Do not expand into broad generic category terms on a $50 test.
+- Pause an SKU immediately if stock, authorization, MAP, shipping, market price or economics no longer pass.
+- Judge the first week on qualified traffic, checkout behavior, purchases and contribution — not clicks alone.
 
-First 7 days:
+## Draft files currently in repo
 
-- Review Search terms daily.
-- Add clearly irrelevant terms to negatives.
-- Do not negative legitimate comparison/research terms solely because they mention another retailer; evaluate conversion behavior first.
-- Keep exact MPN searches active even if volume is low.
-- Expand only winning ad groups from exact into additional phrase terms.
-- Broad match comes later only if purchase tracking is clean and the account has enough conversion data.
+- `google-ads-search-rsa.csv`
+- `google-ads-keywords.csv`
+- `google-ads-negative-keywords.csv`
+- `google-ads-assets.csv`
 
-## Product safety gate for ads
-
-Before enabling any ad group, and periodically while it is running, the SKU must still pass:
-
-- live registry enabled;
-- authorization verified;
-- supplier/API orderable;
-- stock status checkout-ready/in-stock;
-- current price > 0;
-- shipping offer still valid if the ad says free standard shipping;
-- no new MAP/channel restriction;
-- current economics still acceptable.
-
-If a SKU fails the gate, pause that ad group immediately. Do not redirect a product-specific MPN ad to a generic category page just to keep spend running.
-
-## Google Ads format validation used for this pack
-
-Current Google Search RSA limits used here:
-
-- up to 15 headlines;
-- headline maximum 30 characters;
-- up to 4 descriptions;
-- description maximum 90 characters;
-- path fields maximum 15 characters each.
-
-The pack supplies two RSAs per ad group and uses direct product landing pages. Google Ads documentation also recommends multiple strong RSAs, keyword-relevant assets and unique/relevant landing URLs.
-
-Official references checked during build:
-
-- https://support.google.com/google-ads/answer/17092074
-- https://support.google.com/google-ads/answer/7684791
-- https://support.google.com/google-ads/answer/7478529
-- https://support.google.com/google-ads/answer/13738234
-- https://support.google.com/google-ads/answer/15712870
-
-## Launch order
-
-1. Import RSA CSV.
-2. Import keyword CSV.
-3. Add negative keywords.
-4. Add sitelinks/callouts/snippet assets.
-5. Set Search-only U.S. campaign settings and $30/day test budget.
-6. Connect Google tag/GTM and verify Purchase conversion.
-7. Preview all seven landing pages on desktop + mobile.
-8. Confirm each SKU is still live/authorized/orderable.
-9. Enable the campaign.
-10. Review Search terms, spend, conversions and profit every day during the first week.
+These remain **draft/import scaffolding**, not authorization to spend. Final RSA/keyword files should be regenerated once the 3–5 paid SKUs are selected from market-verified winners.
