@@ -1,4 +1,4 @@
-/* Visual verification trigger — no logo or storefront behavior change. */
+/* Final homepage implementation verification trigger — no locked logo changes. */
 (() => {
   'use strict';
   if (window.__OMNI_HOMEPAGE_REFRESH__) return;
