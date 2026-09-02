@@ -2,8 +2,9 @@
   "use strict";
   const API = "https://omni-terrain-uk-checkout.vercel.app";
   const CART_KEY = "omniTerrainUsCart";
-  const PURCHASE_KEY = "omniTerrainTrackedPurchase";
+  const PURCHASE_KEY = "omniTerrainTrackedPurchases";
   const ATTR_KEY = "omniTerrainAdAttribution";
+  const PURCHASE_TTL_MS = 90 * 24 * 60 * 60 * 1000;
   const params = new URLSearchParams(location.search);
   const sessionId = params.get("session_id") || "";
   const status = document.getElementById("otOrderVerification");
@@ -15,19 +16,39 @@
   const esc = value => String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
   const attribution = () => { try { return JSON.parse(localStorage.getItem(ATTR_KEY) || "{}"); } catch (_) { return {}; } };
 
+  function purchaseLedger() {
+    const now = Date.now();
+    let ledger = {};
+    try {
+      const parsed = JSON.parse(localStorage.getItem(PURCHASE_KEY) || "{}");
+      if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) ledger = parsed;
+    } catch (_) {}
+    for (const [id, trackedAt] of Object.entries(ledger)) {
+      if (!Number(trackedAt) || now - Number(trackedAt) > PURCHASE_TTL_MS) delete ledger[id];
+    }
+    return ledger;
+  }
+
   function trackedPurchase(data) {
-    if (!data?.id || sessionStorage.getItem(`${PURCHASE_KEY}:${data.id}`)) return;
-    sessionStorage.setItem(`${PURCHASE_KEY}:${data.id}`, "1");
-    window.dataLayer = window.dataLayer || [];
+    if (!data?.id) return;
+    const ledger = purchaseLedger();
+    if (ledger[data.id]) return;
+
     const items = String(data.cart || "").split(",").map(token => {
       const [id, qty] = token.split(":");
       return id ? { item_id: id, quantity: Math.max(1, Number(qty) || 1) } : null;
     }).filter(Boolean);
+
+    ledger[data.id] = Date.now();
+    try { localStorage.setItem(PURCHASE_KEY, JSON.stringify(ledger)); } catch (_) {}
+
+    window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ ecommerce: null });
     window.dataLayer.push({
       event: "purchase",
       ecommerce: {
         transaction_id: data.id,
+        affiliation: "Omni Terrain US",
         value: Number(data.amount_total || 0) / 100,
         currency: String(data.currency || "usd").toUpperCase(),
         coupon: data.promotion_code || undefined,
