@@ -10,10 +10,25 @@
   min-height:80px!important;
   text-decoration:none!important;
   line-height:0!important;
-  background:none!important;
+  background:transparent!important;
   border:0!important;
   overflow:visible!important;
 }
+
+/* Transparent white/gold lockup needs a dark page header, not a baked image background. */
+#header,.ot-site-header{
+  background:#071a30!important;
+  border-bottom-color:#17344f!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+#header.scrolled,.ot-site-header.scrolled{box-shadow:0 8px 28px rgba(2,12,23,.22)!important}
+#header .nav-links a,.ot-site-nav a{color:#eef4f8!important}
+#header .nav-links a:hover,#header .nav-links a.active,.ot-site-nav a:hover,.ot-site-nav a.active{color:#fff!important}
+#header .cart-link,.ot-site-cart{background:#fff!important;color:#071a30!important;border-color:#dfe5ea!important}
+#header .cart-count,.ot-site-cart-count{background:#071a30!important;color:#fff!important}
+#header .menu-btn,.ot-site-menu{background:#0d2946!important;color:#fff!important;border-color:#29445d!important}
+#header .mobile-nav,.ot-site-mobile-nav{background:#071a30!important}
 
 /* Hide only the obsolete text wordmark. Never hide the approved image. */
 .ot-site-brand>.ot-site-wordmark,.brand>.wordmark,#site-header .brand>.wordmark,#header .brand>.wordmark{display:none!important}
@@ -26,7 +41,7 @@
   background:none!important;
 }
 
-/* THE logo: exact approved OMNI | TERRAIN artwork. */
+/* THE logo: exact approved transparent OMNI | TERRAIN artwork. */
 .ot-brand-logo-image{
   display:block!important;
   visibility:visible!important;
