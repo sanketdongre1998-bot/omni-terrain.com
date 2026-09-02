@@ -35,18 +35,21 @@ jobs:
               viewport:innerWidth,
               hero:(document.querySelector('.home-hero-copy')?.innerText||'').replace(/\s+/g,' ').trim(),
               heroImage:document.querySelector('.hero-showcase>img')?.currentSrc||'',
-              featuredCount:document.querySelectorAll('#liveGrid .live-card').length,
+              featuredCount:document.querySelectorAll('.live-grid .live-card').length,
+              featuredHeading:(document.querySelectorAll('.section-head h2')[1]?.textContent||'').trim(),
               growthBanner:!!document.querySelector('.ot-growth-banner') && getComputedStyle(document.querySelector('.ot-growth-banner')).display!=='none',
               logo:document.querySelector('.ot-brand-logo-image')?.getAttribute('src')||''
             }));
             console.log(JSON.stringify({label,state,errors}));
+            await page.screenshot({path:`homepage-${label}.png`,fullPage:true});
             if(state.bodyWidth>state.viewport+2) throw new Error(`${label} horizontal overflow ${state.bodyWidth}>${state.viewport}`);
             if(!state.logo.includes('omni-terrain-approved-gt.webp')) throw new Error(`${label} locked logo missing`);
             if(!state.hero.includes('Built for the Road.')||!state.hero.includes('Specialist automotive, marine, RV & 12V parts.')) throw new Error(`${label} simplified hero missing`);
             if(!state.heroImage.includes('FTL5607_1.jpg')) throw new Error(`${label} Fabtech hero image missing: ${state.heroImage}`);
             if(state.featuredCount!==4) throw new Error(`${label} expected 4 featured cards, got ${state.featuredCount}`);
+            if(state.featuredHeading!=='Popular upgrades.') throw new Error(`${label} unexpected featured heading: ${state.featuredHeading}`);
             if(state.growthBanner) throw new Error(`${label} duplicate growth banner visible`);
-            await page.screenshot({path:`homepage-${label}.png`,fullPage:true});
+            if(errors.length) throw new Error(`${label} page errors: ${errors.join(' | ')}`);
             await context.close();
           }
           await browser.close();
