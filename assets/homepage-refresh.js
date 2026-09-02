@@ -33,6 +33,17 @@
     const heroCopy=document.querySelector('.home-hero-copy > p');
     if(heroCopy) heroCopy.textContent='Specialist automotive, marine, RV & 12V parts.';
 
+    const proof=document.querySelector('.home-proof');
+    if(proof){
+      const first=proof.querySelector('div:first-child');
+      if(first){
+        const b=first.querySelector('b');
+        const span=first.querySelector('span');
+        if(b)b.textContent='Specialist range';
+        if(span)span.textContent='Auto, marine, RV & 12V essentials';
+      }
+    }
+
     const showcase=document.querySelector('.hero-showcase');
     if(showcase){
       showcase.setAttribute('aria-label','View featured Fabtech deal');
