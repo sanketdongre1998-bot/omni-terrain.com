@@ -41,7 +41,7 @@
 
     box.dataset.otLaunchDeal = "1";
     const label = box.querySelector(".ot-live-label");
-    if (label) label.textContent = "Limited-time featured deal";
+    if (label) label.textContent = "Today's featured deal price";
     if (!box.querySelector(".ot-launch-ribbon")) {
       const ribbon = document.createElement("div");
       ribbon.className = "ot-launch-ribbon";
@@ -49,7 +49,7 @@
       box.insertBefore(ribbon, label || box.firstChild);
     }
     const saving = box.querySelector(".ot-live-breakdown-row.saving span");
-    if (saving) saving.textContent = "Featured shipping savings";
+    if (saving) saving.textContent = "You save — free standard shipping";
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", decorateOfferPage, { once: true });
