@@ -1,0 +1,43 @@
+name: Logo candidate audit
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: |
+          npm install --no-save --no-package-lock playwright@1.55.0
+          npx playwright install chromium
+      - name: Render candidates
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/http.log 2>&1 &
+          sleep 1
+          cat > logo-audit.html <<'EOF'
+          <!doctype html><meta charset="utf-8"><style>
+          body{margin:0;background:#071a30;color:#fff;font:16px Arial;padding:30px}.row{display:grid;grid-template-columns:240px 1fr;align-items:center;min-height:150px;border-bottom:1px solid #345;padding:18px 0}.name{color:#e3b94e;font-weight:700}.box{background:#071a30;border:1px solid #29445d;padding:20px;overflow:visible}.box img{display:block;width:420px;max-width:100%;height:110px;object-fit:contain;object-position:left center;background:transparent}
+          </style>
+          <div class=row><div class=name>final.svg</div><div class=box><img src="/assets/omni-terrain-logo-final.svg?v=a"></div></div>
+          <div class=row><div class=name>logo.webp</div><div class=box><img src="/assets/omni-terrain-logo.webp?v=a"></div></div>
+          <div class=row><div class=name>logo-lock.webp</div><div class=box><img src="/assets/omni-terrain-logo-lock.webp?v=a"></div></div>
+          <div class=row><div class=name>transparent.webp</div><div class=box><img src="/assets/omni-terrain-logo-transparent.webp?v=a"></div></div>
+          <div class=row><div class=name>header.webp</div><div class=box><img src="/assets/omni-terrain-logo-header.webp?v=a"></div></div>
+          <div class=row><div class=name>crisp.svg</div><div class=box><img src="/assets/omni-terrain-logo-crisp.svg?v=a"></div></div>
+          EOF
+          cat > audit.mjs <<'EOF'
+          import { chromium } from 'playwright';
+          const b=await chromium.launch({headless:true}); const p=await b.newPage({viewport:{width:1000,height:1100}}); await p.goto('http://127.0.0.1:4173/logo-audit.html',{waitUntil:'networkidle'}); console.log(await p.locator('img').evaluateAll(xs=>xs.map(x=>({src:x.getAttribute('src'),nw:x.naturalWidth,nh:x.naturalHeight})))) ; await p.screenshot({path:'logo-candidates.png',fullPage:true}); await b.close();
+          EOF
+          node audit.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: logo-candidates
+          path: logo-candidates.png
+          retention-days: 1
