@@ -1,0 +1,129 @@
+/* Omni Terrain homepage visual refresh — locked logo is intentionally untouched. */
+:root{--ot-home-navy:#071a30;--ot-home-navy2:#0c2743;--ot-home-gold:#d9ad4b;--ot-home-cream:#fff8dd;--ot-home-bg:#f5f7f8;--ot-home-line:#dfe5ea}
+
+/* Overall rhythm / alignment */
+.home-hero,.home-section,.brand-strip,.support-band{box-sizing:border-box}
+.home-hero>.container,.home-section>.container,.brand-strip>.container,.support-band>.container{width:min(1360px,calc(100% - 40px));margin-inline:auto}
+.home-hero{padding:26px 0 16px!important;background:var(--ot-home-bg)!important}
+.home-hero-shell{grid-template-columns:minmax(0,.86fr) minmax(430px,1.14fr)!important;min-height:520px!important;border-radius:30px!important;background:linear-gradient(135deg,#071a30 0%,#0a2038 62%,#102d4a 100%)!important;box-shadow:0 24px 60px rgba(7,26,48,.12)!important;overflow:hidden!important}
+.home-hero-copy{display:flex!important;flex-direction:column!important;justify-content:center!important;padding:58px 28px 58px 58px!important;max-width:650px!important}
+.home-kicker{margin-bottom:22px!important;color:var(--ot-home-gold)!important;font-size:.62rem!important;letter-spacing:.14em!important}
+.home-hero-copy h1{max-width:620px!important;margin:0!important;color:#fff!important;font-size:clamp(4.45rem,5.7vw,6.7rem)!important;line-height:.82!important;letter-spacing:-.025em!important;text-transform:none!important}
+.home-hero-copy h1 em,.home-hero-copy h1 span{color:#e4bd67!important;font-style:normal!important}
+.home-hero-copy>p{max-width:560px!important;margin:26px 0 0!important;color:#e4ebf1!important;font-size:.94rem!important;line-height:1.65!important}
+.home-actions{display:flex!important;flex-wrap:wrap!important;gap:12px!important;margin-top:30px!important}
+.home-actions .button{min-height:52px!important;padding:0 23px!important;border-radius:12px!important;font-size:.76rem!important}
+.home-actions .button.primary{background:linear-gradient(135deg,#e3bb63,#c99331)!important;color:#071a30!important}
+.home-actions .button.light{background:#fff!important;color:#071a30!important;border-color:#fff!important}
+.home-proof{display:none!important}
+
+/* Hero: real supplier photography, minimal overlay only. */
+.hero-showcase{position:relative!important;min-height:0!important;margin:28px 28px 28px 10px!important;border:1px solid rgba(255,255,255,.18)!important;border-radius:24px!important;background:linear-gradient(145deg,#fff,#edf1f4)!important;overflow:hidden!important;box-shadow:0 16px 40px rgba(0,0,0,.18)!important}
+.hero-showcase::before{content:"★  FEATURED DEAL";position:absolute;z-index:3;left:18px;top:18px;padding:11px 15px;border-radius:10px;background:linear-gradient(135deg,#e5bd65,#c99331);color:#071a30;font:900 .62rem/1 Manrope,system-ui,sans-serif;letter-spacing:.04em}
+.hero-showcase>img{position:absolute!important;inset:68px 8% 72px!important;width:84%!important;height:calc(100% - 140px)!important;padding:0!important;object-fit:contain!important;object-position:center!important;filter:none!important;transform:none!important}
+.hero-showcase-info{left:18px!important;right:18px!important;bottom:18px!important;padding:14px 16px!important;border:1px solid rgba(7,26,48,.08)!important;border-radius:13px!important;background:rgba(255,255,255,.94)!important;backdrop-filter:blur(8px)!important;box-shadow:none!important}
+.hero-showcase-top{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:16px!important}
+.hero-showcase-top small{display:none!important}
+.hero-showcase-info h2{margin:0!important;color:#071a30!important;font-size:1.2rem!important;line-height:1!important;text-transform:none!important}
+.hero-showcase .hero-price{font-size:1.25rem!important;color:#071a30!important}
+.hero-showcase-foot{display:none!important}
+
+/* Less clutter between header and merchandising. */
+.brand-strip{display:none!important}
+.home-section{padding:34px 0!important;background:var(--ot-home-bg)!important}
+.home-section.white{background:var(--ot-home-bg)!important}
+.section-head{align-items:end!important;margin-bottom:18px!important}
+.section-head .eyebrow{color:#9a742f!important;font-size:.56rem!important;letter-spacing:.12em!important}
+.section-head h2{margin-top:7px!important;font-size:clamp(2.35rem,3.5vw,3.7rem)!important;line-height:.9!important;text-transform:none!important}
+.section-head>p{max-width:470px!important;font-size:.76rem!important;line-height:1.55!important}
+
+/* Four compact department tiles with actual supplier/product photos. */
+.category-grid-home{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:12px!important}
+.category-home{display:flex!important;min-height:184px!important;flex-direction:column!important;justify-content:flex-end!important;padding:18px!important;border:1px solid rgba(255,255,255,.14)!important;border-radius:18px!important;background-color:#0a2038!important;background-repeat:no-repeat!important;background-position:right 16px top 20px!important;background-size:54% auto!important;box-shadow:none!important;isolation:isolate!important}
+.category-home::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;background:linear-gradient(90deg,rgba(7,26,48,.98) 0%,rgba(7,26,48,.88) 48%,rgba(7,26,48,.18) 100%)}
+.category-home:nth-child(1){background-image:url('https://vehiclepartimages.com/ImageServerAPI?File=FAB/Images/FTL5607_1.jpg&maxheight=500&maxwidth=700')!important}
+.category-home:nth-child(2){background-image:url('https://vehiclepartimages.com/ImageServerAPI?File=HUM/Images/410190-1_1.jpg&maxheight=500&maxwidth=700')!important}
+.category-home:nth-child(3){background-image:url('https://vehiclepartimages.com/ImageServerAPI?File=VLT/Images/K88205_1.jpg&maxheight=500&maxwidth=700')!important}
+.category-home:nth-child(4){background-image:url('https://vehiclepartimages.com/ImageServerAPI?File=BLU/Images/5026-BSS_4.jpg&maxheight=500&maxwidth=700')!important}
+.category-home:hover{transform:translateY(-3px)!important;border-color:#d4aa51!important;box-shadow:0 14px 30px rgba(7,26,48,.12)!important}
+.category-home .num{position:absolute!important;left:17px!important;top:15px!important;color:#e1b95e!important;font-size:.52rem!important}
+.category-home .count,.category-home p{display:none!important}
+.category-home h3{max-width:190px!important;margin:0 0 10px!important;color:#fff!important;font-size:1.55rem!important;line-height:.92!important;text-transform:none!important}
+.category-home .go{position:static!important;color:#e1b95e!important;font-size:.64rem!important;font-weight:850!important}
+
+/* Featured products: clean, aligned, four across. */
+.live-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:12px!important}
+.live-card{border-color:#dce3e8!important;border-radius:18px!important;background:#fff!important;box-shadow:none!important}
+.live-media{height:205px!important;padding:20px!important;background:linear-gradient(145deg,#fbfcfd,#edf1f4)!important}
+.live-media img{height:158px!important;object-fit:contain!important}
+.live-badge{padding:7px 9px!important;font-size:.48rem!important}
+.live-body{padding:17px!important}
+.live-card h3{margin:9px 0 5px!important;font-size:1.32rem!important;line-height:.95!important;text-transform:none!important}
+.live-card p{display:none!important}
+.live-card-footer{padding-top:13px!important}
+.live-link{font-size:.62rem!important}
+
+/* Turn verbose confidence area into compact benefit strip. */
+.why-shell{padding:22px!important;border-radius:20px!important;box-shadow:none!important}
+.why-head{display:none!important}
+.why-grid{grid-template-columns:repeat(3,1fr)!important;gap:0!important;margin:0!important}
+.why-card{min-height:96px!important;padding:18px 22px!important;border:0!important;border-right:1px solid rgba(255,255,255,.13)!important;border-radius:0!important;background:transparent!important}
+.why-card:last-child{border-right:0!important}
+.why-card span{font-size:.48rem!important}
+.why-card h3{margin:8px 0 4px!important;font-size:1.35rem!important;text-transform:none!important}
+.why-card p{font-size:.65rem!important;line-height:1.45!important}
+.support-band{padding:0 0 42px!important;background:var(--ot-home-bg)!important}
+.support-inner{padding:24px 28px!important;border-radius:18px!important}
+.support-inner h2{font-size:2.15rem!important;text-transform:none!important}
+.support-inner p{font-size:.72rem!important}
+
+@media(max-width:1100px){
+  .home-hero-shell{grid-template-columns:1fr!important}
+  .home-hero-copy{max-width:none!important;padding:48px 42px 34px!important}
+  .hero-showcase{min-height:420px!important;margin:0 28px 28px!important}
+  .category-grid-home{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .live-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:760px){
+  .home-hero>.container,.home-section>.container,.support-band>.container{width:min(100% - 20px,1360px)!important}
+  .home-hero{padding-top:10px!important}
+  .home-hero-shell{border-radius:22px!important}
+  .home-hero-copy{padding:34px 22px 26px!important}
+  .home-kicker{margin-bottom:16px!important}
+  .home-hero-copy h1{font-size:clamp(3.45rem,16vw,4.8rem)!important;line-height:.84!important}
+  .home-hero-copy>p{margin-top:20px!important;font-size:.86rem!important}
+  .home-actions{display:grid!important;grid-template-columns:1fr!important;margin-top:23px!important}
+  .home-actions .button{width:100%!important;justify-content:center!important}
+  .hero-showcase{min-height:320px!important;margin:0 12px 12px!important;border-radius:17px!important}
+  .hero-showcase::before{left:12px;top:12px;padding:9px 11px;font-size:.52rem}
+  .hero-showcase>img{inset:52px 7% 62px!important;width:86%!important;height:calc(100% - 114px)!important}
+  .hero-showcase-info{left:10px!important;right:10px!important;bottom:10px!important;padding:11px 12px!important}
+  .hero-showcase-info h2{font-size:1rem!important}
+  .hero-showcase .hero-price{font-size:1rem!important}
+  .home-section{padding:28px 0!important}
+  .section-head{display:block!important;margin-bottom:15px!important}
+  .section-head>p{display:none!important}
+  .section-head h2{font-size:2.55rem!important}
+  .category-grid-home{grid-template-columns:1fr 1fr!important;gap:9px!important}
+  .category-home{min-height:160px!important;padding:15px!important;background-position:right 10px top 18px!important;background-size:58% auto!important}
+  .category-home h3{max-width:140px!important;font-size:1.25rem!important}
+  .category-home .go{font-size:.56rem!important}
+  .live-grid{grid-template-columns:1fr 1fr!important;gap:9px!important}
+  .live-media{height:150px!important;padding:13px!important}
+  .live-media img{height:116px!important}
+  .live-body{padding:13px!important}
+  .live-brand{font-size:.44rem!important}
+  .live-card h3{font-size:1.06rem!important}
+  .live-card-footer{grid-template-columns:1fr!important;gap:8px!important}
+  .live-price,.live-offer-today strong{font-size:1.2rem!important}
+  .why-shell{padding:10px 15px!important}
+  .why-grid{grid-template-columns:1fr!important}
+  .why-card{min-height:0!important;padding:16px 4px!important;border-right:0!important;border-bottom:1px solid rgba(255,255,255,.12)!important}
+  .why-card:last-child{border-bottom:0!important}
+  .support-inner{padding:22px!important}
+}
+@media(max-width:430px){
+  .category-grid-home,.live-grid{grid-template-columns:1fr!important}
+  .category-home{min-height:148px!important;background-size:48% auto!important}
+  .live-media{height:185px!important}.live-media img{height:148px!important}
+}
