@@ -162,10 +162,6 @@
   enhanceCatalogueCards();
   updateCartCounts();
 
-  if (!document.querySelector('script[data-ot-display-pricing]')) {
-    const displayPricing = document.createElement("script");
-    displayPricing.src = "/assets/us-display-prices.js?v=4";
-    displayPricing.dataset.otDisplayPricing = "true";
-    document.head.appendChild(displayPricing);
-  }
+  // Do not expose the broad supplier/jobber display-price table in the public UI.
+  // Public dollar prices are rendered only for authorization-verified live products above.
 })();
