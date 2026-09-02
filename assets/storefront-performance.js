@@ -25,11 +25,11 @@
   if(!usesUsShell){
     ensureCss('link[data-ot-image-layout],link[data-ot-image-layout-fix],link[href*="image-layout-fix.css"]',"/assets/image-layout-fix.css?v=2","otImageLayout");
     ensureCss('link[data-ot-responsive-hardening],link[href*="responsive-hardening.css"]',"/assets/responsive-hardening.css?v=4","otResponsiveHardening");
-    ensureCss('link[data-ot-brand-speed],link[href*="brand-speed.css"]',"/assets/brand-speed.css?v=13","otBrandSpeed");
+    ensureCss('link[data-ot-brand-speed],link[href*="brand-speed.css"]',"/assets/brand-speed.css?v=14","otBrandSpeed");
   }
 
   /* Exact approved transparent horizontal lockup. */
-  const LOCKED_LOGO_SRC="/assets/omni-terrain-logo-transparent.webp?v=1";
+  const LOCKED_LOGO_SRC="/assets/omni-terrain-logo-header.webp?v=3";
   const mountLockedLogo=(brand)=>{
     if(!brand) return;
     brand.querySelectorAll(".ot-brand-crest,.brand-badge,.brand-mark,.logo-badge,.logo-mark").forEach(node=>node.remove());
@@ -38,8 +38,8 @@
       img=document.createElement("img");
       img.className="ot-brand-logo-image";
       img.alt="Omni Terrain";
-      img.width=300;
-      img.height=80;
+      img.width=270;
+      img.height=76;
       img.decoding="async";
       img.loading="eager";
       img.src=LOCKED_LOGO_SRC;
@@ -47,8 +47,8 @@
     }else if(img.getAttribute("src")!==LOCKED_LOGO_SRC){
       img.setAttribute("src",LOCKED_LOGO_SRC);
     }
-    img.width=300;
-    img.height=80;
+    img.width=270;
+    img.height=76;
     brand.classList.add("ot-logo-direct");
     img.hidden=false;
     img.style.display="block";
