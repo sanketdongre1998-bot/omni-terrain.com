@@ -1,0 +1,28 @@
+name: Final Omni Terrain logo lock
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify-final-logo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify exact locked logo asset
+        run: |
+          echo '690fa74ab6d2574b04c467138ad4fb6609977291f983b7e2e42e423c606f8421  assets/omni-terrain-approved-gt.webp' | sha256sum -c -
+      - name: Verify locked header reference
+        run: |
+          grep -Fq 'src="/assets/omni-terrain-approved-gt.webp?v=1"' index.html
+      - name: Verify locked presentation markers
+        run: |
+          grep -Fq 'width:300px!important;' assets/brand-speed.css
+          grep -Fq 'max-height:84px!important;' assets/brand-speed.css
+          grep -Fq 'width:255px!important;' assets/brand-speed.css
+          grep -Fq 'width:230px!important;' assets/brand-speed.css
+          grep -Fq 'width:210px!important;' assets/brand-speed.css
+      - name: Confirm lock manifest exists
+        run: test -f BRAND-LOGO-FINAL-LOCK.md
