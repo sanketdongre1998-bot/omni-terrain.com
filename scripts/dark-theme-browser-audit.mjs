@@ -59,6 +59,7 @@ for (const vp of viewports) {
   await context.addInitScript(() => {
     try {
       localStorage.setItem("omniTerrainTheme", "dark");
+      localStorage.setItem("omni-theme", "dark");
       if (/\/(cart|checkout)\.html$/.test(location.pathname)) {
         localStorage.setItem("omniTerrainUsCart", JSON.stringify([{ id: "HUS33055", quantity: 2 }]));
       }
@@ -106,32 +107,45 @@ for (const vp of viewports) {
         const tiny = mobile ? [...document.querySelectorAll("button,.ot-primary-btn,.ot-secondary-btn,.ot-live-button,.ot-display-action,.ot-growth-cta,.ot-deal-button,.ot-site-cart,.ot-site-menu,.cart-link,.menu-btn")]
           .filter(visible).filter(el => { const r=el.getBoundingClientRect(); return r.height < 40 || r.width < 40; })
           .slice(0,10).map(el => ({text:String(el.textContent||"").trim().slice(0,60),...rect(el)})) : [];
-        const brand = document.querySelector(".ot-site-brand,#header .brand,.header .brand");
-        const crest = brand ? getComputedStyle(brand,"::before").content : "none";
+        const logo = document.querySelector(".ot-brand-logo-image");
+        const logoSrc = logo ? (logo.getAttribute("src") || logo.currentSrc || "") : "";
         const promo = document.querySelector(".ot-promo-box");
         const promoVisible = visible(promo);
         const promoColors = promoVisible ? {bg:getComputedStyle(promo).backgroundColor,text:getComputedStyle(promo).color,p:getComputedStyle(promo.querySelector("p")||promo).color} : null;
         const securePay = document.querySelector("#otSecurePay");
         const securePayVisible = visible(securePay);
         const dealsCount = document.querySelectorAll(".ot-deal-card").length;
+        const header = document.querySelector("#header,.ot-site-header,.header");
+        const homeSection = document.querySelector(".home-section");
+        const liveCard = document.querySelector(".live-card");
+        const supportBand = document.querySelector(".support-band");
+        const darkSurfaces = {
+          header: header ? getComputedStyle(header).backgroundColor : null,
+          homeSection: homeSection ? getComputedStyle(homeSection).backgroundColor : null,
+          liveCard: liveCard ? getComputedStyle(liveCard).backgroundColor : null,
+          supportBand: supportBand ? getComputedStyle(supportBand).backgroundColor : null,
+        };
         return {
           theme: document.documentElement.getAttribute("data-ot-theme"),
+          legacyTheme: document.documentElement.getAttribute("data-theme"),
           bodyBg,
           scrollWidth: Math.max(document.body.scrollWidth, document.documentElement.scrollWidth),
           overflowers,
           tiny,
           samples,
           inputs,
-          crest,
+          logoSrc,
           promoVisible,
           promoColors,
           securePayVisible,
           dealsCount,
+          darkSurfaces,
         };
       }, { mobile: vp.mobile });
 
       checks++;
       if (result.theme !== "dark") fail(key, `theme did not resolve to dark (got ${result.theme})`);
+      if (result.legacyTheme !== "dark") fail(key, `legacy theme attribute did not sync to dark (got ${result.legacyTheme})`);
       if (result.scrollWidth > vp.width + 2) fail(key, `horizontal overflow ${result.scrollWidth}px > ${vp.width}px; ${JSON.stringify(result.overflowers)}`);
       if (result.tiny.length) fail(key, `dark mobile tap targets under 40px ${JSON.stringify(result.tiny)}`);
       if (/rgb\(255,\s*255,\s*255\)/.test(result.bodyBg)) fail(key, `body remained white in dark mode: ${result.bodyBg}`);
@@ -144,7 +158,12 @@ for (const vp of viewports) {
         if (knownDarkText.has(color(input.color))) fail(key, `${input.tag} retained dark input text ${input.color}`);
       }
 
-      if (vp.width > 330 && result.crest === "none") fail(key, "classic OT crest missing from visible store brand");
+      if (!result.logoSrc.includes("omni-terrain-approved-gt.webp")) fail(key, `locked GT logo missing: ${result.logoSrc}`);
+      if (route === "index.html") {
+        for (const [name, bg] of Object.entries(result.darkSurfaces)) {
+          if (bg && /rgb\(255,\s*255,\s*255\)/.test(bg)) fail(key, `${name} remained white in homepage dark mode: ${bg}`);
+        }
+      }
       if (route === "deals.html" && result.dealsCount !== 7) fail(key, `expected 7 dark deal cards, got ${result.dealsCount}`);
       if (route === "cart.html" && !result.promoVisible) fail(key, "OMNI5 promo box missing in dark cart");
       if (route === "cart.html" && result.promoColors && knownDarkText.has(color(result.promoColors.p))) fail(key, `promo copy unreadable in dark mode: ${JSON.stringify(result.promoColors)}`);
