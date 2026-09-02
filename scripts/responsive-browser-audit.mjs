@@ -148,7 +148,7 @@ for (const vp of viewports) {
           dealsLoading: Boolean(document.querySelector("#otDealsGrid") && /loading featured deals/i.test(document.querySelector("#otDealsGrid")?.textContent || "")),
           productLayoutCols: document.querySelector(".product-layout") ? getComputedStyle(document.querySelector(".product-layout")).gridTemplateColumns : "",
           productVisualRect: document.querySelector(".product-visual") ? rect(document.querySelector(".product-visual")) : null,
-          mobileMenuVisible: Boolean(document.querySelector(".ot-site-menu") && visible(document.querySelector(".ot-site-menu"))),
+          mobileMenuVisible: [document.querySelector("#otSiteMenu"), document.querySelector("#menuToggle")].some(node => node && visible(node)),
           securePayVisible: Boolean(document.querySelector("#otSecurePay") && visible(document.querySelector("#otSecurePay"))),
           promoBoxVisible: Boolean(document.querySelector(".ot-promo-box") && visible(document.querySelector(".ot-promo-box"))),
           checkoutPromoVisible: Boolean(document.querySelector(".ot-checkout-promo") && visible(document.querySelector(".ot-checkout-promo"))),
@@ -182,13 +182,13 @@ for (const vp of viewports) {
       }
 
       if (vp.width <= 860 && snapshot.mobileMenuVisible) {
-        const menu = page.locator("#otSiteMenu");
+        const menu = page.locator("#otSiteMenu,#menuToggle").first();
         if (await menu.count()) {
           await menu.click();
           await page.waitForTimeout(120);
           const menuCheck = await page.evaluate(() => {
-            const nav = document.querySelector("#otSiteMobileNav");
-            const button = document.querySelector("#otSiteMenu");
+            const nav = document.querySelector("#otSiteMobileNav,#mobileNav");
+            const button = document.querySelector("#otSiteMenu,#menuToggle");
             if (!nav || !button) return { ok:false, reason:"missing nodes" };
             const r = nav.getBoundingClientRect();
             return { ok: nav.classList.contains("open") && button.getAttribute("aria-expanded") === "true" && r.left >= -2 && r.right <= innerWidth + 2, left:r.left, right:r.right, width:innerWidth };
