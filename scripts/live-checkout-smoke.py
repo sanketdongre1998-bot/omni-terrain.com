@@ -91,9 +91,9 @@ def main() -> int:
     else:
         errors.append(f"OMNI5 eligible-cart smoke failed HTTP {status}: {body.get('error', 'promotion marker missing')}")
 
-    # HUS81148 is itself above the $150 promo minimum, so this isolates the no-stacking guard
-    # instead of being rejected first by the minimum-order rule.
-    status, body = request_json(API, {"items": [{"id": "HUS81148", "qty": 1}], "couponCode": "OMNI5"})
+    # Quantity two keeps the featured offer safely above the $150 promo minimum even if its
+    # audited checkout price changes, so this isolates the no-stacking guard.
+    status, body = request_json(API, {"items": [{"id": "HUS81148", "qty": 2}], "couponCode": "OMNI5"})
     message = str(body.get("error") or "")
     if status == 400 and "cannot be combined" in message.lower():
         passes.append("PASS OMNI5: featured-offer stacking rejected")
