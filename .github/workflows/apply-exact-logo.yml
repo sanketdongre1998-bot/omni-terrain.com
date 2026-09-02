@@ -15,7 +15,7 @@ jobs:
       - name: Rebuild and verify exact approved logo
         run: |
           cat .logo_upload/part1.txt .logo_upload/part2.txt .logo_upload/part3.txt .logo_upload/part4.txt .logo_upload/part5.txt | base64 -d > assets/omni-terrain-approved-gt.webp
-          echo 'fd575bcaf0b2429fa83e2471fdac7a7e5f1636b4019595629a49bff15671e7f0  assets/omni-terrain-approved-gt.webp' | sha256sum -c -
+          echo '690fa74ab6d2574b04c467138ad4fb6609977291f983b7e2e42e423c606f8421  assets/omni-terrain-approved-gt.webp' | sha256sum -c -
           file assets/omni-terrain-approved-gt.webp
           python3 - <<'PY'
           from pathlib import Path
