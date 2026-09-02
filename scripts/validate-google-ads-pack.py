@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-"""Validate Omni Terrain's initial Google Ads Search launch pack.
+"""Technical validation for Omni Terrain's paused Google Ads draft pack.
 
-This is intentionally strict: paid traffic must remain limited to the approved
-featured products and every advertised SKU must still pass the storefront live
-checkout gate before the pack is considered safe to enable.
+IMPORTANT: a passing result is NOT approval to spend. This script validates
+ad-file structure plus the storefront live checkout gate only. It does not
+validate competitor pricing, supplier economics, expected CPC/CPA, MAP/channel
+changes outside the live gate, or commercial profitability. Final ad products
+must pass the separate market + economics review before any campaign is enabled.
 """
 
 from __future__ import annotations
@@ -17,8 +19,8 @@ from urllib.parse import parse_qs, urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 MARKETING = ROOT / "marketing"
-
 CAMPAIGN = "US | Search | Featured Auto | MPN Intent"
+
 EXPECTED = {
     "HUS81147": "us-husky-towing-81147.html",
     "HUS81148": "us-husky-towing-81148.html",
@@ -40,7 +42,7 @@ EXPECTED_AD_GROUPS = {
 
 
 def fail(message: str) -> None:
-    raise SystemExit(f"ADS PACK INVALID: {message}")
+    raise SystemExit(f"ADS PACK TECHNICAL VALIDATION FAILED: {message}")
 
 
 def load_csv(name: str) -> list[dict[str, str]]:
@@ -73,88 +75,72 @@ def parse_time(value: object) -> datetime:
     return parsed.astimezone(timezone.utc)
 
 
-def validate_url(raw: str, expected_slug: str | None = None) -> None:
+def validate_url(raw: str, expected_slug: str) -> None:
     parsed = urlparse(raw)
     if parsed.scheme != "https" or parsed.netloc.lower() != "omni-terrain.com":
         fail(f"unexpected final URL {raw!r}")
-    if expected_slug and parsed.path.lstrip("/").lower() != expected_slug.lower():
+    if parsed.path.lstrip("/").lower() != expected_slug.lower():
         fail(f"final URL {raw!r} does not land on {expected_slug}")
     qs = parse_qs(parsed.query)
     if qs.get("utm_source") != ["google"] or qs.get("utm_medium") != ["cpc"]:
-        fail(f"final URL missing google/cpc attribution: {raw!r}")
+        fail(f"missing google/cpc attribution: {raw!r}")
     if qs.get("utm_campaign") != ["us_search_featured_auto"]:
-        fail(f"unexpected utm_campaign in {raw!r}")
+        fail(f"unexpected utm_campaign: {raw!r}")
 
 
 def validate_rsa() -> None:
     rows = load_csv("google-ads-search-rsa.csv")
     if len(rows) != 14:
-        fail(f"expected 14 RSA rows (2 x 7), found {len(rows)}")
-
+        fail(f"expected 14 RSA rows, found {len(rows)}")
     counts: Counter[str] = Counter()
     variants: defaultdict[str, set[str]] = defaultdict(set)
     for row in rows:
-        if row.get("Campaign") != CAMPAIGN:
-            fail(f"unexpected campaign in RSA row: {row.get('Campaign')!r}")
         group = row.get("Ad group", "")
-        if group not in EXPECTED_AD_GROUPS:
-            fail(f"unexpected RSA ad group {group!r}")
+        if row.get("Campaign") != CAMPAIGN or group not in EXPECTED_AD_GROUPS:
+            fail(f"unexpected RSA campaign/ad group: {group!r}")
         if row.get("Ad type") != "Responsive search ad":
             fail(f"unexpected ad type in {group}")
         if row.get("Status") != "Paused":
-            fail(f"RSA must remain Paused before account-side conversion validation: {group}")
+            fail(f"draft RSA must remain Paused: {group}")
         variant = row.get("RSA Variant", "")
         if variant not in {"A", "B"}:
-            fail(f"RSA variant must be A or B in {group}")
+            fail(f"invalid RSA variant in {group}")
         counts[group] += 1
         variants[group].add(variant)
-
         sku = EXPECTED_AD_GROUPS[group]
         validate_url(row.get("Final URL", ""), EXPECTED[sku])
-
         if len(row.get("Path 1", "")) > 15 or len(row.get("Path 2", "")) > 15:
-            fail(f"display path exceeds 15 chars in {group}")
-
+            fail(f"display path exceeds 15 characters in {group}")
         headlines = [row.get(f"Headline {i}", "").strip() for i in range(1, 16)]
-        headlines = [value for value in headlines if value]
-        if not 3 <= len(headlines) <= 15:
-            fail(f"RSA {group}/{variant} has {len(headlines)} headlines")
+        headlines = [x for x in headlines if x]
+        if not 3 <= len(headlines) <= 15 or any(len(x) > 30 for x in headlines):
+            fail(f"headline count/length invalid in {group}/{variant}")
         if len(set(headlines)) != len(headlines):
-            fail(f"duplicate headline in RSA {group}/{variant}")
-        for value in headlines:
-            if len(value) > 30:
-                fail(f"headline over 30 chars in {group}/{variant}: {value!r}")
-
+            fail(f"duplicate headline in {group}/{variant}")
         descriptions = [row.get(f"Description {i}", "").strip() for i in range(1, 5)]
-        descriptions = [value for value in descriptions if value]
-        if not 2 <= len(descriptions) <= 4:
-            fail(f"RSA {group}/{variant} has {len(descriptions)} descriptions")
-        for value in descriptions:
-            if len(value) > 90:
-                fail(f"description over 90 chars in {group}/{variant}: {value!r}")
-
+        descriptions = [x for x in descriptions if x]
+        if not 2 <= len(descriptions) <= 4 or any(len(x) > 90 for x in descriptions):
+            fail(f"description count/length invalid in {group}/{variant}")
     if set(counts) != set(EXPECTED_AD_GROUPS):
-        fail("RSA ad-group set does not match approved launch set")
+        fail("RSA ad-group set differs from draft set")
     for group in EXPECTED_AD_GROUPS:
         if counts[group] != 2 or variants[group] != {"A", "B"}:
-            fail(f"{group} must have exactly RSA variants A and B")
+            fail(f"{group} must have exactly variants A and B")
 
 
 def validate_keywords() -> None:
     rows = load_csv("google-ads-keywords.csv")
     if len(rows) != 35:
-        fail(f"expected 35 keyword rows (5 x 7), found {len(rows)}")
+        fail(f"expected 35 keyword rows, found {len(rows)}")
     counts: Counter[str] = Counter()
     for row in rows:
-        if row.get("Campaign") != CAMPAIGN:
-            fail("unexpected campaign in keyword CSV")
         group = row.get("Ad group", "")
-        if group not in EXPECTED_AD_GROUPS:
-            fail(f"unexpected keyword ad group {group!r}")
+        if row.get("Campaign") != CAMPAIGN or group not in EXPECTED_AD_GROUPS:
+            fail(f"unexpected keyword campaign/ad group: {group!r}")
         if row.get("Match type") not in {"Exact", "Phrase"}:
-            fail(f"launch keyword is not Exact/Phrase: {row.get('Keyword')!r}")
+            fail(f"draft keyword is not Exact/Phrase: {row.get('Keyword')!r}")
         if row.get("Status") != "Paused":
-            fail(f"keyword must remain Paused before conversion validation: {row.get('Keyword')!r}")
+            fail(f"draft keyword must remain Paused: {row.get('Keyword')!r}")
         if not row.get("Keyword", "").strip():
             fail(f"blank keyword in {group}")
         sku = EXPECTED_AD_GROUPS[group]
@@ -162,56 +148,48 @@ def validate_keywords() -> None:
         counts[group] += 1
     for group in EXPECTED_AD_GROUPS:
         if counts[group] != 5:
-            fail(f"{group} must contain exactly 5 launch keywords")
+            fail(f"{group} must contain exactly five draft keywords")
 
 
-def validate_negatives() -> None:
-    rows = load_csv("google-ads-negative-keywords.csv")
-    if len(rows) < 15:
+def validate_negatives_and_assets() -> None:
+    negatives = load_csv("google-ads-negative-keywords.csv")
+    if len(negatives) < 15:
         fail("negative keyword list is unexpectedly short")
     seen = set()
-    for row in rows:
-        if row.get("Campaign") != CAMPAIGN:
-            fail("unexpected campaign in negative-keyword CSV")
+    for row in negatives:
         keyword = row.get("Negative keyword", "").strip().lower()
-        if not keyword:
-            fail("blank negative keyword")
+        if row.get("Campaign") != CAMPAIGN or not keyword:
+            fail("invalid negative keyword row")
         if keyword in seen:
             fail(f"duplicate negative keyword: {keyword}")
         seen.add(keyword)
         if row.get("Match type") not in {"Exact", "Phrase", "Broad"}:
             fail(f"invalid negative match type for {keyword}")
 
-
-def validate_assets() -> None:
-    rows = load_csv("google-ads-assets.csv")
-    if not rows:
-        fail("asset CSV is empty")
+    assets = load_csv("google-ads-assets.csv")
     sitelinks = callouts = snippets = 0
-    for row in rows:
+    for row in assets:
         if row.get("Campaign") != CAMPAIGN:
             fail("unexpected campaign in assets CSV")
-        asset_type = row.get("Asset type", "")
+        kind = row.get("Asset type", "")
         text = row.get("Text", "").strip()
-        if asset_type == "Sitelink":
+        if kind == "Sitelink":
             sitelinks += 1
-            if len(text) > 25:
-                fail(f"sitelink text over 25 chars: {text!r}")
-            if len(row.get("Description line 1", "")) > 35 or len(row.get("Description line 2", "")) > 35:
-                fail(f"sitelink description over 35 chars: {text!r}")
+            if len(text) > 25 or len(row.get("Description line 1", "")) > 35 or len(row.get("Description line 2", "")) > 35:
+                fail(f"invalid sitelink length: {text!r}")
             parsed = urlparse(row.get("Final URL", ""))
             if parsed.scheme != "https" or parsed.netloc.lower() != "omni-terrain.com":
                 fail(f"invalid sitelink URL: {row.get('Final URL')!r}")
-        elif asset_type == "Callout":
+        elif kind == "Callout":
             callouts += 1
             if not text or len(text) > 25:
-                fail(f"callout must be 1-25 chars: {text!r}")
-        elif asset_type == "Structured snippet":
+                fail(f"invalid callout: {text!r}")
+        elif kind == "Structured snippet":
             snippets += 1
             if not row.get("Header", "").strip() or not row.get("Values", "").strip():
                 fail("structured snippet missing header/values")
         else:
-            fail(f"unexpected asset type {asset_type!r}")
+            fail(f"unexpected asset type {kind!r}")
     if sitelinks < 4 or callouts < 4 or snippets < 1:
         fail("insufficient campaign assets")
 
@@ -221,55 +199,36 @@ def validate_live_gate() -> None:
     stock = load_json(ROOT / "assets" / "us-stock-status.json")
     if parse_time(stock.get("generatedAtUTC")) < parse_time(registry.get("generatedAtUTC")):
         fail("stock-status snapshot is older than the live registry")
-
     registry_products = registry.get("products") or {}
     stock_products = stock.get("products") or {}
     for sku, slug in EXPECTED.items():
         live = registry_products.get(sku)
         state = stock_products.get(sku)
-        if not isinstance(live, dict):
-            fail(f"{sku} missing from live registry")
-        if not isinstance(state, dict):
-            fail(f"{sku} missing from stock-status registry")
-        if live.get("enabled") is not True:
-            fail(f"{sku} live registry enabled != true")
-        if live.get("authorizationVerified") is not True:
-            fail(f"{sku} authorization is not verified")
-        if live.get("liveKeystoneOrderable") is not True:
-            fail(f"{sku} is not live supplier-orderable")
-        if int(live.get("priceCents") or 0) <= 0:
-            fail(f"{sku} has no positive live price")
-        if str(live.get("slug") or "").lower() != slug.lower():
-            fail(f"{sku} live-registry slug mismatch")
+        if not isinstance(live, dict) or not isinstance(state, dict):
+            fail(f"{sku} missing from live/stock registries")
+        if live.get("enabled") is not True or live.get("authorizationVerified") is not True or live.get("liveKeystoneOrderable") is not True:
+            fail(f"{sku} fails live enable/auth/orderable gate")
+        if int(live.get("priceCents") or 0) <= 0 or str(live.get("slug") or "").lower() != slug.lower():
+            fail(f"{sku} fails live price/slug gate")
         if live.get("shippingIncluded") is not True:
-            fail(f"{sku} no longer has featured shipping included")
-
-        if state.get("checkoutReady") is not True:
-            fail(f"{sku} stock status checkoutReady != true")
-        if state.get("status") != "in_stock":
-            fail(f"{sku} stock status is {state.get('status')!r}")
-        if state.get("liveApi") != "ORDERABLE":
-            fail(f"{sku} live API is {state.get('liveApi')!r}")
-        if str(state.get("slug") or "").lower() != slug.lower():
-            fail(f"{sku} stock-status slug mismatch")
-
-        if not (ROOT / slug).exists():
-            fail(f"landing page missing for {sku}: {slug}")
+            fail(f"{sku} featured shipping promise is no longer active")
+        if state.get("checkoutReady") is not True or state.get("status") != "in_stock" or state.get("liveApi") != "ORDERABLE":
+            fail(f"{sku} fails current stock/orderable gate")
+        if str(state.get("slug") or "").lower() != slug.lower() or not (ROOT / slug).exists():
+            fail(f"{sku} landing-page slug/file mismatch")
 
 
 def main() -> None:
     validate_rsa()
     validate_keywords()
-    validate_negatives()
-    validate_assets()
+    validate_negatives_and_assets()
     validate_live_gate()
-    print("Google Ads pack validation passed")
-    print(f"Campaign: {CAMPAIGN}")
-    print("Approved paid-search products: 7")
-    print("RSAs: 14 (2 per ad group)")
-    print("Keywords: 35 (Exact/Phrase only)")
-    print("All campaign rows remain Paused")
-    print("All seven SKUs pass the current strict live checkout gate")
+    print("Google Ads draft pack TECHNICAL validation passed")
+    print(f"Draft campaign: {CAMPAIGN}")
+    print("Draft products checked: 7")
+    print("RSAs: 14; keywords: 35; all rows remain Paused")
+    print("Live checkout/auth/stock gate: PASS for the seven draft SKUs")
+    print("NOT LAUNCH APPROVAL: competitor pricing, economics and CPC headroom are not validated here")
 
 
 if __name__ == "__main__":
