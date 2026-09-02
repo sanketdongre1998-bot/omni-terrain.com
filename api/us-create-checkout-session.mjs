@@ -114,11 +114,14 @@ export async function POST(request) {
       promotion: appliedPromo ? { code: appliedPromo.code, savingsCents: appliedPromo.savingsCents } : null,
     }, 200, request);
   } catch (error) {
-    console.error("US checkout session error", error?.message || error);
-    const clientError = /Invalid quantity|Checkout requires|selected product|manual order review|cart total|promo code|OMNI5|featured deal/i.test(String(error?.message || ""));
-    const status = clientError || (error?.status >= 400 && error?.status < 500) ? 400 : 500;
+    const message = String(error?.message || error || "");
+    const clientError = /Invalid quantity|Checkout requires|selected product|manual order review|cart total|promo code|OMNI5|featured deal/i.test(message);
+    const upstreamClientError = Number(error?.status) >= 400 && Number(error?.status) < 500;
+    const status = clientError || upstreamClientError ? 400 : 500;
+    if (status === 400) console.warn("US checkout validation", message);
+    else console.error("US checkout session error", message);
     return json(
-      { error: status === 400 ? error.message : "Secure US checkout is temporarily unavailable." },
+      { error: status === 400 ? message : "Secure US checkout is temporarily unavailable." },
       status,
       request,
     );
