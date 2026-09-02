@@ -1,3 +1,4 @@
+/* Visual verification trigger — no logo or storefront behavior change. */
 (() => {
   'use strict';
   if (window.__OMNI_HOMEPAGE_REFRESH__) return;
