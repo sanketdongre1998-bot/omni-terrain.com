@@ -27,16 +27,27 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
+          import re
 
           root = Path('.')
-          tag = '<script defer src="assets/theme-toggle.js"></script>'
+          tag = '<script defer src="assets/theme-toggle.js?v=3"></script>'
+          pattern = re.compile(r'<script\b[^>]*\bsrc=["\'][^"\']*assets/theme-toggle\.js(?:\?[^"\']*)?["\'][^>]*></script>', re.I)
           changed = 0
           total = 0
 
           for path in sorted(root.glob('*.html')):
               total += 1
               text = path.read_text(encoding='utf-8')
-              if tag in text:
+              matches = list(pattern.finditer(text))
+              if matches:
+                  first = matches[0]
+                  rebuilt = text[:first.start()] + tag + text[first.end():]
+                  rebuilt = pattern.sub('', rebuilt)
+                  # Keep exactly the normalized first tag.
+                  rebuilt = rebuilt[:first.start()] + tag + rebuilt[first.start():] if tag not in rebuilt else rebuilt
+                  if rebuilt != text:
+                      path.write_text(rebuilt, encoding='utf-8')
+                      changed += 1
                   continue
               if '</body>' not in text:
                   raise SystemExit(f'Missing </body> in {path}')
@@ -52,12 +63,21 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
+          import re
 
-          tag = '<script defer src="assets/theme-toggle.js"></script>'
+          pattern = re.compile(r'<script\b[^>]*\bsrc=["\'][^"\']*assets/theme-toggle\.js(?:\?[^"\']*)?["\'][^>]*></script>', re.I)
           pages = list(Path('.').glob('*.html'))
-          missing = [str(path) for path in pages if tag not in path.read_text(encoding='utf-8')]
+          missing = []
+          duplicate = []
+          for path in pages:
+              text = path.read_text(encoding='utf-8')
+              count = len(pattern.findall(text))
+              if count == 0: missing.append(str(path))
+              if count > 1: duplicate.append(str(path))
           if missing:
               raise SystemExit('Theme toggle missing from: ' + ', '.join(missing[:20]))
+          if duplicate:
+              raise SystemExit('Duplicate theme toggle on: ' + ', '.join(duplicate[:20]))
           print(f'THEME COVERAGE PASS = {len(pages)} HTML pages')
           PY
 
@@ -70,5 +90,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -- '*.html'
-          git commit -m "Attach light and dark theme toggle across storefront"
+          git commit -m "Normalize theme runtime across storefront"
           git push origin HEAD:main
