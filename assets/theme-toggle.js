@@ -35,6 +35,7 @@
   const setTheme = (theme, persist = true) => {
     const next = theme === DARK ? DARK : LIGHT;
     document.documentElement.dataset.otTheme = next;
+    document.documentElement.dataset.theme = next;
     document.documentElement.style.colorScheme = next;
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.setAttribute("content", next === DARK ? "#07111d" : "#071a30");
