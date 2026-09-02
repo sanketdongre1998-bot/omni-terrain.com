@@ -142,7 +142,7 @@ def main() -> int:
     # Featured merchandising metadata must never rewrite prices or claim an unverified markdown.
     ban("assets/us-launch-offers.js", "priceCents", "featured price override")
     ban("assets/us-launch-offers.js", "compareAtCents", "compare-at price override")
-    need("assets/us-launch-offers.js", "Featured Pick", "factual featured-product metadata")
+    need("assets/us-launch-offers.js", "Featured Offer", "factual featured-product metadata")
     ban("assets/us-launch-offers.js", "Today's featured deal price", "unverified featured deal-price claim")
 
     if src("assets/us-products.js").count('"id":') >= 900: passes.append("PASS catalogue: broad product source")
