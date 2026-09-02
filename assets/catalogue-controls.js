@@ -11,7 +11,7 @@
   const priceOf=card=>{const raw=text(card.querySelector(".ot-live-inline-price,.ot-display-price,.price"));const n=Number(raw.replace(/[^0-9.]/g,""));return Number.isFinite(n)?n:NaN;};
   const brandOf=card=>{const k=text(card.querySelector(".kicker"));return (k.split("·")[0]||k||"Other").trim();};
   const haystack=card=>[text(card.querySelector("h3")),brandOf(card),text(card.querySelector(".mpn")),text(card)].join(" ").toLowerCase();
-  const esc=value=>String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+  const esc=value=>String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
 
   const featuredSlugs=[
     "us-husky-towing-81147.html","us-husky-towing-81148.html","us-coast2coast-iwcn9010f.html",
@@ -51,10 +51,10 @@
     if(!/^(automotive|marine|rv)(?:-|\.)/.test(file))return;
     if(heroCopy){
       if(file.startsWith("automotive"))heroCopy.textContent="Shop truck, SUV, towing, suspension, lighting and aftermarket automotive parts by brand and manufacturer part number.";
-      else if(file.startsWith("marine"))heroCopy.textContent="Shop marine electrical, charging, navigation and boat-support equipment by brand and manufacturer part number.";
+      else if(file.startsWith("marine"))heroCopy.textContent="Shop verified online marine inventory first, with clear pricing, manufacturer part numbers and support before you order.";
       else heroCopy.textContent="Shop RV, travel, towing and overlanding equipment for road trips, campsites and everyday adventures.";
     }
-    document.querySelectorAll("main .section-head .muted").forEach(node=>{node.textContent="Shop by brand, MPN or price · Featured offers shown first";});
+    document.querySelectorAll("main .section-head .muted").forEach(node=>{node.textContent="Shop by brand, MPN or price · Verified online inventory shown first";});
   }
 
   function decorateFeaturedCard(card){
@@ -69,6 +69,34 @@
     card.dataset.otFeaturedOffer="true";
   }
 
+  async function hydrateMarineLiveCards(grid,liveSlugs){
+    if(file!=="marine.html"||!grid||!liveSlugs?.size)return;
+    const pageLinks=[...document.querySelectorAll('nav.pagination a[href]')]
+      .map(a=>a.getAttribute("href")||"")
+      .filter(href=>/^marine-\d+\.html(?:[?#].*)?$/i.test(href));
+    if(!pageLinks.length)return;
+    const existing=new Set([...grid.querySelectorAll(".card")].map(cardSlug));
+    const additions=[];
+    await Promise.all(pageLinks.map(async href=>{
+      try{
+        const response=await fetch(href,{cache:"force-cache"});
+        if(!response.ok)return;
+        const html=await response.text();
+        const doc=new DOMParser().parseFromString(html,"text/html");
+        [...doc.querySelectorAll("main .grid .card")].forEach(card=>{
+          const slug=cardSlug(card);
+          if(!slug||!liveSlugs.has(slug)||existing.has(slug))return;
+          existing.add(slug);
+          additions.push(card.cloneNode(true));
+        });
+      }catch(_){}
+    }));
+    additions.forEach(card=>grid.appendChild(card));
+    const pagination=document.querySelector("nav.pagination");
+    if(pagination)pagination.hidden=true;
+    document.documentElement.classList.add("ot-marine-live-aggregated");
+  }
+
   function failClosed(allCards,grid){
     allCards.forEach(card=>{card.classList.add("ot-card-hidden");card.setAttribute("aria-hidden","true");card.dataset.otCheckoutSuppressed="true";});
     const state=document.createElement("div");state.className="ot-catalogue-safe-state";state.innerHTML='<strong>Online catalogue is updating.</strong><span>Checkout availability could not be verified right now. Refresh the page or contact product support before ordering.</span><a href="contact-and-order-help.html">Product support →</a>';
@@ -78,10 +106,12 @@
   async function mount(){
     customerDepartmentCopy();
     const section=productSection();const grid=section?.querySelector(".grid");if(!section||!grid)return;
-    const allCards=[...grid.querySelectorAll(".card")];if(!allCards.length)return;
+    let allCards=[...grid.querySelectorAll(".card")];if(!allCards.length)return;
     const [products,registry]=await Promise.all([loadProducts(),loadLiveRegistry()]);
     if(!registry.ok||!registry.slugs.size){failClosed(allCards,grid);return;}
     const liveSlugs=registry.slugs;
+    await hydrateMarineLiveCards(grid,liveSlugs);
+    allCards=[...grid.querySelectorAll(".card")];
 
     const cards=allCards.filter(card=>liveSlugs.has(cardSlug(card)));
     allCards.forEach(card=>{
