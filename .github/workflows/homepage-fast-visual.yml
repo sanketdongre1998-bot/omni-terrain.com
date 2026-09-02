@@ -17,40 +17,70 @@ jobs:
         run: |
           npm install --no-save --no-package-lock playwright@1.55.0
           npx playwright install chromium
-      - name: Capture homepage desktop and mobile
+      - name: Capture homepage light and dark desktop/mobile
         run: |
           python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/omni-fast-http.log 2>&1 &
           sleep 1
           cat > homepage-fast.mjs <<'EOF'
           import { chromium } from 'playwright';
           const browser=await chromium.launch({headless:true});
+          const isWhite=v=>/rgb\(255,\s*255,\s*255\)/.test(String(v||''));
           for(const [label,width,height] of [['desktop',1440,1000],['phone',390,844]]){
-            const context=await browser.newContext({viewport:{width,height},colorScheme:'light'});
-            const page=await context.newPage();
-            const errors=[]; page.on('pageerror',e=>errors.push(String(e.message||e)));
-            await page.goto('http://127.0.0.1:4173/index.html',{waitUntil:'networkidle',timeout:30000});
-            await page.waitForTimeout(1800);
-            const state=await page.evaluate(()=>({
-              bodyWidth:document.body.scrollWidth,
-              viewport:innerWidth,
-              hero:(document.querySelector('.home-hero-copy')?.innerText||'').replace(/\s+/g,' ').trim(),
-              heroImage:document.querySelector('.hero-showcase>img')?.currentSrc||'',
-              featuredCount:document.querySelectorAll('.live-grid .live-card').length,
-              featuredHeading:(document.querySelectorAll('.section-head h2')[1]?.textContent||'').trim(),
-              growthBanner:!!document.querySelector('.ot-growth-banner') && getComputedStyle(document.querySelector('.ot-growth-banner')).display!=='none',
-              logo:document.querySelector('.ot-brand-logo-image')?.getAttribute('src')||''
-            }));
-            console.log(JSON.stringify({label,state,errors}));
-            await page.screenshot({path:`homepage-${label}.png`,fullPage:true});
-            if(state.bodyWidth>state.viewport+2) throw new Error(`${label} horizontal overflow ${state.bodyWidth}>${state.viewport}`);
-            if(!state.logo.includes('omni-terrain-approved-gt.webp')) throw new Error(`${label} locked logo missing`);
-            if(!state.hero.includes('Built for the Road.')||!state.hero.includes('Specialist automotive, marine, RV & 12V parts.')) throw new Error(`${label} simplified hero missing`);
-            if(!state.heroImage.includes('FTL5607_1.jpg')) throw new Error(`${label} Fabtech hero image missing: ${state.heroImage}`);
-            if(state.featuredCount!==4) throw new Error(`${label} expected 4 featured cards, got ${state.featuredCount}`);
-            if(state.featuredHeading!=='Popular upgrades.') throw new Error(`${label} unexpected featured heading: ${state.featuredHeading}`);
-            if(state.growthBanner) throw new Error(`${label} duplicate growth banner visible`);
-            if(errors.length) throw new Error(`${label} page errors: ${errors.join(' | ')}`);
-            await context.close();
+            for(const theme of ['light','dark']){
+              const context=await browser.newContext({viewport:{width,height},colorScheme:theme});
+              await context.addInitScript((theme)=>{
+                localStorage.setItem('omniTerrainTheme',theme);
+                localStorage.setItem('omni-theme',theme);
+              },theme);
+              const page=await context.newPage();
+              const errors=[]; page.on('pageerror',e=>errors.push(String(e.message||e)));
+              await page.goto('http://127.0.0.1:4173/index.html',{waitUntil:'networkidle',timeout:30000});
+              await page.waitForTimeout(1200);
+              const state=await page.evaluate(()=>{
+                const bg=sel=>{const el=document.querySelector(sel);return el?getComputedStyle(el).backgroundColor:null};
+                return {
+                  theme:document.documentElement.dataset.otTheme||'',
+                  legacyTheme:document.documentElement.dataset.theme||'',
+                  bodyWidth:document.body.scrollWidth,
+                  viewport:innerWidth,
+                  hero:(document.querySelector('.home-hero-copy')?.innerText||'').replace(/\s+/g,' ').trim(),
+                  heroImage:document.querySelector('.hero-showcase>img')?.currentSrc||'',
+                  featuredCount:document.querySelectorAll('.live-grid .live-card').length,
+                  featuredHeading:(document.querySelectorAll('.section-head h2')[1]?.textContent||'').trim(),
+                  growthBanner:!!document.querySelector('.ot-growth-banner') && getComputedStyle(document.querySelector('.ot-growth-banner')).display!=='none',
+                  logo:document.querySelector('.ot-brand-logo-image')?.getAttribute('src')||'',
+                  themeScripts:document.querySelectorAll('script[src*="theme-toggle.js"]').length,
+                  surfaces:{
+                    body:getComputedStyle(document.body).backgroundColor,
+                    header:bg('#header'),
+                    section:bg('.home-section'),
+                    card:bg('.live-card'),
+                    support:bg('.support-band')
+                  }
+                };
+              });
+              console.log(JSON.stringify({label,theme,state,errors}));
+              await page.screenshot({path:`homepage-${theme}-${label}.png`,fullPage:true});
+              if(state.bodyWidth>state.viewport+2) throw new Error(`${theme}/${label} horizontal overflow ${state.bodyWidth}>${state.viewport}`);
+              if(!state.logo.includes('omni-terrain-approved-gt.webp')) throw new Error(`${theme}/${label} locked logo missing`);
+              if(!state.hero.includes('Built for the Road.')||!state.hero.includes('Specialist automotive, marine, RV & 12V parts.')) throw new Error(`${theme}/${label} simplified hero missing`);
+              if(!state.heroImage.includes('FTL5607_1.jpg')) throw new Error(`${theme}/${label} Fabtech hero image missing: ${state.heroImage}`);
+              if(state.featuredCount!==4) throw new Error(`${theme}/${label} expected 4 featured cards, got ${state.featuredCount}`);
+              if(state.featuredHeading!=='Popular upgrades.') throw new Error(`${theme}/${label} unexpected featured heading: ${state.featuredHeading}`);
+              if(state.growthBanner) throw new Error(`${theme}/${label} duplicate growth banner visible`);
+              if(state.themeScripts!==1) throw new Error(`${theme}/${label} expected one theme runtime, got ${state.themeScripts}`);
+              if(state.theme!==theme||state.legacyTheme!==theme) throw new Error(`${theme}/${label} theme attributes out of sync: ${state.theme}/${state.legacyTheme}`);
+              if(theme==='dark'){
+                for(const [name,value] of Object.entries(state.surfaces)) if(value&&isWhite(value)) throw new Error(`dark/${label} ${name} remained white: ${value}`);
+                const toggle=page.locator('[data-ot-theme-toggle]');
+                await toggle.click();
+                await page.waitForTimeout(100);
+                const after=await page.evaluate(()=>({theme:document.documentElement.dataset.otTheme,legacy:document.documentElement.dataset.theme,a:localStorage.getItem('omniTerrainTheme'),b:localStorage.getItem('omni-theme')}));
+                if(after.theme!=='light'||after.legacy!=='light'||after.a!=='light'||after.b!=='light') throw new Error(`dark/${label} toggle sync failed: ${JSON.stringify(after)}`);
+              }
+              if(errors.length) throw new Error(`${theme}/${label} page errors: ${errors.join(' | ')}`);
+              await context.close();
+            }
           }
           await browser.close();
           EOF
