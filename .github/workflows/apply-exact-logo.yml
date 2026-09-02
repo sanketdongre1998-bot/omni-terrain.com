@@ -1,0 +1,41 @@
+name: Apply exact approved GT logo
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  apply:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Rebuild and verify exact approved logo
+        run: |
+          cat .logo_upload/part1.txt .logo_upload/part2.txt .logo_upload/part3.txt .logo_upload/part4.txt .logo_upload/part5.txt | base64 -d > assets/omni-terrain-approved-gt.webp
+          echo 'fd575bcaf0b2429fa83e2471fdac7a7e5f1636b4019595629a49bff15671e7f0  assets/omni-terrain-approved-gt.webp' | sha256sum -c -
+          file assets/omni-terrain-approved-gt.webp
+          python3 - <<'PY'
+          from pathlib import Path
+          old = '/assets/omni-terrain-premium-logo.png?v=1'
+          new = '/assets/omni-terrain-approved-gt.webp?v=1'
+          targets = list(Path('.').glob('*.html')) + list(Path('assets').glob('*.js'))
+          touched=[]
+          for p in targets:
+              try: s=p.read_text(encoding='utf-8')
+              except Exception: continue
+              n=s.replace(old,new).replace(old.lstrip('/'),new.lstrip('/'))
+              if n != s:
+                  p.write_text(n,encoding='utf-8')
+                  touched.append(str(p))
+          print('logo refs changed:', touched)
+          PY
+          rm -rf .logo_upload
+          rm -f .github/workflows/apply-exact-logo.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Use exact approved GT shield Omni Terrain logo'
+          git push
