@@ -34,7 +34,10 @@ export async function GET(request) {
       promotion_savings_cents: Number(session.metadata?.promo_savings_cents || 0),
     }, 200, request);
   } catch (error) {
-    console.error("US checkout status error", error?.message || error);
-    return json({ error: "Unable to verify this order right now." }, error?.status === 404 ? 404 : 500, request);
+    const message = String(error?.message || error || "");
+    const status = Number(error?.status) === 404 ? 404 : 500;
+    if (status === 404) console.warn("US checkout status validation", message);
+    else console.error("US checkout status error", message);
+    return json({ error: "Unable to verify this order right now." }, status, request);
   }
 }
