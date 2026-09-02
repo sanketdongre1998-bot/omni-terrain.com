@@ -10,6 +10,7 @@ from urllib.parse import unquote
 ROOT = Path(__file__).resolve().parents[1]
 STATUS = ROOT / "assets/us-stock-status.json"
 LIVE = ROOT / "assets/us-live-products.json"
+PRODUCTS = ROOT / "assets/us-products.js"
 
 
 def basename(value: object) -> str:
@@ -32,12 +33,33 @@ def positive_cents(value: object) -> bool:
         return False
 
 
+def load_catalogue_products() -> list[dict]:
+    text = PRODUCTS.read_text(encoding="utf-8")
+    marker = "const OMNI_US_PRODUCTS = "
+    start = text.find(marker)
+    if start < 0:
+        raise SystemExit("ERROR: OMNI_US_PRODUCTS marker not found")
+    start += len(marker)
+    end = text.find(";", start)
+    if end < 0:
+        raise SystemExit("ERROR: OMNI_US_PRODUCTS terminator not found")
+    try:
+        rows = json.loads(text[start:end])
+    except json.JSONDecodeError as exc:
+        raise SystemExit(f"ERROR: unable to parse us-products.js: {exc}")
+    if not isinstance(rows, list):
+        raise SystemExit("ERROR: OMNI_US_PRODUCTS is not a list")
+    return [row for row in rows if isinstance(row, dict)]
+
+
 def main() -> int:
     status = json.loads(STATUS.read_text(encoding="utf-8"))
     live = json.loads(LIVE.read_text(encoding="utf-8"))
+    catalogue = load_catalogue_products()
 
     rows = status.get("products") or {}
     live_rows = live.get("products") or {}
+    catalogue_by_id = {str(row.get("id") or ""): row for row in catalogue if row.get("id")}
 
     try:
         live_time = parse_utc(live.get("generatedAtUTC"))
@@ -93,12 +115,26 @@ def main() -> int:
         if "AUTH" in reason or "WEBSITE_" in reason or "MAP_" in reason:
             policy_holds.append(pid)
 
+    catalogue_categories = Counter(str(row.get("segment") or "unknown").strip().lower() for row in catalogue)
+    ready_categories = Counter(
+        str((catalogue_by_id.get(pid) or {}).get("segment") or "unknown").strip().lower()
+        for pid in ready
+    )
+    review_categories = Counter(
+        str((catalogue_by_id.get(pid) or {}).get("segment") or "unknown").strip().lower()
+        for pid, row in rows.items()
+        if isinstance(row, dict) and str(row.get("status") or "").strip().lower() == "review"
+    )
+
     print("=== OMNI TERRAIN CHECKOUT EXPANSION ANALYSIS ===")
     print("LIVE REGISTRY UTC =", live.get("generatedAtUTC"))
     print("STOCK SNAPSHOT UTC =", status.get("generatedAtUTC"))
     print("REGISTRY-GATED PRODUCTS =", len(registry_gated))
     print("CURRENT CHECKOUT READY =", len(ready))
     print("STATUS TOTAL =", len(rows))
+    print("CATALOGUE BY CATEGORY =", dict(sorted(catalogue_categories.items())))
+    print("CHECKOUT READY BY CATEGORY =", dict(sorted(ready_categories.items())))
+    print("REVIEW BY CATEGORY =", dict(sorted(review_categories.items())))
     print("REVIEW =", sum(1 for row in rows.values() if isinstance(row, dict) and str(row.get("status") or "").strip().lower() == "review"))
     print("ORDERABLE REVIEW =", len(orderable_review))
     print("LOW-MARGIN + ORDERABLE =", len(low_margin_orderable))
