@@ -6,10 +6,15 @@ img{height:auto}
 button,input,select,textarea{font:inherit}
 button,a{-webkit-tap-highlight-color:transparent}
 
-/* Skip rendering work for off-screen catalogue blocks while keeping layout stable. */
-.card,.live-card,.category-card,.category-home,.policy-card,.why-card,.request-item,.uk-cart-item{
+/* Keep large catalogue product grids efficient, but never defer core storefront
+   tiles/cards that customers use for navigation or featured offers. */
+.card,.policy-card,.request-item,.uk-cart-item{
   content-visibility:auto;
   contain-intrinsic-size:1px 360px;
+}
+.live-card,.category-card,.category-home,.why-card{
+  content-visibility:visible;
+  contain-intrinsic-size:auto;
 }
 
 /* Prevent slow images from collapsing their containers. */
@@ -72,7 +77,7 @@ html.ot-perf-lite *,html.ot-perf-lite *::before,html.ot-perf-lite *::after{
   animation-duration:.001ms!important;
   animation-iteration-count:1!important;
   transition-duration:.001ms!important;
-  scroll-behavior:auto!important;
+  scroll-behavior:auto!important
 }
 html.ot-perf-lite .ot-stage-orbit,
 html.ot-perf-lite .ot-stage-glow,
@@ -83,15 +88,15 @@ html.ot-perf-lite .ot-reel{transform:none!important}
 html[data-ot-theme="dark"] .market-label,
 html[data-ot-theme="dark"] .ot-site-market-label{
   color:#d8b469!important;
-  opacity:1!important;
+  opacity:1!important
 }
 html[data-ot-theme="dark"] .market-strip .container>a:not(.market-link),
 html[data-ot-theme="dark"] .ot-site-market a:not(.active){
-  color:#a9b8c5!important;
+  color:#a9b8c5!important
 }
 html[data-ot-theme="dark"] .market-link,
 html[data-ot-theme="dark"] .ot-site-market a.active{
-  color:#e2bd72!important;
+  color:#e2bd72!important
 }
 
 @media(prefers-reduced-motion:reduce){
@@ -99,6 +104,6 @@ html[data-ot-theme="dark"] .ot-site-market a.active{
     animation-duration:.001ms!important;
     animation-iteration-count:1!important;
     transition-duration:.001ms!important;
-    scroll-behavior:auto!important;
+    scroll-behavior:auto!important
   }
 }
