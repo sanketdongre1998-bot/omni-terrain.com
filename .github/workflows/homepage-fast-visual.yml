@@ -1,0 +1,60 @@
+name: Homepage Fast Visual Verification
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install browser
+        run: |
+          npm install --no-save --no-package-lock playwright@1.55.0
+          npx playwright install chromium
+      - name: Capture homepage desktop and mobile
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/omni-fast-http.log 2>&1 &
+          sleep 1
+          cat > homepage-fast.mjs <<'EOF'
+          import { chromium } from 'playwright';
+          const browser=await chromium.launch({headless:true});
+          for(const [label,width,height] of [['desktop',1440,1000],['phone',390,844]]){
+            const context=await browser.newContext({viewport:{width,height},colorScheme:'light'});
+            const page=await context.newPage();
+            const errors=[]; page.on('pageerror',e=>errors.push(String(e.message||e)));
+            await page.goto('http://127.0.0.1:4173/index.html',{waitUntil:'networkidle',timeout:30000});
+            await page.waitForTimeout(1800);
+            const state=await page.evaluate(()=>({
+              bodyWidth:document.body.scrollWidth,
+              viewport:innerWidth,
+              hero:(document.querySelector('.home-hero-copy')?.innerText||'').replace(/\s+/g,' ').trim(),
+              heroImage:document.querySelector('.hero-showcase>img')?.currentSrc||'',
+              featuredCount:document.querySelectorAll('#liveGrid .live-card').length,
+              growthBanner:!!document.querySelector('.ot-growth-banner') && getComputedStyle(document.querySelector('.ot-growth-banner')).display!=='none',
+              logo:document.querySelector('.ot-brand-logo-image')?.getAttribute('src')||''
+            }));
+            console.log(JSON.stringify({label,state,errors}));
+            if(state.bodyWidth>state.viewport+2) throw new Error(`${label} horizontal overflow ${state.bodyWidth}>${state.viewport}`);
+            if(!state.logo.includes('omni-terrain-approved-gt.webp')) throw new Error(`${label} locked logo missing`);
+            if(!state.hero.includes('Built for the Road.')||!state.hero.includes('Specialist automotive, marine, RV & 12V parts.')) throw new Error(`${label} simplified hero missing`);
+            if(!state.heroImage.includes('FTL5607_1.jpg')) throw new Error(`${label} Fabtech hero image missing: ${state.heroImage}`);
+            if(state.featuredCount!==4) throw new Error(`${label} expected 4 featured cards, got ${state.featuredCount}`);
+            if(state.growthBanner) throw new Error(`${label} duplicate growth banner visible`);
+            await page.screenshot({path:`homepage-${label}.png`,fullPage:true});
+            await context.close();
+          }
+          await browser.close();
+          EOF
+          node homepage-fast.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: homepage-fast-visual
+          path: homepage-*.png
+          retention-days: 1
