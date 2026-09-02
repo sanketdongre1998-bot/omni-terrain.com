@@ -42,15 +42,20 @@ jobs:
         run: |
           set -euo pipefail
           DEPLOY_DIR="$RUNNER_TEMP/omni-terrain-checkout"
-          mkdir -p "$DEPLOY_DIR/assets" "$DEPLOY_DIR/.vercel"
+          rm -rf "$DEPLOY_DIR"
+          mkdir -p "$DEPLOY_DIR/assets"
           cp -R api lib "$DEPLOY_DIR/"
           cp assets/shield-products.js "$DEPLOY_DIR/assets/shield-products.js"
-          printf '%s\n' '{"orgId":"team_euKBOwWNtTMSKSLBKlphq06m","projectId":"prj_fk54pELaM6UYaQVHmClxZHmG91Ps"}' > "$DEPLOY_DIR/.vercel/project.json"
           echo "DEPLOY_DIR=$DEPLOY_DIR" >> "$GITHUB_ENV"
 
       - name: Deploy production backend
         shell: bash
-        run: npx --yes vercel@latest deploy "$DEPLOY_DIR" --prod --yes --token "$VERCEL_TOKEN"
+        run: >
+          npx --yes vercel@latest deploy "$DEPLOY_DIR"
+          --prod --yes
+          --project "$VERCEL_PROJECT_ID"
+          -T "$VERCEL_ORG_ID"
+          --token "$VERCEL_TOKEN"
 
       - name: Verify production US checkout health
         shell: bash
