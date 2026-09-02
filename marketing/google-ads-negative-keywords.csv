@@ -1,0 +1,23 @@
+Campaign,Negative keyword,Match type,Reason
+US | Search | Featured Auto | MPN Intent,used,Phrase,Used-item intent
+US | Search | Featured Auto | MPN Intent,second hand,Phrase,Used-item intent
+US | Search | Featured Auto | MPN Intent,salvage,Phrase,Salvage intent
+US | Search | Featured Auto | MPN Intent,junkyard,Phrase,Salvage intent
+US | Search | Featured Auto | MPN Intent,wrecking yard,Phrase,Salvage intent
+US | Search | Featured Auto | MPN Intent,craigslist,Phrase,Marketplace used-item intent
+US | Search | Featured Auto | MPN Intent,facebook marketplace,Phrase,Marketplace used-item intent
+US | Search | Featured Auto | MPN Intent,manual pdf,Phrase,Information-only intent
+US | Search | Featured Auto | MPN Intent,service manual,Phrase,Information-only intent
+US | Search | Featured Auto | MPN Intent,repair manual,Phrase,Information-only intent
+US | Search | Featured Auto | MPN Intent,wiring diagram,Phrase,Information-only intent
+US | Search | Featured Auto | MPN Intent,schematic,Phrase,Information-only intent
+US | Search | Featured Auto | MPN Intent,recall,Phrase,Support/recall intent
+US | Search | Featured Auto | MPN Intent,warranty claim,Phrase,Existing-customer support intent
+US | Search | Featured Auto | MPN Intent,jobs,Phrase,Employment intent
+US | Search | Featured Auto | MPN Intent,careers,Phrase,Employment intent
+US | Search | Featured Auto | MPN Intent,employment,Phrase,Employment intent
+US | Search | Featured Auto | MPN Intent,salary,Phrase,Employment intent
+US | Search | Featured Auto | MPN Intent,rental,Phrase,Rental intent
+US | Search | Featured Auto | MPN Intent,rent,Phrase,Rental intent
+US | Search | Featured Auto | MPN Intent,wholesale,Phrase,Not launch retail intent
+US | Search | Featured Auto | MPN Intent,bulk,Phrase,Not launch retail intent
