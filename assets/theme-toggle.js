@@ -5,13 +5,29 @@
   window.__OMNI_THEME_TOGGLE__ = true;
 
   const STORAGE_KEY = "omniTerrainTheme";
+  const LEGACY_STORAGE_KEY = "omni-theme";
   const DARK = "dark";
   const LIGHT = "light";
+
+  const syncStoredTheme = (theme) => {
+    try {
+      localStorage.setItem(STORAGE_KEY, theme);
+      localStorage.setItem(LEGACY_STORAGE_KEY, theme);
+    } catch (_) {}
+  };
 
   const readTheme = () => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved === DARK || saved === LIGHT) return saved;
+      if (saved === DARK || saved === LIGHT) {
+        localStorage.setItem(LEGACY_STORAGE_KEY, saved);
+        return saved;
+      }
+      const legacy = localStorage.getItem(LEGACY_STORAGE_KEY);
+      if (legacy === DARK || legacy === LIGHT) {
+        localStorage.setItem(STORAGE_KEY, legacy);
+        return legacy;
+      }
     } catch (_) {}
     return LIGHT;
   };
@@ -22,9 +38,7 @@
     document.documentElement.style.colorScheme = next;
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.setAttribute("content", next === DARK ? "#07111d" : "#071a30");
-    if (persist) {
-      try { localStorage.setItem(STORAGE_KEY, next); } catch (_) {}
-    }
+    if (persist) syncStoredTheme(next);
     document.querySelectorAll("[data-ot-theme-toggle]").forEach((button) => {
       const dark = next === DARK;
       button.setAttribute("aria-pressed", String(dark));
@@ -89,17 +103,34 @@
       html[data-ot-theme="dark"] .commerce-shell,
       html[data-ot-theme="dark"] main{color:var(--ot-dark-text)}
 
+      html[data-ot-theme="dark"] .home-hero,
+      html[data-ot-theme="dark"] .home-section,
+      html[data-ot-theme="dark"] .home-section.white,
+      html[data-ot-theme="dark"] .support-band,
+      html[data-ot-theme="dark"] .brand-strip{
+        background:var(--ot-dark-bg)!important;
+      }
+
+      html[data-ot-theme="dark"] header,
       html[data-ot-theme="dark"] .header,
       html[data-ot-theme="dark"] #header,
       html[data-ot-theme="dark"] .market-strip,
-      html[data-ot-theme="dark"] .home-section.white,
       html[data-ot-theme="dark"] .section.white,
       html[data-ot-theme="dark"] .mobile-nav,
       html[data-ot-theme="dark"] .mobile-store-bar{
-        background:rgba(7,17,29,.96)!important;border-color:var(--ot-dark-line)!important;color:var(--ot-dark-text)!important
+        background:rgba(7,17,29,.97)!important;border-color:var(--ot-dark-line)!important;color:var(--ot-dark-text)!important
       }
+      html[data-ot-theme="dark"] header.scrolled,
       html[data-ot-theme="dark"] .header.scrolled,
       html[data-ot-theme="dark"] #header.scrolled{box-shadow:0 12px 34px rgba(0,0,0,.28)!important}
+
+      html[data-ot-theme="dark"] .header-contact,
+      html[data-ot-theme="dark"] .cart-link,
+      html[data-ot-theme="dark"] .menu-btn,
+      html[data-ot-theme="dark"] .ot-auth-trigger.is-authenticated{
+        background:var(--ot-dark-surface)!important;border-color:var(--ot-dark-line)!important;color:var(--ot-dark-text)!important
+      }
+      html[data-ot-theme="dark"] .cart-count{background:var(--ot-dark-gold)!important;color:#07111d!important}
 
       html[data-ot-theme="dark"] .card,
       html[data-ot-theme="dark"] .category-card,
@@ -122,6 +153,11 @@
       html[data-ot-theme="dark"] .ot-live-buybox{
         background:var(--ot-dark-surface)!important;border-color:var(--ot-dark-line)!important;color:var(--ot-dark-text)!important;box-shadow:0 14px 34px rgba(0,0,0,.18)!important
       }
+
+      html[data-ot-theme="dark"] .hero-showcase-info{background:rgba(12,27,42,.94)!important}
+      html[data-ot-theme="dark"] .live-body{background:var(--ot-dark-surface)!important}
+      html[data-ot-theme="dark"] .live-brand,
+      html[data-ot-theme="dark"] .section-head .eyebrow{color:var(--ot-dark-gold)!important}
 
       html[data-ot-theme="dark"] .media,
       html[data-ot-theme="dark"] .live-media,
@@ -190,14 +226,17 @@
       html[data-ot-theme="dark"] .mini-note{
         background:#1b2630!important;border-color:#604f2b!important;color:#e4d8be!important
       }
+      html[data-ot-theme="dark"] .launch-strip .container{color:#e4d8be!important}
+      html[data-ot-theme="dark"] .launch-strip a{background:var(--ot-dark-gold)!important;color:#07111d!important}
       html[data-ot-theme="dark"] .status{background:#1b2a38!important;color:#bfd0dc!important}
       html[data-ot-theme="dark"] .status.buy,
       html[data-ot-theme="dark"] .ot-live-stock{background:#123628!important;color:#9ee0bc!important}
 
       html[data-ot-theme="dark"] .button.outline,
+      html[data-ot-theme="dark"] .button.light,
       html[data-ot-theme="dark"] .ot-live-button.secondary,
       html[data-ot-theme="dark"] .ot-display-action{
-        background:transparent!important;color:var(--ot-dark-text)!important;border-color:#607589!important
+        background:var(--ot-dark-surface-2)!important;color:var(--ot-dark-text)!important;border-color:#607589!important
       }
       html[data-ot-theme="dark"] .button.dark,
       html[data-ot-theme="dark"] .button.primary,
@@ -212,6 +251,7 @@
 
       @media(max-width:760px){
         .ot-theme-toggle{right:12px;bottom:78px;height:38px;padding-right:8px}
+        body:has(.home-hero) .ot-theme-toggle{bottom:12px}
         .ot-theme-toggle-label{display:none}
       }
       @media(prefers-reduced-motion:reduce){
@@ -242,7 +282,9 @@
     setTheme(document.documentElement.dataset.otTheme || readTheme(), false);
   };
 
-  setTheme(readTheme(), false);
+  const initialTheme = readTheme();
+  setTheme(initialTheme, false);
+  syncStoredTheme(initialTheme);
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount, { once: true });
   else mount();
 })();
