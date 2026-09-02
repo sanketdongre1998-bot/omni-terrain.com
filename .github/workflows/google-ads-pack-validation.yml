@@ -5,6 +5,7 @@ on:
     paths:
       - 'marketing/**'
       - 'scripts/validate-google-ads-pack.py'
+      - '.github/workflows/google-ads-pack-validation.yml'
       - 'assets/us-live-products.json'
       - 'assets/us-stock-status.json'
       - 'us-husky-towing-81147.html'
