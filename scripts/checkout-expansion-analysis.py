@@ -40,11 +40,8 @@ def load_catalogue_products() -> list[dict]:
     if start < 0:
         raise SystemExit("ERROR: OMNI_US_PRODUCTS marker not found")
     start += len(marker)
-    end = text.find(";", start)
-    if end < 0:
-        raise SystemExit("ERROR: OMNI_US_PRODUCTS terminator not found")
     try:
-        rows = json.loads(text[start:end])
+        rows, _ = json.JSONDecoder().raw_decode(text[start:])
     except json.JSONDecodeError as exc:
         raise SystemExit(f"ERROR: unable to parse us-products.js: {exc}")
     if not isinstance(rows, list):
