@@ -29,7 +29,7 @@
   }
 
   /* Exact approved transparent horizontal lockup. */
-  const LOCKED_LOGO_SRC="/assets/omni-terrain-logo-transparent.webp?v=4";
+  const LOCKED_LOGO_SRC="/assets/omni-terrain-premium-logo.png?v=1";
   const mountLockedLogo=(brand)=>{
     if(!brand) return;
     brand.querySelectorAll(".ot-brand-crest,.brand-badge,.brand-mark,.logo-badge,.logo-mark").forEach(node=>node.remove());

@@ -32,7 +32,7 @@
   }
 
   function brand() {
-    return `<img class="ot-brand-logo-image" src="/assets/omni-terrain-logo-transparent.webp?v=4" alt="Omni Terrain — Road, Water, Power" width="300" height="80" decoding="async" loading="eager" fetchpriority="high">`;
+    return `<img class="ot-brand-logo-image" src="/assets/omni-terrain-premium-logo.png?v=1" alt="Omni Terrain — Road, Water, Power" width="300" height="80" decoding="async" loading="eager" fetchpriority="high">`;
   }
 
   function injectFonts() {
