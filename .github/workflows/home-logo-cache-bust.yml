@@ -1,4 +1,4 @@
-name: Render exact Omni Terrain logo directly
+name: Deploy approved transparent Omni Terrain logo
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 jobs:
-  direct-logo-sitewide:
+  transparent-logo-sitewide:
     runs-on: ubuntu-latest
     steps:
       - name: Check out main
@@ -20,85 +20,79 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Replace hidden and generated branding with direct image
+      - name: Wire approved transparent logo and fresh assets
         shell: bash
         run: |
           set -euo pipefail
-          test -s assets/omni-terrain-logo-header.webp
+          test -s assets/omni-terrain-logo-transparent.webp
           python3 - <<'PY'
           from pathlib import Path
           import re
 
-          logo = '/assets/omni-terrain-logo-header.webp?v=2'
-          css_version = '/assets/brand-speed.css?v=12'
+          logo = '/assets/omni-terrain-logo-transparent.webp?v=1'
+          css_version = '/assets/brand-speed.css?v=13'
 
-          # Homepage: put the approved artwork directly in the HTML. No CSS pseudo logo.
+          # Homepage: exact approved transparent artwork directly in HTML.
           p = Path('index.html')
           text = p.read_text(encoding='utf-8')
-          direct = '<a class="brand ot-logo-direct" href="index.html" aria-label="Omni Terrain home"><img class="ot-brand-logo-image" src="/assets/omni-terrain-logo-header.webp?v=2" alt="Omni Terrain" width="300" height="80" decoding="async" loading="eager" fetchpriority="high"></a>'
+          direct = '<a class="brand ot-logo-direct" href="index.html" aria-label="Omni Terrain home"><img class="ot-brand-logo-image" src="/assets/omni-terrain-logo-transparent.webp?v=1" alt="Omni Terrain" width="300" height="80" decoding="async" loading="eager" fetchpriority="high"></a>'
           pattern = re.compile(r'<a class="brand(?: ot-logo-direct)?" href="index\.html" aria-label="Omni Terrain home">.*?</a>', re.S)
           text, n = pattern.subn(direct, text, count=1)
           if n != 1:
               raise SystemExit(f'homepage brand replacement failed: matches={n}')
           p.write_text(text, encoding='utf-8')
 
-          # Homepage runtime: keep only a direct IMG fallback and request fresh CSS.
+          # Homepage runtime: same exact transparent asset + fresh CSS.
           p = Path('assets/storefront-performance.js')
           text = p.read_text(encoding='utf-8')
           text = re.sub(r'const LOCKED_LOGO_SRC="[^"]+";', f'const LOCKED_LOGO_SRC="{logo}";', text)
-          text = text.replace('img.width=240;', 'img.width=300;').replace('img.height=68;', 'img.height=80;')
           text = re.sub(r'/assets/brand-speed\.css\?v=\d+', css_version, text)
           p.write_text(text, encoding='utf-8')
 
-          # Shared US shell: header and footer both use the exact same direct image.
+          # Shared US shell: header + footer use the same exact transparent asset.
           p = Path('assets/us-shell.js')
           text = p.read_text(encoding='utf-8')
-          text = re.sub(
-              r'return `<img class="ot-brand-logo-image" src="[^"]+" alt="Omni Terrain" width="\d+" height="\d+" decoding="async" loading="eager">`;',
-              'return `<img class="ot-brand-logo-image" src="/assets/omni-terrain-logo-header.webp?v=2" alt="Omni Terrain" width="300" height="80" decoding="async" loading="eager" fetchpriority="high">`;',
-              text,
-              count=1,
-          )
+          text = re.sub(r'src="/assets/omni-terrain-logo-[^"]+"', 'src="/assets/omni-terrain-logo-transparent.webp?v=1"', text)
           text = re.sub(r'/assets/brand-speed\.css\?v=\d+', css_version, text)
           p.write_text(text, encoding='utf-8')
 
-          # Every HTML page gets fresh runtime/CSS URLs to defeat browser and CDN caches.
+          # Force all pages to request the new CSS/runtime versions.
           for p in Path('.').glob('*.html'):
               text = p.read_text(encoding='utf-8')
-              text = re.sub(r'(?<!/)assets/brand-speed\.css\?v=\d+', 'assets/brand-speed.css?v=12', text)
-              text = re.sub(r'/assets/brand-speed\.css\?v=\d+', '/assets/brand-speed.css?v=12', text)
-              text = re.sub(r'(?<!/)assets/storefront-performance\.js\?v=\d+', 'assets/storefront-performance.js?v=12', text)
-              text = re.sub(r'/assets/storefront-performance\.js\?v=\d+', '/assets/storefront-performance.js?v=12', text)
-              text = re.sub(r'(?<!/)assets/us-shell\.js\?v=\d+', 'assets/us-shell.js?v=12', text)
-              text = re.sub(r'/assets/us-shell\.js\?v=\d+', '/assets/us-shell.js?v=12', text)
+              text = re.sub(r'(?<!/)assets/brand-speed\.css\?v=\d+', 'assets/brand-speed.css?v=13', text)
+              text = re.sub(r'/assets/brand-speed\.css\?v=\d+', '/assets/brand-speed.css?v=13', text)
+              text = re.sub(r'(?<!/)assets/storefront-performance\.js\?v=\d+', 'assets/storefront-performance.js?v=13', text)
+              text = re.sub(r'/assets/storefront-performance\.js\?v=\d+', '/assets/storefront-performance.js?v=13', text)
+              text = re.sub(r'(?<!/)assets/us-shell\.js\?v=\d+', 'assets/us-shell.js?v=13', text)
+              text = re.sub(r'/assets/us-shell\.js\?v=\d+', '/assets/us-shell.js?v=13', text)
               p.write_text(text, encoding='utf-8')
 
-          # Guardrails against the exact bug that kept the logo invisible.
           sf = Path('assets/storefront-performance.js').read_text(encoding='utf-8')
           us = Path('assets/us-shell.js').read_text(encoding='utf-8')
           css = Path('assets/brand-speed.css').read_text(encoding='utf-8')
           home = Path('index.html').read_text(encoding='utf-8')
-          assert 'omni-terrain-logo-header.webp?v=2' in sf
-          assert 'omni-terrain-logo-header.webp?v=2' in us
-          assert 'omni-terrain-logo-header.webp?v=2' in home
-          assert 'brand-speed.css?v=12' in sf
-          assert 'brand-speed.css?v=12' in us
-          assert '.ot-brand-logo-image{' in css
-          assert 'display:block!important' in css
+          assert 'omni-terrain-logo-transparent.webp?v=1' in sf
+          assert 'omni-terrain-logo-transparent.webp?v=1' in us
+          assert 'omni-terrain-logo-transparent.webp?v=1' in home
+          assert 'brand-speed.css?v=13' in sf
+          assert 'brand-speed.css?v=13' in us
+          assert 'brand-speed.css?v=13' in home
+          assert 'storefront-performance.js?v=13' in home
+          assert '#header,.ot-site-header' in css
+          assert 'background:#071a30!important' in css
           assert '.ot-brand-logo-image{display:none!important}' not in css
-          assert 'background:url(' not in css
           PY
 
-      - name: Commit direct logo render
+      - name: Commit transparent logo render
         shell: bash
         run: |
           set -euo pipefail
           if git diff --quiet; then
-            echo "Direct logo render already applied."
+            echo "Transparent logo render already applied."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add assets/storefront-performance.js assets/us-shell.js '*.html'
-          git commit -m "Render exact Omni Terrain logo as direct image"
+          git commit -m "Render approved transparent Omni Terrain logo sitewide"
           git push origin HEAD:main
