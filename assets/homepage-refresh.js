@@ -11,7 +11,16 @@
     if(!document.getElementById('ot-home-glitch-fixes')){
       const style=document.createElement('style');
       style.id='ot-home-glitch-fixes';
-      style.textContent='.live-media img{position:relative;z-index:1}.live-badge{z-index:4!important;pointer-events:none}';
+      style.textContent=`
+        .live-media img{position:relative;z-index:1}
+        .live-badge{z-index:4!important;pointer-events:none}
+        /* Preserve department photography when the runtime dark-theme surface rule
+           uses the background shorthand. Light mode remains untouched. */
+        html[data-ot-theme="dark"] .category-home:nth-child(1){background-image:url('https://vehiclepartimages.com/ImageServerAPI?File=FAB/Images/FTL5607_1.jpg&maxheight=500&maxwidth=700')!important}
+        html[data-ot-theme="dark"] .category-home:nth-child(2){background-image:url('https://vehiclepartimages.com/ImageServerAPI?File=HUM/Images/410190-1_1.jpg&maxheight=500&maxwidth=700')!important}
+        html[data-ot-theme="dark"] .category-home:nth-child(3){background-image:url('https://vehiclepartimages.com/ImageServerAPI?File=VLT/Images/K88205_1.jpg&maxheight=500&maxwidth=700')!important}
+        html[data-ot-theme="dark"] .category-home:nth-child(4){background-image:url('https://vehiclepartimages.com/ImageServerAPI?File=BLU/Images/5026-BSS_1.jpg&maxheight=500&maxwidth=700')!important}
+      `;
       document.head.appendChild(style);
     }
 
