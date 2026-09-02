@@ -72,10 +72,11 @@ def main() -> int:
 
     # Final responsive/dark/approved-brand UI layer.
     need("assets/storefront-performance.js", "responsive-hardening.css?v=4", "cache-busted responsive layer")
-    need("assets/storefront-performance.js", "brand-speed.css?v=15", "locked brand-speed layer")
+    need("assets/storefront-performance.js", "brand-speed.css?v=16", "locked brand-speed layer")
+    need("assets/storefront-performance.js", "omni-terrain-approved-gt.webp?v=1", "approved locked GT logo asset")
     need("assets/responsive-hardening.css", "dark-theme-polish.css?v=1", "dark theme import")
-    need("assets/brand-speed.css", "Locked brand direction", "approved wordmark styling")
-    need("assets/brand-speed.css", "omni-terrain-logo-crisp.svg?v=2", "crisp vector wordmark asset")
+    need("assets/brand-speed.css", "Exact approved GT-shield Omni Terrain logo", "approved GT wordmark styling")
+    need("assets/brand-speed.css", ".ot-brand-logo-image", "locked logo image styling")
     need("assets/brand-speed.css", "content-visibility:auto", "below-fold render skipping")
     need("assets/dark-theme-polish.css", "--ot-night-text:#f3f6fa", "dark primary contrast")
     for token, label in [(".ot-promo-box","dark promo"),(".ot-search-input","dark filters"),(".ot-primary-btn","dark CTA")]: need("assets/dark-theme-polish.css", token, label)
