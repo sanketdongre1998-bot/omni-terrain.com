@@ -32,6 +32,11 @@
   function money(cents) {
     return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2 }).format(Number(cents || 0) / 100);
   }
+  function offerMath(product) {
+    const priceCents = Math.max(0, Math.round(Number(product?.priceCents) || 0));
+    const shippingCents = product?.shippingIncluded === true ? Math.max(0, Math.round((Number(product?.shippingQuoteUSD) || 0) * 100)) : 0;
+    return { priceCents, shippingCents, deliveredValueCents: priceCents + shippingCents };
+  }
 
   let config = { products: {} };
   try {
@@ -76,13 +81,18 @@
     style.id = "otLiveCommerceStyles";
     style.textContent = `
       .ot-live-buybox{margin:24px 0;padding:22px;border:1px solid #d9c28f;border-radius:16px;background:linear-gradient(135deg,#fffdf8,#f8f1e3);box-shadow:0 12px 30px rgba(7,26,48,.07)}
-      .ot-live-label{font-size:11px;font-weight:850;text-transform:uppercase;letter-spacing:.09em;color:#8b6a31}.ot-live-price{margin:7px 0 2px;font-size:36px;line-height:1;font-weight:900;color:#071a30;letter-spacing:-.035em}.ot-live-shipping{margin:8px 0 18px;color:#52606d;font-size:13px}.ot-live-actions{display:flex;flex-wrap:wrap;gap:10px}.ot-live-button{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 18px;border:0;border-radius:10px;background:#071a30;color:#fff!important;text-decoration:none;font-weight:850;cursor:pointer}.ot-live-button.secondary{background:#fff;color:#071a30!important;border:1px solid #071a30}.ot-live-trust{margin-top:14px;padding-top:12px;border-top:1px solid rgba(7,26,48,.08);color:#65717d;font-size:12px;line-height:1.55}.ot-live-inline-price{margin-top:4px;color:#071a30;font-size:20px;font-weight:900}.ot-live-stock{display:inline-flex;width:max-content;padding:6px 9px;border-radius:999px;background:#e5f5ec;color:#167047;font-size:11px;font-weight:850}
+      .ot-live-label{font-size:11px;font-weight:850;text-transform:uppercase;letter-spacing:.09em;color:#8b6a31}.ot-live-price{margin:7px 0 12px;font-size:36px;line-height:1;font-weight:900;color:#071a30;letter-spacing:-.035em}.ot-live-breakdown{display:grid;gap:8px;margin:0 0 18px;padding:13px 14px;border:1px solid rgba(7,26,48,.1);border-radius:11px;background:rgba(255,255,255,.72)}.ot-live-breakdown-row{display:flex;align-items:center;justify-content:space-between;gap:12px;color:#52606d;font-size:12px}.ot-live-breakdown-row strong{color:#071a30}.ot-live-breakdown-row s{margin-right:7px;color:#78838d}.ot-live-breakdown-row.saving,.ot-live-breakdown-row.saving strong{color:#167047}.ot-live-breakdown-row.total{margin-top:2px;padding-top:9px;border-top:1px solid rgba(7,26,48,.1);color:#071a30;font-weight:900}.ot-live-breakdown-row.total strong{font-size:20px}.ot-live-shipping{margin:8px 0 18px;color:#52606d;font-size:13px}.ot-live-actions{display:flex;flex-wrap:wrap;gap:10px}.ot-live-button{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 18px;border:0;border-radius:10px;background:#071a30;color:#fff!important;text-decoration:none;font-weight:850;cursor:pointer}.ot-live-button.secondary{background:#fff;color:#071a30!important;border:1px solid #071a30}.ot-live-trust{margin-top:14px;padding-top:12px;border-top:1px solid rgba(7,26,48,.08);color:#65717d;font-size:12px;line-height:1.55}.ot-live-inline-price{margin-top:4px;color:#071a30;font-size:20px;font-weight:900}.ot-live-stock{display:inline-flex;width:max-content;padding:6px 9px;border-radius:999px;background:#e5f5ec;color:#167047;font-size:11px;font-weight:850}
       html[data-ot-theme="dark"] .ot-live-buybox .ot-live-price,
       html[data-ot-theme="dark"] .ot-live-inline-price{
         color:#fff!important;
         -webkit-text-fill-color:#fff!important;
         opacity:1!important;
       }
+      html[data-ot-theme="dark"] .ot-live-breakdown{background:#0b1927;border-color:#2a4053}
+      html[data-ot-theme="dark"] .ot-live-breakdown-row{color:#aab8c5}
+      html[data-ot-theme="dark"] .ot-live-breakdown-row strong{color:#f3f6fa}
+      html[data-ot-theme="dark"] .ot-live-breakdown-row.saving,html[data-ot-theme="dark"] .ot-live-breakdown-row.saving strong{color:#9fe0bc}
+      html[data-ot-theme="dark"] .ot-live-breakdown-row.total{border-color:#2a4053;color:#f3f6fa}
       @media(max-width:760px){.ot-live-actions{display:grid;grid-template-columns:1fr}.ot-live-button{width:100%;min-height:50px}}
     `;
     document.head.appendChild(style);
@@ -113,7 +123,11 @@
       const facts = copy.querySelector(".facts");
       if (facts) copy.insertBefore(box, facts); else copy.appendChild(box);
     }
-    box.innerHTML = `<div class="ot-live-label">Online price</div><div class="ot-live-price">${money(product.priceCents)}</div><div class="ot-live-shipping">${product.shippingIncluded ? "Free standard shipping in the contiguous U.S." : "Shipping confirmed before payment"}</div><div class="ot-live-actions"><button type="button" class="ot-live-button" data-ot-add>Add to Cart</button><button type="button" class="ot-live-button secondary" data-ot-buy>Buy Now</button></div><div class="ot-live-trust">Secure payment powered by Stripe · Price and authorization are re-validated before payment opens.</div>`;
+    const pricing = offerMath(product);
+    const breakdown = pricing.shippingCents
+      ? `<div class="ot-live-breakdown"><div class="ot-live-breakdown-row"><span>Product price</span><strong>${money(pricing.priceCents)}</strong></div><div class="ot-live-breakdown-row"><span>Standard delivery value</span><strong>${money(pricing.shippingCents)}</strong></div><div class="ot-live-breakdown-row saving"><span>Your delivery discount</span><strong>−${money(pricing.shippingCents)}</strong></div><div class="ot-live-breakdown-row total"><span>Total today</span><strong>${money(pricing.priceCents)}</strong></div></div>`
+      : `<div class="ot-live-shipping">Shipping is confirmed before payment.</div>`;
+    box.innerHTML = `<div class="ot-live-label">Today's online price</div><div class="ot-live-price">${money(pricing.priceCents)}</div>${breakdown}<div class="ot-live-actions"><button type="button" class="ot-live-button" data-ot-add>Add to Cart</button><button type="button" class="ot-live-button secondary" data-ot-buy>Buy Now</button></div><div class="ot-live-trust">Secure payment powered by Stripe · Your price and product availability are confirmed again before payment.</div>`;
     box.querySelector("[data-ot-add]")?.addEventListener("click", event => {
       const quantity = addToCart(product.id, false);
       const button = event.currentTarget;

@@ -34,8 +34,6 @@
       style.textContent = `
         .ot-launch-ribbon{display:inline-flex;align-items:center;min-height:34px;padding:8px 13px;margin-bottom:11px;border-radius:999px;background:linear-gradient(135deg,#ffd944,#f2b918);color:#071a30;box-shadow:0 8px 22px rgba(185,128,0,.24);font-size:10px;font-weight:950;letter-spacing:.08em;text-transform:uppercase}
         .ot-launch-ribbon:before{content:"★";margin-right:7px;font-size:12px}
-        .ot-launch-shipping{margin:9px 0 5px;padding:10px 12px;border-radius:10px;background:#e9f7ef;color:#12613f;font-size:11px;font-weight:900}
-        .ot-launch-shipping:before{content:"YOU SAVE ON SHIPPING · ";font-size:9px;letter-spacing:.05em}
         .ot-live-buybox[data-ot-launch-deal="1"]{border:2px solid #e0b229;box-shadow:0 18px 42px rgba(7,26,48,.13)}
       `;
       document.head.appendChild(style);
@@ -50,15 +48,8 @@
       ribbon.textContent = offer.label;
       box.insertBefore(ribbon, label || box.firstChild);
     }
-    if (!box.querySelector(".ot-launch-shipping")) {
-      const price = box.querySelector(".ot-live-price");
-      const note = document.createElement("div");
-      note.className = "ot-launch-shipping";
-      note.textContent = "Free standard shipping in the contiguous U.S.";
-      price?.insertAdjacentElement("afterend", note);
-    }
-    const shipping = box.querySelector(".ot-live-shipping");
-    if (shipping) shipping.textContent = "Deal applied: free standard shipping in the contiguous U.S.";
+    const saving = box.querySelector(".ot-live-breakdown-row.saving span");
+    if (saving) saving.textContent = "Featured shipping savings";
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", decorateOfferPage, { once: true });

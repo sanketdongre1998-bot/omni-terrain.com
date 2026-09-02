@@ -74,9 +74,9 @@
   idle(()=>{
     const existingGrowth=document.querySelector('script[data-ot-growth-marketing],script[src*="growth-marketing.js"]');
     if(!existingGrowth){
-      const growth=document.createElement("script");growth.src="/assets/growth-marketing.js?v=3";growth.defer=true;growth.dataset.otGrowthMarketing="true";document.head.appendChild(growth);
-    } else if(existingGrowth.src && !existingGrowth.src.includes("growth-marketing.js?v=3")) {
-      existingGrowth.src="/assets/growth-marketing.js?v=3";
+      const growth=document.createElement("script");growth.src="/assets/growth-marketing.js?v=4";growth.defer=true;growth.dataset.otGrowthMarketing="true";document.head.appendChild(growth);
+    } else if(existingGrowth.src && !existingGrowth.src.includes("growth-marketing.js?v=4")) {
+      existingGrowth.src="/assets/growth-marketing.js?v=4";
     }
     if(!document.querySelector('script[data-ot-analytics-events]')){
       const analytics=document.createElement("script");analytics.src="/assets/analytics-events.js?v=2";analytics.defer=true;analytics.dataset.otAnalyticsEvents="true";document.head.appendChild(analytics);
@@ -94,7 +94,7 @@
     };
     if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",softenHomeCounts,{once:true}); else softenHomeCounts();
     if(!document.querySelector('script[data-ot-live-priority]')){
-      const priority=document.createElement("script");priority.src="/assets/live-storefront-priority.js?v=7";priority.defer=true;priority.dataset.otLivePriority="true";document.head.appendChild(priority);
+      const priority=document.createElement("script");priority.src="/assets/live-storefront-priority.js?v=8";priority.defer=true;priority.dataset.otLivePriority="true";document.head.appendChild(priority);
     }
   }
 

@@ -167,7 +167,7 @@
     const load = () => {
       if (document.querySelector('script[data-ot-growth-marketing],script[src*="growth-marketing.js"]')) return;
       const script = document.createElement("script");
-      script.src = "/assets/growth-marketing.js?v=3";
+      script.src = "/assets/growth-marketing.js?v=4";
       script.dataset.otGrowthMarketing = "true";
       script.defer = true;
       document.body.appendChild(script);
