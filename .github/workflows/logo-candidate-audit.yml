@@ -1,41 +1,41 @@
-name: Logo candidate audit
+name: Apply approved logo only
 on:
   push:
     branches: [main]
 permissions:
-  contents: read
+  contents: write
 jobs:
-  audit:
+  apply-logo:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
-    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
         with:
-          node-version: 22
-      - run: |
-          npm install --no-save --no-package-lock playwright@1.55.0
-          npx playwright install chromium
-      - name: Render candidates
+          fetch-depth: 0
+      - name: Swap only the Omni Terrain logo asset
         run: |
-          python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/http.log 2>&1 &
-          sleep 1
-          cat > logo-audit.html <<'EOF'
-          <!doctype html><meta charset="utf-8"><style>
-          body{margin:0;background:#071a30;color:#fff;font:16px Arial;padding:30px}.row{display:grid;grid-template-columns:210px 1fr;align-items:center;min-height:170px;border-bottom:1px solid #345;padding:18px 0}.name{color:#e3b94e;font-weight:700}.box{background:#071a30;border:1px solid #29445d;padding:20px;overflow:visible}.single{display:block;width:420px;max-width:100%;height:120px;object-fit:contain;object-position:left center;background:transparent}.composed{display:flex;align-items:center;gap:10px;height:130px}.composed .crest{width:105px;height:125px;object-fit:contain}.composed .word{width:420px;height:120px;object-fit:contain;object-position:left center}
-          </style>
-          <div class=row><div class=name>emblem.webp</div><div class=box><img class=single src="/assets/omni-terrain-emblem.webp?v=b"></div></div>
-          <div class=row><div class=name>logo.webp</div><div class=box><img class=single src="/assets/omni-terrain-logo.webp?v=b"></div></div>
-          <div class=row><div class=name>COMPOSED</div><div class=box><div class=composed><img class=crest src="/assets/omni-terrain-emblem.webp?v=b"><img class=word src="/assets/omni-terrain-logo.webp?v=b"></div></div></div>
-          <div class=row><div class=name>crisp.svg</div><div class=box><img class=single src="/assets/omni-terrain-logo-crisp.svg?v=b"></div></div>
-          EOF
-          cat > audit.mjs <<'EOF'
-          import { chromium } from 'playwright';
-          const b=await chromium.launch({headless:true}); const p=await b.newPage({viewport:{width:1100,height:850}}); await p.goto('http://127.0.0.1:4173/logo-audit.html',{waitUntil:'networkidle'}); console.log(await p.locator('img').evaluateAll(xs=>xs.map(x=>({src:x.getAttribute('src'),nw:x.naturalWidth,nh:x.naturalHeight})))); await p.screenshot({path:'logo-candidates.png',fullPage:true}); await b.close();
-          EOF
-          node audit.mjs
-      - uses: actions/upload-artifact@v4
-        with:
-          name: logo-candidates
-          path: logo-candidates.png
-          retention-days: 1
+          python3 - <<'PY'
+          from pathlib import Path
+          replacements = {
+            '/assets/omni-terrain-logo-transparent.webp?v=4':'/assets/omni-terrain-premium-logo.png?v=1',
+            'assets/omni-terrain-logo-transparent.webp?v=4':'assets/omni-terrain-premium-logo.png?v=1',
+            '/assets/omni-terrain-logo-crisp.svg?v=2':'/assets/omni-terrain-premium-logo.png?v=1',
+            'assets/omni-terrain-logo-crisp.svg?v=2':'assets/omni-terrain-premium-logo.png?v=1',
+          }
+          changed=[]
+          for p in list(Path('.').glob('*.html')) + list(Path('assets').glob('*.js')):
+            try: s=p.read_text(encoding='utf-8')
+            except Exception: continue
+            old=s
+            for a,b in replacements.items(): s=s.replace(a,b)
+            if s!=old:
+              p.write_text(s,encoding='utf-8')
+              changed.append(str(p))
+          print('logo-only changed:', changed)
+          PY
+          rm -f .github/workflows/logo-candidate-audit.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Use approved Omni Terrain premium logo' || exit 0
+          git push
