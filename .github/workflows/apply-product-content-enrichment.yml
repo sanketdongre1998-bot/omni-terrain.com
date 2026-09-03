@@ -41,8 +41,8 @@ jobs:
           fi
           count=$(git diff --name-only -- 'us-*.html' | wc -l | tr -d ' ')
           echo "Product HTML files changed: $count"
-          if [ "$count" -lt 900 ]; then
-            echo "Expected a catalogue-wide product update; refusing partial mutation."
+          if [ "$count" -ne 0 ] && [ "$count" -lt 900 ]; then
+            echo "Expected either an idempotent 0-file run or a catalogue-wide product update; refusing partial mutation."
             exit 1
           fi
 
