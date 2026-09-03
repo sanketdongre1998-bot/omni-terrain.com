@@ -119,4 +119,12 @@
     if (factsNode) factsNode.insertAdjacentElement("afterend", support);
     else copy.appendChild(support);
   }
+
+  if (!document.querySelector('script[data-ot-product-content-enrichment]')) {
+    const enrichment = document.createElement("script");
+    enrichment.src = "/assets/product-content-enrichment.js?v=1";
+    enrichment.defer = true;
+    enrichment.dataset.otProductContentEnrichment = "true";
+    document.body.appendChild(enrichment);
+  }
 })();
