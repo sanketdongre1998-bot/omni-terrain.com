@@ -3,8 +3,30 @@
   if (window.__OMNI_AD_READINESS__) return;
   window.__OMNI_AD_READINESS__ = true;
 
+  const GOOGLE_ADS_ID = "AW-18417309188";
   const KEY = "omniTerrainAdAttribution";
   const PARAMS = ["utm_source","utm_medium","utm_campaign","utm_term","utm_content","gclid","gbraid","wbraid","gad_source"];
+
+  function ensureGoogleAdsTag() {
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function(){ window.dataLayer.push(arguments); };
+    if (window.__OMNI_GOOGLE_ADS_CONFIGURED__) return;
+    window.__OMNI_GOOGLE_ADS_CONFIGURED__ = true;
+
+    if (!document.querySelector("script[data-omni-google-ads]")) {
+      const tag = document.createElement("script");
+      tag.async = true;
+      tag.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(GOOGLE_ADS_ID)}`;
+      tag.dataset.omniGoogleAds = "1";
+      document.head.appendChild(tag);
+    }
+
+    window.gtag("js", new Date());
+    window.gtag("config", GOOGLE_ADS_ID);
+  }
+
+  ensureGoogleAdsTag();
+
   const now = Date.now();
   const params = new URLSearchParams(location.search);
   const current = {};
