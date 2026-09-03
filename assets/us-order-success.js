@@ -4,6 +4,8 @@
   const CART_KEY = "omniTerrainUsCart";
   const PURCHASE_KEY = "omniTerrainTrackedPurchases";
   const ATTR_KEY = "omniTerrainAdAttribution";
+  const GOOGLE_ADS_ID = "AW-18417309188";
+  const GOOGLE_ADS_PURCHASE_SEND_TO = "AW-18417309188/wzqWCOGU1-0cElSsh85E";
   const PURCHASE_TTL_MS = 90 * 24 * 60 * 60 * 1000;
   const params = new URLSearchParams(location.search);
   const sessionId = params.get("session_id") || "";
@@ -15,6 +17,24 @@
   const money = cents => new Intl.NumberFormat("en-US", {style:"currency",currency:"USD"}).format((Number(cents)||0)/100);
   const esc = value => String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
   const attribution = () => { try { return JSON.parse(localStorage.getItem(ATTR_KEY) || "{}"); } catch (_) { return {}; } };
+
+  function ensureGoogleAdsTag() {
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function(){ window.dataLayer.push(arguments); };
+    if (window.__OMNI_GOOGLE_ADS_CONFIGURED__) return;
+    window.__OMNI_GOOGLE_ADS_CONFIGURED__ = true;
+
+    if (!document.querySelector("script[data-omni-google-ads]")) {
+      const tag = document.createElement("script");
+      tag.async = true;
+      tag.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(GOOGLE_ADS_ID)}`;
+      tag.dataset.omniGoogleAds = "1";
+      document.head.appendChild(tag);
+    }
+
+    window.gtag("js", new Date());
+    window.gtag("config", GOOGLE_ADS_ID);
+  }
 
   function purchaseLedger() {
     const now = Date.now();
@@ -39,6 +59,9 @@
       return id ? { item_id: id, quantity: Math.max(1, Number(qty) || 1) } : null;
     }).filter(Boolean);
 
+    const orderValue = Number(data.amount_total || 0) / 100;
+    const orderCurrency = String(data.currency || "usd").toUpperCase();
+
     ledger[data.id] = Date.now();
     try { localStorage.setItem(PURCHASE_KEY, JSON.stringify(ledger)); } catch (_) {}
 
@@ -49,13 +72,21 @@
       ecommerce: {
         transaction_id: data.id,
         affiliation: "Omni Terrain US",
-        value: Number(data.amount_total || 0) / 100,
-        currency: String(data.currency || "usd").toUpperCase(),
+        value: orderValue,
+        currency: orderCurrency,
         coupon: data.promotion_code || undefined,
         items,
       },
       promotion_savings: Number(data.promotion_savings_cents || 0) / 100,
       traffic_attribution: attribution().last || {},
+    });
+
+    ensureGoogleAdsTag();
+    window.gtag("event", "conversion", {
+      send_to: GOOGLE_ADS_PURCHASE_SEND_TO,
+      value: orderValue,
+      currency: orderCurrency,
+      transaction_id: data.id,
     });
   }
 
