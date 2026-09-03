@@ -1,0 +1,60 @@
+name: Apply catalogue-wide product content enrichment
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/apply-product-content-enrichment.yml'
+      - 'scripts/enrich-us-product-pages.py'
+      - 'assets/product-content-enrichment.js'
+      - 'assets/product-content-enrichment.css'
+      - 'assets/us-products.js'
+
+permissions:
+  contents: write
+
+jobs:
+  enrich-product-pages:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate enrichment script
+        run: python -m py_compile scripts/enrich-us-product-pages.py
+
+      - name: Enrich all product pages
+        run: python scripts/enrich-us-product-pages.py
+
+      - name: Enforce product-only mutation scope
+        shell: bash
+        run: |
+          bad=$(git diff --name-only | grep -Ev '^us-.*\.html$' || true)
+          if [ -n "$bad" ]; then
+            echo "Unexpected non-product files changed:"
+            echo "$bad"
+            exit 1
+          fi
+          count=$(git diff --name-only -- 'us-*.html' | wc -l | tr -d ' ')
+          echo "Product HTML files changed: $count"
+          if [ "$count" -lt 900 ]; then
+            echo "Expected a catalogue-wide product update; refusing partial mutation."
+            exit 1
+          fi
+
+      - name: Commit enriched product pages
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "Product pages already enriched."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- 'us-*.html'
+          git commit -m "Enrich product titles descriptions and specifications"
+          git push origin HEAD:main
