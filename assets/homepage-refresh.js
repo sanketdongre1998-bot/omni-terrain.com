@@ -62,9 +62,25 @@
     const info=showcase.querySelector('.hero-showcase-info');
     if(!image||!info)return;
     let index=Math.floor(Date.now()/6000)%items.length;
+    let timer=0;
+    let stopped=false;
 
-    const render=item=>{
-      if(!item)return;
+    const preload=src=>new Promise(resolve=>{
+      if(!src){resolve(false);return;}
+      const candidate=new Image();
+      candidate.decoding='async';
+      candidate.onload=async()=>{
+        try{if(candidate.decode)await candidate.decode();}catch(_){}
+        resolve(true);
+      };
+      candidate.onerror=()=>resolve(false);
+      candidate.src=src;
+    });
+
+    const render=async item=>{
+      if(!item||stopped)return;
+      if(item.img&&!await preload(item.img))return;
+      if(stopped)return;
       showcase.href=item.slug;
       showcase.setAttribute('aria-label',`View featured product: ${item.title}`);
       if(item.img){image.src=item.img;image.alt=item.title;}
@@ -73,11 +89,14 @@
       showcase.dataset.otFeaturedId=item.id;
     };
 
-    render(items[index]);
-    if(items.length>1){
-      const timer=setInterval(()=>{index=(index+1)%items.length;render(items[index]);},6000);
-      window.addEventListener('pagehide',()=>clearInterval(timer),{once:true});
-    }
+    const cycle=async()=>{
+      await render(items[index]);
+      if(stopped||items.length<2)return;
+      index=(index+1)%items.length;
+      timer=window.setTimeout(cycle,6000);
+    };
+    timer=window.setTimeout(cycle,6000);
+    window.addEventListener('pagehide',()=>{stopped=true;clearTimeout(timer);},{once:true});
   }
 
   onReady(()=>{

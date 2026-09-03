@@ -48,9 +48,9 @@ def main() -> int:
     # Retail copy / SEO safety.
     need("index.html", "Automotive, marine and RV products", "customer catalogue depth")
     for bad in ["Five products priced to win","operating gates","Clear availability gates","Auto first"]: ban("index.html", bad, bad)
-    need("deals.html", "Featured Auto &amp; Truck Offers", "featured offers title")
-    need("deals.html", "Gear up for", "retail offer headline")
-    need("deals.html", "7 featured offers", "seven featured offers")
+    need("deals.html", "Verified Auto &amp; Truck Offers", "verified offers title")
+    need("deals.html", "Find the part.", "retail offer headline")
+    need("deals.html", "Shop verified featured picks.", "verified featured collection")
     for bad in ["exact dollar savings","regular online price, featured price","Clear savings"]: ban("deals.html", bad, bad)
     need("assets/growth-marketing.js", "OMNI5", "promo code")
     need("assets/offer-copy-polish.js", "ot-deal-saving", "generated deal-savings cleanup")
@@ -65,6 +65,24 @@ def main() -> int:
     need("assets/customer-marketing-copy.js", "Shop with confidence.", "customer trust copy")
     need("assets/ad-readiness.js", "gclid", "paid-search attribution capture")
     need("assets/ad-readiness.js", "Clear online pricing", "retail ad landing copy")
+
+    # Public policies must describe the real immediate-payment Stripe flow.
+    policy_paths = ["terms-conditions.html", "shipping-delivery-policy.html", "returns-refunds-policy.html", "privacy-policy.html"]
+    for path in policy_paths:
+        need(path, "Effective 3 September 2026", "current policy date")
+        need(path, "Secure online checkout", "current checkout footer")
+        ban(path, "Request Cart", "legacy request-cart navigation")
+        ban(path, "request cart", "legacy request-cart copy")
+        ban(path, "Product availability confirmed before payment", "legacy payment-after-review footer")
+    need("terms-conditions.html", "Payment is collected immediately through secure Stripe Checkout.", "immediate Stripe payment disclosure")
+    need("shipping-delivery-policy.html", "we aim to ship within 30 days", "default shipping-time commitment")
+    need("returns-refunds-policy.html", "within 30 calendar days after delivery", "default return-request window")
+    need("privacy-policy.html", "gclid, gbraid or wbraid", "advertising-attribution privacy disclosure")
+
+    # Keep the static hero visible until a replacement image is fully loaded.
+    need("assets/homepage-refresh.js", "const preload=src=>new Promise", "featured image preloader")
+    need("assets/homepage-refresh.js", "if(item.img&&!await preload(item.img))return;", "safe featured image swap")
+    need("assets/homepage-refresh.js", "window.setTimeout(cycle,6000)", "non-overlapping hero rotation")
 
     # Google account sign-in uses Firebase Auth with no additional Google scopes.
     for token, label in [("omni-terrain.firebaseapp.com","Firebase auth domain"),("new GoogleAuthProvider()","Google provider"),("signInWithPopup(auth, provider)","popup sign-in"),("browserLocalPersistence","persistent browser session"),("onAuthStateChanged","auth state observer"),("prefillCheckout(currentUser)","signed-in checkout prefill")]: need("assets/firebase-auth.js", token, label)
@@ -104,7 +122,7 @@ def main() -> int:
     ban("lib/us-checkout-products.mjs", "LAUNCH_PRICE_OVERRIDES", "launch price override")
 
     # Stripe endpoint, OMNI5 and verified purchase tracking.
-    for token, label in [("await resolveUsCheckoutItems","server item resolution"),("server_storefront_catalogue","pricing metadata"),("shipping_address_collection","US address collection"),('PROMO_CODE = "OMNI5"',"OMNI5 validation"),("PROMO_MIN_CENTS = 15_000","OMNI5 $150 minimum"),("PROMO_SAVE_CENTS = 500","OMNI5 $5 discount"),("FEATURED_DEAL_IDS","no-stack guard")]: need("api/us-create-checkout-session.mjs", token, label)
+    for token, label in [("await resolveUsCheckoutItems","server item resolution"),("server_storefront_catalogue","pricing metadata"),("shipping_address_collection","US address collection"),("custom_text[shipping_address][message]","shipping-area disclosure"),('PROMO_CODE = "OMNI5"',"OMNI5 validation"),("PROMO_MIN_CENTS = 15_000","OMNI5 $150 minimum"),("PROMO_SAVE_CENTS = 500","OMNI5 $5 discount"),("FEATURED_DEAL_IDS","no-stack guard")]: need("api/us-create-checkout-session.mjs", token, label)
     need("api/us-checkout-health.mjs", 'checkoutMode: "authorization-gated"', "authorization-gated health")
     need("assets/analytics-events.js", "const price = Number(offer?.price || 0);", "canonical analytics price")
     need("assets/analytics-events.js", "traffic_attribution", "attribution on ecommerce events")

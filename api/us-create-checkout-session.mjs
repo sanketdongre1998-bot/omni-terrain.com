@@ -73,6 +73,7 @@ export async function POST(request) {
     params.set("phone_number_collection[enabled]", "true");
     params.set("billing_address_collection", "required");
     params.set("shipping_address_collection[allowed_countries][0]", "US");
+    params.set("custom_text[shipping_address][message]", "Free standard shipping applies to eligible contiguous U.S. addresses. Alaska, Hawaii, U.S. territories, P.O. boxes, remote areas and freight items may require review. If delivery cannot be arranged, your payment will be refunded.");
     params.set("metadata[store]", "us");
     params.set("metadata[source]", "omni-terrain.com");
     params.set("metadata[pricing_validation]", "server_storefront_catalogue");
