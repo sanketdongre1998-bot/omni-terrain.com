@@ -26,7 +26,7 @@ const marketPairs = {
 const coreUsTitles = {
   "index.html": "US Auto Parts, Marine & RV Gear | Omni Terrain",
   "us-catalogue.html": "US Auto Parts, Marine & RV Catalogue | Omni Terrain",
-  "deals.html": "US Auto Parts & Truck Deals | Omni Terrain",
+  "deals.html": "Verified Auto & Truck Offers | Omni Terrain US",
   "buyer-guides.html": "US Auto Parts, Marine & RV Buyer Guides | Omni Terrain",
   "contact-and-order-help.html": "US Product & Order Help | Omni Terrain",
   "shipping-delivery-policy.html": "US Shipping & Delivery Policy | Omni Terrain",
