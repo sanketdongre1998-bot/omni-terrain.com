@@ -19,6 +19,14 @@ check(!locations.some((url) => /(?:cart|checkout|product-page-template|shield-(?
 
 const titles = new Map();
 const canonicals = new Set();
+const marketPairs = {
+  "index.html": "uk.html",
+  "contact-and-order-help.html": "uk-contact.html",
+  "shipping-delivery-policy.html": "uk-shipping-delivery-policy.html",
+  "returns-refunds-policy.html": "uk-returns-refunds-policy.html",
+  "privacy-policy.html": "uk-privacy-policy.html",
+  "terms-conditions.html": "uk-terms-conditions.html",
+};
 for (const url of locations) {
   check(url.startsWith(`${site}/`), `${url} uses the canonical site origin`);
   const relative = url.slice(`${site}/`.length) || "index.html";
@@ -39,6 +47,15 @@ for (const url of locations) {
   check((html.match(/<h1(?:\s|>)/gi) || []).length === 1, `${relative} has exactly one H1`);
   check(!/lorem ipsum/i.test(html), `${relative} has no lorem ipsum`);
   check(!/\b(LKQ|Keystone|NTP-STAG|SeaWide)\b|authori[sz]ed dealer/i.test(html), `${relative} has no restricted public supplier claim`);
+  check(!/\bIndia(?:n)?\b|\bINR\b|₹/i.test(html), `${relative} has no India market signal`);
+
+  if (/^us-.*\.html$/.test(relative) && relative !== "us-catalogue.html") {
+    check(/Omni Terrain US<\/title>/i.test(html), `${relative} title carries the US store signal`);
+    check(/<html\s+lang="en-US"/i.test(html), `${relative} uses en-US`);
+  }
+  if (relative === "uk.html" || relative.startsWith("uk-") || relative === "shield-autocare-uk.html") {
+    check(/<html\s+lang="en-GB"/i.test(html), `${relative} uses en-GB`);
+  }
 
   if (title) {
     const duplicate = titles.get(title);
@@ -48,6 +65,18 @@ for (const url of locations) {
   if (canonical) {
     check(!canonicals.has(canonical), `${relative} canonical is unique`);
     canonicals.add(canonical);
+  }
+}
+
+for (const [usName, ukName] of Object.entries(marketPairs)) {
+  const usHtml = fs.readFileSync(path.join(root, usName), "utf8");
+  const ukHtml = fs.readFileSync(path.join(root, ukName), "utf8");
+  const usUrl = usName === "index.html" ? `${site}/` : `${site}/${usName}`;
+  const ukUrl = `${site}/${ukName}`;
+  for (const [name, html] of [[usName, usHtml], [ukName, ukHtml]]) {
+    check(html.includes(`hreflang="en-US" href="${usUrl}"`), `${name} points to its en-US market alternate`);
+    check(html.includes(`hreflang="en-GB" href="${ukUrl}"`), `${name} points to its en-GB market alternate`);
+    check(html.includes(`hreflang="x-default" href="${usUrl}"`), `${name} provides a US-first x-default`);
   }
 }
 
