@@ -19,6 +19,37 @@
     window.addEventListener("scroll", updateHeader, { passive: true });
   }
 
+  // UK-only catalogue discovery. The US storefront does not load this path-specific enhancement.
+  const path = window.location.pathname.toLowerCase();
+  const isUkStore = path.endsWith("/uk.html") || path.endsWith("/shield-autocare-uk.html") || path.endsWith("/uk-tyres.html") || path.includes("/uk-");
+  if (isUkStore) {
+    const desktopNav = document.querySelector(".nav-links");
+    if (desktopNav && !desktopNav.querySelector('a[href="uk-tyres.html"]')) {
+      const link = document.createElement("a");
+      link.href = "uk-tyres.html";
+      link.textContent = "Tyres";
+      const support = [...desktopNav.querySelectorAll("a")].find((a) => /support|help/i.test(a.textContent));
+      desktopNav.insertBefore(link, support || null);
+    }
+    if (mobileNav && !mobileNav.querySelector('a[href="uk-tyres.html"]')) {
+      const link = document.createElement("a");
+      link.href = "uk-tyres.html";
+      link.textContent = "Tyres · 351 staged references";
+      mobileNav.insertBefore(link, mobileNav.children[1] || null);
+    }
+
+    // Add a visible tyre-range card to the UK home only. It stays informational until SFTP validation.
+    if (path.endsWith("/uk.html")) {
+      const grid = document.querySelector("#shop-by-use .uk-category-grid");
+      if (grid && !grid.querySelector('a[href="uk-tyres.html"]')) {
+        const card = document.createElement("a");
+        card.href = "uk-tyres.html";
+        card.innerHTML = '<span class="range-status">Feed pending</span><h3>Tyres</h3><p>Browse 351 staged car, van and SUV tyre references by size and brand. Live price and stock will appear only after supplier SFTP validation.</p><b>Browse staged tyre range →</b>';
+        grid.insertBefore(card, grid.children[1] || null);
+      }
+    }
+  }
+
   const filterButtons = [...document.querySelectorAll("[data-filter]")];
   const productCards = [...document.querySelectorAll("[data-product-category]")];
   const filterCount = document.querySelector("[data-filter-count]");
