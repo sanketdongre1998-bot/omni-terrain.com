@@ -10,10 +10,24 @@
     if (!document.querySelector('link[data-ot-uk-refresh]')) {
       const refresh = document.createElement("link");
       refresh.rel = "stylesheet";
-      refresh.href = "assets/uk-storefront-refresh.css?v=1";
+      refresh.href = "assets/uk-storefront-refresh.css?v=2";
       refresh.dataset.otUkRefresh = "true";
       document.head.appendChild(refresh);
     }
+
+    // Keep company identifiers out of prominent merchandising chrome. Required legal disclosures
+    // remain available in the dedicated policy/legal areas rather than being repeated in the hero.
+    document.querySelectorAll(".market-note").forEach((el) => {
+      if (/PRASAD\s+INC\s+LTD/i.test(el.textContent || "")) el.textContent = "UK storefront";
+    });
+    document.querySelectorAll(".hero-fact").forEach((fact) => {
+      if (/PRASAD\s+INC\s+LTD/i.test(fact.textContent || "")) {
+        const title = fact.querySelector("b");
+        const copy = fact.querySelector("span");
+        if (title) title.textContent = "UK storefront";
+        if (copy) copy.textContent = "Clear product, delivery and support information for UK orders.";
+      }
+    });
   }
 
   const menu = document.getElementById("menuToggle");
