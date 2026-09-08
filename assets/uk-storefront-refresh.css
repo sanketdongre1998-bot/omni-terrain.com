@@ -201,9 +201,9 @@ html.ot-uk-refresh[data-ot-theme="dark"] .card-price strong{color:#eef4f8!import
   html.ot-uk-refresh .uk-home-hero .catalogue-hero-grid{display:block;padding:38px 24px 24px}
   html.ot-uk-refresh .catalogue-hero h1,
   html.ot-uk-refresh .uk-home-hero .catalogue-hero h1{font-size:clamp(3.6rem,15vw,4.7rem)}
+  html.ot-uk-refresh .catalogue-hero:not(.uk-home-hero) .hero-seal{display:none}
   html.ot-uk-refresh .hero-facts,
   html.ot-uk-refresh .uk-home-hero .hero-facts{position:static;grid-template-columns:1fr;margin:0 24px 24px}
-  html.ot-uk-refresh .hero-seal{width:150px;margin:28px auto 0}
   html.ot-uk-refresh .uk-home-hero .hero-feature{min-height:330px;margin-top:26px;padding:30px 20px 22px}
   html.ot-uk-refresh .uk-home-hero .hero-feature img{height:220px}
   html.ot-uk-refresh .section{padding:60px 0}
