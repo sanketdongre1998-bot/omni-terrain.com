@@ -73,7 +73,10 @@ jobs:
                   ukRefresh:document.documentElement.classList.contains('ot-uk-refresh'),
                   heroActions:rect('.hero-actions'),
                   heroFacts:rect('.hero-facts'),
-                  brokenImages:[...document.images].filter(i=>i.complete&&i.naturalWidth===0&&!String(i.src).startsWith('data:')).map(i=>i.currentSrc||i.src).slice(0,8),
+                  brokenImages:[...document.images].filter(i=>{
+                    const src=(i.currentSrc||i.getAttribute('src')||'').trim();
+                    return src&&i.complete&&i.naturalWidth===0&&!src.startsWith('data:');
+                  }).map(i=>i.currentSrc||i.getAttribute('src')).slice(0,8),
                   text:(document.querySelector('main')?.innerText||'').replace(/\s+/g,' ').slice(0,500)
                 };
               });
