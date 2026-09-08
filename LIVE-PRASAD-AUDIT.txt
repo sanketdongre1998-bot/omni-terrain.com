@@ -1,0 +1,35 @@
+Pages checked: 29
+PRASAD pages: 29
+PRASAD: shield-autocare-uk.html
+PRASAD: uk-cart.html
+PRASAD: uk-contact.html
+PRASAD: uk-cool-mate-70l-fridge-black.html
+PRASAD: uk-cool-mate-70l-fridge-silver.html
+PRASAD: uk-order-success.html
+PRASAD: uk-privacy-policy.html
+PRASAD: uk-returns-refunds-policy.html
+PRASAD: uk-shield-cassette-blind-1000x800-beige.html
+PRASAD: uk-shield-cassette-blind-1000x800-black.html
+PRASAD: uk-shield-cassette-blind-1000x800-white.html
+PRASAD: uk-shield-cassette-blind-1100x450-beige.html
+PRASAD: uk-shield-cassette-blind-1100x450-black.html
+PRASAD: uk-shield-cassette-blind-1100x450-white.html
+PRASAD: uk-shield-cassette-blind-1100x550-beige.html
+PRASAD: uk-shield-cassette-blind-1100x550-black.html
+PRASAD: uk-shield-cassette-blind-1200x500-beige.html
+PRASAD: uk-shield-cassette-blind-1200x500-black.html
+PRASAD: uk-shield-cassette-blind-1200x500-white.html
+PRASAD: uk-shield-cassette-blind-1450x550-white.html
+PRASAD: uk-shield-frameless-window-500x300.html
+PRASAD: uk-shield-frameless-window-500x450.html
+PRASAD: uk-shield-frameless-window-700x500.html
+PRASAD: uk-shield-frameless-window-700x550.html
+PRASAD: uk-shield-frameless-window-720x360.html
+PRASAD: uk-shield-frameless-window-900x500.html
+PRASAD: uk-shipping-delivery-policy.html
+PRASAD: uk-terms-conditions.html
+PRASAD: uk.html
+EORI word pages: 0
+VAT registered phrase pages: 0
+Numeric VAT/EORI identifier-like pages: 0
+Fetch errors: 0
