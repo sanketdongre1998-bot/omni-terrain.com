@@ -1,0 +1,21 @@
+{
+  "supplier": "TireRoom",
+  "market": "UK",
+  "catalogue_count": 351,
+  "feed_mode": "staging",
+  "live_sftp_connected": false,
+  "price_live": false,
+  "stock_live": false,
+  "checkout_enabled": false,
+  "sample_commercial_data_publishable": false,
+  "activation_gate": [
+    "Live SFTP credentials received securely",
+    "Remote directory and filename confirmed",
+    "Live file pull succeeds",
+    "SKU mapping validated against staged catalogue",
+    "Price fields verified as live supplier values",
+    "Stock fields verified as live supplier values",
+    "Malformed or missing commercial data fails closed",
+    "Only then enable live price, stock and checkout eligibility"
+  ]
+}
