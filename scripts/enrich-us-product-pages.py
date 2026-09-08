@@ -341,10 +341,15 @@ def enrich_page(path: Path, product: dict) -> tuple[bool, bool]:
     schema, _ = parse_product_schema(text)
     rows = specifics(product, core, exact, schema)
 
-    html_title = title
-    if len(html_title) > 72:
-        html_title = html_title[:72].rsplit(" ", 1)[0].rstrip(" ,;:–—-")
-    text = re.sub(r"<title>.*?</title>", f"<title>{esc(html_title)}</title>", text, count=1, flags=re.I | re.S)
+    # Preserve existing SEO titles, including their explicit US store identity.
+    # Content enrichment must not replace a valid regional title with the H1.
+    existing_title = re.search(r"<title>(.*?)</title>", text, flags=re.I | re.S)
+    current_title = existing_title.group(1).strip() if existing_title else ""
+    if not (12 <= len(current_title) <= 80 and current_title.endswith("Omni Terrain US")):
+        identity = clean(f"{product.get('brand')} {product.get('mpn')}")
+        suffix = " | Omni Terrain US"
+        html_title = identity + suffix
+        text = re.sub(r"<title>.*?</title>", f"<title>{esc(html_title)}</title>", text, count=1, flags=re.I | re.S)
 
     meta = esc(meta_description(product, core, exact))
     meta_re = re.compile(r'<meta\b[^>]*name=["\']description["\'][^>]*>', flags=re.I)
