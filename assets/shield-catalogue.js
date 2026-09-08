@@ -1,6 +1,21 @@
 (() => {
   "use strict";
 
+  const path = window.location.pathname.toLowerCase();
+  const isUkStore = path.endsWith("/uk.html") || path.endsWith("/shield-autocare-uk.html") || path.endsWith("/uk-tyres.html") || path.includes("/uk-");
+
+  // UK-only visual refresh. The US storefront never loads this stylesheet/class.
+  if (isUkStore) {
+    document.documentElement.classList.add("ot-uk-refresh");
+    if (!document.querySelector('link[data-ot-uk-refresh]')) {
+      const refresh = document.createElement("link");
+      refresh.rel = "stylesheet";
+      refresh.href = "assets/uk-storefront-refresh.css?v=1";
+      refresh.dataset.otUkRefresh = "true";
+      document.head.appendChild(refresh);
+    }
+  }
+
   const menu = document.getElementById("menuToggle");
   const mobileNav = document.getElementById("mobileNav");
   const header = document.getElementById("header");
@@ -20,14 +35,16 @@
   }
 
   // UK-only catalogue discovery. The US storefront does not load this path-specific enhancement.
-  const path = window.location.pathname.toLowerCase();
-  const isUkStore = path.endsWith("/uk.html") || path.endsWith("/shield-autocare-uk.html") || path.endsWith("/uk-tyres.html") || path.includes("/uk-");
   if (isUkStore) {
     const desktopNav = document.querySelector(".nav-links");
     if (desktopNav && !desktopNav.querySelector('a[href="uk-tyres.html"]')) {
       const link = document.createElement("a");
       link.href = "uk-tyres.html";
       link.textContent = "Tyres";
+      if (path.endsWith("/uk-tyres.html")) {
+        link.classList.add("active");
+        link.setAttribute("aria-current", "page");
+      }
       const support = [...desktopNav.querySelectorAll("a")].find((a) => /support|help/i.test(a.textContent));
       desktopNav.insertBefore(link, support || null);
     }
