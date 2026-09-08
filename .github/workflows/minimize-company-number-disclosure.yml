@@ -24,7 +24,8 @@ jobs:
           compact = ('<p class="legal-note" style="margin:10px auto 0;max-width:1180px;padding:0 20px;'
                      'font-size:.56rem;line-height:1.45;opacity:.68">'
                      'PRASAD INC LTD · Company No. 07981226 · Registered in England and Wales · '
-                     'Registered office: 19 Stones Avenue, Dartford, England, DA1 5GS.'</n                     '</p>')
+                     'Registered office: 19 Stones Avenue, Dartford, England, DA1 5GS.'
+                     '</p>')
 
           pages = [p for p in Path('.').glob('*.html')
                    if p.name == 'uk.html' or p.name.startswith('uk-') or p.name == 'shield-autocare-uk.html']
@@ -32,7 +33,6 @@ jobs:
           for p in pages:
               t = p.read_text(encoding='utf-8')
               n = t
-              # Remove all existing company-number disclosures and nearby labels/separators.
               n = re.sub(r'<span>\s*Company\s+No\.?\s*07981226\s*</span>', '', n, flags=re.I)
               n = re.sub(r'\s*[·|]\s*Company\s+No\.?\s*07981226', '', n, flags=re.I)
               n = re.sub(r'Company\s+No\.?\s*07981226\s*[·|]\s*', '', n, flags=re.I)
@@ -40,7 +40,6 @@ jobs:
               n = n.replace(number, '')
               n = re.sub(r'\s*·\s*·\s*', ' · ', n)
               n = re.sub(r'\s{2,}', ' ', n)
-              # Add exactly one compact compliance disclosure in the footer.
               if '</footer>' in n:
                   n = n.replace('</footer>', compact + '</footer>', 1)
               if n != t:
@@ -49,7 +48,6 @@ jobs:
           print('Changed:', len(changed))
           print('\n'.join(changed))
 
-          # Verify exactly one occurrence per UK page and none outside the compact footer text.
           bad=[]
           for p in pages:
               t=p.read_text(encoding='utf-8')
