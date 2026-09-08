@@ -1,0 +1,68 @@
+name: Minimize UK company number disclosure
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/minimize-company-number-disclosure.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  minimize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Keep company number only in compact legal footer
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          number = '07981226'
+          compact = ('<p class="legal-note" style="margin:10px auto 0;max-width:1180px;padding:0 20px;'
+                     'font-size:.56rem;line-height:1.45;opacity:.68">'
+                     'PRASAD INC LTD · Company No. 07981226 · Registered in England and Wales · '
+                     'Registered office: 19 Stones Avenue, Dartford, England, DA1 5GS.'</n                     '</p>')
+
+          pages = [p for p in Path('.').glob('*.html')
+                   if p.name == 'uk.html' or p.name.startswith('uk-') or p.name == 'shield-autocare-uk.html']
+          changed=[]
+          for p in pages:
+              t = p.read_text(encoding='utf-8')
+              n = t
+              # Remove all existing company-number disclosures and nearby labels/separators.
+              n = re.sub(r'<span>\s*Company\s+No\.?\s*07981226\s*</span>', '', n, flags=re.I)
+              n = re.sub(r'\s*[·|]\s*Company\s+No\.?\s*07981226', '', n, flags=re.I)
+              n = re.sub(r'Company\s+No\.?\s*07981226\s*[·|]\s*', '', n, flags=re.I)
+              n = re.sub(r'Company\s+No\.?\s*07981226', '', n, flags=re.I)
+              n = n.replace(number, '')
+              n = re.sub(r'\s*·\s*·\s*', ' · ', n)
+              n = re.sub(r'\s{2,}', ' ', n)
+              # Add exactly one compact compliance disclosure in the footer.
+              if '</footer>' in n:
+                  n = n.replace('</footer>', compact + '</footer>', 1)
+              if n != t:
+                  p.write_text(n, encoding='utf-8')
+                  changed.append(p.name)
+          print('Changed:', len(changed))
+          print('\n'.join(changed))
+
+          # Verify exactly one occurrence per UK page and none outside the compact footer text.
+          bad=[]
+          for p in pages:
+              t=p.read_text(encoding='utf-8')
+              if t.count(number) != 1:
+                  bad.append(f'{p.name}: {t.count(number)} occurrences')
+          if bad:
+              raise SystemExit('\n'.join(bad))
+      - name: Commit
+        shell: bash
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Minimize UK company number disclosure to legal footer'
+          git push origin HEAD:main
