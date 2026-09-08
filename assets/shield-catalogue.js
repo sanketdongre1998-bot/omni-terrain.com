@@ -15,8 +15,8 @@
       document.head.appendChild(refresh);
     }
 
-    // Keep company identifiers out of prominent merchandising chrome. Required legal disclosures
-    // remain available in the dedicated policy/legal areas rather than being repeated in the hero.
+    // Keep company identifiers out of prominent merchandising surfaces. Dedicated legal/policy
+    // pages remain the place for required business disclosures rather than repeating them site-wide.
     document.querySelectorAll(".market-note").forEach((el) => {
       if (/PRASAD\s+INC\s+LTD/i.test(el.textContent || "")) el.textContent = "UK storefront";
     });
@@ -27,6 +27,29 @@
         if (title) title.textContent = "UK storefront";
         if (copy) copy.textContent = "Clear product, delivery and support information for UK orders.";
       }
+    });
+    document.querySelectorAll(".business-band").forEach((band) => {
+      if (/PRASAD\s+INC\s+LTD|19\s+Stones\s+Avenue/i.test(band.textContent || "")) {
+        const container = band.querySelector(".container");
+        if (container) {
+          container.innerHTML = '<div class="lead"><strong>Omni Terrain UK</strong><span>Practical product information and customer support for UK orders.</span></div><div><strong>Customer support</strong><span>support@omni-terrain.com</span></div><div><strong>Policies & terms</strong><span><a href="uk-terms-conditions.html">View UK legal information →</a></span></div>';
+        }
+      }
+    });
+    document.querySelectorAll(".legal-note").forEach((el) => {
+      if (/PRASAD\s+INC\s+LTD|19\s+Stones\s+Avenue/i.test(el.textContent || "")) {
+        el.innerHTML = 'UK business and legal information is available in our <a href="uk-terms-conditions.html">Terms &amp; Conditions</a>.';
+      }
+    });
+    document.querySelectorAll(".footer-bottom span").forEach((el) => {
+      if (/PRASAD\s+INC\s+LTD|19\s+Stones\s+Avenue/i.test(el.textContent || "")) el.textContent = "United Kingdom storefront";
+    });
+    document.querySelectorAll('meta[property="og:description"],meta[name="description"]').forEach((meta) => {
+      const content = meta.getAttribute("content") || "";
+      if (/PRASAD\s+INC\s+LTD/i.test(content)) meta.setAttribute("content", content.replace(/,?\s*operated by PRASAD\s+INC\s+LTD\.?/gi, "."));
+    });
+    document.querySelectorAll('script[type="application/ld+json"]').forEach((script) => {
+      if (/PRASAD\s+INC\s+LTD|19\s+Stones\s+Avenue/i.test(script.textContent || "")) script.remove();
     });
   }
 
