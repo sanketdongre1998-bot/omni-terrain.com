@@ -1,0 +1,62 @@
+name: Live PRASAD disclosure audit
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/live-prasad-audit.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit live UK pages
+        shell: python
+        run: |
+          from pathlib import Path
+          import urllib.request, urllib.parse, time, re
+
+          pages = sorted(p.name for p in Path('.').glob('*.html') if p.name == 'uk.html' or p.name.startswith('uk-') or p.name == 'shield-autocare-uk.html')
+          prasad=[]; eori=[]; vatreg=[]; numeric=[]; errors=[]
+          stamp=str(int(time.time()))
+          vat_num=re.compile(r'VAT[^<\n]{0,35}\b\d{8,12}\b',re.I)
+          eori_num=re.compile(r'EORI[^<\n]{0,35}\b[A-Z]{0,2}\s*\d{8,15}\b',re.I)
+          for page in pages:
+              url='https://omni-terrain.com/'+page+'?audit='+stamp
+              try:
+                  req=urllib.request.Request(url,headers={'Cache-Control':'no-cache','User-Agent':'Mozilla/5.0'})
+                  with urllib.request.urlopen(req,timeout=25) as r:
+                      text=r.read().decode('utf-8','replace')
+              except Exception as exc:
+                  errors.append(f'{page}: {exc}')
+                  continue
+              if 'PRASAD INC LTD' in text: prasad.append(page)
+              if 'EORI' in text.upper(): eori.append(page)
+              if 'VAT REGISTERED' in text.upper(): vatreg.append(page)
+              if vat_num.search(text) or eori_num.search(text) or '"vatID"' in text: numeric.append(page)
+          out=[]
+          out.append(f'Pages checked: {len(pages)}')
+          out.append(f'PRASAD pages: {len(prasad)}')
+          out.extend('PRASAD: '+p for p in prasad)
+          out.append(f'EORI word pages: {len(eori)}')
+          out.extend('EORI: '+p for p in eori)
+          out.append(f'VAT registered phrase pages: {len(vatreg)}')
+          out.extend('VAT_REGISTERED: '+p for p in vatreg)
+          out.append(f'Numeric VAT/EORI identifier-like pages: {len(numeric)}')
+          out.extend('NUMERIC_ID: '+p for p in numeric)
+          out.append(f'Fetch errors: {len(errors)}')
+          out.extend('ERROR: '+e for e in errors)
+          Path('LIVE-PRASAD-AUDIT.txt').write_text('\n'.join(out)+'\n',encoding='utf-8')
+          print('\n'.join(out))
+      - name: Commit audit report
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add LIVE-PRASAD-AUDIT.txt
+          git commit -m 'Record live PRASAD disclosure audit'
+          git push origin HEAD:main
