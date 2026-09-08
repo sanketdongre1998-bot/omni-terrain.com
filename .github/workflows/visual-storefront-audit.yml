@@ -42,9 +42,14 @@ jobs:
           cat > visual-audit.mjs <<'EOF'
           import { chromium } from 'playwright';
           const base='http://127.0.0.1:4173';
-          const routes=['index.html','deals.html','us-catalogue.html','cart.html','checkout.html'];
+          const routes=[
+            'index.html','deals.html','us-catalogue.html','cart.html','checkout.html',
+            'uk.html','shield-autocare-uk.html','uk-tyres.html','uk-cool-mate-70l-fridge-black.html'
+          ];
           const sizes=[['phone',390,844],['desktop',1440,1000]];
           const browser=await chromium.launch({headless:true});
+          let failed=false;
+          const overlaps=(a,b)=>!!(a&&b&&a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top);
           for(const [label,width,height] of sizes){
             const context=await browser.newContext({viewport:{width,height},colorScheme:'light'});
             await context.addInitScript(()=>{
@@ -55,24 +60,39 @@ jobs:
               const errors=[];
               page.on('pageerror',e=>errors.push(String(e.message||e)));
               await page.goto(`${base}/${route}`,{waitUntil:'networkidle',timeout:30000}).catch(async()=>{await page.goto(`${base}/${route}`,{waitUntil:'domcontentloaded',timeout:30000});});
-              await page.waitForTimeout(route==='deals.html'?1800:700);
-              const info=await page.evaluate(()=>({
-                title:document.title,
-                width:innerWidth,
-                bodyWidth:document.body.scrollWidth,
-                authTriggers:document.querySelectorAll('[data-ot-auth-trigger]').length,
-                dealCards:document.querySelectorAll('.ot-deal-card').length,
-                liveCards:document.querySelectorAll('.live-card').length,
-                brokenImages:[...document.images].filter(i=>i.complete&&i.naturalWidth===0&&!String(i.src).startsWith('data:')).map(i=>i.currentSrc||i.src).slice(0,8),
-                text:(document.querySelector('main')?.innerText||'').replace(/\s+/g,' ').slice(0,500)
-              }));
-              console.log(JSON.stringify({label,route,info,errors}));
+              await page.waitForTimeout(route==='deals.html'?1800:900);
+              const info=await page.evaluate(()=>{
+                const rect=s=>{const e=document.querySelector(s);if(!e)return null;const r=e.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height}};
+                return {
+                  title:document.title,
+                  width:innerWidth,
+                  bodyWidth:document.documentElement.scrollWidth,
+                  authTriggers:document.querySelectorAll('[data-ot-auth-trigger]').length,
+                  dealCards:document.querySelectorAll('.ot-deal-card').length,
+                  liveCards:document.querySelectorAll('.live-card').length,
+                  ukRefresh:document.documentElement.classList.contains('ot-uk-refresh'),
+                  heroActions:rect('.hero-actions'),
+                  heroFacts:rect('.hero-facts'),
+                  brokenImages:[...document.images].filter(i=>i.complete&&i.naturalWidth===0&&!String(i.src).startsWith('data:')).map(i=>i.currentSrc||i.src).slice(0,8),
+                  text:(document.querySelector('main')?.innerText||'').replace(/\s+/g,' ').slice(0,500)
+                };
+              });
+              const horizontalOverflow=info.bodyWidth>width+2;
+              const heroCollision=route==='shield-autocare-uk.html'&&label==='desktop'&&overlaps(info.heroActions,info.heroFacts);
+              const ukRefreshMissing=(route==='uk.html'||route==='shield-autocare-uk.html'||route==='uk-tyres.html'||route.startsWith('uk-'))&&!info.ukRefresh;
+              const unexpectedBroken=info.brokenImages.length>0;
+              if(errors.length||horizontalOverflow||heroCollision||ukRefreshMissing||unexpectedBroken){
+                failed=true;
+                console.error(JSON.stringify({failure:true,label,route,errors,horizontalOverflow,heroCollision,ukRefreshMissing,brokenImages:info.brokenImages}));
+              }
+              console.log(JSON.stringify({label,route,info,errors,horizontalOverflow,heroCollision,ukRefreshMissing}));
               await page.screenshot({path:`visual-audit/${label}-${route.replace('.html','')}.png`,fullPage:true});
               await page.close();
             }
             await context.close();
           }
           await browser.close();
+          if(failed) process.exit(1);
           EOF
           node visual-audit.mjs
 
