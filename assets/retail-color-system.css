@@ -1,0 +1,121 @@
+/* Omni Terrain retail color system — shared US + UK homepage contrast pass */
+:root{--ot-retail-royal:#1746a2;--ot-retail-royal-dark:#0c2f73;--ot-retail-navy:#071a30;--ot-retail-yellow:#f6c945;--ot-retail-yellow-hover:#ffd85a;--ot-retail-ink:#14243a;--ot-retail-muted:#5f6f82;--ot-retail-pale:#f4f7fb;--ot-retail-line:#d9e1eb}
+
+/* Header: one obvious retail hierarchy on both storefronts. */
+body.ot-retail-home .ot-retail-utility,
+body.ot-retail-home-uk .ot-retail-utility{background:var(--ot-retail-navy)!important;color:#fff!important}
+body.ot-retail-home .ot-retail-mainbar,
+body.ot-retail-home-uk .ot-retail-mainbar{background:var(--ot-retail-royal)!important;border-bottom:1px solid rgba(255,255,255,.16)!important}
+body.ot-retail-home .ot-retail-logo img,
+body.ot-retail-home-uk .ot-retail-logo img{filter:none!important;opacity:1!important}
+body.ot-retail-home .ot-account-button,
+body.ot-retail-home .ot-cart-button,
+body.ot-retail-home-uk .ot-account-button,
+body.ot-retail-home-uk .ot-cart-button{background:transparent!important;color:#fff!important;border-color:rgba(255,255,255,.25)!important}
+body.ot-retail-home .ot-account-button span,
+body.ot-retail-home .ot-cart-button span,
+body.ot-retail-home-uk .ot-account-button span,
+body.ot-retail-home-uk .ot-cart-button span{color:#dce7fb!important}
+body.ot-retail-home .ot-account-button strong,
+body.ot-retail-home .ot-cart-button strong,
+body.ot-retail-home-uk .ot-account-button strong,
+body.ot-retail-home-uk .ot-cart-button strong{color:#fff!important}
+body.ot-retail-home .ot-account-button:hover,
+body.ot-retail-home .ot-cart-button:hover,
+body.ot-retail-home-uk .ot-account-button:hover,
+body.ot-retail-home-uk .ot-cart-button:hover{background:rgba(255,255,255,.1)!important;border-color:rgba(255,255,255,.55)!important}
+body.ot-retail-home .ot-retail-search,
+body.ot-retail-home-uk .ot-retail-search{border-color:#fff!important;background:#fff!important;box-shadow:0 2px 8px rgba(5,25,58,.18)!important}
+body.ot-retail-home .ot-retail-search input,
+body.ot-retail-home-uk .ot-retail-search input{background:#fff!important;color:#152335!important}
+body.ot-retail-home .ot-retail-search button,
+body.ot-retail-home-uk .ot-retail-search button{background:var(--ot-retail-yellow)!important;color:#071a30!important}
+body.ot-retail-home .ot-retail-search button:hover,
+body.ot-retail-home-uk .ot-retail-search button:hover{background:var(--ot-retail-yellow-hover)!important}
+body.ot-retail-home .ot-retail-nav,
+body.ot-retail-home-uk .ot-retail-nav{background:var(--ot-retail-royal-dark)!important;border-top:0!important}
+body.ot-retail-home .ot-retail-nav a,
+body.ot-retail-home-uk .ot-retail-nav a{color:#fff!important;border-right-color:rgba(255,255,255,.14)!important}
+body.ot-retail-home .ot-retail-nav a:hover,
+body.ot-retail-home-uk .ot-retail-nav a:hover{background:#113b86!important}
+body.ot-retail-home .ot-retail-nav a.shop-all,
+body.ot-retail-home-uk .ot-retail-nav a.shop-all{background:var(--ot-retail-yellow)!important;color:#071a30!important}
+body.ot-retail-home .ot-region-mini a.active,
+body.ot-retail-home-uk .ot-region-mini a.active{background:var(--ot-retail-yellow)!important;color:#071a30!important;border-radius:999px;padding:6px 12px}
+body.ot-retail-home .ot-region-mini a.active small,
+body.ot-retail-home-uk .ot-region-mini a.active small{color:#4d4218!important}
+
+/* Hero: no dark-on-dark inherited text. */
+body.ot-retail-home .ot-hero-copy,
+body.ot-retail-home-uk .ot-hero-copy{background:linear-gradient(135deg,#0a2f70 0%,#174aa1 100%)!important}
+body.ot-retail-home .ot-hero-copy h1,
+body.ot-retail-home-uk .ot-hero-copy h1{color:#fff!important;text-shadow:none!important}
+body.ot-retail-home .ot-hero-copy p,
+body.ot-retail-home-uk .ot-hero-copy p{color:#edf4ff!important}
+body.ot-retail-home .ot-eyebrow,
+body.ot-retail-home-uk .ot-eyebrow{color:#ffd963!important}
+body.ot-retail-home .ot-uk-status,
+body.ot-retail-home-uk .ot-uk-status{color:#f5f8ff!important}
+body.ot-retail-home .ot-hero-buttons a:not(.primary),
+body.ot-retail-home-uk .ot-hero-buttons a:not(.primary){color:#fff!important;border-color:rgba(255,255,255,.9)!important;background:rgba(255,255,255,.04)!important}
+body.ot-retail-home .ot-hero-buttons a.primary,
+body.ot-retail-home-uk .ot-hero-buttons a.primary{background:var(--ot-retail-yellow)!important;border-color:var(--ot-retail-yellow)!important;color:#071a30!important}
+
+/* CTA band: keep support copy readable. */
+body.ot-retail-home .ot-support-cta,
+body.ot-retail-home-uk .ot-support-cta{background:var(--ot-retail-royal)!important}
+body.ot-retail-home .ot-support-cta h2,
+body.ot-retail-home-uk .ot-support-cta h2{color:#fff!important}
+body.ot-retail-home .ot-support-cta p,
+body.ot-retail-home-uk .ot-support-cta p{color:#edf4ff!important}
+body.ot-retail-home .ot-support-cta small,
+body.ot-retail-home-uk .ot-support-cta small{color:#ffd963!important}
+
+/* Footer: brighter royal navy, stronger hierarchy, no washed-out grey. */
+body.ot-retail-home footer,
+body.ot-retail-home-uk footer,
+body.ot-retail-home .ot-site-footer,
+body.ot-retail-home-uk .ot-site-footer{background:#0b3478!important;color:#fff!important;border-top:4px solid var(--ot-retail-yellow)!important}
+body.ot-retail-home footer .footer-heading,
+body.ot-retail-home-uk footer .footer-heading,
+body.ot-retail-home .ot-site-footer-heading,
+body.ot-retail-home-uk .ot-site-footer-heading{color:#ffd963!important;font-size:11px!important;font-weight:900!important;letter-spacing:.08em!important}
+body.ot-retail-home footer .footer-links a,
+body.ot-retail-home-uk footer .footer-links a,
+body.ot-retail-home .ot-site-footer-links a,
+body.ot-retail-home-uk .ot-site-footer-links a{color:#fff!important;font-size:12px!important;font-weight:700!important}
+body.ot-retail-home footer .footer-links a:hover,
+body.ot-retail-home-uk footer .footer-links a:hover,
+body.ot-retail-home .ot-site-footer-links a:hover,
+body.ot-retail-home-uk .ot-site-footer-links a:hover{color:#ffd963!important}
+body.ot-retail-home footer .footer-copy,
+body.ot-retail-home-uk footer .footer-copy,
+body.ot-retail-home footer .legal-note,
+body.ot-retail-home-uk footer .legal-note,
+body.ot-retail-home .ot-site-footer-copy,
+body.ot-retail-home-uk .ot-site-footer-copy,
+body.ot-retail-home .ot-site-legal,
+body.ot-retail-home-uk .ot-site-legal{color:#dbe8ff!important;opacity:1!important}
+body.ot-retail-home footer .footer-bottom,
+body.ot-retail-home-uk footer .footer-bottom,
+body.ot-retail-home .ot-site-footer-bottom,
+body.ot-retail-home-uk .ot-site-footer-bottom{color:#c8d9f3!important;border-top-color:rgba(255,255,255,.22)!important}
+body.ot-retail-home footer strong,
+body.ot-retail-home-uk footer strong{color:#fff!important}
+
+/* General readability on light retail areas. */
+body.ot-retail-home .ot-retail-section p,
+body.ot-retail-home-uk .ot-retail-section p,
+body.ot-retail-home .ot-benefit-grid p,
+body.ot-retail-home-uk .ot-benefit-grid p,
+body.ot-retail-home .ot-uk-trust-grid span,
+body.ot-retail-home-uk .ot-uk-trust-grid span{color:#52657c!important}
+
+@media(max-width:760px){
+ body.ot-retail-home .ot-retail-mainbar .ot-retail-width,
+ body.ot-retail-home-uk .ot-retail-mainbar .ot-retail-width{background:var(--ot-retail-royal)!important}
+ body.ot-retail-home .ot-retail-logo img,
+ body.ot-retail-home-uk .ot-retail-logo img{max-width:185px!important}
+ body.ot-retail-home footer,
+ body.ot-retail-home-uk footer{border-top-width:3px!important}
+}
