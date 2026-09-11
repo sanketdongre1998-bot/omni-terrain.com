@@ -1,75 +1,71 @@
-/* Omni Terrain retail color system — strict blue + yellow storefront palette */
+/* Omni Terrain retail color system — subtle premium US + UK retail palette */
 :root{
-  --ot-blue:#163B8C;
-  --ot-blue-dark:#0A1F44;
-  --ot-blue-mid:#2456B5;
+  --ot-navy:#0B1F3A;
+  --ot-blue:#173B72;
+  --ot-blue-hover:#234A86;
   --ot-yellow:#F2C94C;
-  --ot-yellow-hover:#FFD95E;
+  --ot-yellow-hover:#F7D76F;
   --ot-white:#FFFFFF;
-  --ot-soft-white:#EAF0FF;
-  --ot-line:#D8E2F3;
-  --ot-ink:#0A1F44;
+  --ot-bg:#F6F8FB;
+  --ot-bg-soft:#EEF2F7;
+  --ot-line:#DDE4EC;
+  --ot-ink:#10233F;
+  --ot-muted:#65758A;
+  --ot-on-dark:#F7FAFF;
 }
 
-/* Hard lock: no black / muddy grey brand bands on either storefront. */
-body.ot-retail-home .ot-retail-utility,
-body.ot-retail-home-uk .ot-retail-utility,
-body.ot-retail-home .ot-retail-mainbar,
-body.ot-retail-home-uk .ot-retail-mainbar,
-body.ot-retail-home .ot-retail-nav,
-body.ot-retail-home-uk .ot-retail-nav,
-body.ot-retail-home .ot-support-cta,
-body.ot-retail-home-uk .ot-support-cta,
-body.ot-retail-home footer,
-body.ot-retail-home-uk footer,
-body.ot-retail-home .footer,
-body.ot-retail-home-uk .footer,
-body.ot-retail-home .site-footer,
-body.ot-retail-home-uk .site-footer,
-body.ot-retail-home .ot-site-footer,
-body.ot-retail-home-uk .ot-site-footer{
-  background:var(--ot-blue)!important;
-  background-image:none!important;
-  color:var(--ot-white)!important;
+/* Overall retail shell: white space first, blue for structure, yellow only as an accent. */
+body.ot-retail-home,
+body.ot-retail-home-uk{
+  background:var(--ot-white)!important;
+  color:var(--ot-ink)!important;
 }
 
-/* Top store switch bar */
+/* Utility/store switch — slim and quiet. */
 body.ot-retail-home .ot-retail-utility,
 body.ot-retail-home-uk .ot-retail-utility{
-  border-bottom:2px solid var(--ot-yellow)!important;
+  background:var(--ot-navy)!important;
+  background-image:none!important;
+  color:var(--ot-on-dark)!important;
+  border-bottom:0!important;
+  box-shadow:none!important;
 }
 body.ot-retail-home .ot-region-mini,
-body.ot-retail-home-uk .ot-region-mini{
-  justify-content:center!important;
-}
+body.ot-retail-home-uk .ot-region-mini{justify-content:center!important}
 body.ot-retail-home .ot-region-mini a,
 body.ot-retail-home-uk .ot-region-mini a,
 body.ot-retail-home .ot-utility-links a,
 body.ot-retail-home-uk .ot-utility-links a{
-  color:var(--ot-white)!important;
+  color:#E8EEF7!important;
 }
 body.ot-retail-home .ot-region-mini a small,
-body.ot-retail-home-uk .ot-region-mini a small{
-  color:var(--ot-soft-white)!important;
-}
+body.ot-retail-home-uk .ot-region-mini a small{color:#AFC0D6!important}
 body.ot-retail-home .ot-region-mini a.active,
 body.ot-retail-home-uk .ot-region-mini a.active{
   background:var(--ot-yellow)!important;
-  color:var(--ot-blue-dark)!important;
-  border:1px solid var(--ot-yellow)!important;
+  color:var(--ot-navy)!important;
+  border:0!important;
   border-radius:999px!important;
-  padding:6px 13px!important;
+  padding:5px 12px!important;
   box-shadow:none!important;
 }
 body.ot-retail-home .ot-region-mini a.active small,
-body.ot-retail-home-uk .ot-region-mini a.active small{
-  color:var(--ot-blue-dark)!important;
-}
+body.ot-retail-home-uk .ot-region-mini a.active small{color:#564811!important}
 
-/* Main header */
+/* Main header — clean white retail chrome like mature marketplaces. */
 body.ot-retail-home .ot-retail-mainbar,
 body.ot-retail-home-uk .ot-retail-mainbar{
-  border-bottom:0!important;
+  background:var(--ot-white)!important;
+  background-image:none!important;
+  border-bottom:1px solid var(--ot-line)!important;
+  box-shadow:none!important;
+}
+body.ot-retail-home .ot-retail-logo,
+body.ot-retail-home-uk .ot-retail-logo{
+  background:var(--ot-navy)!important;
+  border-radius:7px!important;
+  padding:7px 12px!important;
+  width:max-content!important;
 }
 body.ot-retail-home .ot-retail-logo img,
 body.ot-retail-home-uk .ot-retail-logo img{
@@ -81,103 +77,98 @@ body.ot-retail-home .ot-cart-button,
 body.ot-retail-home-uk .ot-account-button,
 body.ot-retail-home-uk .ot-cart-button{
   background:transparent!important;
-  color:var(--ot-white)!important;
-  border-color:rgba(255,255,255,.5)!important;
+  color:var(--ot-ink)!important;
+  border:1px solid transparent!important;
 }
 body.ot-retail-home .ot-account-button span,
 body.ot-retail-home .ot-cart-button span,
 body.ot-retail-home-uk .ot-account-button span,
-body.ot-retail-home-uk .ot-cart-button span{
-  color:var(--ot-soft-white)!important;
-}
+body.ot-retail-home-uk .ot-cart-button span{color:var(--ot-muted)!important}
 body.ot-retail-home .ot-account-button strong,
 body.ot-retail-home .ot-cart-button strong,
 body.ot-retail-home-uk .ot-account-button strong,
-body.ot-retail-home-uk .ot-cart-button strong{
-  color:var(--ot-white)!important;
-}
+body.ot-retail-home-uk .ot-cart-button strong{color:var(--ot-ink)!important}
 body.ot-retail-home .ot-account-button:hover,
 body.ot-retail-home .ot-cart-button:hover,
 body.ot-retail-home-uk .ot-account-button:hover,
 body.ot-retail-home-uk .ot-cart-button:hover{
-  background:var(--ot-blue-mid)!important;
-  border-color:var(--ot-yellow)!important;
+  background:var(--ot-bg)!important;
+  border-color:var(--ot-line)!important;
 }
 body.ot-retail-home .ot-cart-button b,
 body.ot-retail-home-uk .ot-cart-button b{
   background:var(--ot-yellow)!important;
-  color:var(--ot-blue-dark)!important;
+  color:var(--ot-navy)!important;
 }
 body.ot-retail-home .ot-retail-search,
 body.ot-retail-home-uk .ot-retail-search{
-  border:2px solid var(--ot-white)!important;
+  border:1px solid #C9D3DF!important;
   background:var(--ot-white)!important;
-  box-shadow:none!important;
+  box-shadow:0 1px 2px rgba(11,31,58,.05)!important;
+}
+body.ot-retail-home .ot-retail-search:focus-within,
+body.ot-retail-home-uk .ot-retail-search:focus-within{
+  border-color:#8CA2BE!important;
+  box-shadow:0 0 0 3px rgba(23,59,114,.08)!important;
 }
 body.ot-retail-home .ot-retail-search input,
 body.ot-retail-home-uk .ot-retail-search input{
   background:var(--ot-white)!important;
-  color:var(--ot-blue-dark)!important;
+  color:var(--ot-ink)!important;
 }
 body.ot-retail-home .ot-retail-search button,
 body.ot-retail-home-uk .ot-retail-search button{
-  background:var(--ot-yellow)!important;
-  color:var(--ot-blue-dark)!important;
+  background:var(--ot-blue)!important;
+  color:var(--ot-white)!important;
 }
 body.ot-retail-home .ot-retail-search button:hover,
-body.ot-retail-home-uk .ot-retail-search button:hover{
-  background:var(--ot-yellow-hover)!important;
-}
+body.ot-retail-home-uk .ot-retail-search button:hover{background:var(--ot-blue-hover)!important}
 
-/* Navigation */
+/* Navigation — single controlled blue bar, no extra yellow rules. */
 body.ot-retail-home .ot-retail-nav,
 body.ot-retail-home-uk .ot-retail-nav{
-  background:var(--ot-blue-dark)!important;
-  border-top:2px solid var(--ot-yellow)!important;
+  background:var(--ot-blue)!important;
+  background-image:none!important;
+  border:0!important;
+  box-shadow:none!important;
 }
 body.ot-retail-home .ot-retail-nav a,
 body.ot-retail-home-uk .ot-retail-nav a{
   color:var(--ot-white)!important;
-  border-right-color:rgba(255,255,255,.18)!important;
+  border-right:1px solid rgba(255,255,255,.10)!important;
 }
 body.ot-retail-home .ot-retail-nav a:hover,
 body.ot-retail-home-uk .ot-retail-nav a:hover{
-  background:var(--ot-blue-mid)!important;
+  background:var(--ot-blue-hover)!important;
   color:var(--ot-white)!important;
 }
 body.ot-retail-home .ot-retail-nav a.shop-all,
 body.ot-retail-home-uk .ot-retail-nav a.shop-all{
   background:var(--ot-yellow)!important;
-  color:var(--ot-blue-dark)!important;
+  color:var(--ot-navy)!important;
 }
 
-/* Hero */
+/* Hero — premium dark blue panel, restrained gradient and soft copy. */
+body.ot-retail-home .ot-retail-hero,
+body.ot-retail-home-uk .ot-retail-hero{background:var(--ot-bg-soft)!important}
 body.ot-retail-home .ot-hero-copy,
 body.ot-retail-home-uk .ot-hero-copy{
-  background:linear-gradient(135deg,var(--ot-blue-dark) 0%,var(--ot-blue) 100%)!important;
+  background:linear-gradient(135deg,#102C54 0%,#173B72 100%)!important;
   color:var(--ot-white)!important;
+  box-shadow:0 8px 24px rgba(11,31,58,.10)!important;
 }
 body.ot-retail-home .ot-hero-copy h1,
-body.ot-retail-home-uk .ot-hero-copy h1{
-  color:var(--ot-white)!important;
-  text-shadow:none!important;
-}
+body.ot-retail-home-uk .ot-hero-copy h1{color:var(--ot-white)!important;text-shadow:none!important}
 body.ot-retail-home .ot-hero-copy p,
-body.ot-retail-home-uk .ot-hero-copy p{
-  color:var(--ot-soft-white)!important;
-}
+body.ot-retail-home-uk .ot-hero-copy p{color:#DCE5F0!important}
 body.ot-retail-home .ot-eyebrow,
-body.ot-retail-home-uk .ot-eyebrow{
-  color:var(--ot-yellow)!important;
-}
+body.ot-retail-home-uk .ot-eyebrow{color:var(--ot-yellow)!important}
 body.ot-retail-home .ot-uk-status,
-body.ot-retail-home-uk .ot-uk-status{
-  color:var(--ot-white)!important;
-}
+body.ot-retail-home-uk .ot-uk-status{color:#EAF0F8!important}
 body.ot-retail-home .ot-hero-buttons a:not(.primary),
 body.ot-retail-home-uk .ot-hero-buttons a:not(.primary){
   color:var(--ot-white)!important;
-  border-color:var(--ot-white)!important;
+  border-color:rgba(255,255,255,.72)!important;
   background:transparent!important;
 }
 body.ot-retail-home .ot-hero-buttons a.primary,
@@ -186,27 +177,40 @@ body.ot-retail-home .ot-support-cta a.primary,
 body.ot-retail-home-uk .ot-support-cta a.primary{
   background:var(--ot-yellow)!important;
   border-color:var(--ot-yellow)!important;
-  color:var(--ot-blue-dark)!important;
+  color:var(--ot-navy)!important;
 }
+body.ot-retail-home .ot-hero-buttons a.primary:hover,
+body.ot-retail-home-uk .ot-hero-buttons a.primary:hover,
+body.ot-retail-home .ot-support-cta a.primary:hover,
+body.ot-retail-home-uk .ot-support-cta a.primary:hover{background:var(--ot-yellow-hover)!important}
 
-/* Remove red/green brand accents from homepage cards: blue + yellow only. */
+/* Product and finder surfaces: neutral cards with blue text, yellow only where it matters. */
+body.ot-retail-home .ot-hero-deal,
+body.ot-retail-home-uk .ot-hero-deal,
+body.ot-retail-home .ot-find-card,
+body.ot-retail-home-uk .ot-find-card,
+body.ot-retail-home .ot-retail-product,
+body.ot-retail-home-uk .ot-retail-product,
+body.ot-retail-home .ot-department-grid>a,
+body.ot-retail-home-uk .ot-department-grid>a,
+body.ot-retail-home .ot-benefit-grid,
+body.ot-retail-home-uk .ot-benefit-grid{
+  border-color:var(--ot-line)!important;
+  box-shadow:0 4px 16px rgba(11,31,58,.05)!important;
+}
 body.ot-retail-home .ot-hero-deal-label,
 body.ot-retail-home-uk .ot-hero-deal-label,
 body.ot-retail-home .ot-badge,
 body.ot-retail-home-uk .ot-badge{
   background:var(--ot-yellow)!important;
-  color:var(--ot-blue-dark)!important;
+  color:var(--ot-navy)!important;
 }
 body.ot-retail-home .ot-hero-price strong,
 body.ot-retail-home-uk .ot-hero-price strong,
 body.ot-retail-home .ot-product-bottom strong,
-body.ot-retail-home-uk .ot-product-bottom strong{
-  color:var(--ot-blue)!important;
-}
+body.ot-retail-home-uk .ot-product-bottom strong{color:var(--ot-blue)!important}
 body.ot-retail-home .ot-find-card,
-body.ot-retail-home-uk .ot-find-card{
-  border-top-color:var(--ot-yellow)!important;
-}
+body.ot-retail-home-uk .ot-find-card{border-top:2px solid var(--ot-blue)!important}
 body.ot-retail-home .ot-find-title>span,
 body.ot-retail-home-uk .ot-find-title>span,
 body.ot-retail-home .ot-find-form button,
@@ -217,37 +221,30 @@ body.ot-retail-home-uk .ot-find-form button{
 body.ot-retail-home .ot-find-title small,
 body.ot-retail-home-uk .ot-find-title small,
 body.ot-retail-home .ot-section-head small,
-body.ot-retail-home-uk .ot-section-head small{
-  color:var(--ot-blue)!important;
-}
+body.ot-retail-home-uk .ot-section-head small{color:#6C7D91!important}
 
-/* Support CTA */
+/* Support CTA — one calm blue block; remove loud yellow rails. */
 body.ot-retail-home .ot-support-cta,
 body.ot-retail-home-uk .ot-support-cta{
   background:var(--ot-blue)!important;
-  border-top:4px solid var(--ot-yellow)!important;
-  border-bottom:4px solid var(--ot-yellow)!important;
+  background-image:none!important;
+  border:0!important;
+  box-shadow:none!important;
 }
 body.ot-retail-home .ot-support-cta h2,
-body.ot-retail-home-uk .ot-support-cta h2{
-  color:var(--ot-white)!important;
-}
+body.ot-retail-home-uk .ot-support-cta h2{color:var(--ot-white)!important}
 body.ot-retail-home .ot-support-cta p,
-body.ot-retail-home-uk .ot-support-cta p{
-  color:var(--ot-soft-white)!important;
-}
+body.ot-retail-home-uk .ot-support-cta p{color:#DCE5F0!important}
 body.ot-retail-home .ot-support-cta small,
-body.ot-retail-home-uk .ot-support-cta small{
-  color:var(--ot-yellow)!important;
-}
+body.ot-retail-home-uk .ot-support-cta small{color:var(--ot-yellow)!important}
 body.ot-retail-home .ot-support-cta a:not(.primary),
 body.ot-retail-home-uk .ot-support-cta a:not(.primary){
   color:var(--ot-white)!important;
-  border-color:var(--ot-white)!important;
+  border-color:rgba(255,255,255,.72)!important;
   background:transparent!important;
 }
 
-/* Footer: strong blue, never black or charcoal. */
+/* Footer — deep navy, quiet separators, no royal-blue slab. */
 body.ot-retail-home footer,
 body.ot-retail-home-uk footer,
 body.ot-retail-home .footer,
@@ -258,18 +255,17 @@ body.ot-retail-home .ot-site-footer,
 body.ot-retail-home-uk .ot-site-footer,
 body.ot-retail-home footer[style],
 body.ot-retail-home-uk footer[style]{
-  background:var(--ot-blue)!important;
-  background-color:var(--ot-blue)!important;
+  background:var(--ot-navy)!important;
+  background-color:var(--ot-navy)!important;
   background-image:none!important;
-  color:var(--ot-white)!important;
-  border-top:4px solid var(--ot-yellow)!important;
+  color:#EAF0F8!important;
+  border-top:1px solid rgba(255,255,255,.12)!important;
+  box-shadow:none!important;
 }
 body.ot-retail-home footer *,
 body.ot-retail-home-uk footer *,
 body.ot-retail-home .ot-site-footer *,
-body.ot-retail-home-uk .ot-site-footer *{
-  border-color:rgba(255,255,255,.18);
-}
+body.ot-retail-home-uk .ot-site-footer *{border-color:rgba(255,255,255,.12)}
 body.ot-retail-home footer h2,
 body.ot-retail-home footer h3,
 body.ot-retail-home footer h4,
@@ -280,20 +276,18 @@ body.ot-retail-home footer .footer-heading,
 body.ot-retail-home-uk footer .footer-heading,
 body.ot-retail-home .ot-site-footer-heading,
 body.ot-retail-home-uk .ot-site-footer-heading{
-  color:var(--ot-yellow)!important;
+  color:var(--white,#fff)!important;
+  font-weight:800!important;
+  letter-spacing:.04em!important;
 }
 body.ot-retail-home footer a,
 body.ot-retail-home-uk footer a,
 body.ot-retail-home .ot-site-footer a,
-body.ot-retail-home-uk .ot-site-footer a{
-  color:var(--ot-white)!important;
-}
+body.ot-retail-home-uk .ot-site-footer a{color:#DDE6F1!important}
 body.ot-retail-home footer a:hover,
 body.ot-retail-home-uk footer a:hover,
 body.ot-retail-home .ot-site-footer a:hover,
-body.ot-retail-home-uk .ot-site-footer a:hover{
-  color:var(--ot-yellow)!important;
-}
+body.ot-retail-home-uk .ot-site-footer a:hover{color:var(--ot-yellow)!important}
 body.ot-retail-home footer p,
 body.ot-retail-home footer span,
 body.ot-retail-home footer small,
@@ -308,48 +302,44 @@ body.ot-retail-home .ot-site-footer-copy,
 body.ot-retail-home-uk .ot-site-footer-copy,
 body.ot-retail-home .ot-site-legal,
 body.ot-retail-home-uk .ot-site-legal{
-  color:var(--ot-soft-white)!important;
+  color:#AFC0D6!important;
   opacity:1!important;
 }
 body.ot-retail-home footer .footer-bottom,
 body.ot-retail-home-uk footer .footer-bottom,
 body.ot-retail-home .ot-site-footer-bottom,
 body.ot-retail-home-uk .ot-site-footer-bottom{
-  color:var(--ot-soft-white)!important;
-  border-top-color:var(--ot-yellow)!important;
+  color:#9FB1C8!important;
+  border-top-color:rgba(255,255,255,.12)!important;
 }
 body.ot-retail-home footer strong,
-body.ot-retail-home-uk footer strong{
-  color:var(--ot-white)!important;
-}
+body.ot-retail-home-uk footer strong{color:var(--ot-white)!important}
 
-/* Light areas stay clean white with blue text; yellow only for accents. */
+/* Light sections — neutral whites and very light grey, not tinted blue blocks. */
 body.ot-retail-home .ot-retail-section,
 body.ot-retail-home-uk .ot-retail-section,
 body.ot-retail-home .ot-benefits,
-body.ot-retail-home-uk .ot-benefits{
-  background:var(--ot-white)!important;
-}
+body.ot-retail-home-uk .ot-benefits{background:var(--ot-white)!important}
 body.ot-retail-home .ot-retail-section.alt,
-body.ot-retail-home-uk .ot-retail-section.alt{
-  background:#F6F8FC!important;
-}
+body.ot-retail-home-uk .ot-retail-section.alt{background:var(--ot-bg)!important}
 body.ot-retail-home .ot-section-head h2,
 body.ot-retail-home-uk .ot-section-head h2,
 body.ot-retail-home .ot-benefits h2,
 body.ot-retail-home-uk .ot-benefits h2,
 body.ot-retail-home .ot-find-title h2,
-body.ot-retail-home-uk .ot-find-title h2{
-  color:var(--ot-blue-dark)!important;
-}
+body.ot-retail-home-uk .ot-find-title h2{color:var(--ot-ink)!important}
+body.ot-retail-home .ot-retail-section p,
+body.ot-retail-home-uk .ot-retail-section p,
+body.ot-retail-home .ot-benefit-grid p,
+body.ot-retail-home-uk .ot-benefit-grid p{color:var(--ot-muted)!important}
 
 @media(max-width:760px){
+  body.ot-retail-home .ot-retail-mainbar,
+  body.ot-retail-home-uk .ot-retail-mainbar,
   body.ot-retail-home .ot-retail-mainbar .ot-retail-width,
-  body.ot-retail-home-uk .ot-retail-mainbar .ot-retail-width{
-    background:var(--ot-blue)!important;
-  }
+  body.ot-retail-home-uk .ot-retail-mainbar .ot-retail-width{background:var(--ot-white)!important}
+  body.ot-retail-home .ot-retail-logo,
+  body.ot-retail-home-uk .ot-retail-logo{padding:6px 9px!important}
   body.ot-retail-home .ot-retail-logo img,
-  body.ot-retail-home-uk .ot-retail-logo img{max-width:185px!important}
-  body.ot-retail-home footer,
-  body.ot-retail-home-uk footer{border-top-width:3px!important}
+  body.ot-retail-home-uk .ot-retail-logo img{max-width:175px!important}
 }
