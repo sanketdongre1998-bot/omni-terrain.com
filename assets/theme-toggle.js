@@ -9,8 +9,8 @@
       link.rel="stylesheet";
       link.href="/assets/bnq-yahoo-light.css?v=20260912-1";
       link.dataset.otYahooRetail="true";
-      document.head.appendChild(link);
     }
+    document.head.appendChild(link);
     return link;
   };
   const apply=()=>{
@@ -23,5 +23,14 @@
     ensureTheme();
   };
   apply();
-  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",apply,{once:true});
+  if(document.readyState==="loading"){
+    document.addEventListener("DOMContentLoaded",()=>{
+      apply();
+      setTimeout(ensureTheme,0);
+      setTimeout(ensureTheme,750);
+    },{once:true});
+  }else{
+    setTimeout(ensureTheme,0);
+    setTimeout(ensureTheme,750);
+  }
 })();
