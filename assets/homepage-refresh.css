@@ -1,2 +1,8 @@
 /* Omni Terrain retail homepage compatibility layer. */
 .ot-growth-banner{display:none!important}
+body.ot-retail-home .ot-retail-mainbar{background:#123a73!important}
+body.ot-retail-home .ot-retail-logo img{filter:none!important}
+body.ot-retail-home .ot-account-button,body.ot-retail-home .ot-cart-button{background:transparent!important;color:#fff!important;border-color:rgba(255,255,255,.24)!important}
+body.ot-retail-home .ot-account-button span,body.ot-retail-home .ot-cart-button span{color:#dce8f4!important}
+body.ot-retail-home .ot-account-button strong,body.ot-retail-home .ot-cart-button strong{color:#fff!important}
+body.ot-retail-home .ot-account-button:hover,body.ot-retail-home .ot-cart-button:hover{background:rgba(255,255,255,.10)!important;border-color:rgba(255,255,255,.48)!important}
