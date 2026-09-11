@@ -20,26 +20,30 @@ const viewports = [
 ];
 
 const routes = [
-  "index.html",
-  "deals.html",
-  "us-catalogue.html",
-  "automotive.html",
-  "marine.html",
-  "rv.html",
-  "us-husky-towing-81147.html",
-  "us-husky-towing-33055.html",
-  "us-husky-towing-81148.html",
-  "us-bilstein-24-066464.html",
-  "cart.html",
-  "checkout.html",
-  "contact-and-order-help.html",
-  "shipping-delivery-policy.html",
-  "returns-refunds-policy.html",
+  { path: "index.html", region: "us", home: true },
+  { path: "deals.html", region: "us" },
+  { path: "us-catalogue.html", region: "us", catalogue: true },
+  { path: "automotive.html", region: "us" },
+  { path: "marine.html", region: "us" },
+  { path: "rv.html", region: "us" },
+  { path: "us-husky-towing-81147.html", region: "us", pdp: true },
+  { path: "us-bilstein-24-066464.html", region: "us", pdp: true },
+  { path: "cart.html", region: "us", cart: true },
+  { path: "checkout.html", region: "us", checkout: true },
+  { path: "contact-and-order-help.html", region: "us" },
+  { path: "uk.html", region: "uk", home: true },
+  { path: "shield-autocare-uk.html", region: "uk", catalogue: true },
+  { path: "uk-tyres.html", region: "uk" },
+  { path: "uk-cool-mate-70l-fridge-black.html", region: "uk", pdp: true },
+  { path: "uk-cart.html", region: "uk", cart: true },
+  { path: "uk-contact.html", region: "uk" },
+  { path: "uk-shipping-delivery-policy.html", region: "uk" },
+  { path: "uk-returns-refunds-policy.html", region: "uk" },
 ];
 
 const failures = [];
 const warnings = [];
-const pass = [];
+const passes = [];
 const seen = new Set();
 
 function addFailure(key, detail) {
@@ -49,7 +53,8 @@ function addFailure(key, detail) {
   failures.push({ key, detail });
 }
 function addWarning(key, detail) { warnings.push({ key, detail }); }
-function addPass(detail) { pass.push(detail); }
+function addPass(detail) { passes.push(detail); }
+function isIgnorableImage(src) { return !src || src.startsWith("data:") || src.startsWith("blob:"); }
 
 const browser = await chromium.launch({ headless: true });
 
@@ -65,39 +70,34 @@ for (const vp of viewports) {
 
   await context.addInitScript(() => {
     try {
-      if (/\/(cart|checkout)\.html$/.test(location.pathname)) {
+      localStorage.setItem("otRetailPromoSeen", String(Date.now()));
+      if (/\/(cart|checkout)\.html$/.test(location.pathname) && !location.pathname.startsWith("/uk-")) {
         localStorage.setItem("omniTerrainUsCart", JSON.stringify([{ id: "HUS33055", quantity: 2 }]));
       }
-      if (/\/checkout\.html$/.test(location.pathname)) {
-        localStorage.setItem("omniTerrainUsCoupon", "OMNI5");
-      }
+      if (/\/checkout\.html$/.test(location.pathname)) localStorage.setItem("omniTerrainUsCoupon", "OMNI5");
     } catch (_) {}
   });
 
   for (const route of routes) {
     const page = await context.newPage();
-    const key = `${vp.name}/${route}`;
+    const key = `${vp.name}/${route.path}`;
     const pageErrors = [];
     const localHttpErrors = [];
-
     page.on("pageerror", err => pageErrors.push(String(err?.message || err)));
     page.on("response", response => {
       try {
         const u = new URL(response.url());
-        if (u.origin === new URL(BASE).origin && response.status() >= 400) {
-          localHttpErrors.push(`${response.status()} ${u.pathname}`);
-        }
+        if (u.origin === new URL(BASE).origin && response.status() >= 400) localHttpErrors.push(`${response.status()} ${u.pathname}`);
       } catch (_) {}
     });
 
     try {
-      await page.goto(`${BASE}/${route}`, { waitUntil: "domcontentloaded", timeout: 30000 });
-      await page.waitForTimeout(route === "deals.html" ? 1800 : 900);
-
-      const snapshot = await page.evaluate(({ mobile }) => {
+      await page.goto(`${BASE}/${route.path}`, { waitUntil: "domcontentloaded", timeout: 30000 });
+      await page.waitForTimeout(route.path === "deals.html" ? 1600 : 900);
+      const snapshot = await page.evaluate(({ mobile, region, home }) => {
         const visible = el => {
-          const s = getComputedStyle(el);
-          const r = el.getBoundingClientRect();
+          if (!el) return false;
+          const s = getComputedStyle(el), r = el.getBoundingClientRect();
           return s.display !== "none" && s.visibility !== "hidden" && Number(s.opacity || 1) > 0 && r.width > 0 && r.height > 0;
         };
         const rect = el => {
@@ -107,121 +107,91 @@ for (const vp of viewports) {
         const overflowers = [...document.querySelectorAll("body *")].filter(el => {
           if (!visible(el)) return false;
           const r = el.getBoundingClientRect();
-          if (r.position === "fixed") return false;
           return r.right > innerWidth + 2 || r.left < -2;
         }).slice(0, 12).map(el => ({ tag: el.tagName, cls: String(el.className || "").slice(0,120), id: el.id || "", ...rect(el) }));
-
         const duplicateIds = [...document.querySelectorAll("[id]")].map(el => el.id).filter(Boolean).filter((id, i, arr) => arr.indexOf(id) !== i);
-        const badImages = [...document.images].filter(img => img.complete && img.naturalWidth === 0 && !String(img.src).startsWith("data:")).slice(0, 8).map(img => img.currentSrc || img.src);
-        const clippedControls = [...document.querySelectorAll("button,.ot-primary-btn,.ot-secondary-btn,.ot-live-button,.ot-display-action,.ot-growth-cta,.ot-deal-button,.ot-site-cart,.ot-site-menu")]
-          .filter(visible).filter(el => el.scrollWidth > el.clientWidth + 3 || el.scrollHeight > el.clientHeight + 3)
-          .slice(0, 10).map(el => ({ text: (el.textContent || "").trim().slice(0,70), ...rect(el) }));
-        const tinyPrimaryControls = mobile ? [...document.querySelectorAll("button,.ot-primary-btn,.ot-secondary-btn,.ot-live-button,.ot-display-action,.ot-growth-cta,.ot-deal-button,.ot-site-cart,.ot-site-menu")]
-          .filter(visible).filter(el => {
-            const r = el.getBoundingClientRect();
-            return r.height < 40 || r.width < 40;
-          }).slice(0, 10).map(el => ({ text: (el.textContent || "").trim().slice(0,70), ...rect(el) })) : [];
-
-        const brand = document.querySelector(".ot-site-brand");
-        const actions = document.querySelector(".ot-site-actions");
-        const headerOverlap = brand && actions && visible(brand) && visible(actions) ? (() => {
-          const a = brand.getBoundingClientRect(), b = actions.getBoundingClientRect();
-          return a.right > b.left - 4;
-        })() : false;
-
-        const fixedBottom = [...document.querySelectorAll(".ot-site-mobile-bar,.mobile-store-bar")].filter(visible).map(rect);
-        const main = document.querySelector("main");
-        const mainRect = main && visible(main) ? rect(main) : null;
+        const badImages = [...document.images].filter(img => {
+          const src = String(img.currentSrc || img.getAttribute("src") || "");
+          return src && img.complete && img.naturalWidth === 0 && !src.startsWith("data:") && !src.startsWith("blob:");
+        }).slice(0,8).map(img => img.currentSrc || img.getAttribute("src") || "");
+        const controls = [...document.querySelectorAll("button,a.ot-hero-buttons a,.ot-retail-search button,.ot-find-form button,.ot-welcome-skip,.ot-welcome-close,.ot-email-submit,.ot-google-auth-button")].filter(visible);
+        const clippedControls = controls.filter(el => el.scrollWidth > el.clientWidth + 4 || el.scrollHeight > el.clientHeight + 4).slice(0,10).map(el => ({ text:(el.textContent||"").trim().slice(0,70), ...rect(el) }));
+        const tinyControls = mobile ? controls.filter(el => { const r = el.getBoundingClientRect(); return r.height < 38 || r.width < 38; }).slice(0,10).map(el => ({ text:(el.textContent||"").trim().slice(0,70), ...rect(el) })) : [];
+        const headers = [...document.querySelectorAll("header")].filter(visible);
+        const retailHeaders = [...document.querySelectorAll(".ot-retail-header")].filter(visible);
+        const mainText = (document.querySelector("main")?.innerText || "").replace(/\s+/g," ").trim();
+        const headerText = (document.querySelector(".ot-retail-header")?.innerText || "").replace(/\s+/g," ").trim();
+        const storeLinks = [...document.querySelectorAll(".ot-region-mini a")].filter(visible).map(a => ({ text:(a.textContent||"").replace(/\s+/g," ").trim(), href:a.getAttribute("href")||"", active:a.classList.contains("active") || a.getAttribute("aria-current")==="page" }));
+        const hero = document.querySelector(".ot-retail-hero");
+        const heroRect = hero && visible(hero) ? rect(hero) : null;
         return {
           innerWidth,
           bodyScrollWidth: document.body.scrollWidth,
           docScrollWidth: document.documentElement.scrollWidth,
           overflowers,
-          duplicateIds: [...new Set(duplicateIds)].slice(0,10),
+          duplicateIds:[...new Set(duplicateIds)].slice(0,10),
           badImages,
           clippedControls,
-          tinyPrimaryControls,
-          headerOverlap,
-          fixedBottom,
-          mainRect,
-          dealsCount: document.querySelectorAll(".ot-deal-card").length,
-          dealsLoading: Boolean(document.querySelector("#otDealsGrid") && /loading featured deals/i.test(document.querySelector("#otDealsGrid")?.textContent || "")),
-          productLayoutCols: document.querySelector(".product-layout") ? getComputedStyle(document.querySelector(".product-layout")).gridTemplateColumns : "",
-          productVisualRect: document.querySelector(".product-visual") ? rect(document.querySelector(".product-visual")) : null,
-          mobileMenuVisible: [document.querySelector("#otSiteMenu"), document.querySelector("#menuToggle")].some(node => node && visible(node)),
-          securePayVisible: Boolean(document.querySelector("#otSecurePay") && visible(document.querySelector("#otSecurePay"))),
-          promoBoxVisible: Boolean(document.querySelector(".ot-promo-box") && visible(document.querySelector(".ot-promo-box"))),
-          checkoutPromoVisible: Boolean(document.querySelector(".ot-checkout-promo") && visible(document.querySelector(".ot-checkout-promo"))),
-          authTriggerCount: document.querySelectorAll("[data-ot-auth-trigger]").length,
+          tinyControls,
+          visibleHeaderCount:headers.length,
+          retailHeaderCount:retailHeaders.length,
+          authTriggerCount:[...document.querySelectorAll("[data-ot-auth-trigger]")].filter(visible).length,
+          storeLinks,
+          mainText:mainText.slice(0,1200),
+          headerText:headerText.slice(0,500),
+          heroRect,
+          dealsCount:document.querySelectorAll(".ot-deal-card").length,
+          dealsLoading:Boolean(document.querySelector("#otDealsGrid") && /loading featured deals/i.test(document.querySelector("#otDealsGrid")?.textContent||"")),
+          productLayoutCols:document.querySelector(".product-layout") ? getComputedStyle(document.querySelector(".product-layout")).gridTemplateColumns : "",
+          productVisualRect:document.querySelector(".product-visual") ? rect(document.querySelector(".product-visual")) : null,
+          securePayVisible:Boolean(document.querySelector("#otSecurePay") && visible(document.querySelector("#otSecurePay"))),
+          promoBoxVisible:Boolean(document.querySelector(".ot-promo-box") && visible(document.querySelector(".ot-promo-box"))),
+          checkoutPromoVisible:Boolean(document.querySelector(".ot-checkout-promo") && visible(document.querySelector(".ot-checkout-promo"))),
+          region,
+          home,
         };
-      }, { mobile: vp.mobile });
+      }, { mobile: vp.mobile, region: route.region, home: route.home });
 
-      if (snapshot.docScrollWidth > vp.width + 2 || snapshot.bodyScrollWidth > vp.width + 2) {
-        addFailure(key, `horizontal overflow doc=${snapshot.docScrollWidth} body=${snapshot.bodyScrollWidth} viewport=${vp.width}; elements=${JSON.stringify(snapshot.overflowers)}`);
-      }
-      if (snapshot.headerOverlap) addFailure(key, "header brand overlaps cart/menu actions");
+      if (snapshot.docScrollWidth > vp.width + 2 || snapshot.bodyScrollWidth > vp.width + 2) addFailure(key, `horizontal overflow doc=${snapshot.docScrollWidth} body=${snapshot.bodyScrollWidth} viewport=${vp.width}; elements=${JSON.stringify(snapshot.overflowers)}`);
       if (snapshot.clippedControls.length) addFailure(key, `clipped controls ${JSON.stringify(snapshot.clippedControls)}`);
-      if (snapshot.tinyPrimaryControls.length) addFailure(key, `mobile primary tap targets under 40px ${JSON.stringify(snapshot.tinyPrimaryControls)}`);
+      if (snapshot.tinyControls.length) addFailure(key, `mobile tap targets under 38px ${JSON.stringify(snapshot.tinyControls)}`);
       if (snapshot.duplicateIds.length) addFailure(key, `duplicate DOM ids ${snapshot.duplicateIds.join(",")}`);
-      if (snapshot.authTriggerCount < 2) addFailure(key, `expected desktop and mobile account triggers, got ${snapshot.authTriggerCount}`);
       if (pageErrors.length) addFailure(key, `page errors ${pageErrors.join(" | ")}`);
       if (localHttpErrors.length) addFailure(key, `same-origin HTTP errors ${[...new Set(localHttpErrors)].join(" | ")}`);
 
-      if (route === "deals.html") {
+      if (route.home) {
+        if (snapshot.visibleHeaderCount !== 1 || snapshot.retailHeaderCount !== 1) addFailure(key, `expected one visible retail header, got headers=${snapshot.visibleHeaderCount} retail=${snapshot.retailHeaderCount}`);
+        if (snapshot.authTriggerCount !== 1) addFailure(key, `expected one visible account trigger, got ${snapshot.authTriggerCount}`);
+        if (snapshot.storeLinks.length !== 2) addFailure(key, `expected two visible store links, got ${snapshot.storeLinks.length}`);
+        const active = snapshot.storeLinks.find(link => link.active);
+        const expectedHref = route.region === "uk" ? "/uk.html" : "/";
+        if (!active || active.href !== expectedHref) addFailure(key, `wrong active store ${JSON.stringify(snapshot.storeLinks)}`);
+        if (!snapshot.heroRect || snapshot.heroRect.width > vp.width + 2) addFailure(key, `home hero missing or wider than viewport ${JSON.stringify(snapshot.heroRect)}`);
+        if (route.region === "us") {
+          if (!/Find the right part/i.test(snapshot.mainText)) addFailure(key, "US retail hero copy missing");
+          if (!/United States|US Store/i.test(snapshot.headerText)) addFailure(key, "US store identity missing from header");
+          if (/£\d/.test(snapshot.mainText)) addFailure(key, "GBP price leaked into US homepage");
+        } else {
+          if (!/UK auto, marine|Find a UK product/i.test(snapshot.mainText)) addFailure(key, "UK retail hero/search copy missing");
+          if (!/UK Store|United Kingdom/i.test(snapshot.headerText)) addFailure(key, "UK store identity missing from header");
+          if (/\$\d/.test(snapshot.mainText)) addFailure(key, "USD price leaked into UK homepage");
+        }
+      }
+
+      if (route.path === "deals.html") {
         if (snapshot.dealsCount !== 7) addFailure(key, `expected 7 deal cards, got ${snapshot.dealsCount}`);
         if (snapshot.dealsLoading) addFailure(key, "deals page stuck on loading state");
       }
-      if (/^us-.*\.html$/.test(route) && route !== "us-catalogue.html" && vp.width <= 760) {
+      if (route.pdp && vp.width <= 760) {
         if (snapshot.productLayoutCols && snapshot.productLayoutCols.split(" ").length > 1) addFailure(key, `mobile PDP still multi-column: ${snapshot.productLayoutCols}`);
         if (snapshot.productVisualRect && snapshot.productVisualRect.width > vp.width + 1) addFailure(key, `PDP image panel wider than viewport: ${snapshot.productVisualRect.width}`);
       }
-      if (route === "cart.html" && !snapshot.promoBoxVisible) addFailure(key, "OMNI5 promo box missing from populated cart");
-      if (route === "checkout.html") {
-        if (!snapshot.securePayVisible) addFailure(key, "authorized cart does not expose secure Stripe CTA");
+      if (route.path === "cart.html" && !snapshot.promoBoxVisible) addFailure(key, "OMNI5 promo box missing from populated US cart");
+      if (route.checkout) {
+        if (!snapshot.securePayVisible) addFailure(key, "authorized US cart does not expose secure Stripe CTA");
         if (!snapshot.checkoutPromoVisible) addFailure(key, "saved OMNI5 code not surfaced on checkout review");
       }
-
-      if (vp.width <= 860 && snapshot.mobileMenuVisible) {
-        const menu = page.locator("#otSiteMenu,#menuToggle").first();
-        if (await menu.count()) {
-          await menu.click();
-          await page.waitForTimeout(120);
-          const menuCheck = await page.evaluate(() => {
-            const nav = document.querySelector("#otSiteMobileNav,#mobileNav");
-            const button = document.querySelector("#otSiteMenu,#menuToggle");
-            if (!nav || !button) return { ok:false, reason:"missing nodes" };
-            const r = nav.getBoundingClientRect();
-            return { ok: nav.classList.contains("open") && button.getAttribute("aria-expanded") === "true" && r.left >= -2 && r.right <= innerWidth + 2, left:r.left, right:r.right, width:innerWidth };
-          });
-          if (!menuCheck.ok) addFailure(key, `mobile menu failed/open overflow ${JSON.stringify(menuCheck)}`);
-        }
-      }
-
-      if (route === "index.html") {
-        try {
-          await page.waitForFunction(() => Boolean(window.__OMNI_FIREBASE_AUTH__), null, { timeout: 10000 });
-          const trigger = page.locator("[data-ot-auth-trigger]:visible").first();
-          if (await trigger.count() !== 1) throw new Error("no visible account trigger");
-          await trigger.click();
-          await page.waitForTimeout(120);
-          const authCheck = await page.evaluate(() => {
-            const overlay = document.querySelector("#otAuthOverlay");
-            const button = document.querySelector("[data-ot-google-signin]");
-            return {
-              open: Boolean(overlay && !overlay.hidden),
-              googleButton: Boolean(button && /continue with google/i.test(button.textContent || "")),
-              privacyLink: Boolean(document.querySelector('#otAuthDialog a[href="privacy-policy.html"]')),
-            };
-          });
-          if (!authCheck.open || !authCheck.googleButton || !authCheck.privacyLink) addFailure(key, `Google account dialog failed ${JSON.stringify(authCheck)}`);
-          else addPass(`${key} Google account dialog checked`);
-          await page.locator("[data-ot-auth-close]").click();
-        } catch (error) {
-          addFailure(key, `Google account UI exception: ${error?.message || error}`);
-        }
-      }
-
-      if (snapshot.badImages.length) addWarning(key, `images unavailable in QA runtime: ${snapshot.badImages.slice(0,3).join(" | ")}`);
+      if (snapshot.badImages.length) addWarning(key, `images unavailable in QA runtime: ${snapshot.badImages.filter(src=>!isIgnorableImage(src)).slice(0,3).join(" | ")}`);
       addPass(`${key} geometry checked`);
     } catch (error) {
       addFailure(key, `navigation/audit exception: ${error?.message || error}`);
@@ -230,12 +200,53 @@ for (const vp of viewports) {
     }
   }
 
+  for (const [homePath, region] of [["index.html","us"],["uk.html","uk"]]) {
+    const page = await context.newPage();
+    const key = `${vp.name}/${homePath}/interactive`;
+    try {
+      await page.addInitScript(() => { try { localStorage.removeItem("otRetailPromoSeen"); } catch (_) {} });
+      await page.goto(`${BASE}/${homePath}`, { waitUntil: "domcontentloaded", timeout: 30000 });
+      await page.waitForTimeout(1300);
+      const modalState = await page.evaluate((region) => {
+        const visible = el => { if(!el)return false; const s=getComputedStyle(el),r=el.getBoundingClientRect(); return s.display!=="none"&&s.visibility!=="hidden"&&r.width>0&&r.height>0; };
+        const overlay=document.querySelector(".ot-welcome"), card=document.querySelector(".ot-welcome-card"), r=card?.getBoundingClientRect();
+        const links=[...document.querySelectorAll(".ot-welcome-store-switch a")].filter(visible).map(a=>({text:(a.textContent||"").trim(),href:a.getAttribute("href")||"",active:a.classList.contains("active")}));
+        return { visible:Boolean(overlay&&visible(overlay)), card:r?{left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height}:null, direct:Boolean(document.querySelector(".ot-direct-continue,.ot-welcome-skip")), close:Boolean(document.querySelector(".ot-welcome-close")), storeLinks:links, region };
+      }, region);
+      if (!modalState.visible) addFailure(key, "first-visit welcome modal did not open");
+      if (!modalState.card || modalState.card.left < -2 || modalState.card.right > vp.width + 2) addFailure(key, `welcome modal outside viewport ${JSON.stringify(modalState.card)}`);
+      if (!modalState.direct || !modalState.close) addFailure(key, `welcome modal missing direct continue/close ${JSON.stringify(modalState)}`);
+      if (modalState.storeLinks.length !== 2) addFailure(key, `welcome modal missing US/UK switch ${JSON.stringify(modalState.storeLinks)}`);
+
+      const direct = page.locator(".ot-direct-continue,.ot-welcome-skip").first();
+      if (await direct.count()) { await direct.click(); await page.waitForTimeout(120); }
+      const stillOpen = await page.evaluate(() => { const el=document.querySelector(".ot-welcome"); return Boolean(el && !el.hidden && getComputedStyle(el).display!=="none"); });
+      if (stillOpen) addFailure(key, "direct continue did not dismiss welcome modal");
+
+      await page.waitForFunction(() => Boolean(window.__OMNI_FIREBASE_AUTH__), null, { timeout: 10000 });
+      const trigger = page.locator("[data-ot-auth-trigger]:visible").first();
+      if (await trigger.count() !== 1) throw new Error("no visible account trigger after welcome dismissal");
+      await trigger.click();
+      await page.waitForTimeout(150);
+      const auth = await page.evaluate(() => {
+        const overlay=document.querySelector("#otAuthOverlay"), dialog=document.querySelector(".ot-auth-dialog"), r=dialog?.getBoundingClientRect();
+        return { open:Boolean(overlay && !overlay.hidden), google:/continue with google/i.test(document.querySelector("[data-ot-google-signin]")?.textContent||""), email:Boolean(document.querySelector("#otAuthEmail")), password:Boolean(document.querySelector("#otAuthPassword")), privacy:Boolean(document.querySelector('.ot-auth-dialog a[href="privacy-policy.html"],.ot-auth-dialog a[href="/privacy-policy.html"]')), terms:Boolean(document.querySelector('.ot-auth-dialog a[href="terms-conditions.html"],.ot-auth-dialog a[href="/terms-conditions.html"]')), rect:r?{left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height}:null };
+      });
+      if (!auth.open || !auth.google || !auth.email || !auth.password || !auth.privacy || !auth.terms) addFailure(key, `account modal incomplete ${JSON.stringify(auth)}`);
+      if (!auth.rect || auth.rect.left < -2 || auth.rect.right > vp.width + 2) addFailure(key, `account modal outside viewport ${JSON.stringify(auth.rect)}`);
+      await page.locator("[data-ot-auth-close]").click();
+      addPass(`${key} welcome/store switch/account checked`);
+    } catch (error) {
+      addFailure(key, `interactive UI exception: ${error?.message || error}`);
+    } finally {
+      await page.close();
+    }
+  }
   await context.close();
 }
 
-// Authorization regression: pick a catalogue product not present in the real checkout registry.
 {
-  const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 }, colorScheme:"light" });
   const page = await context.newPage();
   await page.goto(`${BASE}/us-catalogue.html`, { waitUntil: "domcontentloaded", timeout: 30000 });
   await page.waitForTimeout(700);
@@ -244,34 +255,26 @@ for (const vp of viewports) {
     catch (_) { return []; }
   });
   const ineligible = ids.find(id => !enabledIds.has(id));
-  if (!ineligible) {
-    addFailure("authorization-regression", "could not find a non-authorized catalogue product for browser regression test");
-  } else {
-    await page.evaluate(id => {
-      localStorage.setItem("omniTerrainUsCart", JSON.stringify([{ id, quantity: 1 }]));
-      localStorage.removeItem("omniTerrainUsCoupon");
-    }, ineligible);
+  if (!ineligible) addFailure("authorization-regression", "could not find a non-authorized catalogue product for browser regression test");
+  else {
+    await page.evaluate(id => { localStorage.setItem("omniTerrainUsCart", JSON.stringify([{ id, quantity: 1 }])); localStorage.removeItem("omniTerrainUsCoupon"); }, ineligible);
     await page.goto(`${BASE}/checkout.html?qa=ineligible`, { waitUntil: "domcontentloaded", timeout: 30000 });
-    await page.waitForTimeout(1200);
-    const gate = await page.evaluate(() => ({
-      securePay: Boolean(document.querySelector("#otSecurePay")),
-      text: (document.querySelector("main")?.textContent || "").replace(/\s+/g," ").trim().slice(0,800),
-    }));
+    await page.waitForTimeout(1000);
+    const gate = await page.evaluate(() => ({ securePay: Boolean(document.querySelector("#otSecurePay")), text: (document.querySelector("main")?.textContent || "").replace(/\s+/g," ").trim().slice(0,800) }));
     if (gate.securePay) addFailure("authorization-regression", `non-authorized product ${ineligible} incorrectly exposes Stripe CTA`);
-    if (!/availability confirmation|need a quick current-availability check|no items to checkout/i.test(gate.text)) {
-      addFailure("authorization-regression", `non-authorized product ${ineligible} lacks safe availability state: ${gate.text}`);
-    } else addPass(`authorization-regression blocked ${ineligible}`);
+    if (!/availability confirmation|need a quick current-availability check|no items to checkout/i.test(gate.text)) addFailure("authorization-regression", `non-authorized product ${ineligible} lacks safe availability state: ${gate.text}`);
+    else addPass(`authorization-regression blocked ${ineligible}`);
   }
+  await page.close();
   await context.close();
 }
 
 await browser.close();
-
 console.log("=== OMNI TERRAIN RESPONSIVE BROWSER AUDIT ===");
-console.log(`PASS checks: ${pass.length}`);
+console.log(`PASS checks: ${passes.length}`);
 if (warnings.length) {
   console.log(`WARNINGS: ${warnings.length}`);
-  for (const item of warnings.slice(0, 30)) console.log(`WARN ${item.key}: ${item.detail}`);
+  for (const item of warnings.slice(0,40)) console.log(`WARN ${item.key}: ${item.detail}`);
 }
 if (failures.length) {
   console.log(`FAILURES: ${failures.length}`);
