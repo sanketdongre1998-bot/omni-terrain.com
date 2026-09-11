@@ -1,114 +1,12 @@
-/* Omni Terrain executive storefront layer — subtle premium polish across US + UK without changing commerce rules. */
-html.ot-executive{
-  --otx-navy:#051528;
-  --otx-navy-2:#0a2945;
-  --otx-gold:#d4aa55;
-  --otx-gold-2:#edd08b;
-  --otx-ink:#102033;
-  --otx-muted:#667484;
-  --otx-line:rgba(7,26,48,.10);
-  --otx-card:#fff;
-  --otx-soft:#f4f6f7;
-  --otx-shadow:0 18px 50px rgba(7,26,48,.08);
-  --otx-shadow-hover:0 26px 70px rgba(7,26,48,.13);
-}
-html.ot-executive body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;background-color:#f5f6f7}
-html.ot-executive h1,html.ot-executive h2,html.ot-executive h3{text-wrap:balance}
-html.ot-executive p{max-width:74ch}
-html.ot-executive ::selection{background:rgba(212,170,85,.26);color:#071a30}
-
-/* Regional storefront selector — deliberately prominent because currency, catalogue and availability differ by market. */
-html.ot-executive .market-strip{position:relative;z-index:94!important;background:#061629!important;border-bottom:1px solid rgba(237,208,139,.22)!important;box-shadow:0 8px 26px rgba(1,9,17,.16)!important}
-html.ot-executive .market-strip .container{display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:10px!important;min-height:70px!important;padding-top:8px!important;padding-bottom:8px!important;flex-wrap:wrap!important}
-html.ot-executive .market-strip .market-label{margin-right:6px!important;color:#e8c96f!important;font:800 .58rem/1.2 "DM Mono",monospace!important;letter-spacing:.12em!important;text-transform:uppercase!important}
-html.ot-executive .market-strip a{position:relative!important;display:grid!important;grid-template-columns:auto 1fr!important;grid-template-rows:auto auto!important;align-items:center!important;column-gap:10px!important;min-width:218px!important;min-height:50px!important;padding:8px 15px 8px 13px!important;border:1px solid rgba(255,255,255,.18)!important;border-radius:13px!important;background:linear-gradient(145deg,#0a2945,#071a30)!important;color:#fff!important;text-decoration:none!important;font-size:.72rem!important;font-weight:850!important;line-height:1.1!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)!important;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,background .18s ease!important}
-html.ot-executive .market-strip a::before{grid-row:1/3;display:grid;place-items:center;width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.08);font-size:1.25rem;line-height:1}
-html.ot-executive .market-strip a[href$="index.html"]::before,html.ot-executive .market-strip a[href="/"]::before{content:"🇺🇸"}
-html.ot-executive .market-strip a[href$="uk.html"]::before{content:"🇬🇧"}
-html.ot-executive .market-strip a[href$="index.html"]::after,html.ot-executive .market-strip a[href="/"]::after{content:"US products · USD";grid-column:2;color:#a9b9c7;font-size:.54rem;font-weight:650;letter-spacing:.02em}
-html.ot-executive .market-strip a[href$="uk.html"]::after{content:"UK products · GBP";grid-column:2;color:#a9b9c7;font-size:.54rem;font-weight:650;letter-spacing:.02em}
-html.ot-executive .market-strip a:hover{transform:translateY(-2px)!important;border-color:rgba(237,208,139,.55)!important;box-shadow:0 10px 24px rgba(0,0,0,.20)!important}
-html.ot-executive .market-strip a.market-link{border-color:#f0cf79!important;background:linear-gradient(135deg,#f0d785,#cfa143)!important;color:#071a30!important;box-shadow:0 10px 28px rgba(212,170,85,.30),inset 0 1px 0 rgba(255,255,255,.55)!important}
-html.ot-executive .market-strip a.market-link::before{background:rgba(255,255,255,.42)}
-html.ot-executive .market-strip a.market-link::after{color:#3d321d!important}
-html.ot-executive .market-strip .market-note{margin-left:auto!important;color:#9fb0bf!important;font-size:.58rem!important;line-height:1.4!important;text-align:right!important}
-
-/* Header / navigation */
-html.ot-executive #header,html.ot-executive header.header{background:rgba(255,255,255,.93);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(7,26,48,.08);box-shadow:0 8px 30px rgba(7,26,48,.035)}
-html.ot-executive #header.scrolled,html.ot-executive header.header.scrolled{box-shadow:0 16px 42px rgba(7,26,48,.085)}
-html.ot-executive .nav-links a,html.ot-executive .nav a{position:relative;font-weight:750;letter-spacing:.005em}
-html.ot-executive .nav-links a.active::after,html.ot-executive .nav a.active::after{content:"";position:absolute;left:0;right:0;bottom:-10px;height:2px;border-radius:999px;background:linear-gradient(90deg,#d4aa55,#edd08b);box-shadow:0 2px 10px rgba(212,170,85,.28)}
-html.ot-executive .nav-links a:focus-visible,html.ot-executive .nav a:focus-visible{outline:2px solid rgba(212,170,85,.55);outline-offset:6px;border-radius:4px}
-html.ot-executive .header-actions .cart-link,html.ot-executive .header-actions .header-contact,html.ot-executive .ot-auth-trigger{box-shadow:0 4px 14px rgba(7,26,48,.035)}
-
-/* Buttons */
-html.ot-executive .button,html.ot-executive .ot-live-button,html.ot-executive .ot-primary-btn,html.ot-executive .ot-secondary-btn{border-radius:12px;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease,filter .18s ease}
-html.ot-executive .button.primary,html.ot-executive .ot-primary-btn{background:linear-gradient(135deg,#e6c273,#c99331);color:#071a30!important;box-shadow:0 12px 30px rgba(201,147,49,.20)}
-html.ot-executive .button.dark,html.ot-executive .ot-live-button{background:linear-gradient(135deg,#071a30,#123c5d);box-shadow:0 12px 30px rgba(7,26,48,.16)}
-html.ot-executive .button:hover:not(:disabled),html.ot-executive .ot-live-button:hover:not(:disabled),html.ot-executive .ot-primary-btn:hover,html.ot-executive .ot-secondary-btn:hover{transform:translateY(-2px);box-shadow:0 16px 38px rgba(7,26,48,.16)}
-
-/* Cards and commerce surfaces */
-html.ot-executive .card,html.ot-executive .live-card,html.ot-executive .product-card,html.ot-executive .policy-card,html.ot-executive .contact-panel,html.ot-executive .commerce-card,html.ot-executive .detail-card,html.ot-executive .selection-card,html.ot-executive .quick-card{border-color:rgba(7,26,48,.10);box-shadow:0 10px 34px rgba(7,26,48,.045)}
-html.ot-executive .card:hover,html.ot-executive .live-card:hover,html.ot-executive .product-card:hover{box-shadow:var(--otx-shadow-hover);border-color:rgba(198,154,80,.44)}
-html.ot-executive .policy-card,html.ot-executive .contact-panel,html.ot-executive .commerce-card,html.ot-executive .detail-card{border-radius:22px}
-html.ot-executive .media,html.ot-executive .live-media,html.ot-executive .product-image,html.ot-executive .product-visual{background:linear-gradient(145deg,#fff,#edf1f4)}
-
-/* Forms */
-html.ot-executive input,html.ot-executive select,html.ot-executive textarea{border-color:rgba(7,26,48,.13);transition:border-color .16s ease,box-shadow .16s ease,background .16s ease}
-html.ot-executive input:focus,html.ot-executive select:focus,html.ot-executive textarea:focus{outline:none;border-color:#c69a50;box-shadow:0 0 0 4px rgba(198,154,80,.12)}
-html.ot-executive label{letter-spacing:.005em}
-
-/* Breadcrumbs / status / support */
-html.ot-executive .breadcrumb,html.ot-executive .crumbs{color:#748190}
-html.ot-executive .status-chip,html.ot-executive .range-status{box-shadow:inset 0 0 0 1px rgba(7,26,48,.04)}
-html.ot-executive .notice,html.ot-executive .checkout-note,html.ot-executive .policy-callout,html.ot-executive .address-card{border-radius:15px}
-
-/* Product pages */
-html.ot-executive .product-copy h1,html.ot-executive .product-summary h1{letter-spacing:-.035em}
-html.ot-executive .ot-live-buybox{border-radius:20px!important;box-shadow:0 18px 46px rgba(7,26,48,.08)!important}
-html.ot-executive .facts,html.ot-executive .identity-grid{border-radius:17px;overflow:hidden}
-html.ot-executive .product-detail-section,html.ot-executive .detail-card{scroll-margin-top:110px}
-
-/* Footer */
-html.ot-executive footer,html.ot-executive .footer{background:radial-gradient(circle at 84% 10%,rgba(212,170,85,.10),transparent 28%),#041424;color:#d7e2ec}
-html.ot-executive footer a:hover,html.ot-executive .footer a:hover{color:#e5be68}
-html.ot-executive .footer-bottom{border-top-color:rgba(255,255,255,.10)}
-
-/* Homepage premium search */
-body.home-premium-active .ot-cinema-search{display:grid;gap:8px;max-width:650px;margin-top:20px}
-body.home-premium-active .ot-cinema-search label{color:#e7c879;font:700 .54rem/1.25 "DM Mono",monospace;letter-spacing:.10em;text-transform:uppercase}
-body.home-premium-active .ot-cinema-search-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;padding:6px;border:1px solid rgba(255,255,255,.16);border-radius:14px;background:rgba(255,255,255,.075);backdrop-filter:blur(14px)}
-body.home-premium-active .ot-cinema-search input{min-width:0;min-height:46px;border:0;border-radius:9px;padding:0 14px;background:#fff;color:#0a2138;font:700 .72rem/1 Manrope,Arial,sans-serif}
-body.home-premium-active .ot-cinema-search button{min-height:46px;border:0;border-radius:9px;padding:0 18px;background:linear-gradient(135deg,#e6c273,#c99331);color:#071a30;font:850 .68rem/1 Manrope,Arial,sans-serif}
-body.home-premium-active .ot-cinema-search small{color:#91a6b7;font-size:.56rem;line-height:1.45}
-
-/* Policy / contact pages should feel deliberate, not templated. */
-html.ot-executive .policy-hero,html.ot-executive .contact-hero-shell,html.ot-executive .commerce-shell{background:radial-gradient(circle at 84% 12%,rgba(224,189,114,.22),transparent 24%),linear-gradient(135deg,#061629 0%,#0a2945 64%,#123b5b 100%);box-shadow:0 28px 70px rgba(6,22,41,.18)}
-html.ot-executive .policy-hero h1,html.ot-executive .contact-hero h1,html.ot-executive .commerce-shell h1{letter-spacing:-.04em}
-
-/* Dark mode parity */
-html.ot-executive[data-ot-theme="dark"] body{background:#07121e}
-html.ot-executive[data-ot-theme="dark"] #header,html.ot-executive[data-ot-theme="dark"] header.header{background:rgba(7,18,30,.92);border-color:#24384a}
-html.ot-executive[data-ot-theme="dark"] .card,html.ot-executive[data-ot-theme="dark"] .live-card,html.ot-executive[data-ot-theme="dark"] .product-card,html.ot-executive[data-ot-theme="dark"] .policy-card,html.ot-executive[data-ot-theme="dark"] .contact-panel,html.ot-executive[data-ot-theme="dark"] .commerce-card,html.ot-executive[data-ot-theme="dark"] .detail-card,html.ot-executive[data-ot-theme="dark"] .selection-card,html.ot-executive[data-ot-theme="dark"] .quick-card{border-color:#24384a;box-shadow:none}
-html.ot-executive[data-ot-theme="dark"] input,html.ot-executive[data-ot-theme="dark"] select,html.ot-executive[data-ot-theme="dark"] textarea{border-color:#2a4053}
-
-@media(max-width:900px){
-  html.ot-executive .market-strip .container{justify-content:center!important}
-  html.ot-executive .market-strip .market-label{width:100%!important;margin:0!important;text-align:center!important}
-  html.ot-executive .market-strip .market-note{width:100%!important;margin-left:0!important;text-align:center!important}
-}
-@media(max-width:760px){
-  html.ot-executive .policy-card,html.ot-executive .contact-panel,html.ot-executive .commerce-card,html.ot-executive .detail-card{border-radius:18px}
-  html.ot-executive .nav-links a.active::after,html.ot-executive .nav a.active::after{bottom:-6px}
-  body.home-premium-active .ot-cinema-search-row{grid-template-columns:1fr}
-  body.home-premium-active .ot-cinema-search button{width:100%}
-  html.ot-executive .market-strip .container{display:grid!important;grid-template-columns:1fr 1fr!important;gap:7px!important;min-height:auto!important;padding:9px 10px!important}
-  html.ot-executive .market-strip .market-label,html.ot-executive .market-strip .market-note{grid-column:1/-1!important}
-  html.ot-executive .market-strip .market-label{text-align:left!important}
-  html.ot-executive .market-strip .market-note{display:none!important}
-  html.ot-executive .market-strip a{min-width:0!important;min-height:48px!important;padding:7px 9px!important;font-size:.64rem!important}
-  html.ot-executive .market-strip a::before{width:30px;height:30px;font-size:1.05rem}
-  html.ot-executive .market-strip a::after{font-size:.47rem!important}
-}
-@media(pointer:coarse){html.ot-executive .button:hover,html.ot-executive .ot-live-button:hover,html.ot-executive .ot-primary-btn:hover,html.ot-executive .ot-secondary-btn:hover{transform:none}}
-@media(prefers-reduced-motion:reduce){html.ot-executive *{scroll-behavior:auto!important}}
+/* Omni Terrain global retail system — familiar ecommerce navigation and surfaces. */
+html.ot-executive{--otx-blue:#123a73;--otx-blue2:#0c2b57;--otx-navy:#071a30;--otx-yellow:#f2c94c;--otx-red:#d83b2d;--otx-green:#18794e;--otx-ink:#172536;--otx-muted:#667587;--otx-line:#dfe3e8;--otx-soft:#f5f6f7;--otx-card:#fff}html.ot-executive body{background:#fff;color:var(--otx-ink);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}html.ot-executive h1,html.ot-executive h2,html.ot-executive h3{color:#103368;text-wrap:balance}html.ot-executive p{max-width:74ch}html.ot-executive ::selection{background:#ffe8a2;color:#071a30}
+html.ot-executive .announcement{background:#071a30!important;color:#fff!important}html.ot-executive .announcement a{color:#ffdd74!important}
+html.ot-executive .market-strip{background:#f5f7f9!important;border-bottom:1px solid #dfe3e8!important;box-shadow:none!important}html.ot-executive .market-strip .container{display:flex!important;align-items:center!important;gap:9px!important;min-height:46px!important;flex-wrap:wrap!important}html.ot-executive .market-strip .market-label{color:#657384!important;font-size:9px!important;font-weight:900!important;text-transform:uppercase!important;letter-spacing:.08em!important}html.ot-executive .market-strip a{display:inline-flex!important;align-items:center!important;min-width:0!important;min-height:32px!important;padding:0 12px!important;border:1px solid #cbd3dc!important;border-radius:5px!important;background:#fff!important;color:#123a73!important;text-decoration:none!important;font-size:11px!important;font-weight:850!important;box-shadow:none!important}html.ot-executive .market-strip a:before,html.ot-executive .market-strip a:after{display:none!important}html.ot-executive .market-strip a.market-link{border-color:#123a73!important;background:#123a73!important;color:#fff!important;box-shadow:none!important}html.ot-executive .market-strip .market-note{margin-left:auto!important;color:#6d7a89!important;font-size:10px!important}
+html.ot-executive #header,html.ot-executive header.header{background:#fff!important;border-bottom:1px solid #dde2e7!important;box-shadow:0 2px 8px rgba(7,26,48,.06)!important;backdrop-filter:none!important}html.ot-executive .nav-links a,html.ot-executive .nav a{color:#26384d!important;font-weight:800!important}html.ot-executive .nav-links a:hover,html.ot-executive .nav a:hover{color:#123a73!important}html.ot-executive .nav-links a.active:after,html.ot-executive .nav a.active:after{background:#f2c94c!important;box-shadow:none!important}html.ot-executive .header-actions .cart-link,html.ot-executive .header-actions .header-contact,html.ot-executive .ot-auth-trigger{border-color:#cbd3dc!important;background:#fff!important;color:#123a73!important;box-shadow:none!important}
+html.ot-executive .button,html.ot-executive .ot-live-button,html.ot-executive .ot-primary-btn,html.ot-executive .ot-secondary-btn{border-radius:6px!important;font-weight:850!important;transition:.16s ease}html.ot-executive .button.primary,html.ot-executive .ot-primary-btn,html.ot-executive .ot-live-button{background:#123a73!important;color:#fff!important;box-shadow:none!important}html.ot-executive .button.dark{background:#0c2b57!important;color:#fff!important;box-shadow:none!important}html.ot-executive .button.outline,html.ot-executive .button.light,html.ot-executive .ot-secondary-btn{background:#fff!important;color:#123a73!important;border-color:#9fb0c2!important}html.ot-executive .button:hover:not(:disabled),html.ot-executive .ot-live-button:hover:not(:disabled),html.ot-executive .ot-primary-btn:hover,html.ot-executive .ot-secondary-btn:hover{transform:translateY(-1px);box-shadow:0 7px 18px rgba(7,26,48,.10)!important}
+html.ot-executive .card,html.ot-executive .live-card,html.ot-executive .product-card,html.ot-executive .policy-card,html.ot-executive .contact-panel,html.ot-executive .commerce-card,html.ot-executive .detail-card,html.ot-executive .selection-card,html.ot-executive .quick-card{border-color:#dce2e8!important;border-radius:8px!important;background:#fff!important;box-shadow:0 3px 12px rgba(7,26,48,.04)!important}html.ot-executive .card:hover,html.ot-executive .live-card:hover,html.ot-executive .product-card:hover{border-color:#9fb1c5!important;box-shadow:0 10px 25px rgba(7,26,48,.09)!important}html.ot-executive .media,html.ot-executive .live-media,html.ot-executive .product-image,html.ot-executive .product-visual{background:#f8f9fa!important}
+html.ot-executive input,html.ot-executive select,html.ot-executive textarea{border-color:#cbd3dc!important;border-radius:6px!important;background:#fff!important;color:#172536!important}html.ot-executive input:focus,html.ot-executive select:focus,html.ot-executive textarea:focus{outline:none!important;border-color:#123a73!important;box-shadow:0 0 0 3px rgba(18,58,115,.10)!important}
+html.ot-executive .notice,html.ot-executive .checkout-note,html.ot-executive .policy-callout,html.ot-executive .address-card{border-radius:7px!important}html.ot-executive .status.buy,html.ot-executive .ot-live-stock{background:#e6f5ed!important;color:#12633e!important}html.ot-executive .product-copy h1,html.ot-executive .product-summary h1{color:#103368!important;letter-spacing:-.025em}html.ot-executive .ot-live-buybox{border-radius:8px!important;box-shadow:0 5px 18px rgba(7,26,48,.07)!important}
+html.ot-executive .policy-hero,html.ot-executive .contact-hero-shell,html.ot-executive .commerce-shell{background:#eef3f8!important;color:#172536!important;box-shadow:none!important;border:1px solid #dce2e8!important;border-radius:10px!important}html.ot-executive .policy-hero h1,html.ot-executive .contact-hero h1,html.ot-executive .commerce-shell h1{color:#103368!important}
+html.ot-executive footer,html.ot-executive .footer{background:#071a30!important;color:#d7e2ec!important}html.ot-executive footer a:hover,html.ot-executive .footer a:hover{color:#ffda6b!important}
+@media(max-width:760px){html.ot-executive .market-strip .container{display:grid!important;grid-template-columns:1fr 1fr!important;gap:6px!important;padding:7px 10px!important}html.ot-executive .market-strip .market-label,html.ot-executive .market-strip .market-note{grid-column:1/-1!important}html.ot-executive .market-strip .market-note{display:none!important}html.ot-executive .market-strip a{justify-content:center!important;min-height:36px!important}}
