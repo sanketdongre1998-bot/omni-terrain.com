@@ -1,0 +1,82 @@
+/* Omni Terrain retail stabilization layer.
+   Keeps the new retail experience as the only visible shell and hardens mobile/modal behavior. */
+html.ot-home-retail-v2,html.ot-home-retail-v2 body{background:#fff!important;color-scheme:light!important}
+
+/* Legacy homepage chrome must never remain visible behind the new retail shell. */
+html.ot-home-retail-v2 .announcement,
+html.ot-home-retail-v2 .market-strip,
+html.ot-home-retail-v2 #header,
+html.ot-home-retail-v2 header.header,
+html.ot-home-retail-v2 .launch-strip,
+html.ot-home-retail-v2 .mobile-store-bar{display:none!important;visibility:hidden!important;pointer-events:none!important}
+html.ot-home-retail-v2 .ot-retail-header{display:block!important;visibility:visible!important;pointer-events:auto!important}
+
+/* Prevent old theme/layout layers from painting over the retail homepage. */
+body.ot-retail-home{min-width:0!important;overflow-x:hidden!important;background:#fff!important}
+body.ot-retail-home main.ot-retail-main{display:block!important;width:100%!important;max-width:none!important;margin:0!important;padding:0!important;background:#fff!important}
+body.ot-retail-home .ot-retail-width{box-sizing:border-box}
+body.ot-retail-home .ot-retail-header *,
+body.ot-retail-home .ot-retail-main *{box-sizing:border-box}
+
+/* One stable header; search stays usable and cards never bleed outside the viewport. */
+.ot-retail-header{isolation:isolate}
+.ot-retail-search input{min-width:0!important}
+.ot-retail-products,.ot-department-grid,.ot-benefit-grid,.ot-hero-grid{min-width:0}
+.ot-retail-product,.ot-department-grid>a,.ot-hero-copy,.ot-hero-deal{min-width:0}
+.ot-product-info h3,.ot-department-grid h3,.ot-hero-deal-copy h2{overflow-wrap:anywhere}
+.ot-hero-deal img,.ot-product-img img{max-width:100%!important}
+
+/* Welcome and account dialogs cannot stack visually or escape small screens. */
+.ot-welcome,.ot-auth-overlay{overscroll-behavior:contain}
+.ot-welcome-card,.ot-auth-dialog{max-width:100%;box-sizing:border-box}
+body.ot-auth-open .ot-welcome{display:none!important}
+
+/* Visible keyboard focus for real shoppers. */
+.ot-retail-header a:focus-visible,.ot-retail-header button:focus-visible,.ot-retail-header input:focus-visible,
+.ot-retail-main a:focus-visible,.ot-retail-main button:focus-visible,.ot-retail-main input:focus-visible,.ot-retail-main select:focus-visible{
+  outline:3px solid #f2c94c!important;outline-offset:2px!important
+}
+
+@media(max-width:760px){
+  .ot-retail-width{width:calc(100% - 20px)!important}
+  .ot-retail-mainbar .ot-retail-width{grid-template-columns:minmax(120px,1fr) auto auto!important;gap:7px!important;padding:8px 0!important}
+  .ot-retail-logo{min-width:0}
+  .ot-retail-logo img{width:min(150px,100%)!important;height:44px!important}
+  .ot-retail-actions{gap:4px!important}
+  .ot-account-button{display:flex!important;min-width:62px!important;min-height:42px!important;padding:5px 7px!important;align-items:center!important;text-align:center!important}
+  .ot-account-button span{display:none!important}
+  .ot-account-button strong{margin:0!important;font-size:10px!important}
+  .ot-cart-button{min-width:58px!important;min-height:42px!important;padding:5px 6px!important;align-items:center!important;text-align:center!important}
+  .ot-cart-button span{display:none!important}
+  .ot-cart-button strong{margin:0!important;font-size:10px!important}
+  .ot-retail-search{grid-column:1/-1!important;grid-row:2!important;width:100%!important}
+  .ot-retail-nav .ot-retail-width{width:100%!important;padding-left:10px!important;padding-right:10px!important}
+  .ot-retail-nav a{padding:12px 14px!important}
+  .ot-hero-grid{gap:12px!important}
+  .ot-hero-copy h1{font-size:clamp(3rem,17vw,4rem)!important}
+  .ot-hero-deal-copy{align-items:flex-start!important;flex-direction:column!important;gap:10px!important}
+  .ot-hero-price{text-align:left!important}
+  .ot-find-title{min-width:0!important}
+  .ot-find-form{width:100%!important}
+  .ot-support-cta .ot-retail-width{gap:20px!important}
+}
+
+@media(max-width:520px){
+  .ot-retail-utility .ot-retail-width{justify-content:center!important}
+  .ot-utility-links{display:none!important}
+  .ot-region-mini{width:100%!important;justify-content:center!important}
+  .ot-region-mini a small{display:none!important}
+  .ot-retail-mainbar .ot-retail-width{grid-template-columns:minmax(105px,1fr) 58px 58px!important}
+  .ot-retail-logo img{width:130px!important}
+  .ot-retail-search button{min-width:72px!important;padding-inline:8px!important}
+  .ot-retail-promo .ot-retail-width{display:grid!important;grid-template-columns:1fr auto!important;text-align:left!important}
+  .ot-retail-promo span{grid-column:1/-1!important;grid-row:2!important}
+  .ot-department-grid,.ot-retail-products,.ot-benefit-grid{grid-template-columns:1fr!important}
+  .ot-product-img{height:210px!important}.ot-product-img img{height:180px!important}
+  .ot-welcome{padding:0!important;align-items:end!important}
+  .ot-welcome-card{width:100%!important;max-height:100dvh!important;overflow:auto!important;border-radius:14px 14px 0 0!important}
+  .ot-welcome-copy{padding:32px 20px 24px!important}
+  .ot-welcome-copy>img{margin-bottom:16px!important}
+  .ot-auth-overlay{padding:0!important;align-items:end!important}
+  .ot-auth-dialog{width:100%!important;max-height:100dvh!important;border-radius:14px 14px 0 0!important;padding:30px 20px 24px!important}
+}
