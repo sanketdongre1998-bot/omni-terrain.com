@@ -1,4 +1,21 @@
 /* Omni Terrain UK retail refresh */
 html.ot-uk-refresh body{background:#fff!important;color:#172536!important}html.ot-uk-refresh .announcement{background:#071a30!important;color:#fff!important}html.ot-uk-refresh .market-strip{background:#f5f7f9!important;border-bottom:1px solid #dfe3e8!important}html.ot-uk-refresh #header,html.ot-uk-refresh header{background:#fff!important;border-bottom:1px solid #dce2e8!important;box-shadow:0 2px 8px rgba(7,26,48,.06)!important}html.ot-uk-refresh main{background:#fff!important}html.ot-uk-refresh .hero,html.ot-uk-refresh .uk-hero,html.ot-uk-refresh .home-hero{background:#eef3f8!important;color:#172536!important}html.ot-uk-refresh .hero-shell,html.ot-uk-refresh .uk-hero-shell,html.ot-uk-refresh .home-hero-shell{border:1px solid #dce2e8!important;border-radius:10px!important;background:#fff!important;box-shadow:0 4px 16px rgba(7,26,48,.05)!important;color:#172536!important}html.ot-uk-refresh h1,html.ot-uk-refresh h2,html.ot-uk-refresh h3{color:#103368!important}html.ot-uk-refresh p{color:#667587!important}html.ot-uk-refresh .button.primary,html.ot-uk-refresh .uk-button.primary{border-color:#123a73!important;background:#123a73!important;color:#fff!important}html.ot-uk-refresh .button.light,html.ot-uk-refresh .button.outline,html.ot-uk-refresh .uk-button.secondary{background:#fff!important;color:#123a73!important;border-color:#9fb0c2!important}html.ot-uk-refresh .card,html.ot-uk-refresh .product-card,html.ot-uk-refresh .category-card,html.ot-uk-refresh .range-card,html.ot-uk-refresh .uk-card{border:1px solid #dce2e8!important;border-radius:8px!important;background:#fff!important;box-shadow:0 3px 12px rgba(7,26,48,.04)!important}html.ot-uk-refresh .card:hover,html.ot-uk-refresh .product-card:hover{border-color:#9fb1c5!important;box-shadow:0 9px 22px rgba(7,26,48,.08)!important}html.ot-uk-refresh .media,html.ot-uk-refresh .product-media,html.ot-uk-refresh .uk-product-image{background:#f8f9fa!important}html.ot-uk-refresh .price,html.ot-uk-refresh .product-price{color:#c53125!important;font-weight:900}html.ot-uk-refresh .notice,html.ot-uk-refresh .callout{border-color:#e2c86e!important;border-radius:7px!important;background:#fff7d8!important;color:#594819!important}html.ot-uk-refresh footer{background:#071a30!important;color:#d7e2ec!important}
 @media(min-width:901px){html.ot-uk-refresh .catalogue-hero-shell{min-height:650px!important}html.ot-uk-refresh .catalogue-hero-grid{min-height:650px!important;padding-bottom:190px!important}}
-@media(max-width:760px){html.ot-uk-refresh .hero-shell,html.ot-uk-refresh .uk-hero-shell,html.ot-uk-refresh .home-hero-shell{border-radius:8px!important}}
+@media(max-width:760px){
+html.ot-uk-refresh .hero-shell,html.ot-uk-refresh .uk-hero-shell,html.ot-uk-refresh .home-hero-shell{border-radius:8px!important}
+html.ot-uk-refresh .product-layout,html.ot-uk-refresh .detail-grid,html.ot-uk-refresh .fitment-box{width:100%!important;min-width:0!important;max-width:100%!important}
+html.ot-uk-refresh .product-layout>*,html.ot-uk-refresh .detail-grid>*,html.ot-uk-refresh .fitment-box>*{min-width:0!important;max-width:100%!important}
+html.ot-uk-refresh .gallery-card{width:100%!important;min-width:0!important;max-width:100%!important;overflow:hidden!important}
+html.ot-uk-refresh .gallery-thumbs{display:flex!important;width:100%!important;min-width:0!important;max-width:100%!important;overflow-x:auto!important;overflow-y:hidden!important;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+html.ot-uk-refresh .gallery-thumb{flex:0 0 68px!important;min-width:68px!important;max-width:68px!important}
+html.ot-uk-refresh .detail-card{width:100%!important;min-width:0!important;max-width:100%!important;overflow:hidden!important}
+html.ot-uk-refresh .detail-card *,html.ot-uk-refresh .quick-card span,html.ot-uk-refresh .meta-topline,html.ot-uk-refresh .spec-row span{min-width:0;overflow-wrap:anywhere;word-break:break-word}
+html.ot-uk-refresh .spec-row{grid-template-columns:minmax(86px,110px) minmax(0,1fr)!important;min-width:0!important;gap:12px!important}
+html.ot-uk-refresh .source-note{max-width:100%;white-space:normal;overflow-wrap:anywhere}
+}
+@media(max-width:380px){
+html.ot-uk-refresh .container{width:calc(100% - 20px)!important}
+html.ot-uk-refresh .detail-card,html.ot-uk-refresh .fitment-copy,html.ot-uk-refresh .fitment-panel{padding:20px!important}
+html.ot-uk-refresh .gallery-main{padding:14px!important}
+html.ot-uk-refresh .product-title{font-size:2.65rem!important}
+}
