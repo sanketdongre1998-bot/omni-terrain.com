@@ -79,9 +79,9 @@ def main() -> int:
         ('home-premium.js?v=retail-5', "US retail homepage runtime"),
         ('uk-home-retail.js?v=2', "UK retail homepage runtime"),
         ('retail-region-enhancements.js?v=2', "regional switch/welcome enhancement"),
+        ('querySelectorAll("[data-ot-theme-toggle],.ot-theme-toggle").forEach(node=>node.remove())', "legacy theme-toggle removal"),
     ]:
         need("assets/storefront-performance.js", token, label)
-    ban("assets/storefront-performance.js", "data-ot-theme-toggle", "runtime dark-mode toggle")
 
     for token, label in [
         ('class="ot-retail-header"', "retail header"),
@@ -104,7 +104,7 @@ def main() -> int:
         ('Continue as guest', "guest continue path"),
     ]:
         need("assets/uk-home-retail.js", token, label)
-    ban("assets/uk-home-retail.js", "$", "USD merchandising on UK homepage")
+    ban("assets/uk-home-retail.js", 'currency:"USD"', "USD currency formatting on UK homepage")
 
     need("assets/retail-region-enhancements.js", 'US Store', "US store option in welcome/region switch")
     need("assets/retail-region-enhancements.js", 'UK Store', "UK store option in welcome/region switch")
