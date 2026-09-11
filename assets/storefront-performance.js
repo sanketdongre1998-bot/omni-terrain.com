@@ -21,7 +21,7 @@
   addCss("otResponsiveCss","/assets/responsive-hardening.css?v=4");
   addCss("otBrandSpeedCss","/assets/brand-speed.css?v=16");
   addCss("otRetailRegionCss","/assets/retail-region-enhancements.css?v=2");
-  addCss("otRetailColorSystem","/assets/retail-color-system.css?v=2");
+  addCss("otRetailColorSystem","/assets/retail-color-system.css?v=3");
 
   const scrubLegacyHome=()=>{
     if(!home)return;
