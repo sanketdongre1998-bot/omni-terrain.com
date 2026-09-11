@@ -3,15 +3,12 @@
   if(window.__OMNI_THEME_TOGGLE__)return;
   window.__OMNI_THEME_TOGGLE__=true;
   const ensureTheme=()=>{
-    let link=document.querySelector('link[data-ot-yahoo-retail]');
-    if(!link){
-      link=document.createElement("link");
-      link.rel="stylesheet";
-      link.href="/assets/bnq-yahoo-light.css?v=20260912-1";
-      link.dataset.otYahooRetail="true";
-    }
-    document.head.appendChild(link);
-    return link;
+    let base=document.querySelector('link[data-ot-yahoo-retail]');
+    if(!base){base=document.createElement("link");base.rel="stylesheet";base.href="/assets/bnq-yahoo-light.css?v=20260912-1";base.dataset.otYahooRetail="true";}
+    document.head.appendChild(base);
+    let tokens=document.querySelector('link[data-ot-yahoo-tokens]');
+    if(!tokens){tokens=document.createElement("link");tokens.rel="stylesheet";tokens.href="/assets/yahoo-purple-tokens.css?v=20260912-1";tokens.dataset.otYahooTokens="true";}
+    document.head.appendChild(tokens);
   };
   const apply=()=>{
     document.documentElement.dataset.otTheme="light";
@@ -24,13 +21,8 @@
   };
   apply();
   if(document.readyState==="loading"){
-    document.addEventListener("DOMContentLoaded",()=>{
-      apply();
-      setTimeout(ensureTheme,0);
-      setTimeout(ensureTheme,750);
-    },{once:true});
+    document.addEventListener("DOMContentLoaded",()=>{apply();setTimeout(ensureTheme,0);setTimeout(ensureTheme,750);},{once:true});
   }else{
-    setTimeout(ensureTheme,0);
-    setTimeout(ensureTheme,750);
+    setTimeout(ensureTheme,0);setTimeout(ensureTheme,750);
   }
 })();
