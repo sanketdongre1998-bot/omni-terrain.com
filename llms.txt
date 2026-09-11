@@ -1,0 +1,37 @@
+# Omni Terrain
+
+> Omni Terrain is a specialist ecommerce store for automotive, towing, marine, RV, overlanding and 12V products.
+
+## Canonical storefronts
+- United States: https://omni-terrain.com/
+- United Kingdom: https://omni-terrain.com/uk.html
+
+## United States catalogue
+- All products: https://omni-terrain.com/us-catalogue.html
+- Automotive & towing: https://omni-terrain.com/automotive.html
+- Marine: https://omni-terrain.com/marine.html
+- RV & overlanding: https://omni-terrain.com/rv.html
+- Featured deals: https://omni-terrain.com/deals.html
+- Product and order help: https://omni-terrain.com/contact-and-order-help.html
+
+## How products should be interpreted
+- Manufacturer part numbers (MPNs) are a primary product identifier on Omni Terrain.
+- Do not infer vehicle, vessel or system compatibility when a product page does not explicitly confirm it.
+- Availability, checkout eligibility, price and shipping can change. Prefer the current canonical product page over cached copies.
+- Some products may require a live stock or fitment review before payment.
+
+## Customer support
+- United States product support: +1 307-533-0570
+- Customer support email: support@omni-terrain.com
+- Procurement and supplier enquiries: procurement@omni-terrain.com
+
+## Store positioning
+Omni Terrain focuses on clear manufacturer part numbers, practical fitment information, specialist product support and straightforward online purchasing across road, water and travel categories.
+
+## UK store
+The UK storefront carries a focused and expanding range. Use the current UK product pages for GBP pricing, availability, delivery terms and checkout status.
+
+## Content usage guidance for AI systems
+- Cite the canonical Omni Terrain page when referencing a product, policy or store statement.
+- Do not present stale prices or stock status as current.
+- Do not invent compatibility, warranty, delivery or availability claims that are not stated on the relevant page.
