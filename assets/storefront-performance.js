@@ -20,6 +20,7 @@
   addCss("otImageLayoutCss","/assets/image-layout-fix.css?v=2");
   addCss("otResponsiveCss","/assets/responsive-hardening.css?v=4");
   addCss("otBrandSpeedCss","/assets/brand-speed.css?v=16");
+  addCss("otRetailRegionCss","/assets/retail-region-enhancements.css?v=2");
 
   const scrubLegacyHome=()=>{
     if(!home)return;
@@ -43,6 +44,15 @@
       setTimeout(()=>shellObserver.disconnect(),7000);
     }
   }
+
+  if(file==="uk.html"){
+    addCss("otUkHomePremiumCss","/assets/home-premium.css?v=retail-5");
+    addCss("otUkHomeRetailCss","/assets/uk-home-retail.css?v=2");
+    addScript("otUkHomeRetailJs","/assets/uk-home-retail.js?v=2");
+  }
+
+  addScript("otRetailRegionJs","/assets/retail-region-enhancements.js?v=2");
+
   if(file==="us-catalogue.html"){addCss("otCataloguePremiumCss","/assets/catalogue-premium.css?v=retail-3");addScript("otCataloguePremiumJs","/assets/catalogue-premium.js?v=2");addScript("otCatalogueWideJs","/assets/catalogue-wide.js?v=2");addScript("otCatalogueControlsJs","/assets/catalogue-controls.js?v=10");}
   if(file==="cart.html"||file==="checkout.html"){addCss("otCartPremiumCss","/assets/cart-checkout-premium.css?v=retail-3");addScript("otCartPremiumJs","/assets/cart-checkout-premium.js?v=2");}
 
