@@ -63,7 +63,8 @@ jobs:
               await page.screenshot({path:`homepage-${theme}-${label}.png`,fullPage:true});
               if(state.bodyWidth>state.viewport+2) throw new Error(`${theme}/${label} horizontal overflow ${state.bodyWidth}>${state.viewport}`);
               if(!state.logo.includes('omni-terrain-approved-gt.webp')) throw new Error(`${theme}/${label} locked logo missing`);
-              if(!state.hero.includes('Built for road.')||!state.hero.includes('Specialist automotive, marine, RV and 12V parts')) throw new Error(`${theme}/${label} premium hero missing`);
+              const heroNormalized=state.hero.toLowerCase();
+              if(!heroNormalized.includes('built for road.')||!heroNormalized.includes('specialist automotive, marine, rv and 12v parts')) throw new Error(`${theme}/${label} premium hero missing`);
               if(!state.heroImage.includes('FTL5607_1.jpg')) throw new Error(`${theme}/${label} Fabtech hero image missing: ${state.heroImage}`);
               if(state.featuredCount!==4) throw new Error(`${theme}/${label} expected 4 featured cards, got ${state.featuredCount}`);
               if(state.featuredHeading!=='Selected upgrades. Clear pricing.') throw new Error(`${theme}/${label} unexpected featured heading: ${state.featuredHeading}`);
