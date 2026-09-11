@@ -84,7 +84,7 @@ def main() -> int:
         need("assets/storefront-performance.js", token, label)
 
     for token, label in [
-        ('class="ot-retail-header"', "retail header"),
+        ('header.className="ot-retail-header"', "retail header"),
         ('Find the right part.', "clear US hero"),
         ('ot-region-mini', "US/UK store switch"),
         ('data-ot-auth-trigger', "account trigger"),
@@ -96,7 +96,7 @@ def main() -> int:
     ban("assets/home-premium.js", "£", "GBP merchandising on US homepage")
 
     for token, label in [
-        ('class="ot-retail-header"', "retail header"),
+        ('header.className="ot-retail-header"', "retail header"),
         ('UK auto, marine', "clear UK hero"),
         ('Find a UK product', "UK product finder"),
         ('currency:\"GBP\"', "GBP formatting"),
