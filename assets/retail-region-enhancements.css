@@ -1,0 +1,32 @@
+/* Centered US/UK store switch + visitor welcome controls */
+.ot-retail-utility .ot-retail-width{position:relative;justify-content:center!important}
+.ot-region-mini{justify-content:center!important;gap:8px!important}
+.ot-region-mini a{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:28px;padding:0 12px!important;border:1px solid rgba(255,255,255,.2);border-radius:999px;color:#e8eef5!important;text-decoration:none;font-weight:800!important;line-height:1}
+.ot-region-mini a.active{border-color:#f2c94c;background:#f2c94c;color:#071a30!important}
+.ot-region-mini a small{margin-left:6px!important;color:inherit!important;opacity:.72}
+.ot-retail-utility .ot-utility-links{position:absolute;right:0;top:50%;transform:translateY(-50%)}
+
+.market-strip .container.ot-centered-market{position:relative;display:flex!important;justify-content:center!important;align-items:center!important;gap:8px!important}
+.market-strip .container.ot-centered-market .market-label{position:absolute;left:0}
+.market-strip .container.ot-centered-market .market-note{position:absolute;right:0;margin-left:0!important}
+.market-strip .container.ot-centered-market>a{min-width:108px!important;justify-content:center!important;text-align:center}
+
+.ot-welcome-copy .ot-welcome-store-switch{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 18px;padding:5px;border:1px solid #d8dee5;border-radius:9px;background:#f5f7f9}
+.ot-welcome-store-switch a{display:flex;min-height:40px;align-items:center;justify-content:center;border-radius:6px;color:#365b86;text-decoration:none;font-size:11px;font-weight:900}
+.ot-welcome-store-switch a:hover{background:#fff}
+.ot-welcome-store-switch a.active{background:#123a73;color:#fff;box-shadow:0 3px 10px rgba(7,26,48,.12)}
+.ot-welcome-skip.ot-direct-continue{width:100%;min-height:46px;margin-top:10px;border:1px solid #9fb0c2!important;border-radius:6px!important;background:#fff!important;color:#123a73!important;text-decoration:none!important;font-weight:900!important;cursor:pointer}
+.ot-welcome-skip.ot-direct-continue:hover{background:#f5f7f9!important}
+.ot-welcome-or{display:flex;align-items:center;gap:10px;margin:12px 0;color:#8a95a0;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+.ot-welcome-or:before,.ot-welcome-or:after{content:"";height:1px;flex:1;background:#e1e5e9}
+
+@media(max-width:760px){
+  .ot-retail-utility .ot-utility-links{display:none!important}
+  .ot-retail-utility .ot-retail-width{justify-content:center!important}
+  .ot-region-mini{width:100%;justify-content:center!important}
+  .ot-region-mini a{min-width:112px;min-height:30px}
+  .market-strip .container.ot-centered-market{display:grid!important;grid-template-columns:1fr 1fr!important;padding:7px 10px!important}
+  .market-strip .container.ot-centered-market .market-label,.market-strip .container.ot-centered-market .market-note{position:static;grid-column:1/-1;text-align:center}
+  .market-strip .container.ot-centered-market .market-note{display:none!important}
+  .market-strip .container.ot-centered-market>a{width:100%;min-width:0!important}
+}
