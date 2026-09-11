@@ -6,3 +6,4 @@ body.ot-retail-home .ot-account-button,body.ot-retail-home .ot-cart-button{backg
 body.ot-retail-home .ot-account-button span,body.ot-retail-home .ot-cart-button span{color:#dce8f4!important}
 body.ot-retail-home .ot-account-button strong,body.ot-retail-home .ot-cart-button strong{color:#fff!important}
 body.ot-retail-home .ot-account-button:hover,body.ot-retail-home .ot-cart-button:hover{background:rgba(255,255,255,.10)!important;border-color:rgba(255,255,255,.48)!important}
+@media(max-width:760px){body.ot-retail-home .ot-retail-mainbar .ot-retail-width{grid-template-columns:1fr auto auto!important}body.ot-retail-home .ot-account-button{display:flex!important;min-width:62px!important;padding:5px 7px!important}body.ot-retail-home .ot-account-button span{font-size:9px!important}body.ot-retail-home .ot-account-button strong{font-size:10px!important}body.ot-retail-home .ot-cart-button{min-width:58px!important}}
