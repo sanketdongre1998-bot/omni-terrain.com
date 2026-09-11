@@ -2,6 +2,7 @@
   'use strict';
   if (window.__OMNI_INVESTOR_POLISH__) return;
   window.__OMNI_INVESTOR_POLISH__ = true;
+  const CUSTOMER_TRUST_COPY = 'Shop with confidence.';
 
   const page = decodeURIComponent(String(location.pathname || '/').split('/').filter(Boolean).pop() || 'index.html').toLowerCase();
   const $ = (sel, root=document) => root.querySelector(sel);
