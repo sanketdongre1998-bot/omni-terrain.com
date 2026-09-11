@@ -21,11 +21,33 @@
   addCss("otResponsiveCss","/assets/responsive-hardening.css?v=4");
   addCss("otBrandSpeedCss","/assets/brand-speed.css?v=16");
 
-  if(home){addCss("otHomePremiumCss","/assets/home-premium.css?v=retail-4");addScript("otHomePremiumJs","/assets/home-premium.js?v=retail-4");}
+  const scrubLegacyHome=()=>{
+    if(!home)return;
+    document.documentElement.classList.add("ot-home-retail-v2");
+    document.querySelectorAll(".announcement,.market-strip,#header,header.header,.launch-strip,.mobile-store-bar").forEach(node=>{
+      if(!node.classList.contains("ot-retail-header"))node.remove();
+    });
+    document.querySelectorAll("[data-ot-theme-toggle],.ot-theme-toggle").forEach(node=>node.remove());
+  };
+
+  if(home){
+    scrubLegacyHome();
+    ready(scrubLegacyHome);
+    addCss("otRetailGlitchFixes","/assets/retail-glitch-fixes.css?v=1");
+    addCss("otHomePremiumCss","/assets/home-premium.css?v=retail-5");
+    addScript("otHomePremiumJs","/assets/home-premium.js?v=retail-5");
+    if("MutationObserver" in window){
+      const shellObserver=new MutationObserver(()=>scrubLegacyHome());
+      const target=document.body||document.documentElement;
+      shellObserver.observe(target,{childList:true,subtree:false});
+      setTimeout(()=>shellObserver.disconnect(),7000);
+    }
+  }
   if(file==="us-catalogue.html"){addCss("otCataloguePremiumCss","/assets/catalogue-premium.css?v=retail-3");addScript("otCataloguePremiumJs","/assets/catalogue-premium.js?v=2");addScript("otCatalogueWideJs","/assets/catalogue-wide.js?v=2");addScript("otCatalogueControlsJs","/assets/catalogue-controls.js?v=10");}
   if(file==="cart.html"||file==="checkout.html"){addCss("otCartPremiumCss","/assets/cart-checkout-premium.css?v=retail-3");addScript("otCartPremiumJs","/assets/cart-checkout-premium.js?v=2");}
 
   ready(()=>{
+    scrubLegacyHome();
     document.querySelectorAll(".brand,.ot-site-brand").forEach(brand=>{brand.querySelectorAll(".ot-brand-crest,.brand-badge,.brand-mark,.logo-badge,.logo-mark").forEach(n=>n.remove());let img=brand.querySelector("img.ot-brand-logo-image");if(!img){img=document.createElement("img");img.className="ot-brand-logo-image";brand.replaceChildren(img);}img.src="/assets/omni-terrain-approved-gt.webp?v=1";img.alt="Omni Terrain";img.width=270;img.height=90;img.decoding="async";img.loading="eager";img.style.objectFit="contain";img.style.objectPosition="left center";});
     if(document.querySelector(".product-layout")&&document.querySelector(".product-copy")&&document.querySelector(".product-visual")){addCss("otProductPremiumCss","/assets/product-page-premium.css?v=retail-3");addCss("otProductEnrichmentCss","/assets/product-content-enrichment.css?v=2");addScript("otProductPremiumJs","/assets/product-page-premium.js?v=2");}
   });
