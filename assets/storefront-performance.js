@@ -4,8 +4,10 @@
   window.__OMNI_PERFORMANCE__ = true;
 
   const path=decodeURIComponent(String(location.pathname||"").split("/").filter(Boolean).pop()||"").toLowerCase();
+  const lang=String(document.documentElement.lang||"").toLowerCase();
   const mobile=window.matchMedia&&window.matchMedia("(max-width:760px)").matches;
   const idle=(fn,timeout=1200)=>{"requestIdleCallback" in window?requestIdleCallback(fn,{timeout}):setTimeout(fn,Math.min(timeout,700));};
+  const onReady=(fn)=>document.readyState==="loading"?document.addEventListener("DOMContentLoaded",fn,{once:true}):fn();
   const usesUsShell=Boolean(document.querySelector('script[src*="us-shell.js"]'));
 
   const ensureCss=(selector,href,datasetKey)=>{
@@ -21,6 +23,27 @@
     document.head.appendChild(link);
     return link;
   };
+
+  const ensureScript=(selector,src,datasetKey)=>{
+    const existing=document.querySelector(selector);
+    if(existing)return existing;
+    const script=document.createElement("script");
+    script.src=src;
+    script.async=false;
+    if(datasetKey)script.dataset[datasetKey]="true";
+    document.head.appendChild(script);
+    return script;
+  };
+
+  /* Universal executive presentation layer. */
+  document.documentElement.classList.add("ot-executive");
+  ensureCss('link[data-ot-executive],link[href*="executive-polish.css"]',"/assets/executive-polish.css?v=1","otExecutive");
+
+  const isUk=lang.startsWith("en-gb")||path==="uk.html"||/^uk-/.test(path)||path==="shield-autocare-uk.html";
+  if(isUk){
+    document.documentElement.classList.add("ot-uk-refresh");
+    ensureCss('link[data-ot-uk-refresh],link[href*="uk-storefront-refresh.css"]',"/assets/uk-storefront-refresh.css?v=2","otUkRefresh");
+  }
 
   if(!usesUsShell){
     ensureCss('link[data-ot-image-layout],link[data-ot-image-layout-fix],link[href*="image-layout-fix.css"]',"/assets/image-layout-fix.css?v=2","otImageLayout");
@@ -59,7 +82,31 @@
     img.addEventListener("error",()=>{brand.classList.remove("ot-logo-direct");},{once:true});
   };
   const upgradeBrands=()=>document.querySelectorAll(".brand,.ot-site-brand").forEach(mountLockedLogo);
-  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",upgradeBrands,{once:true});else upgradeBrands();
+  onReady(upgradeBrands);
+
+  /* Premium page-specific layers. */
+  if(path===""||path==="index.html"){
+    ensureCss('link[data-ot-home-premium],link[href*="home-premium.css"]',"/assets/home-premium.css?v=2","otHomePremium");
+    ensureScript('script[data-ot-home-premium],script[src*="home-premium.js"]',"/assets/home-premium.js?v=2","otHomePremium");
+  }
+
+  if(path==="us-catalogue.html"){
+    ensureCss('link[data-ot-catalogue-premium],link[href*="catalogue-premium.css"]',"/assets/catalogue-premium.css?v=2","otCataloguePremium");
+    ensureScript('script[data-ot-catalogue-premium],script[src*="catalogue-premium.js"]',"/assets/catalogue-premium.js?v=2","otCataloguePremium");
+  }
+
+  if(path==="cart.html"||path==="checkout.html"){
+    ensureCss('link[data-ot-cart-premium],link[href*="cart-checkout-premium.css"]',"/assets/cart-checkout-premium.css?v=2","otCartPremium");
+    ensureScript('script[data-ot-cart-premium],script[src*="cart-checkout-premium.js"]',"/assets/cart-checkout-premium.js?v=2","otCartPremium");
+  }
+
+  onReady(()=>{
+    if(document.querySelector(".product-layout")&&document.querySelector(".product-copy")&&document.querySelector(".product-visual")){
+      ensureCss('link[data-ot-product-premium],link[href*="product-page-premium.css"]',"/assets/product-page-premium.css?v=2","otProductPremium");
+      ensureCss('link[data-ot-product-enrichment],link[href*="product-content-enrichment.css"]',"/assets/product-content-enrichment.css?v=2","otProductEnrichment");
+      ensureScript('script[data-ot-product-premium],script[src*="product-page-premium.js"]',"/assets/product-page-premium.js?v=2","otProductPremium");
+    }
+  });
 
   if(!document.querySelector('script[data-ot-ad-readiness]')){
     const ads=document.createElement("script");ads.src="/assets/ad-readiness.js?v=2";ads.defer=true;ads.dataset.otAdReadiness="true";document.head.appendChild(ads);
@@ -67,7 +114,7 @@
 
   idle(()=>{
     if(!document.querySelector('script[data-ot-customer-copy]')){
-      const marketing=document.createElement("script");marketing.src="/assets/customer-marketing-copy.js?v=1";marketing.defer=true;marketing.dataset.otCustomerCopy="true";document.head.appendChild(marketing);
+      const marketing=document.createElement("script");marketing.src="/assets/customer-marketing-copy.js?v=2";marketing.defer=true;marketing.dataset.otCustomerCopy="true";document.head.appendChild(marketing);
     }
   },650);
 
@@ -95,7 +142,7 @@
       const labels=["Truck & SUV","Boat & Marine","RV & Travel"];
       document.querySelectorAll(".category-home .count").forEach((node,index)=>{node.textContent=labels[index]||"Shop category";});
     };
-    if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",cleanHomeProof,{once:true}); else cleanHomeProof();
+    onReady(cleanHomeProof);
     if(!document.querySelector('script[data-ot-live-priority]')){
       const priority=document.createElement("script");priority.src="/assets/live-storefront-priority.js?v=8";priority.defer=true;priority.dataset.otLivePriority="true";document.head.appendChild(priority);
     }
@@ -138,7 +185,7 @@
     if(!raw.includes("vehiclepartimages.com/ImageServerAPI")) return;
     try{
       const u=new URL(raw,location.href);
-      const hero=Boolean(img.closest(".product-visual,.hero-showcase"));
+      const hero=Boolean(img.closest(".product-visual,.hero-showcase,.ot-motion-stage"));
       u.searchParams.set("maxheight",hero?"620":"380");
       u.searchParams.set("maxwidth",hero?"760":"520");
       img.dataset.otMobileSized="1";
