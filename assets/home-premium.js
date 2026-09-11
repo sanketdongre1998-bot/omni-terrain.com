@@ -3,6 +3,8 @@
 
   const path = String(window.location.pathname || "/");
   if (!(path === "/" || /\/index\.html$/i.test(path))) return;
+  if (window.__OMNI_HOME_PREMIUM__) return;
+  window.__OMNI_HOME_PREMIUM__ = true;
 
   document.body.classList.add("home-premium-active");
 
@@ -14,7 +16,7 @@
 
   let liveConfig = { products: {} };
   try {
-    const response = await fetch("/assets/us-live-products.json?v=cinematic-1", { cache: "no-store" });
+    const response = await fetch("/assets/us-live-products.json?v=cinematic-2", { cache: "no-store" });
     if (response.ok) liveConfig = await response.json();
   } catch (_) {}
 
@@ -34,21 +36,21 @@
     document.querySelectorAll('.mobile-nav a[href="checkout.html"]').forEach((link) => { link.textContent = "Secure Checkout"; });
 
     const announcement = document.querySelector(".announcement span");
-    if (announcement) announcement.innerHTML = "<strong>Omni Terrain US:</strong> Specialist parts for road, water &amp; travel — selected products available online.";
+    if (announcement) announcement.innerHTML = "<strong>Omni Terrain US:</strong> Specialist parts for road, water &amp; travel — shop by brand, category or exact MPN.";
     const marketNote = document.querySelector(".market-note");
     if (marketNote) marketNote.textContent = "US storefront · UK storefront · specialist product support";
     const launch = document.querySelector(".launch-strip .container");
-    if (launch) launch.innerHTML = '<span class="launch-dot" aria-hidden="true"></span><span>Online pricing is live on selected products. More products are enabled as supplier, stock and shipping checks are completed.</span>';
+    if (launch) launch.innerHTML = '<span class="launch-dot" aria-hidden="true"></span><span><strong>Live storefront:</strong> eligible products show current online pricing, availability and secure checkout.</span><a href="deals.html">View featured deals →</a>';
 
     document.querySelectorAll("footer a, .mobile-store-bar a").forEach((link) => {
       if (/request cart/i.test(link.textContent || "")) link.textContent = "Cart";
     });
     document.querySelectorAll("footer .footer-copy").forEach((node) => {
-      node.textContent = "Specialist automotive, marine, RV and 12V equipment for customers who care about the right part, the right application and clear support.";
+      node.textContent = "Specialist automotive, marine, RV and 12V equipment with clear MPNs, practical fitment guidance and customer support.";
     });
     document.querySelectorAll(".footer-bottom span").forEach((node) => {
       if (/request|no payment before confirmation/i.test(node.textContent || "")) {
-        node.textContent = "US Store · Selected products available for secure online checkout";
+        node.textContent = "US Store · Secure online checkout on eligible products";
       }
     });
   }
@@ -65,19 +67,24 @@
         <div class="ot-cinema-copy">
           <div class="ot-cinema-kicker">Omni Terrain / United States</div>
           <h1>Built for road.<br><em>Water.</em> Beyond.</h1>
-          <p>Specialist automotive, marine, RV and 12V equipment with clear manufacturer part numbers, practical fitment guidance and a growing online-buy catalogue.</p>
+          <p>Specialist automotive, marine, RV and 12V parts with exact manufacturer part numbers, practical fitment guidance, live availability and secure checkout.</p>
           <div class="ot-cinema-actions">
             <a class="ot-primary" href="us-catalogue.html">Explore the US store →</a>
             <a class="ot-secondary" href="automotive.html">Shop Auto Parts</a>
             <a class="ot-secondary" href="marine.html">Shop Marine</a>
           </div>
+          <form class="ot-cinema-search" id="otCinemaSearch" role="search">
+            <label for="otCinemaSearchInput">Find a product by brand or manufacturer part number</label>
+            <div class="ot-cinema-search-row"><input id="otCinemaSearchInput" type="search" autocomplete="off" spellcheck="false" placeholder="Try Fabtech, Blue Sea or an exact MPN"><button type="submit">Search catalogue</button></div>
+            <small>Search the U.S. catalogue by brand, product name or exact MPN.</small>
+          </form>
           <div class="ot-cinema-proof" aria-label="Store highlights">
-            <div><b>300+</b><span>specialist products across focused categories</span></div>
-            <div><b>15+</b><span>established manufacturers represented in the catalogue</span></div>
+            <div><b>1,000</b><span>catalogued products across focused specialist categories</span></div>
+            <div><b>15+</b><span>established manufacturers represented across the range</span></div>
             <div><b>US + UK</b><span>two regional storefronts under one Omni Terrain brand</span></div>
           </div>
         </div>
-        <div class="ot-motion-stage" aria-label="Omni Terrain road water and power motion showcase">
+        <div class="ot-motion-stage" aria-label="Omni Terrain road water and power showcase">
           <div class="ot-stage-glow"></div>
           <div class="ot-stage-orbit"></div>
           <div class="ot-reel" id="otMotionReel">
@@ -99,7 +106,7 @@
               <div>
                 <small>Featured online product</small>
                 <b>Fabtech FTL5607 · ${heroPrice}</b>
-                <div class="ot-stage-status"><i aria-hidden="true"></i><span>Selected online pricing live now</span></div>
+                <div class="ot-stage-status"><i aria-hidden="true"></i><span>Live product pricing and availability</span></div>
               </div>
               <a href="us-fabtech-ftl5607.html">View product →</a>
             </div>
@@ -109,6 +116,16 @@
       <div class="ot-scroll-cue">Scroll to explore</div>
     `;
     oldHero.replaceWith(hero);
+
+    const search = document.getElementById("otCinemaSearch");
+    search?.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const q = String(document.getElementById("otCinemaSearchInput")?.value || "").trim();
+      if (q) {
+        try { sessionStorage.setItem("otCatalogueSearch", q); } catch (_) {}
+      }
+      location.href = "/us-catalogue.html#catalogue-search";
+    });
   }
 
   const metrics = document.createElement("section");
@@ -116,9 +133,9 @@
   metrics.setAttribute("aria-label", "Omni Terrain store scale");
   metrics.innerHTML = `
     <div class="ot-metrics-inner">
-      <div class="ot-metrics-intro"><small>Built as a specialist store</small><b>Depth without the clutter.</b></div>
-      <div class="ot-metric"><strong data-ot-count="300">0</strong><span>specialist products</span></div>
-      <div class="ot-metric"><strong data-ot-count="15">0</strong><span>established brands</span></div>
+      <div class="ot-metrics-intro"><small>Specialist by design</small><b>Depth without the clutter.</b></div>
+      <div class="ot-metric"><strong data-ot-count="1000" data-ot-suffix="">0</strong><span>catalogued products</span></div>
+      <div class="ot-metric"><strong data-ot-count="15" data-ot-suffix="+">0</strong><span>established brands</span></div>
       <div class="ot-metric"><strong>3</strong><span>core terrain categories</span></div>
       <div class="ot-metric"><strong>2</strong><span>regional storefronts</span></div>
     </div>`;
@@ -131,11 +148,11 @@
     <div class="ot-story-inner">
       <div class="ot-story-head ot-reveal">
         <div><small>One brand / multiple terrains</small><h2>Designed around how people actually move.</h2></div>
-        <p>Road, water and travel equipment should feel like one specialist ecosystem — not a random catalogue. Omni Terrain is being built around clear applications, credible product data and fast routes from discovery to purchase.</p>
+        <p>Road, water and travel equipment should feel like one specialist ecosystem — not a random catalogue. Omni Terrain organizes the buying journey around clear applications, credible product data and fast routes from discovery to purchase.</p>
       </div>
       <div class="ot-story-rail">
         <article class="ot-story-card ot-reveal" data-mode="road"><span class="ot-story-index">01 / ROAD</span><span class="ot-story-ghost">AUTO</span><div class="ot-story-copy"><h3>Automotive first.</h3><p>Suspension, towing, exterior, electrical and upgrade parts organized around manufacturer MPNs and application clarity.</p><a href="automotive.html">Explore Auto Parts →</a></div></article>
-        <article class="ot-story-card ot-reveal ot-reveal-delay-1" data-mode="water"><span class="ot-story-index">02 / WATER</span><span class="ot-story-ghost">SEA</span><div class="ot-story-copy"><h3>Marine next.</h3><p>Electrical, deck, safety and on-water equipment presented as a specialist marine range.</p><a href="marine.html">Explore Marine →</a></div></article>
+        <article class="ot-story-card ot-reveal ot-reveal-delay-1" data-mode="water"><span class="ot-story-index">02 / WATER</span><span class="ot-story-ghost">SEA</span><div class="ot-story-copy"><h3>Marine, clearly.</h3><p>Electrical, deck, safety and on-water equipment presented as a focused marine range with practical specifications.</p><a href="marine.html">Explore Marine →</a></div></article>
         <article class="ot-story-card ot-reveal ot-reveal-delay-2" data-mode="power"><span class="ot-story-index">03 / POWER</span><span class="ot-story-ghost">12V</span><div class="ot-story-copy"><h3>Travel & 12V.</h3><p>RV, overlanding and mobile-power products that support longer trips beyond the pavement.</p><a href="rv.html">Explore RV & Travel →</a></div></article>
       </div>
     </div>`;
@@ -179,7 +196,7 @@
     const target = Number(node.dataset.otCount || 0);
     if (!target || node.dataset.done) return;
     node.dataset.done = "true";
-    const suffix = "+";
+    const suffix = String(node.dataset.otSuffix || "");
     const duration = 900;
     const start = performance.now();
     const tick = (now) => {
