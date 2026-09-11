@@ -37,7 +37,7 @@
 
   /* Universal executive presentation layer. */
   document.documentElement.classList.add("ot-executive");
-  ensureCss('link[data-ot-executive],link[href*="executive-polish.css"]',"/assets/executive-polish.css?v=1","otExecutive");
+  ensureCss('link[data-ot-executive],link[href*="executive-polish.css"]',"/assets/executive-polish.css?v=2","otExecutive");
 
   const isUk=lang.startsWith("en-gb")||path==="uk.html"||/^uk-/.test(path)||path==="shield-autocare-uk.html";
   if(isUk){
@@ -86,8 +86,8 @@
 
   /* Premium page-specific layers. */
   if(path===""||path==="index.html"){
-    ensureCss('link[data-ot-home-premium],link[href*="home-premium.css"]',"/assets/home-premium.css?v=2","otHomePremium");
-    ensureScript('script[data-ot-home-premium],script[src*="home-premium.js"]',"/assets/home-premium.js?v=2","otHomePremium");
+    ensureCss('link[data-ot-home-premium],link[href*="home-premium.css"]',"/assets/home-premium.css?v=3","otHomePremium");
+    ensureScript('script[data-ot-home-premium],script[src*="home-premium.js"]',"/assets/home-premium.js?v=3","otHomePremium");
   }
 
   if(path==="us-catalogue.html"){
