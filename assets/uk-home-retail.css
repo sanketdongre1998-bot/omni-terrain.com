@@ -1,25 +1,91 @@
 /* Omni Terrain UK homepage retail shell */
-body.ot-retail-home-uk{background:#fff!important;color:#172536!important;overflow-x:hidden}
+body.ot-retail-home-uk{background:#fff!important;color:#172536!important;overflow-x:hidden;font-family:Manrope,Inter,system-ui,sans-serif}
 body.ot-retail-home-uk>.announcement,body.ot-retail-home-uk>.market-strip,body.ot-retail-home-uk>#header,body.ot-retail-home-uk>.draft-strip,body.ot-retail-home-uk>.mobile-store-bar{display:none!important}
 body.ot-retail-home-uk .ot-retail-main{background:#fff}
-body.ot-retail-home-uk .ot-retail-promo{background:#eef4ff;border-bottom-color:#b9cae3}
+
+/* Strong, simple retail header */
+body.ot-retail-home-uk .ot-retail-utility{background:#071a30!important;color:#fff!important}
+body.ot-retail-home-uk .ot-retail-utility a{color:#fff!important}
+body.ot-retail-home-uk .ot-region-mini a{color:#dbe7f5!important;border-color:rgba(255,255,255,.2)!important}
+body.ot-retail-home-uk .ot-region-mini a.active{background:#f2cf52!important;color:#101b2d!important;border-color:#f2cf52!important;box-shadow:0 2px 0 rgba(0,0,0,.12)}
+body.ot-retail-home-uk .ot-region-mini a.active small{color:#24344a!important}
+body.ot-retail-home-uk .ot-retail-mainbar{background:#0b1f3a!important;border-bottom:1px solid #18375d!important}
+body.ot-retail-home-uk .ot-retail-mainbar .ot-retail-width{color:#fff!important}
+body.ot-retail-home-uk .ot-retail-logo img{opacity:1!important;filter:none!important;max-height:54px!important;width:auto!important}
+body.ot-retail-home-uk .ot-retail-search input{background:#fff!important;color:#172536!important;border-color:#c8d2df!important}
+body.ot-retail-home-uk .ot-retail-search input::placeholder{color:#697686!important;opacity:1}
+body.ot-retail-home-uk .ot-retail-search button{background:#f2cf52!important;color:#101b2d!important;font-weight:800!important;border-color:#f2cf52!important}
+body.ot-retail-home-uk .ot-account-button,body.ot-retail-home-uk .ot-cart-button{color:#fff!important}
+body.ot-retail-home-uk .ot-account-button span,body.ot-retail-home-uk .ot-cart-button span{color:#b9c8d9!important}
+body.ot-retail-home-uk .ot-account-button strong,body.ot-retail-home-uk .ot-cart-button strong{color:#fff!important}
+body.ot-retail-home-uk .ot-cart-button b{background:#f2cf52!important;color:#101b2d!important}
+body.ot-retail-home-uk .ot-retail-nav{background:#173d7a!important}
+body.ot-retail-home-uk .ot-retail-nav a{color:#fff!important;border-color:rgba(255,255,255,.12)!important}
+body.ot-retail-home-uk .ot-retail-nav a:hover{background:#224f95!important}
+body.ot-retail-home-uk .ot-retail-nav a.shop-all{background:#f2cf52!important;color:#101b2d!important}
+
+/* Promo / orientation strip */
+body.ot-retail-home-uk .ot-retail-promo{background:#eef4ff;border-bottom-color:#c8d6ea}
 body.ot-retail-home-uk .ot-retail-promo .ot-retail-width{color:#193a67}
-body.ot-retail-home-uk .ot-retail-promo a{background:#123a73}
-body.ot-retail-home-uk .ot-hero-copy{background:linear-gradient(135deg,#071a30,#174c86)}
-body.ot-retail-home-uk .ot-hero-deal-label{background:#18794e}
-body.ot-retail-home-uk .ot-product-bottom strong{color:#12366c!important}
-body.ot-retail-home-uk .ot-uk-status{display:inline-flex;align-items:center;gap:8px;margin-top:18px;color:#dce7f1;font-size:11px;font-weight:800}
+body.ot-retail-home-uk .ot-retail-promo strong{color:#0b2b57!important}
+body.ot-retail-home-uk .ot-retail-promo span{color:#49617f!important}
+body.ot-retail-home-uk .ot-retail-promo a{background:#173d7a!important;color:#fff!important}
+
+/* Hero: fix the dark-on-dark text visible in screenshots */
+body.ot-retail-home-uk .ot-hero-copy{background:linear-gradient(135deg,#0a1f3b 0%,#173d73 100%)!important;box-shadow:0 18px 38px rgba(8,30,57,.14)}
+body.ot-retail-home-uk .ot-hero-copy .ot-eyebrow{color:#ffd95c!important}
+body.ot-retail-home-uk .ot-hero-copy h1{color:#fff!important;text-shadow:0 1px 0 rgba(0,0,0,.12)}
+body.ot-retail-home-uk .ot-hero-copy p{color:#e4edf8!important;opacity:1!important}
+body.ot-retail-home-uk .ot-hero-buttons a{color:#fff!important;border-color:rgba(255,255,255,.7)!important}
+body.ot-retail-home-uk .ot-hero-buttons a.primary{background:#f2cf52!important;color:#101b2d!important;border-color:#f2cf52!important}
+body.ot-retail-home-uk .ot-uk-status{display:inline-flex;align-items:center;gap:8px;margin-top:18px;color:#fff!important;font-size:11px;font-weight:800}
 body.ot-retail-home-uk .ot-uk-status:before{content:"";width:8px;height:8px;border-radius:50%;background:#53c486;box-shadow:0 0 0 4px rgba(83,196,134,.16)}
+body.ot-retail-home-uk .ot-hero-deal-label{background:#18794e}
+
+/* Product/search content */
+body.ot-retail-home-uk .ot-product-bottom strong{color:#12366c!important}
 body.ot-retail-home-uk .ot-retail-product .ot-badge{background:#18794e}
 body.ot-retail-home-uk .ot-retail-empty{min-height:120px;display:grid;place-items:center}
-body.ot-retail-home-uk .ot-find-card{border-top-color:#123a73}
-body.ot-retail-home-uk .ot-find-title>span{background:#123a73}
+body.ot-retail-home-uk .ot-find-card{border-top-color:#173d7a}
+body.ot-retail-home-uk .ot-find-title>span{background:#173d7a;color:#fff!important}
+body.ot-retail-home-uk .ot-find-title h2,body.ot-retail-home-uk .ot-section-head h2,body.ot-retail-home-uk .ot-benefits h2{color:#102b55!important}
+body.ot-retail-home-uk .ot-find-title p,body.ot-retail-home-uk .ot-section-head p,body.ot-retail-home-uk .ot-benefit-grid p{color:#52657d!important}
+body.ot-retail-home-uk .ot-find-form button{background:#173d7a!important;color:#fff!important}
+body.ot-retail-home-uk .ot-find-help{color:#173d7a!important;font-weight:800!important}
 body.ot-retail-home-uk .ot-retail-section.alt{background:#f5f7f9}
 body.ot-retail-home-uk .ot-uk-trust-strip{padding:18px 0;border-top:1px solid #e1e5e9;border-bottom:1px solid #e1e5e9;background:#fff}
 body.ot-retail-home-uk .ot-uk-trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 body.ot-retail-home-uk .ot-uk-trust-grid>div{padding:16px;border:1px solid #e1e5e9;border-radius:8px;background:#fff}
 body.ot-retail-home-uk .ot-uk-trust-grid strong{display:block;color:#12366c;font-size:12px}
-body.ot-retail-home-uk .ot-uk-trust-grid span{display:block;margin-top:4px;color:#697686;font-size:10px;line-height:1.5}
-body.ot-retail-home-uk .ot-retail-search button,body.ot-retail-home-uk .ot-find-form button{background:#123a73}
-body.ot-retail-home-uk footer{margin-top:0}
-@media(max-width:760px){body.ot-retail-home-uk .ot-uk-trust-grid{grid-template-columns:1fr}body.ot-retail-home-uk .ot-hero-copy h1{font-size:3.7rem}}
+body.ot-retail-home-uk .ot-uk-trust-grid span{display:block;margin-top:4px;color:#596b80!important;font-size:10px;line-height:1.5}
+
+/* Bottom CTA: no more navy text disappearing into blue */
+body.ot-retail-home-uk .ot-support-cta{background:#173d7a!important}
+body.ot-retail-home-uk .ot-support-cta small{color:#ffd95c!important}
+body.ot-retail-home-uk .ot-support-cta h2{color:#fff!important}
+body.ot-retail-home-uk .ot-support-cta p{color:#e4edf8!important;opacity:1!important}
+body.ot-retail-home-uk .ot-support-cta a{color:#fff!important;border-color:#dbe7f5!important}
+body.ot-retail-home-uk .ot-support-cta a.primary{background:#f2cf52!important;color:#101b2d!important;border-color:#f2cf52!important}
+
+/* Existing UK footer: raise contrast and make it feel deliberate */
+body.ot-retail-home-uk footer{margin-top:0!important;background:#071a30!important;color:#fff!important;border-top:1px solid #18375d!important}
+body.ot-retail-home-uk footer .footer-heading{color:#ffd95c!important;font-weight:800!important}
+body.ot-retail-home-uk footer .footer-copy,body.ot-retail-home-uk footer .legal-note,body.ot-retail-home-uk footer p,body.ot-retail-home-uk footer span{color:#cbd8e6!important;opacity:1!important}
+body.ot-retail-home-uk footer .legal-note strong{color:#fff!important}
+body.ot-retail-home-uk footer .footer-links a,body.ot-retail-home-uk footer a{color:#fff!important;opacity:1!important}
+body.ot-retail-home-uk footer .footer-links a:hover{color:#ffd95c!important}
+body.ot-retail-home-uk footer .wordmark-main{color:#fff!important}
+body.ot-retail-home-uk footer .wordmark-sub{color:#f2cf52!important}
+body.ot-retail-home-uk footer .wordmark-meta{color:#cbd8e6!important}
+body.ot-retail-home-uk footer .footer-bottom{color:#b7c5d6!important;border-top-color:rgba(255,255,255,.16)!important}
+
+/* General readability */
+body.ot-retail-home-uk p,body.ot-retail-home-uk li{font-weight:500}
+body.ot-retail-home-uk a:focus-visible,body.ot-retail-home-uk button:focus-visible,body.ot-retail-home-uk input:focus-visible,body.ot-retail-home-uk select:focus-visible{outline:3px solid #ffd95c!important;outline-offset:2px}
+
+@media(max-width:760px){
+  body.ot-retail-home-uk .ot-uk-trust-grid{grid-template-columns:1fr}
+  body.ot-retail-home-uk .ot-hero-copy h1{font-size:3.7rem}
+  body.ot-retail-home-uk .ot-retail-mainbar{background:#0b1f3a!important}
+  body.ot-retail-home-uk .ot-retail-logo img{max-height:46px!important}
+}
