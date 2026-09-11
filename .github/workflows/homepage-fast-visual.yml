@@ -43,8 +43,8 @@ jobs:
                   legacyTheme:document.documentElement.dataset.theme||'',
                   bodyWidth:document.body.scrollWidth,
                   viewport:innerWidth,
-                  hero:(document.querySelector('.home-hero-copy')?.innerText||'').replace(/\s+/g,' ').trim(),
-                  heroImage:document.querySelector('.hero-showcase>img')?.currentSrc||'',
+                  hero:(document.querySelector('.ot-cinema-copy')?.innerText||'').replace(/\s+/g,' ').trim(),
+                  heroImage:document.querySelector('.ot-motion-stage img.ot-product-float')?.currentSrc||'',
                   featuredCount:document.querySelectorAll('.live-grid .live-card').length,
                   featuredHeading:(document.querySelectorAll('.section-head h2')[1]?.textContent||'').trim(),
                   growthBanner:!!document.querySelector('.ot-growth-banner') && getComputedStyle(document.querySelector('.ot-growth-banner')).display!=='none',
@@ -63,10 +63,10 @@ jobs:
               await page.screenshot({path:`homepage-${theme}-${label}.png`,fullPage:true});
               if(state.bodyWidth>state.viewport+2) throw new Error(`${theme}/${label} horizontal overflow ${state.bodyWidth}>${state.viewport}`);
               if(!state.logo.includes('omni-terrain-approved-gt.webp')) throw new Error(`${theme}/${label} locked logo missing`);
-              if(!state.hero.includes('Built for the Road.')||!state.hero.includes('Specialist automotive, marine, RV & 12V parts.')) throw new Error(`${theme}/${label} simplified hero missing`);
+              if(!state.hero.includes('Built for road.')||!state.hero.includes('Specialist automotive, marine, RV and 12V parts')) throw new Error(`${theme}/${label} premium hero missing`);
               if(!state.heroImage.includes('FTL5607_1.jpg')) throw new Error(`${theme}/${label} Fabtech hero image missing: ${state.heroImage}`);
               if(state.featuredCount!==4) throw new Error(`${theme}/${label} expected 4 featured cards, got ${state.featuredCount}`);
-              if(state.featuredHeading!=='Popular upgrades.') throw new Error(`${theme}/${label} unexpected featured heading: ${state.featuredHeading}`);
+              if(state.featuredHeading!=='Selected upgrades. Clear pricing.') throw new Error(`${theme}/${label} unexpected featured heading: ${state.featuredHeading}`);
               if(state.growthBanner) throw new Error(`${theme}/${label} duplicate growth banner visible`);
               if(state.themeScripts!==1) throw new Error(`${theme}/${label} expected one theme runtime, got ${state.themeScripts}`);
               if(state.theme!==theme||state.legacyTheme!==theme) throw new Error(`${theme}/${label} theme attributes out of sync: ${state.theme}/${state.legacyTheme}`);
