@@ -15,7 +15,7 @@
   addCss("otExecutiveCss","/assets/executive-polish.css?v=retail-3");
   addCss("otAuthRetailCss","/assets/firebase-auth.css?v=retail-3");
   addScript("otAuthRetailJs","/assets/firebase-auth.js?v=retail-3","module");
-  if(isUk){document.documentElement.classList.add("ot-uk-refresh");addCss("otUkRefreshCss","/assets/uk-storefront-refresh.css?v=retail-3");}
+  if(isUk){document.documentElement.classList.add("ot-uk-refresh");addCss("otUkRefreshCss","/assets/uk-storefront-refresh.css?v=retail-4");}
 
   addCss("otImageLayoutCss","/assets/image-layout-fix.css?v=2");
   addCss("otResponsiveCss","/assets/responsive-hardening.css?v=4");
