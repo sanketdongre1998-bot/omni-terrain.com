@@ -47,7 +47,7 @@
 
   if(file==="uk.html"){
     addCss("otUkHomePremiumCss","/assets/home-premium.css?v=retail-5");
-    addCss("otUkHomeRetailCss","/assets/uk-home-retail.css?v=2");
+    addCss("otUkHomeRetailCss","/assets/uk-home-retail.css?v=3");
     addScript("otUkHomeRetailJs","/assets/uk-home-retail.js?v=2");
   }
 
