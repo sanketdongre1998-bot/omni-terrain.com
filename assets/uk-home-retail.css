@@ -1,0 +1,25 @@
+/* Omni Terrain UK homepage retail shell */
+body.ot-retail-home-uk{background:#fff!important;color:#172536!important;overflow-x:hidden}
+body.ot-retail-home-uk>.announcement,body.ot-retail-home-uk>.market-strip,body.ot-retail-home-uk>#header,body.ot-retail-home-uk>.draft-strip,body.ot-retail-home-uk>.mobile-store-bar{display:none!important}
+body.ot-retail-home-uk .ot-retail-main{background:#fff}
+body.ot-retail-home-uk .ot-retail-promo{background:#eef4ff;border-bottom-color:#b9cae3}
+body.ot-retail-home-uk .ot-retail-promo .ot-retail-width{color:#193a67}
+body.ot-retail-home-uk .ot-retail-promo a{background:#123a73}
+body.ot-retail-home-uk .ot-hero-copy{background:linear-gradient(135deg,#071a30,#174c86)}
+body.ot-retail-home-uk .ot-hero-deal-label{background:#18794e}
+body.ot-retail-home-uk .ot-product-bottom strong{color:#12366c!important}
+body.ot-retail-home-uk .ot-uk-status{display:inline-flex;align-items:center;gap:8px;margin-top:18px;color:#dce7f1;font-size:11px;font-weight:800}
+body.ot-retail-home-uk .ot-uk-status:before{content:"";width:8px;height:8px;border-radius:50%;background:#53c486;box-shadow:0 0 0 4px rgba(83,196,134,.16)}
+body.ot-retail-home-uk .ot-retail-product .ot-badge{background:#18794e}
+body.ot-retail-home-uk .ot-retail-empty{min-height:120px;display:grid;place-items:center}
+body.ot-retail-home-uk .ot-find-card{border-top-color:#123a73}
+body.ot-retail-home-uk .ot-find-title>span{background:#123a73}
+body.ot-retail-home-uk .ot-retail-section.alt{background:#f5f7f9}
+body.ot-retail-home-uk .ot-uk-trust-strip{padding:18px 0;border-top:1px solid #e1e5e9;border-bottom:1px solid #e1e5e9;background:#fff}
+body.ot-retail-home-uk .ot-uk-trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+body.ot-retail-home-uk .ot-uk-trust-grid>div{padding:16px;border:1px solid #e1e5e9;border-radius:8px;background:#fff}
+body.ot-retail-home-uk .ot-uk-trust-grid strong{display:block;color:#12366c;font-size:12px}
+body.ot-retail-home-uk .ot-uk-trust-grid span{display:block;margin-top:4px;color:#697686;font-size:10px;line-height:1.5}
+body.ot-retail-home-uk .ot-retail-search button,body.ot-retail-home-uk .ot-find-form button{background:#123a73}
+body.ot-retail-home-uk footer{margin-top:0}
+@media(max-width:760px){body.ot-retail-home-uk .ot-uk-trust-grid{grid-template-columns:1fr}body.ot-retail-home-uk .ot-hero-copy h1{font-size:3.7rem}}
