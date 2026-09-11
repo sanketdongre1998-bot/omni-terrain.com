@@ -22,13 +22,15 @@
   const imageBadge = visual.querySelector(".image-badge");
   if (imageBadge) imageBadge.textContent = "Product image";
 
-  // Remove the legacy enquiry CTA once the production product runtime is active.
-  // Live products receive Add to Cart / Buy Now; other products receive the
-  // customer-safe availability actions from universal-checkout-ui.js.
-  copy.querySelector(".notice")?.remove();
-  copy.querySelectorAll("p").forEach((node) => {
-    if (node.querySelector("a.button")) node.remove();
-  });
+  // Keep the legacy availability CTA when a product is not currently live for
+  // online checkout. For live products the commerce runtime already mounts the
+  // premium Add to Cart / Buy Now buybox before this layer runs.
+  if (copy.querySelector(".ot-live-buybox")) {
+    copy.querySelector(".notice")?.remove();
+    copy.querySelectorAll("p").forEach((node) => {
+      if (node.querySelector("a.button")) node.remove();
+    });
+  }
 
   const breadcrumb = document.querySelector(".breadcrumb");
   if (breadcrumb && !document.querySelector(".ot-product-confidence")) {
@@ -122,7 +124,7 @@
 
   if (!document.querySelector('script[data-ot-product-content-enrichment]')) {
     const enrichment = document.createElement("script");
-    enrichment.src = "/assets/product-content-enrichment.js?v=1";
+    enrichment.src = "/assets/product-content-enrichment.js?v=2";
     enrichment.defer = true;
     enrichment.dataset.otProductContentEnrichment = "true";
     document.body.appendChild(enrichment);
