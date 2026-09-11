@@ -62,4 +62,18 @@ body.ot-retail-home footer .footer-bottom,body.ot-retail-home-uk footer .footer-
 body.ot-retail-home footer strong,body.ot-retail-home-uk footer strong{color:var(--ot-navy)!important}
 body.ot-retail-home footer .brand,body.ot-retail-home-uk footer .brand,body.ot-retail-home footer .ot-site-brand,body.ot-retail-home-uk footer .ot-site-brand{background:var(--ot-navy)!important;border-radius:6px!important;padding:8px 10px!important;width:max-content!important}
 body.ot-retail-home-uk .ot-uk-store-strip,body.ot-retail-home-uk .uk-store-strip,body.ot-retail-home-uk .ot-uk-info-strip{background:#fff!important;color:var(--ot-ink)!important;border-color:var(--ot-line)!important}
-@media(max-width:760px){body.ot-retail-home .ot-retail-mainbar .ot-retail-width,body.ot-retail-home-uk .ot-retail-mainbar .ot-retail-width{background:#fff!important}body.ot-retail-home .ot-retail-logo img,body.ot-retail-home-uk .ot-retail-logo img{max-width:176px!important}body.ot-retail-home .ot-support-cta,body.ot-retail-home-uk .ot-support-cta{border-top-width:2px!important}}
+@media(max-width:760px){
+  body.ot-retail-home .ot-retail-mainbar .ot-retail-width,body.ot-retail-home-uk .ot-retail-mainbar .ot-retail-width{background:#fff!important}
+  body.ot-retail-home .ot-retail-logo img,body.ot-retail-home-uk .ot-retail-logo img{max-width:176px!important}
+  body.ot-retail-home .ot-support-cta,body.ot-retail-home-uk .ot-support-cta{border-top-width:2px!important}
+  body.ot-retail-home .ot-retail-actions,body.ot-retail-home-uk .ot-retail-actions{gap:4px!important}
+  body.ot-retail-home .ot-account-button,body.ot-retail-home-uk .ot-account-button{display:flex!important;min-width:58px!important;min-height:44px!important;padding:5px 6px!important;align-items:center!important;text-align:center!important}
+  body.ot-retail-home .ot-account-button span,body.ot-retail-home-uk .ot-account-button span{display:none!important}
+  body.ot-retail-home .ot-account-button strong,body.ot-retail-home-uk .ot-account-button strong{font-size:11px!important;white-space:nowrap!important}
+  body.ot-retail-home .ot-cart-button,body.ot-retail-home-uk .ot-cart-button{min-width:58px!important;min-height:44px!important;padding:5px 6px!important;align-items:center!important;text-align:center!important}
+}
+@media(max-width:360px){
+  body.ot-retail-home .ot-retail-logo img,body.ot-retail-home-uk .ot-retail-logo img{width:132px!important;max-width:132px!important}
+  body.ot-retail-home .ot-account-button,body.ot-retail-home-uk .ot-account-button,body.ot-retail-home .ot-cart-button,body.ot-retail-home-uk .ot-cart-button{min-width:50px!important}
+  body.ot-retail-home .ot-account-button strong,body.ot-retail-home-uk .ot-account-button strong,body.ot-retail-home .ot-cart-button strong,body.ot-retail-home-uk .ot-cart-button strong{font-size:10px!important}
+}
