@@ -20,7 +20,8 @@ html.ot-executive ::selection{background:rgba(212,170,85,.26);color:#071a30}
 /* Header / navigation */
 html.ot-executive #header,html.ot-executive header.header{background:rgba(255,255,255,.93);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(7,26,48,.08);box-shadow:0 8px 30px rgba(7,26,48,.035)}
 html.ot-executive #header.scrolled,html.ot-executive header.header.scrolled{box-shadow:0 16px 42px rgba(7,26,48,.085)}
-html.ot-executive .nav-links a,html.ot-executive .nav a{font-weight:750;letter-spacing:.005em}
+html.ot-executive .nav-links a,html.ot-executive .nav a{position:relative;font-weight:750;letter-spacing:.005em}
+html.ot-executive .nav-links a.active::after,html.ot-executive .nav a.active::after{content:"";position:absolute;left:0;right:0;bottom:-10px;height:2px;border-radius:999px;background:linear-gradient(90deg,#d4aa55,#edd08b);box-shadow:0 2px 10px rgba(212,170,85,.28)}
 html.ot-executive .nav-links a:focus-visible,html.ot-executive .nav a:focus-visible{outline:2px solid rgba(212,170,85,.55);outline-offset:6px;border-radius:4px}
 html.ot-executive .header-actions .cart-link,html.ot-executive .header-actions .header-contact,html.ot-executive .ot-auth-trigger{box-shadow:0 4px 14px rgba(7,26,48,.035)}
 
@@ -77,6 +78,7 @@ html.ot-executive[data-ot-theme="dark"] input,html.ot-executive[data-ot-theme="d
 
 @media(max-width:760px){
   html.ot-executive .policy-card,html.ot-executive .contact-panel,html.ot-executive .commerce-card,html.ot-executive .detail-card{border-radius:18px}
+  html.ot-executive .nav-links a.active::after,html.ot-executive .nav a.active::after{bottom:-6px}
   body.home-premium-active .ot-cinema-search-row{grid-template-columns:1fr}
   body.home-premium-active .ot-cinema-search button{width:100%}
 }
