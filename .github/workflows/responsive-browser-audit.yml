@@ -39,3 +39,12 @@ jobs:
 
       - name: Audit US and UK responsive layouts
         run: node scripts/responsive-browser-audit.mjs
+
+      - name: Upload responsive audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: responsive-browser-audit
+          path: responsive-audit/*
+          if-no-files-found: warn
+          retention-days: 2
