@@ -1,0 +1,47 @@
+/* Final fidelity pass for the approved Omni Terrain US + UK homepage reference. */
+html.ot-reference-home .ot-ref-hero-tag{display:none!important}
+html.ot-reference-home .ot-ref-hero-copy{justify-content:flex-end!important}
+html.ot-reference-home .ot-ref-nav .ot-ref-width{justify-content:space-between!important;gap:0!important}
+html.ot-reference-home .ot-ref-nav>a,
+html.ot-reference-home .ot-ref-nav-item>button{white-space:nowrap!important;flex:0 0 auto!important;padding-inline:18px!important}
+html.ot-reference-home .ot-ref-nav-item{flex:0 0 auto!important}
+html.ot-reference-home .ot-ref-logo img{width:220px!important;height:56px!important;filter:none!important}
+html.ot-reference-home .ot-ref-footer-logo img{width:190px!important;height:48px!important;filter:none!important}
+
+/* The supplied reference has a clean light footer. Override older global footer skins. */
+html.ot-reference-home body>.ot-ref-footer,
+html.ot-reference-home .ot-ref-footer{background:#fff!important;background-image:none!important;border-top:1px solid #dce6ef!important;color:#526983!important;box-shadow:none!important}
+html.ot-reference-home .ot-ref-footer .ot-ref-width,
+html.ot-reference-home .ot-ref-footer-main,
+html.ot-reference-home .ot-ref-footer-bottom{background:#fff!important;background-image:none!important;color:#526983!important}
+html.ot-reference-home .ot-ref-footer h4{color:#123961!important}
+html.ot-reference-home .ot-ref-footer p,
+html.ot-reference-home .ot-ref-footer nav a,
+html.ot-reference-home .ot-ref-footer-bottom span{color:#60718a!important}
+html.ot-reference-home .ot-ref-footer-bottom{border-top:1px solid #e7edf3!important}
+
+/* Keep the hero much closer to the reference proportions and tone. */
+html.ot-reference-home .ot-ref-hero{min-height:280px!important;background:#dce9f3!important}
+html.ot-reference-home .ot-ref-hero-bg{height:100%!important;min-height:280px!important;object-position:center 52%!important;filter:saturate(.94) contrast(1.02)!important}
+html.ot-reference-home .ot-ref-hero:after{background:linear-gradient(90deg,rgba(7,37,68,.05),transparent 55%,rgba(5,27,50,.12))!important}
+html.ot-reference-home .ot-ref-hero-copy{min-height:280px!important;padding-bottom:24px!important}
+html.ot-reference-home .ot-ref-hero-slogan{max-width:210px!important;font-size:26px!important;line-height:1.03!important;text-shadow:0 2px 9px rgba(0,0,0,.55)!important}
+
+/* Tighter merchandising just like the approved mockup. */
+html.ot-reference-home .ot-ref-finder{padding-top:16px!important}
+html.ot-reference-home .ot-ref-section{padding-top:14px!important}
+html.ot-reference-home .ot-ref-category-grid,
+html.ot-reference-home .ot-ref-products{gap:10px!important}
+html.ot-reference-home .ot-ref-category,
+html.ot-reference-home .ot-ref-product{border-color:#dbe7f2!important;box-shadow:0 2px 7px rgba(11,57,103,.035)!important}
+html.ot-reference-home .ot-ref-product-button{background:linear-gradient(#1682e7,#075fca)!important}
+
+@media(max-width:1180px){
+ html.ot-reference-home .ot-ref-nav .ot-ref-width{justify-content:flex-start!important;overflow-x:auto!important}
+ html.ot-reference-home .ot-ref-nav>a,html.ot-reference-home .ot-ref-nav-item>button{padding-inline:14px!important}
+}
+@media(max-width:760px){
+ html.ot-reference-home .ot-ref-hero,html.ot-reference-home .ot-ref-hero-bg,html.ot-reference-home .ot-ref-hero-copy{min-height:205px!important}
+ html.ot-reference-home .ot-ref-hero-slogan{font-size:20px!important}
+ html.ot-reference-home .ot-ref-logo img{width:145px!important;height:45px!important}
+}
