@@ -28,29 +28,21 @@
     if(!home)return;
     document.documentElement.classList.add("ot-home-retail-v2");
     document.querySelectorAll(".announcement,.market-strip,#header,header.header,.launch-strip,.mobile-store-bar").forEach(node=>{
-      if(!node.classList.contains("ot-retail-header"))node.remove();
+      if(!node.classList.contains("ot-ref-header"))node.remove();
     });
     document.querySelectorAll("[data-ot-theme-toggle],.ot-theme-toggle").forEach(node=>node.remove());
   };
 
-  if(home){
-    scrubLegacyHome();
-    ready(scrubLegacyHome);
-    addCss("otRetailGlitchFixes","/assets/retail-glitch-fixes.css?v=1");
-    addCss("otHomePremiumCss","/assets/home-premium.css?v=retail-5");
-    addScript("otHomePremiumJs","/assets/home-premium.js?v=retail-5");
-    if("MutationObserver" in window){
+  if(home||file==="uk.html"){
+    if(home){scrubLegacyHome();ready(scrubLegacyHome);}
+    addCss("otReferenceStorefrontCss","/assets/reference-storefront.css?v=2");
+    addScript("otReferenceStorefrontJs","/assets/reference-storefront.js?v=2");
+    if(home&&"MutationObserver" in window){
       const shellObserver=new MutationObserver(()=>scrubLegacyHome());
       const target=document.body||document.documentElement;
       shellObserver.observe(target,{childList:true,subtree:false});
       setTimeout(()=>shellObserver.disconnect(),7000);
     }
-  }
-
-  if(file==="uk.html"){
-    addCss("otUkHomePremiumCss","/assets/home-premium.css?v=retail-5");
-    addCss("otUkHomeRetailCss","/assets/uk-home-retail.css?v=3");
-    addScript("otUkHomeRetailJs","/assets/uk-home-retail.js?v=2");
   }
 
   addScript("otRetailRegionJs","/assets/retail-region-enhancements.js?v=2");
@@ -67,7 +59,7 @@
   addScript("otAdReadinessJs","/assets/ad-readiness.js?v=2");
   setTimeout(()=>{addScript("otCustomerCopyJs","/assets/customer-marketing-copy.js?v=2");addScript("otGrowthJs","/assets/growth-marketing.js?v=4");addScript("otSavingsJs","/assets/offer-savings-copy.js?v=1");addScript("otAnalyticsJs","/assets/analytics-events.js?v=2");},700);
 
-  const tune=img=>{if(!img||img.dataset.otPerfTuned)return;img.dataset.otPerfTuned="1";img.decoding="async";const priority=Boolean(img.closest(".product-visual,.ot-hero-deal"));img.loading=priority?"eager":"lazy";try{img.fetchPriority=priority?"high":"low";}catch(_){}};
+  const tune=img=>{if(!img||img.dataset.otPerfTuned)return;img.dataset.otPerfTuned="1";img.decoding="async";const priority=Boolean(img.closest(".product-visual,.ot-ref-hero"));img.loading=priority?"eager":"lazy";try{img.fetchPriority=priority?"high":"low";}catch(_){}};
   ready(()=>document.querySelectorAll("img").forEach(tune));
   if("MutationObserver" in window){const observer=new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(node=>{if(!(node instanceof Element))return;if(node.matches?.("img"))tune(node);node.querySelectorAll?.("img").forEach(tune);})));observer.observe(document.documentElement,{childList:true,subtree:true});setTimeout(()=>observer.disconnect(),12000);}
 })();
