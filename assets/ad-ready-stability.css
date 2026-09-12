@@ -1,0 +1,72 @@
+/* Omni Terrain final pre-ads stability layer. Keep this last in the cascade. */
+
+/* Legacy dark footers were too low-contrast on cart, checkout and product pages. */
+body>footer:not(.ot-ref-footer){background:#071a30!important;background-image:none!important;color:#c9d7e4!important}
+body>footer:not(.ot-ref-footer) .footer-copy,
+body>footer:not(.ot-ref-footer) .legal-note,
+body>footer:not(.ot-ref-footer) p{color:#aebfd0!important;opacity:1!important}
+body>footer:not(.ot-ref-footer) .footer-heading,
+body>footer:not(.ot-ref-footer) strong{color:#e6eef6!important;opacity:1!important}
+body>footer:not(.ot-ref-footer) .footer-links a,
+body>footer:not(.ot-ref-footer) a{color:#bfd0df!important;opacity:1!important}
+body>footer:not(.ot-ref-footer) .footer-links a:hover,
+body>footer:not(.ot-ref-footer) a:hover{color:#fff!important}
+body>footer:not(.ot-ref-footer) .footer-bottom,
+body>footer:not(.ot-ref-footer) .footer-bottom span{color:#93a9bd!important;opacity:1!important}
+body>footer:not(.ot-ref-footer) .ot-brand-logo-image{filter:brightness(0) invert(1);opacity:.88!important}
+
+/* UK fitment/shipping panel had navy-on-navy copy. */
+.fitment-panel{color:#d7e3ee!important}
+.fitment-panel h2,.fitment-panel h3,.fitment-panel strong,.fitment-panel b{color:#fff!important}
+.fitment-panel p,.fitment-panel span:not(.eyebrow){color:#c7d6e4!important;opacity:1!important}
+.fitment-panel .eyebrow{color:#dce9f4!important;opacity:1!important}
+.fitment-panel .button.light{background:#fff!important;color:#0d315e!important;border-color:#fff!important}
+
+/* Avoid scrollbars created by long product identifiers or utility text. */
+.product-title,.product-lede,.quick-card,.spec-row,.legal-note,.market-note,.ot-ref-product h3,.ot-ref-product small{overflow-wrap:anywhere;word-break:normal}
+
+/* Reference homepage cards should never inherit deferred-content blank states. */
+.ot-reference-home .ot-ref-category,
+.ot-reference-home .ot-ref-product{content-visibility:visible!important;contain-intrinsic-size:auto!important}
+.ot-reference-home .ot-ref-category img,
+.ot-reference-home .ot-ref-product img{visibility:visible!important;opacity:1!important}
+
+/* Catalogue load-more controls. */
+.ot-catalogue-loadmore{display:flex;justify-content:center;margin:22px 0 4px}
+.ot-catalogue-loadmore button{min-width:220px;min-height:44px;padding:0 22px;border:1px solid #123a73;border-radius:7px;background:#123a73;color:#fff;font:800 12px/1 Manrope,Arial,sans-serif;cursor:pointer}
+.ot-catalogue-loadmore button:hover{background:#0d2f61}
+.ot-catalogue-loadmore[hidden]{display:none!important}
+
+@media(max-width:760px){
+  /* Compact, deliberate mobile homepage navigation: no half-visible labels. */
+  .ot-reference-home .ot-ref-nav{overflow:visible!important}
+  .ot-reference-home .ot-ref-nav .ot-ref-width{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;width:100%!important;margin:0!important;overflow:visible!important}
+  .ot-reference-home .ot-ref-nav .ot-ref-width>a:not(.featured):not(:last-child){display:none!important}
+  .ot-reference-home .ot-ref-nav .ot-ref-nav-item,
+  .ot-reference-home .ot-ref-nav .ot-ref-width>a{min-width:0!important;width:100%!important}
+  .ot-reference-home .ot-ref-nav .ot-ref-nav-item>button,
+  .ot-reference-home .ot-ref-nav .ot-ref-width>a{height:42px!important;min-height:42px!important;padding:0 5px!important;justify-content:center!important;border-right:1px solid #e3ebf2!important;font-size:10px!important;line-height:1!important;text-align:center!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+  .ot-reference-home .ot-ref-nav .featured:before{margin-right:3px!important;font-size:8px!important}
+  .ot-reference-home .ot-ref-menu{top:142px!important;max-height:calc(100vh - 160px)!important;overflow:auto!important}
+
+  .ot-reference-home .ot-ref-footer p,
+  .ot-reference-home .ot-ref-footer nav a{font-size:11px!important;line-height:1.45!important}
+  .ot-reference-home .ot-ref-footer h4{font-size:12px!important}
+  .ot-reference-home .ot-ref-footer-bottom{font-size:10px!important}
+
+  body>footer:not(.ot-ref-footer) .footer-grid{grid-template-columns:1fr 1fr!important;gap:22px!important}
+  body>footer:not(.ot-ref-footer) .footer-grid>div:first-child{grid-column:1/-1!important}
+  body>footer:not(.ot-ref-footer) .footer-copy,
+  body>footer:not(.ot-ref-footer) .legal-note,
+  body>footer:not(.ot-ref-footer) .footer-links a{font-size:11px!important;line-height:1.55!important}
+
+  .fitment-panel{padding:22px!important}
+}
+
+@media(max-width:500px){
+  .ot-reference-home .ot-ref-utility-left>span:first-child{display:none!important}
+  .ot-reference-home .ot-ref-utility .ot-ref-width{grid-template-columns:auto 1fr!important;gap:8px!important}
+  .ot-reference-home .ot-ref-utility-right{justify-content:flex-end!important;gap:10px!important}
+  .ot-reference-home .ot-ref-utility-right a:first-child{display:none!important}
+  .ot-reference-home .ot-ref-region a{font-size:9px!important}
+}
