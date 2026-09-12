@@ -93,7 +93,7 @@ def main() -> int:
 
     # Approved customer-facing US/UK homepage architecture.
     for token, label in [
-        ('class="ot-ref-header"', "reference retail header"),
+        ("header.className='ot-ref-header'", "reference retail header"),
         ('Gear for a Brighter Horizon', "brand utility line"),
         ('id="otRefHeaderSearch"', "header product search"),
         ('Find the Right Parts for Your Adventure', "fitment/product finder"),
