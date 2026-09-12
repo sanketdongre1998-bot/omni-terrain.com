@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 78" role="img" aria-labelledby="title desc">
+  <title id="title">Omni Terrain</title>
+  <desc id="desc">Minimal graphite Omni Terrain wordmark with a blue road mark.</desc>
+  <g fill="none" fill-rule="evenodd">
+    <circle cx="39" cy="39" r="27" stroke="#555D66" stroke-width="10"/>
+    <path d="M16 54c12-11 24-17 39-20-12 6-22 13-31 22 12-8 23-12 34-14-9 5-17 11-25 18-7-2-12-4-17-6Z" fill="#2A73B8"/>
+    <path d="M21 58c10-8 20-13 31-15-8 5-15 10-21 16-4 0-7 0-10-1Z" fill="#67A9E2"/>
+    <text x="76" y="52" font-family="Manrope,Arial,sans-serif" font-size="40" font-weight="750" letter-spacing="-1.4" fill="#555D66">Omni</text>
+    <text x="171" y="52" font-family="Manrope,Arial,sans-serif" font-size="40" font-weight="420" letter-spacing="-1.6" fill="#555D66">Terrain</text>
+  </g>
+</svg>
