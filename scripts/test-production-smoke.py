@@ -57,13 +57,15 @@ def main() -> int:
         "uk-privacy-policy.html", "uk-terms-conditions.html",
     ]
     assets = [
-        "assets/storefront-performance.js", "assets/home-premium.js", "assets/home-premium.css",
-        "assets/uk-home-retail.js", "assets/uk-home-retail.css", "assets/retail-region-enhancements.js",
-        "assets/retail-color-system.css", "assets/retail-glitch-fixes.css", "assets/firebase-auth.js",
-        "assets/firebase-auth.css", "assets/catalogue-controls.js", "assets/catalogue-wide.js",
-        "assets/cart-checkout-premium.js", "assets/universal-checkout-ui.js", "assets/us-live-products.json",
-        "assets/us-stock-status.json", "assets/us-products.js", "assets/us-order-success.js",
-        "scripts/responsive-browser-audit.mjs", "lib/us-checkout-products.mjs",
+        "assets/storefront-performance.js", "assets/storefront-performance.css",
+        "assets/reference-storefront.js", "assets/reference-storefront.css",
+        "assets/reference-storefront-fidelity.js", "assets/reference-storefront-fidelity.css",
+        "assets/ad-ready-stability.css", "assets/retail-region-enhancements.js",
+        "assets/firebase-auth.js", "assets/firebase-auth.css", "assets/catalogue-controls.js",
+        "assets/catalogue-controls.css", "assets/catalogue-wide.js", "assets/cart-checkout-premium.js",
+        "assets/universal-checkout-ui.js", "assets/ad-readiness.js", "assets/analytics-events.js",
+        "assets/us-live-products.json", "assets/us-stock-status.json", "assets/us-products.js",
+        "assets/us-order-success.js", "scripts/responsive-browser-audit.mjs", "lib/us-checkout-products.mjs",
         "api/us-create-checkout-session.mjs", "api/us-checkout-health.mjs", "llms.txt", "robots.txt", "sitemap.xml",
     ]
     for path in routes + assets:
@@ -72,45 +74,68 @@ def main() -> int:
         else:
             errors.append(f"missing {path}")
 
+    # Current storefront shell: approved reference home + final stability layer.
     for token, label in [
         ('dataset.otTheme="light"', "light retail theme lock"),
-        ('retail-color-system.css?v=3', "shared retail colour system"),
-        ('retail-glitch-fixes.css?v=1', "homepage glitch-fix layer"),
-        ('home-premium.js?v=retail-5', "US retail homepage runtime"),
-        ('uk-home-retail.js?v=2', "UK retail homepage runtime"),
-        ('retail-region-enhancements.js?v=2', "regional switch/welcome enhancement"),
+        ('reference-storefront.css?v=3', "approved reference storefront CSS"),
+        ('reference-storefront.js?v=3', "approved reference storefront runtime"),
+        ('reference-storefront-fidelity.css?v=1', "reference fidelity CSS"),
+        ('reference-storefront-fidelity.js?v=1', "reference fidelity runtime"),
+        ('ad-ready-stability.css?v=1', "final ad-ready stability layer"),
+        ('retail-region-enhancements.js?v=2', "regional switch enhancement"),
         ('querySelectorAll("[data-ot-theme-toggle],.ot-theme-toggle").forEach(node=>node.remove())', "legacy theme-toggle removal"),
+        ('scrubPublicBusinessDetails()', "public business-detail cleanup"),
+        ('sanitizeStructuredData()', "structured-data cleanup"),
+        ('compactReferenceMobileNav()', "mobile nav compaction"),
+        ('document.querySelectorAll(".mobile-store-bar").forEach(node=>node.remove())', "cart/checkout overlay removal"),
     ]:
         need("assets/storefront-performance.js", token, label)
 
+    # Approved customer-facing US/UK homepage architecture.
     for token, label in [
-        ('header.className="ot-retail-header"', "retail header"),
-        ('Find the right part.', "clear US hero"),
-        ('ot-region-mini', "US/UK store switch"),
+        ('class="ot-ref-header"', "reference retail header"),
+        ('Gear for a Brighter Horizon', "brand utility line"),
+        ('id="otRefHeaderSearch"', "header product search"),
+        ('Find the Right Parts for Your Adventure', "fitment/product finder"),
+        ('Shop by Category', "category merchandising"),
+        ('Featured Products', "featured merchandising"),
+        ('href="/uk.html"', "UK store switch"),
+        ('href="/"', "US store switch"),
         ('data-ot-auth-trigger', "account trigger"),
-        ('Continue as guest', "guest continue path"),
-        ('OMNI5', "US welcome offer"),
+        ('omniTerrainUkCartV1', "UK cart isolation"),
+        ('omniTerrainUsCart', "US cart isolation"),
         ('us-live-products.json', "US live product registry"),
     ]:
-        need("assets/home-premium.js", token, label)
-    ban("assets/home-premium.js", "£", "GBP merchandising on US homepage")
+        need("assets/reference-storefront.js", token, label)
 
     for token, label in [
-        ('header.className="ot-retail-header"', "retail header"),
-        ('UK auto, marine', "clear UK hero"),
-        ('Find a UK product', "UK product finder"),
-        ('currency:\"GBP\"', "GBP formatting"),
-        ('omniTerrainUkCartV1', "UK cart isolation"),
-        ('Continue as guest', "guest continue path"),
+        ('omni-terrain-subtle-logo.svg', "approved light storefront logo"),
+        ('ot-ref-hero-tag', "hero cleanup"),
     ]:
-        need("assets/uk-home-retail.js", token, label)
-    ban("assets/uk-home-retail.js", 'currency:"USD"', "USD currency formatting on UK homepage")
+        need("assets/reference-storefront-fidelity.js", token, label)
 
-    need("assets/retail-region-enhancements.js", 'US Store', "US store option in welcome/region switch")
-    need("assets/retail-region-enhancements.js", 'UK Store', "UK store option in welcome/region switch")
-    need("assets/retail-region-enhancements.js", 'Continue to US Store', "US direct continue")
-    need("assets/retail-region-enhancements.js", 'Continue to UK Store', "UK direct continue")
+    for token, label in [
+        ('.fitment-panel', "UK dark-panel contrast fix"),
+        ('body>footer:not(.ot-ref-footer)', "legacy footer contrast fix"),
+        ('.ot-catalogue-loadmore', "catalogue load-more styling"),
+        ('grid-template-columns:repeat(4,minmax(0,1fr))', "compact mobile navigation"),
+        ('.ot-ref-product{content-visibility:visible', "homepage product visibility safeguard"),
+    ]:
+        need("assets/ad-ready-stability.css", token, label)
 
+    # Catalogue must not render hundreds of live cards at once.
+    for token, label in [
+        ('PAGE_SIZE=24', "24-product progressive rendering"),
+        ('Load more products', "load-more control"),
+        ('displayLimit+=PAGE_SIZE', "progressive load-more action"),
+        ('liveSlugs.has(cardSlug(card))', "live-registry visibility gate"),
+        ('authorizationVerified===true', "catalogue authorization gate"),
+        ('s?.checkoutReady===true', "catalogue checkout-ready gate"),
+    ]:
+        need("assets/catalogue-controls.js", token, label)
+    need("assets/catalogue-controls.css", '.ot-card-hidden{display:none!important}', "hidden-card layout collapse")
+
+    # Auth/customer account safety remains intact.
     auth = src("assets/firebase-auth.js")
     for token, label in [
         ("omni-terrain.firebaseapp.com", "Firebase auth domain"),
@@ -132,8 +157,15 @@ def main() -> int:
             errors.append(f"auth missing {label}")
     ban("assets/firebase-auth.js", ".addScope(", "extra Google OAuth scope")
 
-    need("assets/home-premium.js", "application/ld+json", "US structured data")
-    need("assets/uk-home-retail.js", "CollectionPage", "UK structured data")
+    # Ads measurement may be present, but campaign launch is a separate decision.
+    for token, label in [
+        ('AW-18417309188', "Google Ads account tag"),
+        ('gclid', "Google click attribution"),
+        ('utm_campaign', "campaign attribution"),
+        ('landing_attribution', "landing attribution event"),
+    ]:
+        need("assets/ad-readiness.js", token, label)
+
     need("llms.txt", "United States", "US LLM storefront guidance")
     need("llms.txt", "United Kingdom", "UK LLM storefront guidance")
     need("robots.txt", "Allow: /", "crawl allowed")
@@ -197,6 +229,7 @@ def main() -> int:
         need("api/us-create-checkout-session.mjs", token, label)
     need("api/us-checkout-health.mjs", 'checkoutMode: "authorization-gated"', "authorization-gated health")
 
+    # Registry, current stock and product-page schema must agree for advertised products.
     try:
         registry = json.loads(src("assets/us-live-products.json") or "{}")
         stock = json.loads(src("assets/us-stock-status.json") or "{}")
