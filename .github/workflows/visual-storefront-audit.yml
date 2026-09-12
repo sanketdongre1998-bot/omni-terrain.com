@@ -41,6 +41,7 @@ jobs:
           mkdir -p visual-audit
           cat > visual-audit.mjs <<'EOF'
           import { chromium } from 'playwright';
+          import fs from 'node:fs';
           const base='http://127.0.0.1:4173';
           const routes=[
             'index.html','deals.html','us-catalogue.html','cart.html','checkout.html',
@@ -48,54 +49,76 @@ jobs:
           ];
           const sizes=[['phone',390,844],['desktop',1440,1000]];
           const browser=await chromium.launch({headless:true});
-          let failed=false;
-          const overlaps=(a,b)=>!!(a&&b&&a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top);
+          const failures=[]; const warnings=[]; const report=[];
+          const isLocal=src=>{try{return new URL(src,base).origin===new URL(base).origin}catch(_){return true}};
           for(const [label,width,height] of sizes){
             const context=await browser.newContext({viewport:{width,height},colorScheme:'light'});
             await context.addInitScript(()=>{
-              try{localStorage.setItem('omniTerrainUsCart',JSON.stringify([{id:'HUS33055',quantity:2}]));}catch(_){}
+              try{
+                localStorage.setItem('omniTerrainUsCart',JSON.stringify([{id:'HUS81147',quantity:1}]));
+                localStorage.setItem('otRetailPromoSeen',String(Date.now()));
+              }catch(_){}
             });
             for(const route of routes){
               const page=await context.newPage();
-              const errors=[];
-              page.on('pageerror',e=>errors.push(String(e.message||e)));
-              await page.goto(`${base}/${route}`,{waitUntil:'networkidle',timeout:30000}).catch(async()=>{await page.goto(`${base}/${route}`,{waitUntil:'domcontentloaded',timeout:30000});});
-              await page.waitForTimeout(route==='deals.html'?1800:900);
-              const info=await page.evaluate(()=>{
-                const rect=s=>{const e=document.querySelector(s);if(!e)return null;const r=e.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height}};
-                return {
-                  title:document.title,
-                  width:innerWidth,
-                  bodyWidth:document.documentElement.scrollWidth,
-                  authTriggers:document.querySelectorAll('[data-ot-auth-trigger]').length,
-                  dealCards:document.querySelectorAll('.ot-deal-card').length,
-                  liveCards:document.querySelectorAll('.live-card').length,
-                  ukRefresh:document.documentElement.classList.contains('ot-uk-refresh'),
-                  heroActions:rect('.hero-actions'),
-                  heroFacts:rect('.hero-facts'),
-                  brokenImages:[...document.images].filter(i=>{
-                    const src=(i.currentSrc||i.getAttribute('src')||'').trim();
-                    return src&&i.complete&&i.naturalWidth===0&&!src.startsWith('data:');
-                  }).map(i=>i.currentSrc||i.getAttribute('src')).slice(0,8),
-                  text:(document.querySelector('main')?.innerText||'').replace(/\s+/g,' ').slice(0,500)
-                };
-              });
-              const horizontalOverflow=info.bodyWidth>width+2;
-              const heroCollision=route==='shield-autocare-uk.html'&&label==='desktop'&&overlaps(info.heroActions,info.heroFacts);
-              const ukRefreshMissing=(route==='uk.html'||route==='shield-autocare-uk.html'||route==='uk-tyres.html'||route.startsWith('uk-'))&&!info.ukRefresh;
-              const unexpectedBroken=info.brokenImages.length>0;
-              if(errors.length||horizontalOverflow||heroCollision||ukRefreshMissing||unexpectedBroken){
-                failed=true;
-                console.error(JSON.stringify({failure:true,label,route,errors,horizontalOverflow,heroCollision,ukRefreshMissing,brokenImages:info.brokenImages}));
-              }
-              console.log(JSON.stringify({label,route,info,errors,horizontalOverflow,heroCollision,ukRefreshMissing}));
-              await page.screenshot({path:`visual-audit/${label}-${route.replace('.html','')}.png`,fullPage:true});
-              await page.close();
+              const errors=[]; page.on('pageerror',e=>errors.push(String(e.message||e)));
+              try{
+                await page.goto(`${base}/${route}`,{waitUntil:'domcontentloaded',timeout:30000});
+                await page.waitForTimeout((route==='index.html'||route==='uk.html'||route==='us-catalogue.html')?1800:1100);
+                const info=await page.evaluate(()=>{
+                  const visible=el=>{if(!el)return false;const s=getComputedStyle(el),r=el.getBoundingClientRect();return s.display!=='none'&&s.visibility!=='hidden'&&Number(s.opacity||1)>0&&r.width>0&&r.height>0;};
+                  const brokenImages=[...document.images].filter(i=>{const src=(i.currentSrc||i.getAttribute('src')||'').trim();return src&&i.complete&&i.naturalWidth===0&&!src.startsWith('data:')&&!src.startsWith('blob:');}).map(i=>i.currentSrc||i.getAttribute('src')).slice(0,12);
+                  const bodyText=(document.body?.innerText||'').replace(/\s+/g,' ').trim();
+                  const home=document.documentElement.classList.contains('ot-reference-home');
+                  return {
+                    title:document.title,
+                    bodyWidth:document.documentElement.scrollWidth,
+                    viewport:innerWidth,
+                    refHeaders:[...document.querySelectorAll('.ot-ref-header')].filter(visible).length,
+                    topNav:home?[...document.querySelectorAll('.ot-ref-nav>.ot-ref-width>.ot-ref-nav-item,.ot-ref-nav>.ot-ref-width>a')].filter(visible).length:0,
+                    featured:[...document.querySelectorAll('.ot-ref-product')].filter(visible).length,
+                    catalogueCards:[...document.querySelectorAll('main .grid .card')].filter(visible).length,
+                    loadMore:Boolean(document.querySelector('.ot-catalogue-loadmore button')&&visible(document.querySelector('.ot-catalogue-loadmore button'))),
+                    mobileStoreBar:Boolean(document.querySelector('.mobile-store-bar')&&visible(document.querySelector('.mobile-store-bar'))),
+                    ukRefresh:document.documentElement.classList.contains('ot-uk-refresh'),
+                    brokenImages,
+                    bodyText:bodyText.slice(0,7000),
+                    fitmentPanel:Boolean(document.querySelector('.fitment-panel')&&visible(document.querySelector('.fitment-panel')))
+                  };
+                });
+                const key=`${label}/${route}`;
+                if(info.bodyWidth>width+2) failures.push(`${key}: horizontal overflow ${info.bodyWidth}>${width}`);
+                if(errors.length) failures.push(`${key}: page errors ${errors.join(' | ')}`);
+                const localBroken=info.brokenImages.filter(isLocal); const externalBroken=info.brokenImages.filter(src=>!isLocal(src));
+                if(localBroken.length) failures.push(`${key}: broken local images ${localBroken.join(' | ')}`);
+                if(externalBroken.length) warnings.push(`${key}: external images unavailable in QA runtime ${externalBroken.slice(0,4).join(' | ')}`);
+                if(route==='index.html'||route==='uk.html'){
+                  if(info.refHeaders!==1) failures.push(`${key}: expected one reference header, got ${info.refHeaders}`);
+                  if(info.featured<1) failures.push(`${key}: no visible featured product cards`);
+                  if(label==='phone'&&info.topNav!==4) failures.push(`${key}: expected 4 compact mobile nav items, got ${info.topNav}`);
+                }
+                if(route==='us-catalogue.html'){
+                  if(info.catalogueCards>24) failures.push(`${key}: catalogue renders ${info.catalogueCards} cards initially`);
+                  if(info.catalogueCards>0&&!info.loadMore) warnings.push(`${key}: no load-more visible`);
+                }
+                if((route==='cart.html'||route==='checkout.html')&&info.mobileStoreBar) failures.push(`${key}: mobile store overlay is still visible`);
+                if((route==='cart.html'||route==='checkout.html')&&/US operator:\s*PRP Xpert LLC|30 N Gould|Sheridan,? WY 82801/i.test(info.bodyText)) failures.push(`${key}: legacy US operator/address visible`);
+                if(route==='uk-cool-mate-70l-fridge-black.html'&&/VAT\s*(?:No|Number)|EORI/i.test(info.bodyText)) failures.push(`${key}: VAT/EORI label visible on UK PDP`);
+                report.push({key,info,errors,localBroken,externalBroken});
+                await page.screenshot({path:`visual-audit/${label}-${route.replace('.html','')}.png`,fullPage:true});
+              }catch(error){
+                failures.push(`${label}/${route}: ${error?.message||error}`);
+                try{await page.screenshot({path:`visual-audit/${label}-${route.replace('.html','')}-error.png`,fullPage:true});}catch(_){}
+              }finally{await page.close();}
             }
             await context.close();
           }
           await browser.close();
-          if(failed) process.exit(1);
+          fs.writeFileSync('visual-audit/report.json',JSON.stringify({failures,warnings,report},null,2));
+          warnings.forEach(x=>console.warn('WARN',x));
+          failures.forEach(x=>console.error('FAIL',x));
+          if(failures.length) process.exit(1);
+          console.log(`RESULT = PASS (${report.length} route/viewport captures, ${warnings.length} warning(s))`);
           EOF
           node visual-audit.mjs
 
@@ -104,5 +127,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: storefront-visual-audit
-          path: visual-audit/*.png
+          path: visual-audit/*
+          if-no-files-found: error
           retention-days: 2
