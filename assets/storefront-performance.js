@@ -35,8 +35,10 @@
 
   if(home||file==="uk.html"){
     if(home){scrubLegacyHome();ready(scrubLegacyHome);}
-    addCss("otReferenceStorefrontCss","/assets/reference-storefront.css?v=2");
-    addScript("otReferenceStorefrontJs","/assets/reference-storefront.js?v=2");
+    addCss("otReferenceStorefrontCss","/assets/reference-storefront.css?v=3");
+    addScript("otReferenceStorefrontJs","/assets/reference-storefront.js?v=3");
+    addCss("otReferenceStorefrontFidelityCss","/assets/reference-storefront-fidelity.css?v=1");
+    addScript("otReferenceStorefrontFidelityJs","/assets/reference-storefront-fidelity.js?v=1");
     if(home&&"MutationObserver" in window){
       const shellObserver=new MutationObserver(()=>scrubLegacyHome());
       const target=document.body||document.documentElement;
