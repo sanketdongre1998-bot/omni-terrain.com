@@ -1,4 +1,45 @@
-/* Homepage header stability: keep account/cart accessible and compact on mobile. */
+/* Homepage header polish + stability. Keep this focused on the reference storefront header. */
+
+/* Desktop: compact premium header, evenly spaced navigation, and no browser-default link styling. */
+@media (min-width:761px){
+  .ot-reference-home .ot-ref-utility .ot-ref-width{min-height:28px}
+  .ot-reference-home .ot-ref-utility{font-size:11px}
+  .ot-reference-home .ot-ref-mainbar .ot-ref-width{min-height:70px;grid-template-columns:210px minmax(360px,1fr) 180px;gap:22px}
+  .ot-reference-home .ot-ref-logo img{width:185px;height:48px}
+  .ot-reference-home .ot-ref-search{grid-template-columns:minmax(0,1fr) 100px;border-radius:6px}
+  .ot-reference-home .ot-ref-search input{height:44px;font-size:12px}
+  .ot-reference-home .ot-ref-search button{font-size:12px}
+  .ot-reference-home .ot-ref-actions{gap:14px}
+  .ot-reference-home .ot-ref-account strong,
+  .ot-reference-home .ot-ref-cart strong{font-size:11px}
+
+  .ot-reference-home .ot-ref-nav .ot-ref-width{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));align-items:stretch;width:min(1440px,calc(100% - 48px));margin-inline:auto}
+  .ot-reference-home .ot-ref-nav .ot-ref-nav-item{min-width:0;width:100%}
+  .ot-reference-home .ot-ref-nav .ot-ref-nav-item>button,
+  .ot-reference-home .ot-ref-nav .ot-ref-width>a,
+  .ot-reference-home .ot-ref-nav .ot-ref-width>a:visited{
+    display:flex;width:100%;height:42px;align-items:center;justify-content:center;box-sizing:border-box;padding:0 10px;border:0;border-right:1px solid #e3ebf2;background:#fff;color:#12325a!important;text-decoration:none!important;font-size:12px;font-weight:800;line-height:1;white-space:nowrap;cursor:pointer
+  }
+  .ot-reference-home .ot-ref-nav .ot-ref-nav-item:first-child>button{border-left:1px solid #e3ebf2}
+  .ot-reference-home .ot-ref-nav .ot-ref-width>a:hover,
+  .ot-reference-home .ot-ref-nav .ot-ref-width>a:focus,
+  .ot-reference-home .ot-ref-nav .ot-ref-nav-item>button:hover,
+  .ot-reference-home .ot-ref-nav .ot-ref-nav-item:focus-within>button{background:#f3f7fb;color:#075fca!important;text-decoration:none!important}
+  .ot-reference-home .ot-ref-nav .ot-ref-width>a.featured,
+  .ot-reference-home .ot-ref-nav .ot-ref-width>a.featured:visited{color:#b97700!important}
+  .ot-reference-home .ot-ref-nav .ot-ref-width>a.ot-ref-used-nav,
+  .ot-reference-home .ot-ref-nav .ot-ref-width>a.ot-ref-used-nav:visited{color:#075fca!important}
+  .ot-reference-home .ot-ref-menu{top:42px}
+}
+
+@media (min-width:761px) and (max-width:1100px){
+  .ot-reference-home .ot-ref-mainbar .ot-ref-width{grid-template-columns:180px minmax(300px,1fr) 155px;gap:16px}
+  .ot-reference-home .ot-ref-logo img{width:165px}
+  .ot-reference-home .ot-ref-nav .ot-ref-nav-item>button,
+  .ot-reference-home .ot-ref-nav .ot-ref-width>a{padding:0 5px;font-size:10px}
+}
+
+/* Mobile: keep account/cart accessible and compact. */
 @media (max-width:760px){
   .ot-reference-home .ot-ref-actions{display:flex;align-items:center;gap:8px;right:10px;top:42px}
   .ot-reference-home .ot-ref-account{display:flex!important;min-width:44px;min-height:38px;align-items:center;justify-content:center;padding:3px 6px;border-radius:5px;text-align:center}
@@ -8,7 +49,10 @@
   .ot-reference-home .ot-ref-cart span{display:none}
   .ot-reference-home .ot-ref-cart strong{margin:0;font-size:10px;line-height:1.1;white-space:nowrap}
   .ot-reference-home .ot-ref-cart b{min-width:18px;height:18px;padding:0 4px}
+  .ot-reference-home .ot-ref-nav .ot-ref-width>a,
+  .ot-reference-home .ot-ref-nav .ot-ref-width>a:visited{text-decoration:none!important}
 }
+
 @media (max-width:340px){
   .ot-reference-home .ot-ref-logo img{width:125px}
   .ot-reference-home .ot-ref-actions{gap:4px}
