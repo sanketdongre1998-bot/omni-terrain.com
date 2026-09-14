@@ -1,0 +1,9 @@
+/* Homepage Used OEM integration + dedicated used-parts page helpers. */
+.ot-ref-used-nav{color:#0a5fca!important;white-space:nowrap}
+.ot-ref-used-callout{padding:8px 0 14px}
+.ot-ref-used-card{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:28px;padding:24px 28px;border:1px solid #d2e1ee;border-radius:10px;background:linear-gradient(120deg,#f2f7fb 0%,#fff 52%,#eef6ff 100%);box-shadow:0 5px 18px rgba(9,40,75,.06)}
+.ot-ref-used-card h2{margin:5px 0 7px;color:#0a3976;font-size:25px;line-height:1.15}
+.ot-ref-used-card p{max-width:850px;margin:0;color:#5d718a;font-size:12px;line-height:1.55}
+.ot-ref-used-eyebrow{display:inline-flex;padding:5px 9px;border-radius:999px;background:#e7f1fb;color:#075fca;font-size:10px;font-weight:900;letter-spacing:.08em}
+.ot-ref-used-card>a{display:inline-flex;min-height:46px;align-items:center;justify-content:center;padding:0 22px;border-radius:6px;background:linear-gradient(#1682e7,#075fca);color:#fff;text-decoration:none;font-size:12px;font-weight:900;white-space:nowrap}
+@media(max-width:760px){.ot-ref-used-card{grid-template-columns:1fr;gap:15px;padding:19px}.ot-ref-used-card h2{font-size:21px}.ot-ref-used-card>a{width:100%;box-sizing:border-box}.ot-ref-used-nav{font-weight:900}}
