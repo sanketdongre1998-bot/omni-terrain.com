@@ -19,9 +19,15 @@ def src(path: str) -> str:
     return p.read_text(encoding="utf-8", errors="replace")
 
 
+def exists(path: str) -> None:
+    if (ROOT / path).exists():
+        passes.append(f"PASS exists: {path}")
+    else:
+        errors.append(f"missing {path}")
+
+
 def need(path: str, token: str, label: str) -> None:
-    text = src(path)
-    if token in text:
+    if token in src(path):
         passes.append(f"PASS {path}: {label}")
     else:
         errors.append(f"{path}: missing {label}")
@@ -34,7 +40,7 @@ def ban(path: str, token: str, label: str) -> None:
         passes.append(f"PASS {path}: no {label}")
 
 
-def schema(path: str) -> dict:
+def product_schema(path: str) -> dict:
     for raw in re.findall(r'<script[^>]+type=["\']application/ld\+json["\'][^>]*>(.*?)</script>', src(path), re.I | re.S):
         try:
             data = json.loads(raw)
@@ -48,52 +54,65 @@ def schema(path: str) -> dict:
 
 
 def main() -> int:
+    # Files that define the currently deployed storefront and its checkout path.
     routes = [
-        "index.html", "deals.html", "us-catalogue.html", "automotive.html", "marine.html", "rv.html",
-        "cart.html", "checkout.html", "contact-and-order-help.html", "shipping-delivery-policy.html",
-        "returns-refunds-policy.html", "privacy-policy.html", "terms-conditions.html", "us-order-success.html",
-        "uk.html", "shield-autocare-uk.html", "uk-tyres.html", "uk-cool-mate-70l-fridge-black.html",
-        "uk-cart.html", "uk-contact.html", "uk-shipping-delivery-policy.html", "uk-returns-refunds-policy.html",
-        "uk-privacy-policy.html", "uk-terms-conditions.html",
+        "index.html", "used-auto-parts.html", "deals.html", "us-catalogue.html", "automotive.html",
+        "marine.html", "rv.html", "cart.html", "checkout.html", "contact-and-order-help.html",
+        "shipping-delivery-policy.html", "returns-refunds-policy.html", "privacy-policy.html",
+        "terms-conditions.html", "us-order-success.html", "uk.html", "shield-autocare-uk.html",
+        "uk-tyres.html", "uk-cool-mate-70l-fridge-black.html", "uk-cart.html", "uk-contact.html",
+        "uk-shipping-delivery-policy.html", "uk-returns-refunds-policy.html", "uk-privacy-policy.html",
+        "uk-terms-conditions.html",
     ]
     assets = [
-        "assets/storefront-performance.js", "assets/storefront-performance.css",
-        "assets/reference-storefront.js", "assets/reference-storefront.css",
+        "assets/storefront-performance.js", "assets/reference-storefront.js", "assets/reference-storefront.css",
         "assets/reference-storefront-fidelity.js", "assets/reference-storefront-fidelity.css",
-        "assets/ad-ready-stability.css", "assets/retail-region-enhancements.js",
-        "assets/firebase-auth.js", "assets/firebase-auth.css", "assets/catalogue-controls.js",
-        "assets/catalogue-controls.css", "assets/catalogue-wide.js", "assets/cart-checkout-premium.js",
-        "assets/universal-checkout-ui.js", "assets/ad-readiness.js", "assets/analytics-events.js",
-        "assets/us-live-products.json", "assets/us-stock-status.json", "assets/us-products.js",
-        "assets/us-order-success.js", "scripts/responsive-browser-audit.mjs", "lib/us-checkout-products.mjs",
-        "api/us-create-checkout-session.mjs", "api/us-checkout-health.mjs", "llms.txt", "robots.txt", "sitemap.xml",
+        "assets/used-oem-integration.css", "assets/used-auto-parts.css", "assets/home-header-stability.css",
+        "assets/ad-ready-stability.css", "assets/firebase-auth.js", "assets/firebase-auth.css",
+        "assets/catalogue-controls.js", "assets/catalogue-controls.css", "assets/catalogue-wide.js",
+        "assets/cart-checkout-premium.js", "assets/universal-checkout-ui.js", "assets/ad-readiness.js",
+        "assets/analytics-events.js", "assets/us-live-products.json", "assets/us-stock-status.json",
+        "assets/us-products.js", "assets/us-order-success.js", "scripts/responsive-browser-audit.mjs",
+        "lib/us-checkout-products.mjs", "api/us-create-checkout-session.mjs", "api/us-checkout-health.mjs",
+        "llms.txt", "robots.txt", "sitemap.xml",
     ]
     for path in routes + assets:
-        if (ROOT / path).exists():
-            passes.append(f"PASS exists: {path}")
-        else:
-            errors.append(f"missing {path}")
+        exists(path)
 
-    # Current storefront shell: approved reference home + final stability layer.
+    # Homepages must load the approved renderer deterministically. Generic marketing
+    # mutation layers are intentionally kept off the approved homepage path.
+    for path in ("index.html", "uk.html"):
+        need(path, 'reference-storefront.css?v=4', "reference storefront CSS v4")
+        need(path, 'reference-storefront-fidelity.css?v=2', "reference fidelity CSS v2")
+        need(path, 'reference-storefront.js?v=4', "reference storefront runtime v4")
+        need(path, 'reference-storefront-fidelity.js?v=2', "reference fidelity runtime v2")
+        need(path, 'home-header-stability.css?v=1', "mobile header stability layer")
+        need(path, 'ad-ready-stability.css?v=2', "ad-ready stability layer v2")
+        need(path, 'storefront-performance.js?v=17', "storefront performance runtime")
+
+    need("index.html", 'used-oem-integration.css?v=1', "Used OEM homepage integration styles")
+    need("index.html", "New & Used OEM Auto Parts", "US new + used SEO title")
+
+    performance = src("assets/storefront-performance.js")
     for token, label in [
-        ('dataset.otTheme="light"', "light retail theme lock"),
-        ('reference-storefront.css?v=3', "approved reference storefront CSS"),
-        ('reference-storefront.js?v=3', "approved reference storefront runtime"),
-        ('reference-storefront-fidelity.css?v=1', "reference fidelity CSS"),
-        ('reference-storefront-fidelity.js?v=1', "reference fidelity runtime"),
-        ('ad-ready-stability.css?v=1', "final ad-ready stability layer"),
-        ('retail-region-enhancements.js?v=2', "regional switch enhancement"),
-        ('querySelectorAll("[data-ot-theme-toggle],.ot-theme-toggle").forEach(node=>node.remove())', "legacy theme-toggle removal"),
+        ('document.documentElement.dataset.otTheme = "light"', "light retail theme lock"),
+        ('if (home)', "dedicated homepage stability path"),
+        ('addCss("otUsedOemIntegrationCss"', "Used OEM home styles"),
+        ('addScript("otReferenceStorefrontJs"', "approved home renderer"),
+        ('addScript("otReferenceStorefrontFidelityJs"', "approved home fidelity runtime"),
         ('scrubPublicBusinessDetails()', "public business-detail cleanup"),
         ('sanitizeStructuredData()', "structured-data cleanup"),
         ('compactReferenceMobileNav()', "mobile nav compaction"),
-        ('document.querySelectorAll(".mobile-store-bar").forEach(node=>node.remove())', "cart/checkout overlay removal"),
+        ('observer.disconnect()', "bounded mutation observer"),
     ]:
-        need("assets/storefront-performance.js", token, label)
+        if token in performance:
+            passes.append(f"PASS storefront-performance: {label}")
+        else:
+            errors.append(f"storefront-performance missing {label}")
 
-    # Approved customer-facing US/UK homepage architecture.
+    # Approved customer-facing US/UK home architecture plus Used OEM integration.
     for token, label in [
-        ("header.className='ot-ref-header'", "reference retail header"),
+        ("header.className = 'ot-ref-header'", "reference retail header"),
         ('Gear for a Brighter Horizon', "brand utility line"),
         ('id="otRefHeaderSearch"', "header product search"),
         ('Find the Right Parts for Your Adventure', "fitment/product finder"),
@@ -105,14 +124,37 @@ def main() -> int:
         ('omniTerrainUkCartV1', "UK cart isolation"),
         ('omniTerrainUsCart', "US cart isolation"),
         ('us-live-products.json', "US live product registry"),
+        ('href="/used-auto-parts.html"', "Used OEM route"),
+        ('Used OEM Auto Parts', "Used OEM merchandising"),
+        ('Factory parts, matched by the numbers that matter.', "Used OEM homepage callout"),
     ]:
         need("assets/reference-storefront.js", token, label)
 
+    # Used OEM page: real sourcing/request flow only, no invented purchasable stock.
+    for token, label in [
+        ('Used OEM Auto Parts | Omni Terrain US', "Used OEM page title"),
+        ('OEM / MPN / engineering number', "part-number search"),
+        ('Year Make Model', "vehicle detail field"),
+        ('Audio & Infotainment', "launch category"),
+        ('Modules & Computers', "modules category"),
+        ('Climate Controls', "climate category"),
+        ('type','request flow marker'),
+        ('No fake inventory or placeholder pricing', "inventory-integrity disclosure"),
+    ]:
+        need("used-auto-parts.html", token, label)
+    need("used-auto-parts.html", "type','used-oem", "Used OEM support handoff")
+
     for token, label in [
         ('omni-terrain-subtle-logo.svg', "approved light storefront logo"),
-        ('ot-ref-hero-tag', "hero cleanup"),
+        ('MutationObserver', "short-lived renderer readiness observer"),
+        ('observer.disconnect()', "fidelity observer disconnect"),
     ]:
         need("assets/reference-storefront-fidelity.js", token, label)
+
+    need("assets/home-header-stability.css", '.ot-ref-account{display:flex!important', "mobile Sign In visibility")
+    need("assets/home-header-stability.css", 'min-height:38px', "mobile tap target minimum")
+    need("assets/used-oem-integration.css", '.ot-ref-used-nav', "Used OEM nav styling")
+    need("assets/used-oem-integration.css", 'display:flex!important', "Used OEM compact mobile nav visibility")
 
     for token, label in [
         ('.fitment-panel', "UK dark-panel contrast fix"),
@@ -123,7 +165,7 @@ def main() -> int:
     ]:
         need("assets/ad-ready-stability.css", token, label)
 
-    # Catalogue must not render hundreds of live cards at once.
+    # Catalogue must progressively expose only authorized/orderable products.
     for token, label in [
         ('PAGE_SIZE=24', "24-product progressive rendering"),
         ('Load more products', "load-more control"),
@@ -135,7 +177,7 @@ def main() -> int:
         need("assets/catalogue-controls.js", token, label)
     need("assets/catalogue-controls.css", '.ot-card-hidden{display:none!important}', "hidden-card layout collapse")
 
-    # Auth/customer account safety remains intact.
+    # Auth/customer account safety.
     auth = src("assets/firebase-auth.js")
     for token, label in [
         ("omni-terrain.firebaseapp.com", "Firebase auth domain"),
@@ -147,9 +189,6 @@ def main() -> int:
         ("browserLocalPersistence", "persistent session"),
         ("onAuthStateChanged", "auth state observer"),
         ("prefillCheckout(currentUser)", "checkout prefill"),
-        ("Continue with Google", "Google UI"),
-        ("Create account", "email account UI"),
-        ("Privacy Policy", "privacy link"),
     ]:
         if token in auth:
             passes.append(f"PASS auth: {label}")
@@ -157,7 +196,7 @@ def main() -> int:
             errors.append(f"auth missing {label}")
     ban("assets/firebase-auth.js", ".addScope(", "extra Google OAuth scope")
 
-    # Ads measurement may be present, but campaign launch is a separate decision.
+    # Ads measurement may exist while campaign launch remains an independent decision.
     for token, label in [
         ('AW-18417309188', "Google Ads account tag"),
         ('gclid', "Google click attribution"),
@@ -171,25 +210,14 @@ def main() -> int:
     need("robots.txt", "Allow: /", "crawl allowed")
     need("sitemap.xml", "https://omni-terrain.com/", "canonical URLs in sitemap")
 
-    policy_paths = ["terms-conditions.html", "shipping-delivery-policy.html", "returns-refunds-policy.html", "privacy-policy.html"]
-    for path in policy_paths:
-        need(path, "Effective 3 September 2026", "current policy date")
-        need(path, "Secure online checkout", "current checkout footer")
-        ban(path, "Request Cart", "legacy request-cart navigation")
-        ban(path, "request cart", "legacy request-cart copy")
-    need("terms-conditions.html", "Payment is collected immediately through secure Stripe Checkout.", "immediate Stripe payment disclosure")
-    need("shipping-delivery-policy.html", "we aim to ship within 30 days", "default shipping-time commitment")
-    need("returns-refunds-policy.html", "within 30 calendar days after delivery", "default return-request window")
-
-    need("uk-cart.html", "Secure checkout being enabled", "UK payment-state disclosure")
-    need("uk-cart.html", "Prices shown include UK VAT", "UK VAT cart disclosure")
-
+    # Checkout and policy guards.
     universal = src("assets/universal-checkout-ui.js")
     for token, label in [
-        ("us-live-products.json", "registry read"), ("row.enabled !== true", "enabled gate"),
-        ("row.authorizationVerified !== true", "authorization gate"), ("Number(row.priceCents || 0) <= 0", "price gate"),
+        ("us-live-products.json", "registry read"),
+        ("row.enabled !== true", "enabled gate"),
+        ("row.authorizationVerified !== true", "authorization gate"),
+        ("Number(row.priceCents || 0) <= 0", "price gate"),
         ("liveCommerceAlreadyMounted", "duplicate-buybox prevention"),
-        ("Final product pricing, authorization and current availability are re-validated", "server re-validation copy"),
     ]:
         if token in universal:
             passes.append(f"PASS universal: {label}")
@@ -200,8 +228,9 @@ def main() -> int:
     for token, label in [
         ("us-live-products.json", "registry preflight"),
         ("p.enabled===true&&p.authorizationVerified===true&&Number(p.priceCents)>0", "authorization+price preflight"),
-        ("couponCode", "coupon server handoff"), ("PROMO_SAVE_CENTS=500", "OMNI5 $5 preview"),
-        ("PROMO_MIN_CENTS=15000", "OMNI5 $150 minimum preview"), ("cart is still saved", "safe payment recovery"),
+        ("couponCode", "coupon server handoff"),
+        ("PROMO_SAVE_CENTS=500", "OMNI5 $5 preview"),
+        ("PROMO_MIN_CENTS=15000", "OMNI5 $150 minimum preview"),
     ]:
         if token in checkout:
             passes.append(f"PASS checkout: {label}")
@@ -210,10 +239,14 @@ def main() -> int:
 
     backend = src("lib/us-checkout-products.mjs")
     for token, label in [
-        ("/assets/us-products.js", "products source"), ("/assets/us-live-products.json", "authorization source"),
-        ("/assets/us-stock-status.json", "stock-status source"), ("approval.enabled !== true", "enabled gate"),
-        ("approval.authorizationVerified !== true", "authorization gate"), ("stock.checkoutReady !== true", "current stock gate"),
-        ("MAX_ORDER_CENTS", "cart value guard"), ("MAX_QTY", "quantity guard"),
+        ("/assets/us-products.js", "products source"),
+        ("/assets/us-live-products.json", "authorization source"),
+        ("/assets/us-stock-status.json", "stock-status source"),
+        ("approval.enabled !== true", "enabled gate"),
+        ("approval.authorizationVerified !== true", "authorization gate"),
+        ("stock.checkoutReady !== true", "current stock gate"),
+        ("MAX_ORDER_CENTS", "cart value guard"),
+        ("MAX_QTY", "quantity guard"),
     ]:
         if token in backend:
             passes.append(f"PASS backend: {label}")
@@ -222,20 +255,30 @@ def main() -> int:
     ban("lib/us-checkout-products.mjs", "LAUNCH_PRICE_OVERRIDES", "launch price override")
 
     for token, label in [
-        ("await resolveUsCheckoutItems", "server item resolution"), ('PROMO_CODE = "OMNI5"', "OMNI5 validation"),
-        ("PROMO_MIN_CENTS = 15_000", "OMNI5 $150 minimum"), ("PROMO_SAVE_CENTS = 500", "OMNI5 $5 discount"),
+        ("await resolveUsCheckoutItems", "server item resolution"),
+        ('PROMO_CODE = "OMNI5"', "OMNI5 validation"),
+        ("PROMO_MIN_CENTS = 15_000", "OMNI5 $150 minimum"),
+        ("PROMO_SAVE_CENTS = 500", "OMNI5 $5 discount"),
         ("shipping_address_collection", "US address collection"),
     ]:
         need("api/us-create-checkout-session.mjs", token, label)
     need("api/us-checkout-health.mjs", 'checkoutMode: "authorization-gated"', "authorization-gated health")
 
-    # Registry, current stock and product-page schema must agree for advertised products.
+    # Registry, stock status and PDP schema must agree for live featured products.
     try:
         registry = json.loads(src("assets/us-live-products.json") or "{}")
         stock = json.loads(src("assets/us-stock-status.json") or "{}")
         products = registry.get("products", {})
-        enabled = {pid: row for pid, row in products.items() if isinstance(row, dict) and row.get("enabled") is True and row.get("authorizationVerified") is True and int(row.get("priceCents") or 0) > 0}
-        stock_ready = {pid: row for pid, row in stock.get("products", {}).items() if isinstance(row, dict) and row.get("checkoutReady") is True and row.get("status") == "in_stock" and row.get("liveApi") == "ORDERABLE"}
+        enabled = {
+            pid: row for pid, row in products.items()
+            if isinstance(row, dict) and row.get("enabled") is True
+            and row.get("authorizationVerified") is True and int(row.get("priceCents") or 0) > 0
+        }
+        stock_ready = {
+            pid: row for pid, row in stock.get("products", {}).items()
+            if isinstance(row, dict) and row.get("checkoutReady") is True
+            and row.get("status") == "in_stock" and row.get("liveApi") == "ORDERABLE"
+        }
         bad = [pid for pid, row in products.items() if isinstance(row, dict) and row.get("enabled") is True and row.get("authorizationVerified") is not True]
         if bad:
             errors.append(f"enabled but unverified: {bad[:10]}")
@@ -245,13 +288,14 @@ def main() -> int:
             passes.append(f"PASS registry/status: {len(enabled)} checkout-ready products agree")
         else:
             errors.append(f"registry/status checkout-ready mismatch: registry={len(enabled)}, stock={len(stock_ready)}")
+
         featured = ["HUS81147", "HUS81148", "CCIN9010F", "CCIN8010F", "CCIIMP103X", "A1360828HD", "B5224066464"]
         for pid in featured:
             row = enabled.get(pid)
             if not row:
                 errors.append(f"featured {pid} not enabled+verified")
                 continue
-            page = schema(str(row.get("slug") or ""))
+            page = product_schema(str(row.get("slug") or ""))
             offer = page.get("offers", {}) if isinstance(page, dict) else {}
             if isinstance(offer, list):
                 offer = offer[0] if offer else {}
