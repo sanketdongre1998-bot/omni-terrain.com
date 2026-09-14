@@ -2,23 +2,26 @@
 
 /* Desktop: compact premium header, evenly spaced navigation, and no browser-default link styling. */
 @media (min-width:761px){
-  .ot-reference-home .ot-ref-utility .ot-ref-width{min-height:28px}
-  .ot-reference-home .ot-ref-utility{font-size:11px}
-  .ot-reference-home .ot-ref-mainbar .ot-ref-width{min-height:70px;grid-template-columns:210px minmax(360px,1fr) 180px;gap:22px}
-  .ot-reference-home .ot-ref-logo img{width:185px;height:48px}
-  .ot-reference-home .ot-ref-search{grid-template-columns:minmax(0,1fr) 100px;border-radius:6px}
-  .ot-reference-home .ot-ref-search input{height:44px;font-size:12px}
+  .ot-reference-home .ot-ref-utility .ot-ref-width{min-height:24px}
+  .ot-reference-home .ot-ref-utility{font-size:10px}
+  .ot-reference-home .ot-ref-mainbar .ot-ref-width{min-height:64px;grid-template-columns:200px minmax(360px,1fr) 170px;gap:20px}
+  .ot-reference-home .ot-ref-logo img{width:176px;height:45px}
+  .ot-reference-home .ot-ref-search{grid-template-columns:minmax(0,1fr) 96px;border-radius:6px}
+  .ot-reference-home .ot-ref-search input{height:42px;font-size:12px}
   .ot-reference-home .ot-ref-search button{font-size:12px}
-  .ot-reference-home .ot-ref-actions{gap:14px}
+  .ot-reference-home .ot-ref-actions{gap:12px}
   .ot-reference-home .ot-ref-account strong,
   .ot-reference-home .ot-ref-cart strong{font-size:11px}
+  .ot-reference-home .ot-ref-account strong{font-size:0}
+  .ot-reference-home .ot-ref-account strong::before{content:"Sign In";font-size:11px}
 
   .ot-reference-home .ot-ref-nav .ot-ref-width{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));align-items:stretch;width:min(1440px,calc(100% - 48px));margin-inline:auto}
+  html[lang="en-GB"] .ot-reference-home .ot-ref-nav .ot-ref-width{grid-template-columns:repeat(6,minmax(0,1fr))}
   .ot-reference-home .ot-ref-nav .ot-ref-nav-item{min-width:0;width:100%}
   .ot-reference-home .ot-ref-nav .ot-ref-nav-item>button,
   .ot-reference-home .ot-ref-nav .ot-ref-width>a,
   .ot-reference-home .ot-ref-nav .ot-ref-width>a:visited{
-    display:flex;width:100%;height:42px;align-items:center;justify-content:center;box-sizing:border-box;padding:0 10px;border:0;border-right:1px solid #e3ebf2;background:#fff;color:#12325a!important;text-decoration:none!important;font-size:12px;font-weight:800;line-height:1;white-space:nowrap;cursor:pointer
+    display:flex;width:100%;height:40px;align-items:center;justify-content:center;box-sizing:border-box;padding:0 10px;border:0;border-right:1px solid #e3ebf2;background:#fff;color:#12325a!important;text-decoration:none!important;font-size:12px;font-weight:800;line-height:1;white-space:nowrap;cursor:pointer
   }
   .ot-reference-home .ot-ref-nav .ot-ref-nav-item:first-child>button{border-left:1px solid #e3ebf2}
   .ot-reference-home .ot-ref-nav .ot-ref-width>a:hover,
@@ -29,14 +32,44 @@
   .ot-reference-home .ot-ref-nav .ot-ref-width>a.featured:visited{color:#b97700!important}
   .ot-reference-home .ot-ref-nav .ot-ref-width>a.ot-ref-used-nav,
   .ot-reference-home .ot-ref-nav .ot-ref-width>a.ot-ref-used-nav:visited{color:#075fca!important}
-  .ot-reference-home .ot-ref-menu{top:42px}
+
+  /* Only real dropdowns get a chevron. Remove literal text-glyph arrows from navigation. */
+  .ot-reference-home .ot-ref-nav .ot-ref-nav-item>button{font-size:0;gap:7px}
+  .ot-reference-home .ot-ref-nav .ot-ref-nav-item:first-child>button::before{content:"Auto Parts";font-size:12px}
+  .ot-reference-home .ot-ref-nav .ot-ref-nav-item:not(:first-child)>button::before{content:"Marine";font-size:12px}
+  .ot-reference-home .ot-ref-nav .ot-ref-nav-item>button::after{content:"";width:6px;height:6px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:translateY(-2px) rotate(45deg)}
+
+  html[lang="en-US"] .ot-reference-home .ot-ref-nav .ot-ref-width>a:nth-child(4),
+  html[lang="en-US"] .ot-reference-home .ot-ref-nav .ot-ref-width>a:nth-child(5),
+  html[lang="en-US"] .ot-reference-home .ot-ref-nav .ot-ref-width>a:nth-child(7),
+  html[lang="en-GB"] .ot-reference-home .ot-ref-nav .ot-ref-width>a:nth-child(3),
+  html[lang="en-GB"] .ot-reference-home .ot-ref-nav .ot-ref-width>a:nth-child(4),
+  html[lang="en-GB"] .ot-reference-home .ot-ref-nav .ot-ref-width>a:nth-child(6){font-size:0}
+  html[lang="en-US"] .ot-reference-home .ot-ref-nav .ot-ref-width>a:nth-child(4)::before{content:"Solar & 12V";font-size:12px}
+  html[lang="en-US"] .ot-reference-home .ot-ref-nav .ot-ref-width>a:nth-child(5)::before{content:"Overlanding";font-size:12px}
+  html[lang="en-US"] .ot-reference-home .ot-ref-nav .ot-ref-width>a:nth-child(7)::before{content:"Support";font-size:12px}
+  html[lang="en-GB"] .ot-reference-home .ot-ref-nav .ot-ref-width>a:nth-child(3)::before{content:"Campervan & 12V";font-size:12px}
+  html[lang="en-GB"] .ot-reference-home .ot-ref-nav .ot-ref-width>a:nth-child(4)::before{content:"Travel & Overlanding";font-size:12px}
+  html[lang="en-GB"] .ot-reference-home .ot-ref-nav .ot-ref-width>a:nth-child(6)::before{content:"Support";font-size:12px}
+
+  .ot-reference-home .ot-ref-menu{top:40px}
 }
 
 @media (min-width:761px) and (max-width:1100px){
-  .ot-reference-home .ot-ref-mainbar .ot-ref-width{grid-template-columns:180px minmax(300px,1fr) 155px;gap:16px}
-  .ot-reference-home .ot-ref-logo img{width:165px}
+  .ot-reference-home .ot-ref-mainbar .ot-ref-width{grid-template-columns:170px minmax(300px,1fr) 150px;gap:14px}
+  .ot-reference-home .ot-ref-logo img{width:158px}
   .ot-reference-home .ot-ref-nav .ot-ref-nav-item>button,
-  .ot-reference-home .ot-ref-nav .ot-ref-width>a{padding:0 5px;font-size:10px}
+  .ot-reference-home .ot-ref-nav .ot-ref-width>a{padding:0 5px}
+  .ot-reference-home .ot-ref-nav .ot-ref-nav-item:first-child>button::before,
+  .ot-reference-home .ot-ref-nav .ot-ref-nav-item:not(:first-child)>button::before,
+  html[lang="en-US"] .ot-reference-home .ot-ref-nav .ot-ref-width>a:nth-child(4)::before,
+  html[lang="en-US"] .ot-reference-home .ot-ref-nav .ot-ref-width>a:nth-child(5)::before,
+  html[lang="en-US"] .ot-reference-home .ot-ref-nav .ot-ref-width>a:nth-child(7)::before,
+  html[lang="en-GB"] .ot-reference-home .ot-ref-nav .ot-ref-width>a:nth-child(3)::before,
+  html[lang="en-GB"] .ot-reference-home .ot-ref-nav .ot-ref-width>a:nth-child(4)::before,
+  html[lang="en-GB"] .ot-reference-home .ot-ref-nav .ot-ref-width>a:nth-child(6)::before{font-size:10px}
+  .ot-reference-home .ot-ref-nav .ot-ref-width>a.ot-ref-used-nav,
+  .ot-reference-home .ot-ref-nav .ot-ref-width>a.featured{font-size:10px}
 }
 
 /* Mobile: keep account/cart accessible and compact. */
