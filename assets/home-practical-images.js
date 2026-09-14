@@ -19,7 +19,7 @@
 
     const hero = document.querySelector('.ot-ref-hero-bg');
     if (hero) {
-      hero.src = '/assets/ot-home-hero-commercial.webp?v=1';
+      hero.src = '/assets/ot-cat-auto.webp?v=1';
       hero.alt = 'Automotive parts, maintenance and roadside equipment';
       hero.loading = 'eager';
       hero.decoding = 'async';
