@@ -2,8 +2,12 @@
 
 /* Desktop: compact premium header, evenly spaced navigation, and no browser-default link styling. */
 @media (min-width:761px){
-  .ot-reference-home .ot-ref-utility .ot-ref-width{min-height:24px}
+  .ot-reference-home .ot-ref-utility .ot-ref-width{min-height:32px}
   .ot-reference-home .ot-ref-utility{font-size:10px}
+  .ot-reference-home .ot-ref-region{gap:8px}
+  .ot-reference-home .ot-ref-region a,
+  .ot-reference-home .ot-ref-region a:visited{display:inline-flex;min-width:42px;height:26px;align-items:center;justify-content:center;box-sizing:border-box;padding:0 12px;border:1px solid rgba(255,255,255,.28);border-radius:6px;background:rgba(255,255,255,.12);color:#fff!important;text-decoration:none!important;font-size:12px;font-weight:900;line-height:1;letter-spacing:.02em;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+  .ot-reference-home .ot-ref-region a.active{border-color:#fff;background:#fff;color:#0b4e93!important;box-shadow:0 2px 7px rgba(2,34,70,.18)}
   .ot-reference-home .ot-ref-mainbar .ot-ref-width{min-height:64px;grid-template-columns:200px minmax(360px,1fr) 170px;gap:20px}
   .ot-reference-home .ot-ref-logo img{width:176px;height:45px}
   .ot-reference-home .ot-ref-search{grid-template-columns:minmax(0,1fr) 96px;border-radius:6px}
@@ -58,6 +62,8 @@
 @media (min-width:761px) and (max-width:1100px){
   .ot-reference-home .ot-ref-mainbar .ot-ref-width{grid-template-columns:170px minmax(300px,1fr) 150px;gap:14px}
   .ot-reference-home .ot-ref-logo img{width:158px}
+  .ot-reference-home .ot-ref-region a,
+  .ot-reference-home .ot-ref-region a:visited{min-width:38px;height:25px;padding:0 9px;font-size:11px}
   .ot-reference-home .ot-ref-nav .ot-ref-nav-item>button,
   .ot-reference-home .ot-ref-nav .ot-ref-width>a{padding:0 5px}
   .ot-reference-home .ot-ref-nav .ot-ref-nav-item:first-child>button::before,
@@ -74,6 +80,10 @@
 
 /* Mobile: keep account/cart accessible and compact. */
 @media (max-width:760px){
+  .ot-reference-home .ot-ref-region{gap:5px}
+  .ot-reference-home .ot-ref-region a,
+  .ot-reference-home .ot-ref-region a:visited{display:inline-flex;min-width:34px;height:24px;align-items:center;justify-content:center;box-sizing:border-box;padding:0 7px;border:1px solid rgba(255,255,255,.28);border-radius:5px;background:rgba(255,255,255,.12);color:#fff!important;text-decoration:none!important;font-size:11px;font-weight:900}
+  .ot-reference-home .ot-ref-region a.active{background:#fff;color:#0b4e93!important}
   .ot-reference-home .ot-ref-actions{display:flex;align-items:center;gap:8px;right:10px;top:42px}
   .ot-reference-home .ot-ref-account{display:flex!important;min-width:44px;min-height:38px;align-items:center;justify-content:center;padding:3px 6px;border-radius:5px;text-align:center}
   .ot-reference-home .ot-ref-account span{display:none}
