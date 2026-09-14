@@ -22,21 +22,23 @@ html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-section-head{
 html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-section-head h2{display:flex;align-items:center;gap:9px;font-size:23px;letter-spacing:-.015em}
 html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-section-head h2::before{content:"◆";color:#f4ad17;font-size:15px;transform:translateY(-1px)}
 html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-section-head a{font-size:11px}
-html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-products{grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-products{grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
 html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-product{border-color:#d7e3ee;border-radius:7px;box-shadow:0 2px 7px rgba(8,43,80,.045);transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease}
 html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-product:hover{transform:translateY(-2px);border-color:#c2d5e7;box-shadow:0 9px 22px rgba(8,43,80,.10)}
-html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-product-media{height:148px;padding:10px;border-bottom:1px solid #edf2f6;background:#fff}
-html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-product-media img{height:128px;object-fit:contain}
+html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-product-media{height:136px;padding:9px;border-bottom:1px solid #edf2f6;background:#fff}
+html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-product-media img{height:118px;object-fit:contain}
 html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-badge{left:8px;top:8px;padding:4px 7px;border-radius:5px;background:#0b69c7;font-size:9px;letter-spacing:.02em}
-html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-product-body{padding:10px 11px 11px}
-html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-product-body small{min-height:12px;color:#718198;font-size:9px;font-weight:700;letter-spacing:.015em;text-transform:uppercase}
-html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-product-body h3{display:-webkit-box;min-height:34px;margin:5px 0 8px;overflow:hidden;color:#16375f;font-size:12px;line-height:1.4;-webkit-box-orient:vertical;-webkit-line-clamp:2}
-html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-product-price{font-size:18px;letter-spacing:-.015em}
-html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-product-button{min-height:32px;margin-top:9px;border:1px solid #cfe0ef;background:#f7fbff;color:#075fca;font-size:10px;font-weight:900}
-html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-product:hover .ot-ref-product-button{border-color:#075fca;background:#075fca;color:#fff}
+html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-product-body{padding:10px 10px 11px}
+html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-product-body small{min-height:12px;color:#718198;font-size:8px;font-weight:700;letter-spacing:.015em;text-transform:uppercase}
+html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-product-body h3{display:-webkit-box;min-height:34px;margin:5px 0 8px;overflow:hidden;color:#16375f;font-size:11px;line-height:1.4;-webkit-box-orient:vertical;-webkit-line-clamp:2}
+html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-product-price{font-size:17px;letter-spacing:-.015em}
+html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-product-button{min-height:32px;margin-top:9px;border:1px solid #0867c7!important;background:linear-gradient(#1682e7,#075fca)!important;color:#fff!important;font-size:10px;font-weight:900;text-shadow:0 1px 0 rgba(0,0,0,.08)}
+html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-product:hover .ot-ref-product-button{border-color:#064f9f!important;background:linear-gradient(#0c70d5,#064f9f)!important;color:#fff!important}
 
 @media(max-width:1180px){
-  html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-products{grid-template-columns:repeat(3,minmax(0,1fr))}
+  html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-products{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-product-media{height:146px}
+  html[lang="en-US"].ot-reference-home #otRefProductsSection .ot-ref-product-media img{height:126px}
 }
 
 @media(max-width:760px){
