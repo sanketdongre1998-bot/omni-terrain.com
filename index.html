@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="description" content="Shop new and selected used OEM automotive parts, towing, marine and RV gear across the United States. Search by brand, vehicle or manufacturer part number.">
+  <meta name="description" content="Shop new and selected used OEM automotive parts, towing, marine and RV gear across the United States. Browse featured deals and use OMNI5 for $5 off eligible regular-priced orders of $150+.">
   <meta name="theme-color" content="#ffffff">
   <meta name="robots" content="index,follow">
   <link rel="canonical" href="https://omni-terrain.com/">
@@ -13,7 +13,7 @@
   <meta property="og:site_name" content="Omni Terrain">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Omni Terrain US | New & Used OEM Auto, Marine & RV Parts">
-  <meta property="og:description" content="Shop new and selected used OEM automotive parts, towing, marine and RV gear with fitment help and secure U.S. checkout.">
+  <meta property="og:description" content="Shop new and selected used OEM automotive parts, towing, marine and RV gear with featured U.S. offers, fitment help and secure checkout.">
   <meta property="og:url" content="https://omni-terrain.com/">
   <meta property="og:image" content="https://omni-terrain.com/assets/omni-terrain-emblem.webp">
   <meta name="twitter:card" content="summary_large_image">
@@ -25,17 +25,64 @@
   <link id="otUsedOemIntegrationCss" rel="stylesheet" href="/assets/used-oem-integration.css?v=3">
   <link id="otHomeHeaderStabilityCss" rel="stylesheet" href="/assets/home-header-stability.css?v=3">
   <link id="otAdReadyStabilityCss" rel="stylesheet" href="/assets/ad-ready-stability.css?v=2">
-  <style>html{color-scheme:light}body{margin:0;background:#fff;color:#102846;font-family:Arial,"Helvetica Neue",sans-serif}.ot-home-fallback{display:grid;min-height:62vh;place-items:center;padding:32px;text-align:center}.ot-home-fallback h1{margin:0;color:#0a3976;font-size:32px}.ot-home-fallback p{max-width:620px;margin:10px auto 0;color:#637590;line-height:1.6}</style>
+  <style>
+    html{color-scheme:light}body{margin:0;background:#fff;color:#102846;font-family:Arial,"Helvetica Neue",sans-serif}.ot-home-fallback{display:grid;min-height:62vh;place-items:center;padding:32px;text-align:center}.ot-home-fallback h1{margin:0;color:#0a3976;font-size:32px}.ot-home-fallback p{max-width:620px;margin:10px auto 0;color:#637590;line-height:1.6}
+    .ot-home-launch-offer{padding:10px 0 6px;background:#fff}.ot-home-launch-offer-inner{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:24px;padding:18px 22px;border:1px solid #e2c978;border-radius:9px;background:linear-gradient(105deg,#fff8da 0%,#fffdf4 58%,#eef6ff 100%);box-shadow:0 5px 18px rgba(9,40,75,.06)}.ot-home-launch-copy{display:grid;gap:4px}.ot-home-launch-kicker{width:max-content;padding:5px 9px;border-radius:999px;background:#ffe178;color:#684a00;font-size:10px;font-weight:900;letter-spacing:.08em}.ot-home-launch-copy strong{color:#0a3976;font-size:21px;line-height:1.12}.ot-home-launch-copy p{margin:0;color:#5d718a;font-size:12px;line-height:1.5}.ot-home-launch-copy code{padding:2px 6px;border-radius:4px;background:#0a3976;color:#fff;font:800 11px/1.4 Arial,sans-serif}.ot-home-launch-offer-inner>a{display:inline-flex;min-height:44px;align-items:center;justify-content:center;padding:0 20px;border-radius:6px;background:linear-gradient(#1682e7,#075fca);color:#fff;text-decoration:none;font-size:12px;font-weight:900;white-space:nowrap}.ot-home-deal-cta{background:linear-gradient(#ffd95c,#f3b918)!important;color:#15375c!important;box-shadow:0 8px 20px rgba(163,116,0,.24)!important}
+    @media(max-width:760px){.ot-home-launch-offer-inner{grid-template-columns:1fr;gap:12px;padding:16px}.ot-home-launch-copy strong{font-size:19px}.ot-home-launch-offer-inner>a{width:100%;box-sizing:border-box}}
+  </style>
 </head>
 <body>
   <img hidden src="/assets/omni-terrain-approved-gt.webp?v=1" alt="">
   <main id="otHomeShell">
     <section class="ot-home-fallback" aria-label="Omni Terrain US">
-      <div><h1>Omni Terrain</h1><p>New and selected used OEM automotive parts, marine, RV and 12V gear for the United States. Search by brand or manufacturer part number.</p></div>
+      <div><h1>Omni Terrain</h1><p>New and selected used OEM automotive parts, marine, RV and 12V gear for the United States. Shop featured offers or search by brand and manufacturer part number.</p></div>
     </section>
   </main>
   <script id="otReferenceStorefrontJs" defer src="/assets/reference-storefront.js?v=4"></script>
   <script id="otReferenceStorefrontFidelityJs" defer src="/assets/reference-storefront-fidelity.js?v=2"></script>
+  <script>
+    (() => {
+      const applySalesFirst = () => {
+        if (!document.documentElement.classList.contains('ot-reference-home')) return false;
+
+        const utilityCenter = document.querySelector('.ot-ref-utility-center');
+        if (utilityCenter) utilityCenter.textContent = 'Opening Offers · Omni Terrain US';
+
+        const slogan = document.querySelector('.ot-ref-hero-slogan');
+        if (slogan) slogan.innerHTML = 'Parts<br>Priced<br>to Move';
+
+        const heroCopy = document.querySelector('.ot-ref-hero-copy');
+        if (heroCopy && !heroCopy.querySelector('.ot-home-deal-cta')) {
+          const cta = document.createElement('a');
+          cta.className = 'ot-ref-hero-tag ot-home-deal-cta';
+          cta.href = '/deals.html';
+          cta.textContent = 'Shop Featured Deals →';
+          heroCopy.insertBefore(cta, heroCopy.firstChild);
+        }
+
+        const iconbar = document.querySelector('.ot-ref-iconbar');
+        if (iconbar && !document.querySelector('.ot-home-launch-offer')) {
+          const offer = document.createElement('section');
+          offer.className = 'ot-home-launch-offer';
+          offer.setAttribute('aria-label', 'Omni Terrain launch offer');
+          offer.innerHTML = '<div class="ot-ref-width"><div class="ot-home-launch-offer-inner"><div class="ot-home-launch-copy"><span class="ot-home-launch-kicker">LAUNCH OFFER · US STORE</span><strong>Save $5 on eligible regular-priced orders of $150+</strong><p>Use code <code>OMNI5</code> at checkout. Featured-offer items are excluded from OMNI5 because they already use featured pricing.</p></div><a href="/deals.html">Shop Featured Deals →</a></div></div>';
+          iconbar.insertAdjacentElement('afterend', offer);
+        }
+
+        const featuredHeading = document.querySelector('#otRefProductsSection .ot-ref-section-head h2');
+        if (featuredHeading) featuredHeading.textContent = 'Featured Deals & Best Picks';
+        const featuredLink = document.querySelector('#otRefProductsSection .ot-ref-section-head a');
+        if (featuredLink) { featuredLink.href = '/deals.html'; featuredLink.textContent = 'Shop All Deals →'; }
+
+        return !!document.querySelector('.ot-ref-main');
+      };
+
+      const run = () => { [0, 250, 900].forEach(ms => setTimeout(applySalesFirst, ms)); };
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run, { once:true });
+      else run();
+      window.addEventListener('load', applySalesFirst, { once:true });
+    })();
+  </script>
   <script defer src="/assets/storefront-performance.js?v=17"></script>
 </body>
 </html>
