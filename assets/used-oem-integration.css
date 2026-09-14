@@ -10,6 +10,6 @@
   .ot-ref-used-card{grid-template-columns:1fr;gap:15px;padding:19px}
   .ot-ref-used-card h2{font-size:21px}
   .ot-ref-used-card>a{width:100%;box-sizing:border-box}
-  .ot-reference-home .ot-ref-nav .ot-ref-used-nav{display:flex!important;font-weight:900!important}
-  .ot-reference-home .ot-ref-nav .featured{display:none!important}
+  .ot-reference-home .ot-ref-nav .ot-ref-width>a.ot-ref-used-nav:not(.featured):not(:last-child){display:flex!important;font-weight:900!important}
+  .ot-reference-home .ot-ref-nav .ot-ref-width>a.featured{display:none!important}
 }
