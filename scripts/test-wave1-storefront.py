@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 
 
@@ -239,7 +238,10 @@ for p in ROOT.glob("*.html"):
 
 
 
-        if href.endswith(".html") and not (ROOT / href).exists():
+        # Root-relative storefront links (e.g. /automotive.html) are valid files
+        # inside the repository root, not absolute paths on the CI runner.
+        local_href = href.lstrip("/")
+        if local_href.endswith(".html") and not (ROOT / local_href).exists():
 
             broken.add((p.name, href))
 
