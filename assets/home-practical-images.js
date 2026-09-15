@@ -1,73 +1,72 @@
-/* Commercial Omni Terrain homepage banners. Layout, copy, pricing, offers and checkout behavior remain untouched. */
+/* Omni Terrain US homepage commercial banners. Keep the approved storefront structure intact. */
 (() => {
   'use strict';
 
   const file = (location.pathname.split('/').pop() || '').toLowerCase();
   if (file && file !== 'index.html') return;
 
-  const regions = {
-    hero: [0, 0, 900, 300],
-    newAuto: [0, 300, 500, 200],
-    usedOem: [0, 500, 500, 200],
-    marine: [0, 700, 500, 200],
-    solar: [0, 900, 500, 200],
-    overland: [0, 1100, 500, 200],
-    deals: [0, 1300, 500, 200]
-  };
+  const sprite = '/assets/ot-home-commercial-sprite.webp?v=2';
+  const transparent = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
+  const categoryRows = [
+    ['23.0769%', 'New automotive parts and service essentials'],
+    ['38.4615%', 'Used OEM automotive components'],
+    ['53.8462%', 'Marine equipment and accessories'],
+    ['69.2308%', 'Solar and 12V power equipment'],
+    ['84.6154%', 'Overlanding and outdoor vehicle gear'],
+    ['100%', 'Featured automotive and outdoor gear']
+  ];
 
-  let rendered = null;
-
-  function crop(sprite, region) {
-    const [sx, sy, sw, sh] = region;
-    const canvas = document.createElement('canvas');
-    canvas.width = sw;
-    canvas.height = sh;
-    const ctx = canvas.getContext('2d', { alpha: false });
-    ctx.drawImage(sprite, sx, sy, sw, sh, 0, 0, sw, sh);
-    return canvas.toDataURL('image/webp', 0.9);
+  function paint(img, size, position, alt, eager = false) {
+    if (!img) return;
+    img.src = transparent;
+    img.alt = alt;
+    img.loading = eager ? 'eager' : 'lazy';
+    img.decoding = 'async';
+    img.style.setProperty('background-image', `url("${sprite}")`, 'important');
+    img.style.setProperty('background-repeat', 'no-repeat', 'important');
+    img.style.setProperty('background-size', size, 'important');
+    img.style.setProperty('background-position', `0 ${position}`, 'important');
+    img.style.setProperty('filter', 'none', 'important');
   }
 
   function apply() {
-    if (!rendered || !document.documentElement.classList.contains('ot-reference-home')) return false;
-
     const hero = document.querySelector('.ot-ref-hero-bg');
+    const cards = document.querySelectorAll('.ot-ref-category img');
+
     if (hero) {
-      hero.src = rendered.hero;
-      hero.alt = 'Omni Terrain parts for every journey - auto, marine, power and outdoors';
-      hero.loading = 'eager';
-      hero.decoding = 'async';
+      paint(hero, '100% 500%', '0', 'Omni Terrain parts for every journey - auto, marine, power and outdoors', true);
     }
 
-    const categoryImages = [
-      [rendered.newAuto, 'New automotive parts and service essentials'],
-      [rendered.usedOem, 'Used OEM automotive components'],
-      [rendered.marine, 'Marine equipment and accessories'],
-      [rendered.solar, 'Solar and 12V power equipment'],
-      [rendered.overland, 'Overlanding and outdoor vehicle gear'],
-      [rendered.deals, 'Featured automotive and outdoor gear']
-    ];
-
-    document.querySelectorAll('.ot-ref-category img').forEach((img, index) => {
-      const row = categoryImages[index];
+    cards.forEach((img, index) => {
+      const row = categoryRows[index];
       if (!row) return;
-      img.src = row[0];
-      img.alt = row[1];
-      img.loading = 'lazy';
-      img.decoding = 'async';
+      paint(img, '180% 750%', row[0], row[1]);
     });
 
-    return !!hero;
+    return Boolean(hero && cards.length >= 6);
   }
 
-  const sprite = new Image();
-  sprite.decoding = 'async';
-  sprite.onload = () => {
-    rendered = Object.fromEntries(Object.entries(regions).map(([key, region]) => [key, crop(sprite, region)]));
-    [0, 120, 400, 900].forEach(ms => setTimeout(apply, ms));
+  let queued = false;
+  const schedule = () => {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(() => {
+      queued = false;
+      apply();
+    });
   };
-  sprite.src = '/assets/ot-home-commercial-sprite.webp?v=1';
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply, { once: true });
-  else apply();
+  const start = () => {
+    apply();
+    [80, 200, 450, 900, 1500, 2500, 4000].forEach(ms => setTimeout(apply, ms));
+    if ('MutationObserver' in window) {
+      const observer = new MutationObserver(schedule);
+      observer.observe(document.documentElement, { childList: true, subtree: true });
+      setTimeout(() => observer.disconnect(), 7000);
+    }
+  };
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once: true });
+  else start();
   window.addEventListener('load', apply, { once: true });
 })();
