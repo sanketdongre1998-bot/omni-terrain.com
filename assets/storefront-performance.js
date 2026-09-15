@@ -29,6 +29,8 @@
     document.head.appendChild(script);
   };
 
+  addScript("otUiStabilityJs", "/assets/ui-stability.js?v=1");
+
   document.documentElement.classList.add("ot-executive");
   document.documentElement.dataset.otTheme = "light";
   document.documentElement.dataset.theme = "light";
