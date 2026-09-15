@@ -10,12 +10,36 @@
 .used-fitment-label{display:block;margin:2px 0 -3px;color:#526a82;font-size:10px;font-weight:800;letter-spacing:.02em}
 .used-fitment-status{margin:-2px 0 2px;color:#6e8094;font-size:9px;line-height:1.35}
 .used-fitment-status.is-error{color:#9a5a00}
+
+/* Legacy catalogue/listing hardening. These pages predate the current homepage shell. */
+.header>.container,.topbar>.container,main .section>.container,.footer>.container{min-width:0}
+.header .nav{min-width:0;max-width:100%}
+main .section .grid{min-width:0}
+main .section .grid>.card{min-width:0;max-width:100%;overflow:hidden}
+main .section .grid>.card .card-body,main .section .grid>.card .media{min-width:0;max-width:100%}
+main .section .grid>.card .media img{display:block;max-width:100%;height:auto}
+main .section .grid>.card h3,main .section .grid>.card .kicker,main .section .grid>.card .mpn{overflow-wrap:anywhere}
+nav.pagination{display:flex;max-width:100%;gap:6px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-inline:contain;scrollbar-width:thin;padding-bottom:5px}
+nav.pagination>a,nav.pagination>span{flex:0 0 auto}
+
 @media (max-width:760px){
   .ot-ref-nav-item.is-open>.ot-ref-menu{position:fixed!important;left:11px!important;right:11px!important;top:var(--ot-ref-menu-top,150px)!important;width:auto!important;max-height:calc(100vh - var(--ot-ref-menu-top,150px) - 12px);overflow:auto!important;border-radius:8px!important;z-index:1200!important}
   .ot-ref-nav-item.is-closed>.ot-ref-menu{display:none!important}
   .ot-ref-findform{grid-template-columns:1fr!important;gap:8px!important}
   .ot-ref-findform select,.ot-ref-findform input,.ot-ref-findform button{width:100%;min-width:0}
   .used-fitment-grid{grid-template-columns:1fr}
+
+  .header>.container{display:flex!important;align-items:center!important;gap:10px!important;min-width:0!important}
+  .header .brand{flex:0 0 auto;max-width:min(56vw,230px)!important;min-width:0!important}
+  .header .nav{display:flex!important;flex:1 1 auto!important;min-width:0!important;max-width:100%!important;overflow-x:auto!important;overflow-y:hidden!important;white-space:nowrap!important;overscroll-behavior-inline:contain;scrollbar-width:thin}
+  .header .nav>a{flex:0 0 auto!important}
+  main .section .grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media (max-width:480px){
+  .header>.container{align-items:flex-start!important;flex-direction:column!important}
+  .header .brand{max-width:100%!important}
+  .header .nav{width:100%!important;flex:0 0 auto!important}
+  main .section .grid{grid-template-columns:1fr!important}
 }
 @media (min-width:761px){
   .ot-ref-nav{overflow:visible!important}
