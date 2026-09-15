@@ -42,8 +42,45 @@
   <script id="otReferenceStorefrontFidelityJs" defer src="/assets/reference-storefront-fidelity.js?v=2"></script>
   <script>
     (() => {
+      const commercialImages = [
+        ['/assets/ot-cat-new-auto-final.jpg?v=4','New automotive parts and service essentials'],
+        ['/assets/ot-cat-used-oem-v3.jpg?v=4','Used OEM automotive components'],
+        ['/assets/ot-cat-marine.webp?v=4','Marine equipment and accessories'],
+        ['/assets/ot-cat-solar.webp?v=4','Solar and 12V power equipment'],
+        ['/assets/ot-cat-overland.webp?v=4','Overlanding and outdoor vehicle gear'],
+        ['/assets/ot-cat-deals.webp?v=4','Featured automotive and outdoor gear']
+      ];
+
+      const applyCommercialImages = () => {
+        const hero = document.querySelector('.ot-ref-hero-bg');
+        if (hero) {
+          hero.src = '/assets/ot-hero-auto-final.jpg?v=4';
+          hero.alt = 'Omni Terrain automotive parts and road-ready gear';
+          hero.loading = 'eager';
+          hero.decoding = 'async';
+          hero.style.backgroundImage = 'none';
+          hero.style.filter = 'none';
+          hero.style.objectFit = 'cover';
+          hero.style.objectPosition = 'center';
+        }
+        document.querySelectorAll('.ot-ref-category img').forEach((img,index) => {
+          const item = commercialImages[index];
+          if (!item) return;
+          img.src = item[0];
+          img.alt = item[1];
+          img.loading = 'lazy';
+          img.decoding = 'async';
+          img.style.backgroundImage = 'none';
+          img.style.filter = 'none';
+          img.style.objectFit = 'cover';
+          img.style.objectPosition = 'center';
+        });
+      };
+
       const applySalesFirst = () => {
         if (!document.documentElement.classList.contains('ot-reference-home')) return false;
+
+        applyCommercialImages();
 
         const utilityCenter = document.querySelector('.ot-ref-utility-center');
         if (utilityCenter) utilityCenter.textContent = 'Opening Offers · Omni Terrain US';
@@ -77,13 +114,12 @@
         return !!document.querySelector('.ot-ref-main');
       };
 
-      const run = () => { [0, 250, 900].forEach(ms => setTimeout(applySalesFirst, ms)); };
+      const run = () => { [0, 100, 250, 600, 1200, 2500].forEach(ms => setTimeout(applySalesFirst, ms)); };
       if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run, { once:true });
       else run();
       window.addEventListener('load', applySalesFirst, { once:true });
     })();
   </script>
-  <script defer src="/assets/home-practical-images.js?v=3"></script>
   <script defer src="/assets/storefront-performance.js?v=17"></script>
 </body>
 </html>
