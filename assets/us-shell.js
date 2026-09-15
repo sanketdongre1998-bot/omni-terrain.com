@@ -23,8 +23,8 @@
 
   function active(name) {
     if (name === "deals" && file === "deals.html") return "active";
-    if (name === "catalogue" && (file === "us-catalogue.html" || /^us-/.test(file))) return "active";
     if (name === "auto" && /^automotive(?:-|\.)/.test(file)) return "active";
+    if (name === "used" && file === "used-auto-parts.html") return "active";
     if (name === "marine" && /^marine(?:-|\.)/.test(file)) return "active";
     if (name === "rv" && /^rv(?:-|\.)/.test(file)) return "active";
     if (name === "help" && /contact-and-order-help/.test(file)) return "active";
@@ -33,6 +33,22 @@
 
   function brand() {
     return `<img class="ot-brand-logo-image" src="/assets/omni-terrain-approved-gt.webp?v=1" alt="Omni Terrain — Road, Water, Power" width="300" height="80" decoding="async" loading="eager" fetchpriority="high">`;
+  }
+
+  function personIcon() {
+    return `<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm7 8a7 7 0 0 0-14 0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  }
+
+  function cartIcon() {
+    return `<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 4h2l2.1 10.1a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 2-1.6L20 8H7M10 20a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm8 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  }
+
+  function autoMenu() {
+    return `<h4>Auto Parts</h4><a href="/automotive.html">New Auto Parts</a><a href="/used-auto-parts.html"><strong>Used OEM Auto Parts</strong></a><a href="/automotive.html">Exterior &amp; Body</a><a href="/automotive.html">Interior Parts</a><a href="/automotive.html">Performance</a><a href="/automotive.html">Towing &amp; Hauling</a><a href="/automotive.html">Replacement Parts</a><a class="all" href="/automotive.html">Shop New Auto Parts →</a>`;
+  }
+
+  function marineMenu() {
+    return `<h4>Marine</h4><a href="/marine.html">Marine Electronics</a><a href="/marine.html">Deck &amp; Hardware</a><a href="/marine.html">Lighting</a><a href="/marine.html">Anchoring &amp; Mooring</a><a href="/marine.html">Safety &amp; Navigation</a><a href="/marine.html">Boat Care &amp; Maintenance</a><a class="all" href="/marine.html">Shop All Marine →</a>`;
   }
 
   function injectFonts() {
@@ -70,6 +86,7 @@
   function injectCss() {
     ensureStyle('link[href*="storefront-performance.css"]', "/assets/storefront-performance.css", "otStorefrontPerformance");
     ensureStyle('link[href*="us-shell.css"]', "/assets/us-shell.css?v=4", "otUsShell");
+    ensureStyle('link[data-ot-us-shell-refresh],link[href*="us-shell-refresh.css"]', "/assets/us-shell-refresh.css?v=1", "otUsShellRefresh");
     ensureStyle('link[data-ot-image-layout-fix],link[data-ot-image-layout],link[href*="image-layout-fix.css"]', "/assets/image-layout-fix.css?v=2", "otImageLayoutFix");
     ensureStyle('link[data-ot-responsive-hardening],link[href*="responsive-hardening.css"]', "/assets/responsive-hardening.css?v=4", "otResponsiveHardening");
     ensureStyle('link[data-ot-brand-speed],link[href*="brand-speed.css"]', "/assets/brand-speed.css?v=16", "otBrandSpeed");
@@ -119,7 +136,7 @@
   function injectCatalogueAssets() {
     if (!isCatalogue || document.querySelector('script[data-ot-catalogue-controls]')) return;
     const script = document.createElement("script");
-    script.src = "/assets/catalogue-controls.js?v=9";
+    script.src = "/assets/catalogue-controls.js?v=11";
     script.dataset.otCatalogueControls = "true";
     script.defer = true;
     document.body.appendChild(script);
@@ -134,7 +151,6 @@
       css.dataset.otCommercePremium = "true";
       document.head.appendChild(css);
     }
-
     const appendPremium = () => {
       if (document.querySelector('script[data-ot-commerce-premium]')) return;
       const script = document.createElement("script");
@@ -143,12 +159,10 @@
       script.defer = true;
       document.body.appendChild(script);
     };
-
     if (file === "checkout.html" && !window.__OMNI_US_CHECKOUT_API_BRIDGE__) {
       const existing = document.querySelector('script[data-ot-checkout-api-bridge]');
-      if (existing) {
-        existing.addEventListener("load", appendPremium, { once: true });
-      } else {
+      if (existing) existing.addEventListener("load", appendPremium, { once: true });
+      else {
         const bridge = document.createElement("script");
         bridge.src = "/assets/us-checkout-api-bridge.js?v=1";
         bridge.dataset.otCheckoutApiBridge = "true";
@@ -157,9 +171,7 @@
         bridge.addEventListener("error", appendPremium, { once: true });
         document.body.appendChild(bridge);
       }
-    } else {
-      appendPremium();
-    }
+    } else appendPremium();
   }
 
   function injectGrowthAssets() {
@@ -186,6 +198,37 @@
     document.body.appendChild(script);
   }
 
+  function runCatalogueSearch(q) {
+    const text = String(q || "").trim();
+    if (!text) return;
+    try { sessionStorage.setItem("otPendingCatalogueSearch", text); } catch (_) {}
+    if (file !== "us-catalogue.html") {
+      location.href = "/us-catalogue.html#catalogue-search";
+      return;
+    }
+    let attempts = 0;
+    const apply = () => {
+      attempts += 1;
+      const input = document.querySelector(".ot-catalogue-controls .ot-search-input");
+      if (input) {
+        input.value = text;
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        document.querySelector(".ot-catalogue-controls")?.scrollIntoView({ behavior: "smooth", block: "center" });
+        try { sessionStorage.removeItem("otPendingCatalogueSearch"); } catch (_) {}
+        return;
+      }
+      if (attempts < 20) setTimeout(apply, 150);
+    };
+    apply();
+  }
+
+  function applyPendingCatalogueSearch() {
+    if (file !== "us-catalogue.html") return;
+    let pending = "";
+    try { pending = sessionStorage.getItem("otPendingCatalogueSearch") || ""; } catch (_) {}
+    if (pending) setTimeout(() => runCatalogueSearch(pending), 250);
+  }
+
   function mountHeader() {
     document.documentElement.classList.add("ot-shell-loaded");
     document.querySelectorAll("body > .topbar, body > .announcement, body > .market-strip").forEach((node) => node.remove());
@@ -195,29 +238,75 @@
     const shell = document.createElement("div");
     shell.id = "otUsShellTop";
     shell.innerHTML = `
-      <div class="ot-site-announcement"><div class="ot-shell-container"><span><strong>Omni Terrain US:</strong> Specialist automotive, marine, RV &amp; 12V products.</span><a href="deals.html">Shop 7 featured deals →</a></div></div>
-      <div class="ot-site-market"><div class="ot-shell-container"><span class="ot-site-market-label">Store region</span><a class="active" href="index.html">United States</a><a href="uk.html">United Kingdom</a><span class="ot-site-market-note">U.S. pricing · Secure online checkout</span></div></div>
-      <header class="ot-site-header" id="otSiteHeader"><div class="ot-shell-container ot-site-header-main">
-        <a class="ot-site-brand ot-logo-direct" href="index.html" aria-label="Omni Terrain home">${brand()}</a>
-        <nav class="ot-site-nav" aria-label="US store navigation"><a href="index.html">Home</a><a class="${active("catalogue")}" href="us-catalogue.html">Shop All</a><a class="${active("deals")}" href="deals.html">Deals</a><a class="${active("auto")}" href="automotive.html">Auto Parts</a><a class="${active("marine")}" href="marine.html">Marine</a><a class="${active("rv")}" href="rv.html">RV &amp; Overlanding</a><a class="${active("help")}" href="contact-and-order-help.html">Help</a></nav>
-        <div class="ot-site-actions"><button class="ot-auth-trigger" type="button" data-ot-auth-trigger aria-haspopup="dialog" aria-controls="otAuthDialog"><span class="ot-auth-trigger-label">Sign in</span></button><a class="ot-site-cart" href="cart.html">Cart <span class="ot-site-cart-count" data-cart-count>${cartCount()}</span></a><button class="ot-site-menu" id="otSiteMenu" type="button" aria-expanded="false" aria-controls="otSiteMobileNav">Menu</button></div>
-      </div><nav class="ot-site-mobile-nav" id="otSiteMobileNav" aria-label="US mobile navigation"><button class="ot-mobile-auth-trigger" type="button" data-ot-auth-trigger aria-haspopup="dialog" aria-controls="otAuthDialog">Sign in / Create account</button><a href="index.html">Home</a><a href="us-catalogue.html">Shop All Products</a><a href="deals.html">Featured Deals</a><a href="automotive.html">Auto Parts</a><a href="marine.html">Marine</a><a href="rv.html">RV &amp; Overlanding</a><a href="cart.html">Cart</a><a href="checkout.html">Checkout</a><a href="contact-and-order-help.html">Contact &amp; Support</a></nav></header>`;
+      <div class="ot-site-announcement"><div class="ot-shell-container"><span><strong>Omni Terrain US:</strong> Specialist automotive, marine, RV &amp; 12V products.</span><a href="/deals.html">Shop 7 featured deals →</a></div></div>
+      <header class="ot-site-header" id="otSiteHeader">
+        <div class="ot-shell-container ot-site-header-main">
+          <a class="ot-site-brand ot-logo-direct" href="/" aria-label="Omni Terrain home">${brand()}</a>
+          <form class="ot-site-search" id="otSiteSearch" role="search"><input type="search" aria-label="Search products" placeholder="Search products, brand or MPN"><button type="submit">Search</button></form>
+          <div class="ot-site-actions">
+            <button class="ot-auth-trigger ot-auth-primary" type="button" data-ot-auth-trigger aria-haspopup="dialog" aria-controls="otAuthDialog">${personIcon()}<span class="ot-auth-trigger-label">Sign in / Create account</span></button>
+            <a class="ot-site-cart" href="/cart.html">${cartIcon()}<span>Cart</span><span class="ot-site-cart-count" data-cart-count>${cartCount()}</span></a>
+            <button class="ot-site-menu" id="otSiteMenu" type="button" aria-expanded="false" aria-controls="otSiteMobileNav">Menu</button>
+          </div>
+        </div>
+        <nav class="ot-site-categorybar" aria-label="US store categories"><div class="ot-shell-container">
+          <div class="ot-site-nav-item ${active("auto")}"><button type="button" aria-expanded="false">Auto Parts <i class="ot-site-nav-caret"></i></button><div class="ot-site-dropdown">${autoMenu()}</div></div>
+          <a class="${active("used")}" href="/used-auto-parts.html">Used OEM</a>
+          <div class="ot-site-nav-item ${active("marine")}"><button type="button" aria-expanded="false">Marine <i class="ot-site-nav-caret"></i></button><div class="ot-site-dropdown">${marineMenu()}</div></div>
+          <a href="/us-catalogue.html">Solar &amp; 12V</a>
+          <a class="${active("rv")}" href="/rv.html">Overlanding</a>
+          <a class="featured ${active("deals")}" href="/deals.html">Featured Deals</a>
+          <a class="${active("help")}" href="/contact-and-order-help.html">Support</a>
+        </div></nav>
+        <nav class="ot-site-mobile-nav" id="otSiteMobileNav" aria-label="US mobile navigation"><button class="ot-mobile-auth-trigger" type="button" data-ot-auth-trigger aria-haspopup="dialog" aria-controls="otAuthDialog">Sign in / Create account</button><a href="/">Home</a><a href="/us-catalogue.html">Shop All Products</a><a href="/used-auto-parts.html">Used OEM Auto Parts</a><a href="/deals.html">Featured Deals</a><a href="/automotive.html">Auto Parts</a><a href="/marine.html">Marine</a><a href="/rv.html">RV &amp; Overlanding</a><a href="/cart.html">Cart</a><a href="/checkout.html">Checkout</a><a href="/contact-and-order-help.html">Contact &amp; Support</a></nav>
+      </header>`;
     document.body.insertBefore(shell, document.body.firstChild);
 
     const header = document.getElementById("otSiteHeader");
     const menu = document.getElementById("otSiteMenu");
     const mobile = document.getElementById("otSiteMobileNav");
+    const search = document.getElementById("otSiteSearch");
     if (header) {
       const update = () => header.classList.toggle("scrolled", window.scrollY > 8);
-      update(); window.addEventListener("scroll", update, { passive: true });
+      update();
+      window.addEventListener("scroll", update, { passive: true });
     }
+    search?.addEventListener("submit", (event) => {
+      event.preventDefault();
+      runCatalogueSearch(search.querySelector("input")?.value || "");
+    });
+
+    const navItems = [...document.querySelectorAll(".ot-site-nav-item")];
+    const closeNav = (except = null) => navItems.forEach((item) => {
+      if (item === except) return;
+      item.classList.remove("is-open");
+      item.querySelector(":scope>button")?.setAttribute("aria-expanded", "false");
+    });
+    navItems.forEach((item) => {
+      const button = item.querySelector(":scope>button");
+      button?.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const opening = !item.classList.contains("is-open");
+        closeNav(item);
+        item.classList.toggle("is-open", opening);
+        button.setAttribute("aria-expanded", opening ? "true" : "false");
+      });
+    });
+    document.addEventListener("click", (event) => { if (!event.target.closest(".ot-site-nav-item")) closeNav(); });
+    document.addEventListener("keydown", (event) => { if (event.key === "Escape") closeNav(); });
+
     if (menu && mobile) {
       menu.addEventListener("click", () => {
         const open = mobile.classList.toggle("open");
         menu.setAttribute("aria-expanded", String(open));
         menu.textContent = open ? "Close" : "Menu";
       });
-      mobile.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => { mobile.classList.remove("open"); menu.setAttribute("aria-expanded", "false"); menu.textContent = "Menu"; }));
+      mobile.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => {
+        mobile.classList.remove("open");
+        menu.setAttribute("aria-expanded", "false");
+        menu.textContent = "Menu";
+      }));
     }
   }
 
@@ -228,12 +317,12 @@
 
     const footer = document.createElement("footer");
     footer.className = "ot-site-footer";
-    footer.innerHTML = `<div class="ot-shell-container"><div class="ot-site-footer-grid"><div><a class="ot-site-brand ot-logo-direct" href="index.html">${brand()}</a><p class="ot-site-footer-copy">Specialist automotive, marine, RV and 12V parts for road, water and travel.</p><p class="ot-site-legal"><strong>US operator:</strong> PRP Xpert LLC · 30 N Gould St Ste R, Sheridan, WY 82801 · procurement@omni-terrain.com</p></div><div><div class="ot-site-footer-heading">Shop US</div><div class="ot-site-footer-links"><a href="deals.html">Featured Deals</a><a href="us-catalogue.html">All Products</a><a href="automotive.html">Auto Parts</a><a href="marine.html">Marine</a><a href="rv.html">RV &amp; Overlanding</a></div></div><div><div class="ot-site-footer-heading">Checkout &amp; support</div><div class="ot-site-footer-links"><a href="cart.html">Cart</a><a href="checkout.html">Checkout</a><a href="contact-and-order-help.html">Contact &amp; Order Help</a><a href="tel:+13075330570">+1 307-533-0570</a></div></div><div><div class="ot-site-footer-heading">Policies</div><div class="ot-site-footer-links"><a href="shipping-delivery-policy.html">Shipping</a><a href="returns-refunds-policy.html">Returns</a><a href="privacy-policy.html">Privacy</a><a href="terms-conditions.html">Terms</a></div></div></div><div class="ot-site-footer-bottom"><span>© 2026 Omni Terrain. All rights reserved.</span><span>US Store · Specialist parts for road, water and travel</span></div></div>`;
+    footer.innerHTML = `<div class="ot-shell-container"><div class="ot-site-footer-grid"><div><a class="ot-site-brand ot-logo-direct" href="/">${brand()}</a><p class="ot-site-footer-copy">Specialist automotive, marine, RV and 12V parts for road, water and travel.</p></div><div><div class="ot-site-footer-heading">Shop US</div><div class="ot-site-footer-links"><a href="/deals.html">Featured Deals</a><a href="/us-catalogue.html">All Products</a><a href="/automotive.html">Auto Parts</a><a href="/used-auto-parts.html">Used OEM</a><a href="/marine.html">Marine</a><a href="/rv.html">RV &amp; Overlanding</a></div></div><div><div class="ot-site-footer-heading">Checkout &amp; support</div><div class="ot-site-footer-links"><a href="/cart.html">Cart</a><a href="/checkout.html">Checkout</a><a href="/contact-and-order-help.html">Contact &amp; Order Help</a><a href="tel:+13075330570">+1 307-533-0570</a></div></div><div><div class="ot-site-footer-heading">Policies</div><div class="ot-site-footer-links"><a href="/shipping-delivery-policy.html">Shipping</a><a href="/returns-refunds-policy.html">Returns</a><a href="/privacy-policy.html">Privacy</a><a href="/terms-conditions.html">Terms</a></div></div></div><div class="ot-site-footer-bottom"><span>© 2026 Omni Terrain. All rights reserved.</span><span>US Store · Specialist parts for road, water and travel</span></div></div>`;
     document.body.appendChild(footer);
 
     const mobile = document.createElement("div");
     mobile.className = "ot-site-mobile-bar";
-    mobile.innerHTML = '<a href="deals.html">Shop deals</a><a href="cart.html">Cart</a>';
+    mobile.innerHTML = '<a href="/deals.html">Shop deals</a><a href="/cart.html">Cart</a>';
     document.body.appendChild(mobile);
   }
 
@@ -254,6 +343,7 @@
     injectCatalogueAssets();
     injectCommerceAssets();
     injectGrowthAssets();
+    applyPendingCatalogueSearch();
   }
   if (document.body) mount();
   else document.addEventListener("DOMContentLoaded", mount, { once: true });
