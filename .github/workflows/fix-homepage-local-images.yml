@@ -58,3 +58,5 @@ jobs:
             git commit -m 'Use local homepage images in storefront source'
             git push origin HEAD:main
           fi
+
+# Existing workflow touched once so GitHub registers and runs this patch.
