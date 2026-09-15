@@ -1,10 +1,11 @@
 /* Final fidelity pass for the approved Omni Terrain US + UK homepage reference. */
 html.ot-reference-home .ot-ref-hero-tag{display:none!important}
 html.ot-reference-home .ot-ref-hero-copy{justify-content:flex-end!important}
-html.ot-reference-home .ot-ref-nav .ot-ref-width{justify-content:space-between!important;gap:0!important}
+html.ot-reference-home .ot-ref-nav .ot-ref-width{justify-content:center!important;gap:0!important}
 html.ot-reference-home .ot-ref-nav>a,
 html.ot-reference-home .ot-ref-nav-item>button{white-space:nowrap!important;flex:0 0 auto!important;padding-inline:18px!important}
 html.ot-reference-home .ot-ref-nav-item{flex:0 0 auto!important}
+html.ot-reference-home .ot-ref-nav-item:first-child>button{border-left:1px solid #e3ebf2!important}
 html.ot-reference-home .ot-ref-logo img{width:220px!important;height:56px!important;filter:none!important}
 html.ot-reference-home .ot-ref-footer-logo img{width:190px!important;height:48px!important;filter:none!important}
 
@@ -37,7 +38,7 @@ html.ot-reference-home .ot-ref-product{border-color:#dbe7f2!important;box-shadow
 html.ot-reference-home .ot-ref-product-button{background:linear-gradient(#1682e7,#075fca)!important}
 
 @media(max-width:1180px){
- html.ot-reference-home .ot-ref-nav .ot-ref-width{justify-content:flex-start!important;overflow-x:auto!important}
+ html.ot-reference-home .ot-ref-nav .ot-ref-width{justify-content:center!important;overflow:visible!important}
  html.ot-reference-home .ot-ref-nav>a,html.ot-reference-home .ot-ref-nav-item>button{padding-inline:14px!important}
 }
 @media(max-width:760px){
