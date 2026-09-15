@@ -6,7 +6,7 @@
   if (file && file !== 'index.html') return;
 
   const categoryImages = [
-    ['/assets/ot-cat-new-auto-v3.jpg', 'New automotive parts and service essentials'],
+    ['/assets/ot-cat-new-auto-final.jpg?v=1', 'New automotive parts and service essentials'],
     ['/assets/ot-cat-used-oem-v3.jpg', 'Used OEM automotive components'],
     ['/assets/ot-cat-marine.webp?v=1', 'Marine equipment and accessories'],
     ['/assets/ot-cat-solar.webp?v=1', 'Solar and 12V power equipment'],
@@ -19,7 +19,7 @@
 
     const hero = document.querySelector('.ot-ref-hero-bg');
     if (hero) {
-      hero.src = '/assets/ot-hero-auto-v3.jpg';
+      hero.src = '/assets/ot-hero-auto-final.jpg?v=1';
       hero.alt = 'Automotive parts, maintenance and roadside equipment';
       hero.loading = 'eager';
       hero.decoding = 'async';
