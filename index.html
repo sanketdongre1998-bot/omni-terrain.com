@@ -28,7 +28,8 @@
   <style>
     html{color-scheme:light}body{margin:0;background:#fff;color:#102846;font-family:Arial,"Helvetica Neue",sans-serif}.ot-home-fallback{display:grid;min-height:62vh;place-items:center;padding:32px;text-align:center}.ot-home-fallback h1{margin:0;color:#0a3976;font-size:32px}.ot-home-fallback p{max-width:620px;margin:10px auto 0;color:#637590;line-height:1.6}
     .ot-home-launch-offer{padding:10px 0 6px;background:#fff}.ot-home-launch-offer-inner{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:24px;padding:18px 22px;border:1px solid #e2c978;border-radius:9px;background:linear-gradient(105deg,#fff8da 0%,#fffdf4 58%,#eef6ff 100%);box-shadow:0 5px 18px rgba(9,40,75,.06)}.ot-home-launch-copy{display:grid;gap:4px}.ot-home-launch-kicker{width:max-content;padding:5px 9px;border-radius:999px;background:#ffe178;color:#684a00;font-size:10px;font-weight:900;letter-spacing:.08em}.ot-home-launch-copy strong{color:#0a3976;font-size:21px;line-height:1.12}.ot-home-launch-copy p{margin:0;color:#5d718a;font-size:12px;line-height:1.5}.ot-home-launch-copy code{padding:2px 6px;border-radius:4px;background:#0a3976;color:#fff;font:800 11px/1.4 Arial,sans-serif}.ot-home-launch-offer-inner>a{display:inline-flex;min-height:44px;align-items:center;justify-content:center;padding:0 20px;border-radius:6px;background:linear-gradient(#1682e7,#075fca);color:#fff;text-decoration:none;font-size:12px;font-weight:900;white-space:nowrap}.ot-home-deal-cta{background:linear-gradient(#ffd95c,#f3b918)!important;color:#15375c!important;box-shadow:0 8px 20px rgba(163,116,0,.24)!important}
-    @media(max-width:760px){.ot-home-launch-offer-inner{grid-template-columns:1fr;gap:12px;padding:16px}.ot-home-launch-copy strong{font-size:19px}.ot-home-launch-offer-inner>a{width:100%;box-sizing:border-box}}
+    .ot-reference-home .ot-ref-hero{min-height:0!important;height:clamp(360px,27vw,500px)!important;background:#eef5ff!important}.ot-reference-home .ot-ref-hero-bg{width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important;filter:none!important}.ot-reference-home .ot-ref-hero-slogan,.ot-reference-home .ot-ref-hero-copy{display:none!important}
+    @media(max-width:760px){.ot-home-launch-offer-inner{grid-template-columns:1fr;gap:12px;padding:16px}.ot-home-launch-copy strong{font-size:19px}.ot-home-launch-offer-inner>a{width:100%;box-sizing:border-box}.ot-reference-home .ot-ref-hero{height:210px!important}.ot-reference-home .ot-ref-hero-bg{object-position:left center!important}}
   </style>
 </head>
 <body>
@@ -54,14 +55,15 @@
       const applyCommercialImages = () => {
         const hero = document.querySelector('.ot-ref-hero-bg');
         if (hero) {
-          hero.src = '/assets/ot-hero-auto-final.jpg?v=4';
-          hero.alt = 'Omni Terrain automotive parts and road-ready gear';
+          hero.src = '/assets/omni-home-hero-final.webp?v=1';
+          hero.alt = 'Omni Terrain parts for every journey — auto, marine, power and outdoors';
           hero.loading = 'eager';
+          hero.fetchPriority = 'high';
           hero.decoding = 'async';
           hero.style.backgroundImage = 'none';
           hero.style.filter = 'none';
           hero.style.objectFit = 'cover';
-          hero.style.objectPosition = 'center';
+          hero.style.objectPosition = window.matchMedia('(max-width:760px)').matches ? 'left center' : 'center';
         }
         document.querySelectorAll('.ot-ref-category img').forEach((img,index) => {
           const item = commercialImages[index];
@@ -86,16 +88,9 @@
         if (utilityCenter) utilityCenter.textContent = 'Opening Offers · Omni Terrain US';
 
         const slogan = document.querySelector('.ot-ref-hero-slogan');
-        if (slogan) slogan.innerHTML = 'Parts<br>Priced<br>to Move';
-
+        if (slogan) slogan.style.display = 'none';
         const heroCopy = document.querySelector('.ot-ref-hero-copy');
-        if (heroCopy && !heroCopy.querySelector('.ot-home-deal-cta')) {
-          const cta = document.createElement('a');
-          cta.className = 'ot-ref-hero-tag ot-home-deal-cta';
-          cta.href = '/deals.html';
-          cta.textContent = 'Shop Featured Deals →';
-          heroCopy.insertBefore(cta, heroCopy.firstChild);
-        }
+        if (heroCopy) heroCopy.style.display = 'none';
 
         const iconbar = document.querySelector('.ot-ref-iconbar');
         if (iconbar && !document.querySelector('.ot-home-launch-offer')) {
