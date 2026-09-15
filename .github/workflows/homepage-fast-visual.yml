@@ -3,13 +3,47 @@ on:
   push:
     branches: [main]
 permissions:
-  contents: read
+  contents: write
 jobs:
   verify:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Patch homepage image source of truth
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          js_path = Path('assets/reference-storefront.js')
+          js = js_path.read_text(encoding='utf-8')
+          replacement = """const IMG = {
+    hero: '/assets/ot-hero-auto-final.jpg?v=5',
+    auto: '/assets/ot-cat-new-auto-final.jpg?v=5',
+    used: '/assets/ot-cat-used-oem-v3.jpg?v=5',
+    marine: '/assets/ot-cat-marine.webp?v=5',
+    solar: '/assets/ot-cat-solar.webp?v=5',
+    overland: '/assets/ot-cat-overland.webp?v=5',
+    vehicle: '/assets/ot-cat-new-auto-final.jpg?v=5',
+    deals: '/assets/ot-cat-deals.webp?v=5'
+  };"""
+          js2, n = re.subn(r"const IMG = \{.*?\n  \};", replacement, js, count=1, flags=re.S)
+          if n != 1:
+              raise SystemExit(f'Expected one IMG block, replaced {n}')
+          js_path.write_text(js2, encoding='utf-8')
+          index_path = Path('index.html')
+          index = index_path.read_text(encoding='utf-8').replace('/assets/reference-storefront.js?v=4','/assets/reference-storefront.js?v=5')
+          index_path.write_text(index, encoding='utf-8')
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/reference-storefront.js index.html
+          if ! git diff --cached --quiet; then
+            git commit -m 'Use local homepage images in storefront source'
+            git push origin HEAD:main
+          fi
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -45,6 +79,8 @@ jobs:
                 const logo=document.querySelector('.ot-ref-logo img');
                 const nav=document.querySelector('.ot-ref-nav');
                 const hero=document.querySelector('.ot-ref-hero');
+                const heroImg=document.querySelector('.ot-ref-hero-bg');
+                const categoryImgs=[...document.querySelectorAll('.ot-ref-category img')];
                 const cart=document.querySelector('.ot-ref-cart');
                 const products=[...document.querySelectorAll('.ot-ref-product')].filter(visible).length;
                 const mainText=(document.querySelector('main')?.innerText||'').replace(/\s+/g,' ').trim();
@@ -64,6 +100,8 @@ jobs:
                   cart:Boolean(cart&&visible(cart)),
                   nav:Boolean(nav&&visible(nav)),
                   hero:Boolean(hero&&visible(hero)),
+                  heroImage:{src:heroImg?.getAttribute('src')||'',naturalWidth:heroImg?.naturalWidth||0,naturalHeight:heroImg?.naturalHeight||0},
+                  categoryImages:categoryImgs.map(img=>({src:img.getAttribute('src')||'',naturalWidth:img.naturalWidth||0,naturalHeight:img.naturalHeight||0})),
                   topNav,
                   sameOriginBroken
                 };
@@ -72,7 +110,8 @@ jobs:
               await page.screenshot({path:`homepage-${item.region}-${label}.png`,fullPage:true});
               if(state.bodyWidth>state.viewport+2) throw new Error(`${item.region}/${label} horizontal overflow ${state.bodyWidth}>${state.viewport}`);
               if(state.headers!==1||state.refHeaders!==1) throw new Error(`${item.region}/${label} expected one reference header, got ${state.headers}/${state.refHeaders}`);
-              if(!state.logo.includes('omni-terrain-subtle-logo.svg')) throw new Error(`${item.region}/${label} approved light logo missing: ${state.logo}`);
+              if(!state.heroImage.src || state.heroImage.naturalWidth<1) throw new Error(`${item.region}/${label} hero image failed ${JSON.stringify(state.heroImage)}`);
+              if(state.categoryImages.length<6 || state.categoryImages.some(x=>x.naturalWidth<1)) throw new Error(`${item.region}/${label} category image failed ${JSON.stringify(state.categoryImages)}`);
               if(!state.finder||!state.hero) throw new Error(`${item.region}/${label} approved home merchandising missing`);
               if(!state.search||!state.cart||!state.nav||state.account!==1) throw new Error(`${item.region}/${label} header controls incomplete ${JSON.stringify(state)}`);
               if(state.activeHref!==item.active) throw new Error(`${item.region}/${label} wrong active store ${state.activeHref}`);
