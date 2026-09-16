@@ -1,77 +1,83 @@
-/* Approved Omni Terrain internal-store header refresh — mirrors the homepage category navigation. */
+/* Unified Omni Terrain storefront header — internal pages mirror the approved homepage shell. */
 :root{--ot-refresh-blue:#075fca;--ot-refresh-blue-dark:#064a9b;--ot-refresh-navy:#102846;--ot-refresh-muted:#64748b;--ot-refresh-line:#dce6f0;--ot-refresh-yellow:#f7c844}
 
-/* Keep the approved slim US strip; remove the older second market/region row. */
 .ot-site-market{display:none!important}
-.ot-site-announcement{background:linear-gradient(90deg,#294864,#173d62)!important;color:#fff!important}
-.ot-site-announcement .ot-shell-container{min-height:37px!important;font:700 11px/1.35 Manrope,Arial,sans-serif!important}
-.ot-site-announcement a{color:#fff!important;font-weight:800!important}
+.ot-site-announcement{position:relative;z-index:920;background:linear-gradient(90deg,#0a4e94,#0a63b8,#0a4e94)!important;color:#fff!important}
+.ot-site-announcement .ot-shell-container{min-height:32px!important;display:grid!important;grid-template-columns:1fr auto 1fr!important;align-items:center!important;gap:18px!important;font:700 10px/1.35 Manrope,Arial,sans-serif!important}
+.ot-site-utility-left,.ot-site-utility-right{display:flex!important;align-items:center!important;gap:14px!important}
+.ot-site-utility-right{justify-content:flex-end!important}
+.ot-site-utility-center{font-weight:850!important;letter-spacing:.02em!important;white-space:nowrap!important}
+.ot-site-announcement a{color:#fff!important;text-decoration:none!important;font-weight:800!important}
+.ot-site-region{display:flex!important;align-items:center!important;gap:7px!important}
+.ot-site-region a{display:inline-flex!important;min-width:42px!important;height:26px!important;align-items:center!important;justify-content:center!important;box-sizing:border-box!important;padding:0 12px!important;border:1px solid rgba(255,255,255,.28)!important;border-radius:6px!important;background:rgba(255,255,255,.12)!important;color:#fff!important;text-decoration:none!important;font-size:12px!important;font-weight:900!important;line-height:1!important}
+.ot-site-region a.active{border-color:#fff!important;background:#fff!important;color:#0b4e93!important;box-shadow:0 2px 7px rgba(2,34,70,.18)!important}
 
-.ot-site-header{position:sticky!important;top:0!important;z-index:900!important;background:#fff!important;border-bottom:1px solid var(--ot-refresh-line)!important;box-shadow:0 2px 9px rgba(9,40,75,.05)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
-.ot-site-header-main{min-height:88px!important;display:grid!important;grid-template-columns:255px minmax(360px,1fr) 330px!important;gap:28px!important;align-items:center!important;padding:10px 0!important}
-.ot-site-brand{min-width:0!important}
-.ot-site-brand .ot-brand-logo-image{display:block!important;width:225px!important;height:58px!important;object-fit:contain!important;object-position:left center!important}
+.ot-site-header{position:sticky!important;top:0!important;z-index:900!important;background:#fff!important;border-bottom:1px solid var(--ot-refresh-line)!important;box-shadow:0 1px 7px rgba(8,42,80,.08)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.ot-site-header-main{min-height:64px!important;display:grid!important;grid-template-columns:200px minmax(360px,1fr) 170px!important;gap:20px!important;align-items:center!important;padding:0!important}
+.ot-site-brand{display:inline-flex!important;align-items:center!important;min-width:0!important;text-decoration:none!important}
+.ot-site-brand .ot-brand-logo-image{display:block!important;width:176px!important;height:45px!important;object-fit:contain!important;object-position:left center!important}
 
-.ot-site-search{display:grid;grid-template-columns:minmax(0,1fr) 112px;overflow:hidden;border:1px solid #b8c9dc;border-radius:7px;background:#fff;box-shadow:0 1px 3px rgba(4,42,80,.05)}
-.ot-site-search:focus-within{border-color:#1380ea;box-shadow:0 0 0 3px rgba(19,128,234,.1)}
-.ot-site-search input{height:48px;min-width:0;padding:0 16px;border:0!important;outline:0!important;background:#fff!important;color:#1d3553!important;font:600 12px/1 Manrope,Arial,sans-serif}
-.ot-site-search input::placeholder{color:#7a899b}
-.ot-site-search button{border:0;background:linear-gradient(#1682e7,#075fca);color:#fff;font:850 12px/1 Manrope,Arial,sans-serif;cursor:pointer}
+.ot-site-search{display:grid!important;grid-template-columns:minmax(0,1fr) 96px!important;overflow:hidden!important;border:1px solid #b8c9dc!important;border-radius:6px!important;background:#fff!important;box-shadow:0 1px 3px rgba(4,42,80,.05)!important}
+.ot-site-search:focus-within{border-color:#1380ea!important;box-shadow:0 0 0 3px rgba(19,128,234,.1)!important}
+.ot-site-search input{height:42px!important;min-width:0!important;padding:0 14px!important;border:0!important;outline:0!important;background:#fff!important;color:#1d3553!important;font:600 12px/1 Manrope,Arial,sans-serif!important}
+.ot-site-search input::placeholder{color:#7a899b!important}
+.ot-site-search button{border:0!important;background:linear-gradient(#0877dc,#055ab3)!important;color:#fff!important;font:850 12px/1 Manrope,Arial,sans-serif!important;cursor:pointer!important}
 
-.ot-site-actions{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:10px!important;min-width:0!important}
-.ot-auth-trigger.ot-auth-primary{display:inline-flex!important;align-items:center!important;gap:9px!important;min-height:46px!important;padding:0 15px!important;border:1px solid #8fb8ed!important;border-radius:7px!important;background:#fff!important;color:#075fca!important;font:800 12px/1 Manrope,Arial,sans-serif!important;white-space:nowrap!important;cursor:pointer!important}
-.ot-auth-trigger.ot-auth-primary:hover{border-color:#075fca!important;background:#f6faff!important}
-.ot-auth-trigger.ot-auth-primary svg{width:19px;height:19px;flex:0 0 auto;stroke:currentColor}
-.ot-site-cart{display:inline-flex!important;align-items:center!important;gap:8px!important;min-height:46px!important;padding:0 14px!important;border:1px solid #d2ddea!important;border-radius:7px!important;background:#fff!important;color:#183958!important;font:800 12px/1 Manrope,Arial,sans-serif!important;white-space:nowrap!important}
-.ot-site-cart svg{width:19px;height:19px;stroke:#0b3f82}
-.ot-site-cart-count{display:inline-grid!important;place-items:center!important;min-width:21px!important;height:21px!important;margin:0!important;padding:0 6px!important;border-radius:999px!important;background:#075fca!important;color:#fff!important;font-size:9px!important}
+.ot-site-actions{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:12px!important;min-width:0!important}
+.ot-auth-trigger.ot-auth-primary,.ot-site-cart{display:block!important;min-width:0!important;min-height:0!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;color:#122b4c!important;text-decoration:none!important;text-align:left!important;white-space:nowrap!important;box-shadow:none!important}
+.ot-auth-trigger.ot-auth-primary:hover,.ot-site-cart:hover{background:transparent!important;color:#075fca!important}
+.ot-auth-trigger.ot-auth-primary svg,.ot-site-cart svg{display:none!important}
+.ot-auth-trigger.ot-auth-primary>span,.ot-site-cart>span:first-of-type{display:block!important;color:#718096!important;font:600 9px/1.15 Manrope,Arial,sans-serif!important}
+.ot-auth-trigger.ot-auth-primary>strong,.ot-site-cart>strong{display:block!important;margin-top:2px!important;color:#122b4c!important;font:800 11px/1.15 Manrope,Arial,sans-serif!important}
+.ot-site-cart-count{display:inline-grid!important;place-items:center!important;min-width:19px!important;height:19px!important;margin:0 2px 0 0!important;padding:0 5px!important;border-radius:999px!important;background:var(--ot-refresh-yellow)!important;color:#173250!important;font:900 9px/1 Manrope,Arial,sans-serif!important}
 .ot-site-menu{display:none!important}
 
-/* Homepage-style category bar. */
-.ot-site-categorybar{border-top:1px solid #e5edf4;border-bottom:1px solid #d9e4ee;background:#fff}
-.ot-site-categorybar>.ot-shell-container{display:flex;align-items:stretch;justify-content:center;gap:0;overflow:visible}
-.ot-site-nav-item{position:relative;min-width:0}
-.ot-site-categorybar a,.ot-site-nav-item>button{display:flex;height:45px;align-items:center;justify-content:center;gap:8px;padding:0 32px;border:0;border-right:1px solid #e3ebf2;background:#fff;color:#12325a;text-decoration:none;font:800 12px/1 Manrope,Arial,sans-serif;cursor:pointer;white-space:nowrap}
-.ot-site-categorybar>.ot-shell-container>*:first-child>button,.ot-site-categorybar>.ot-shell-container>a:first-child{border-left:1px solid #e3ebf2}
-.ot-site-categorybar a:hover,.ot-site-nav-item>button:hover,.ot-site-nav-item.is-open>button,.ot-site-nav-item:focus-within>button{background:#f2f7fc;color:#075fca}
-.ot-site-categorybar a.active,.ot-site-nav-item.active>button{background:#f2f7fc;color:#075fca}
-.ot-site-categorybar .featured{color:#bd7d00}
-.ot-site-categorybar .featured:before{content:"◆";color:#f6b624;font-size:10px}
-.ot-site-nav-caret{width:7px;height:7px;border-right:1.7px solid currentColor;border-bottom:1.7px solid currentColor;transform:rotate(45deg) translateY(-2px)}
-.ot-site-dropdown{position:absolute;top:45px;left:0;z-index:1200;display:none;width:250px;padding:13px 15px 14px;border:1px solid #d9e3ed;border-radius:0 0 8px 8px;background:#fff;box-shadow:0 14px 34px rgba(9,40,75,.16)}
-.ot-site-nav-item:hover>.ot-site-dropdown,.ot-site-nav-item:focus-within>.ot-site-dropdown,.ot-site-nav-item.is-open>.ot-site-dropdown{display:block}
-.ot-site-dropdown h4{margin:0 0 9px;color:#102f59;font:850 14px/1.2 Manrope,Arial,sans-serif}
+.ot-site-categorybar{border-top:1px solid #e5edf4!important;border-bottom:1px solid #d9e4ee!important;background:#fff!important}
+.ot-site-categorybar>.ot-shell-container{display:flex!important;align-items:stretch!important;justify-content:center!important;gap:0!important;overflow:visible!important}
+.ot-site-nav-item{position:relative!important;min-width:0!important}
+.ot-site-categorybar a,.ot-site-nav-item>button{display:flex!important;height:40px!important;align-items:center!important;justify-content:center!important;gap:7px!important;box-sizing:border-box!important;padding:0 28px!important;border:0!important;border-right:1px solid #e3ebf2!important;background:#fff!important;color:#12325a!important;text-decoration:none!important;font:800 12px/1 Manrope,Arial,sans-serif!important;cursor:pointer!important;white-space:nowrap!important}
+.ot-site-categorybar>.ot-shell-container>*:first-child>button,.ot-site-categorybar>.ot-shell-container>a:first-child{border-left:1px solid #e3ebf2!important}
+.ot-site-categorybar a:hover,.ot-site-nav-item>button:hover,.ot-site-nav-item.is-open>button,.ot-site-nav-item:focus-within>button{background:#f3f7fb!important;color:#075fca!important}
+.ot-site-categorybar a.active,.ot-site-nav-item.active>button{background:#f3f7fb!important;color:#075fca!important}
+.ot-site-categorybar .featured{color:#b97700!important}
+.ot-site-categorybar .featured:before{content:"◆"!important;color:#f6b624!important;font-size:10px!important}
+.ot-site-nav-caret{width:6px!important;height:6px!important;border-right:1.5px solid currentColor!important;border-bottom:1.5px solid currentColor!important;transform:translateY(-2px) rotate(45deg)!important}
+.ot-site-dropdown{position:absolute!important;top:40px!important;left:0!important;z-index:1200!important;display:none!important;width:250px!important;padding:13px 15px 14px!important;border:1px solid #d9e3ed!important;border-radius:0 0 8px 8px!important;background:#fff!important;box-shadow:0 14px 34px rgba(9,40,75,.16)!important}
+.ot-site-nav-item:hover>.ot-site-dropdown,.ot-site-nav-item:focus-within>.ot-site-dropdown,.ot-site-nav-item.is-open>.ot-site-dropdown{display:block!important}
+.ot-site-dropdown h4{margin:0 0 9px!important;color:#102f59!important;font:850 14px/1.2 Manrope,Arial,sans-serif!important}
 .ot-site-dropdown a{display:flex!important;height:auto!important;min-height:34px!important;justify-content:flex-start!important;padding:7px 2px!important;border:0!important;background:#fff!important;color:#304b6c!important;font:650 11px/1.35 Manrope,Arial,sans-serif!important}
 .ot-site-dropdown a:hover{color:#075fca!important;background:#fff!important}
-.ot-site-dropdown .all{margin-top:6px;padding-top:10px!important;border-top:1px solid #e5ecf3!important;color:#075fca!important;font-weight:850!important}
-
-/* New header owns navigation; retire the legacy centered nav. */
+.ot-site-dropdown .all{margin-top:6px!important;padding-top:10px!important;border-top:1px solid #e5ecf3!important;color:#075fca!important;font-weight:850!important}
 .ot-site-nav{display:none!important}
 
 @media(max-width:1180px){
-  .ot-site-header-main{grid-template-columns:210px 1fr 285px!important;gap:18px!important}
-  .ot-site-brand .ot-brand-logo-image{width:195px!important}
-  .ot-site-categorybar a,.ot-site-nav-item>button{padding:0 20px}
+  .ot-site-header-main{grid-template-columns:170px minmax(300px,1fr) 150px!important;gap:14px!important}
+  .ot-site-brand .ot-brand-logo-image{width:158px!important}
+  .ot-site-categorybar a,.ot-site-nav-item>button{padding:0 18px!important;font-size:10px!important}
 }
 
 @media(max-width:860px){
-  .ot-site-header-main{grid-template-columns:150px minmax(0,1fr) auto!important;gap:12px!important;padding:8px 0!important}
+  .ot-site-announcement .ot-shell-container{grid-template-columns:1fr auto!important;min-height:32px!important}
+  .ot-site-utility-center{display:none!important}
+  .ot-site-utility-right a:first-child{display:none!important}
+  .ot-site-header-main{grid-template-columns:150px 1fr auto!important;gap:12px!important;padding:8px 0!important}
   .ot-site-brand .ot-brand-logo-image{width:145px!important;height:45px!important}
-  .ot-site-search{grid-column:1/-1;grid-row:2;margin-bottom:4px}
-  .ot-site-actions{grid-column:2/4;grid-row:1}
-  .ot-auth-trigger.ot-auth-primary{min-height:40px!important;padding:0 10px!important;font-size:10px!important}
-  .ot-site-cart{min-height:40px!important;padding:0 10px!important;font-size:10px!important}
-  .ot-site-categorybar{display:none}
-  .ot-site-menu{display:inline-flex!important;min-height:40px!important;border-radius:7px!important}
-  .ot-site-mobile-nav{position:absolute;left:0;right:0;top:100%;z-index:1400;background:#0b3158!important;padding:10px 18px 18px!important}
+  .ot-site-search{grid-column:1/-1!important;grid-row:2!important;margin-bottom:4px!important}
+  .ot-site-actions{grid-column:2/4!important;grid-row:1!important}
+  .ot-auth-trigger.ot-auth-primary{min-width:44px!important;text-align:center!important}
+  .ot-auth-trigger.ot-auth-primary>span{display:none!important}
+  .ot-site-cart{min-width:44px!important;text-align:center!important}
+  .ot-site-cart>span:first-of-type{display:none!important}
+  .ot-site-categorybar{display:none!important}
+  .ot-site-menu{display:inline-flex!important;min-height:38px!important;align-items:center!important;justify-content:center!important;padding:0 12px!important;border:1px solid #d2ddea!important;border-radius:6px!important;background:#fff!important;color:#12325a!important;font:800 10px/1 Manrope,Arial,sans-serif!important}
+  .ot-site-mobile-nav{position:absolute!important;left:0!important;right:0!important;top:100%!important;z-index:1400!important;background:#0b3158!important;padding:10px 18px 18px!important}
   .ot-site-mobile-nav.open{display:grid!important}
-  .ot-site-mobile-nav a,.ot-mobile-auth-trigger{min-height:42px;display:flex;align-items:center;border:0;border-bottom:1px solid rgba(255,255,255,.12);background:transparent;color:#fff;text-decoration:none;font:750 12px/1.4 Manrope,Arial,sans-serif;text-align:left}
+  .ot-site-mobile-nav a,.ot-mobile-auth-trigger{min-height:42px!important;display:flex!important;align-items:center!important;border:0!important;border-bottom:1px solid rgba(255,255,255,.12)!important;background:transparent!important;color:#fff!important;text-decoration:none!important;font:750 12px/1.4 Manrope,Arial,sans-serif!important;text-align:left!important}
 }
 
 @media(max-width:560px){
   .ot-site-header-main{grid-template-columns:135px 1fr auto!important;gap:8px!important}
-  .ot-auth-trigger.ot-auth-primary span{display:none}
-  .ot-auth-trigger.ot-auth-primary{width:42px!important;padding:0!important;justify-content:center!important}
-  .ot-site-cart{padding:0 8px!important}
-  .ot-site-cart>span:not(.ot-site-cart-count){display:none}
+  .ot-site-region a{min-width:34px!important;height:24px!important;padding:0 7px!important;font-size:11px!important}
+  .ot-site-utility-left>span:first-child{display:none!important}
+  .ot-site-brand .ot-brand-logo-image{width:132px!important}
 }
