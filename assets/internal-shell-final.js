@@ -30,7 +30,15 @@
         content:none!important;
         display:none!important;
       }
+      body>.ot-site-mobile-bar,
+      body>.mobile-store-bar{
+        display:none!important;
+      }
     `;
+  }
+
+  function removeLegacyOverlays() {
+    document.querySelectorAll("body > .ot-site-mobile-bar, body > .mobile-store-bar").forEach(node => node.remove());
   }
 
   function stabilizeHeader() {
@@ -73,6 +81,7 @@
 
   function pass() {
     installLastMileStyle();
+    removeLegacyOverlays();
     stabilizeHeader();
     stabilizeCatalogueCopy();
   }
@@ -81,10 +90,10 @@
     pass();
     [120, 350, 700, 1200, 2000, 3500].forEach(ms => setTimeout(pass, ms));
 
-    /* A few legacy marketing scripts update copy after load. Hold the approved
-       catalogue copy steady during that short initialization window only. */
-    if (file === "us-catalogue.html" && "MutationObserver" in window) {
-      const target = document.querySelector("main") || document.body;
+    /* A few legacy scripts can add UI or update copy after load. Hold the
+       canonical internal shell steady during that initialization window. */
+    if ("MutationObserver" in window) {
+      const target = document.body;
       if (target) {
         let queued = false;
         const observer = new MutationObserver(() => {
@@ -92,11 +101,12 @@
           queued = true;
           requestAnimationFrame(() => {
             queued = false;
-            stabilizeCatalogueCopy();
+            removeLegacyOverlays();
+            if (file === "us-catalogue.html") stabilizeCatalogueCopy();
           });
         });
-        observer.observe(target, { childList: true, subtree: true, characterData: true });
-        setTimeout(() => observer.disconnect(), 5000);
+        observer.observe(target, { childList: true, subtree: true, characterData: file === "us-catalogue.html" });
+        setTimeout(() => observer.disconnect(), 6500);
       }
     }
   };
