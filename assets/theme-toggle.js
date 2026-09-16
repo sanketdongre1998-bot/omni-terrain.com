@@ -5,12 +5,14 @@
 
   const file=decodeURIComponent(String(location.pathname||"/").split("/").filter(Boolean).pop()||"").toLowerCase();
   const isHome=!file||file==="index.html"||file==="uk.html";
+  if(!isHome)document.documentElement.classList.add("ot-master-header-pending");
 
   const styleAssets=[
     ["otSubtleStorefront","/assets/omni-subtle-storefront.css?v=20260912-1"],
     ["otSubtleEnhancements","/assets/omni-subtle-enhancements.css?v=20260912-1"],
     ["otUiConsistency","/assets/ui-consistency.css?v=20260917-1"],
-    ["otMasterDropdown","/assets/master-dropdown.css?v=20260917-2"],
+    ["otMasterDropdown","/assets/master-dropdown.css?v=20260917-3"],
+    ["otHeaderFirstPaintLock","/assets/header-first-paint-lock.css?v=20260917-1"],
     ["otMobilePerformance","/assets/mobile-performance.css?v=20260917-1"]
   ];
   if(isHome)styleAssets.push(["otHomepageCategorybarSync","/assets/homepage-categorybar-sync.css?v=20260917-1"]);
@@ -47,7 +49,7 @@
 
   const ensureScripts=()=>{
     ensureScript('script[data-ot-subtle-storefront]',"/assets/omni-subtle-storefront.js?v=20260917-2","otSubtleStorefront");
-    ensureScript('script[data-ot-master-dropdown]',"/assets/master-dropdown.js?v=20260917-2","otMasterDropdown");
+    ensureScript('script[data-ot-master-dropdown]',"/assets/master-dropdown.js?v=20260917-3","otMasterDropdown");
     if(isHome)ensureScript('script[data-ot-homepage-categorybar-sync]',"/assets/homepage-categorybar-sync.js?v=20260917-2","otHomepageCategorybarSync");
   };
 
@@ -63,6 +65,8 @@
     ensureScripts();
   };
 
-  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",apply,{once:true});
-  else apply();
+  /* Most pages load this deferred at the end of body. Apply immediately so the
+     canonical header assets win the first rendered frame instead of replacing
+     a legacy header after the user has already seen it. */
+  apply();
 })();
