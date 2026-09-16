@@ -44,7 +44,7 @@ jobs:
           import fs from 'node:fs';
           const base='http://127.0.0.1:4173';
           const routes=[
-            'index.html','deals.html','us-catalogue.html','cart.html','checkout.html',
+            'index.html','deals.html','us-catalogue.html','used-auto-parts.html','cart.html','checkout.html',
             'uk.html','shield-autocare-uk.html','uk-tyres.html','uk-cool-mate-70l-fridge-black.html'
           ];
           const sizes=[['phone',390,844],['desktop',1440,1000]];
@@ -64,18 +64,26 @@ jobs:
               const errors=[]; page.on('pageerror',e=>errors.push(String(e.message||e)));
               try{
                 await page.goto(`${base}/${route}`,{waitUntil:'domcontentloaded',timeout:30000});
-                await page.waitForTimeout((route==='index.html'||route==='uk.html'||route==='us-catalogue.html')?1800:1100);
+                await page.waitForTimeout((route==='index.html'||route==='uk.html'||route==='us-catalogue.html')?1800:1200);
                 const info=await page.evaluate(()=>{
                   const visible=el=>{if(!el)return false;const s=getComputedStyle(el),r=el.getBoundingClientRect();return s.display!=='none'&&s.visibility!=='hidden'&&Number(s.opacity||1)>0&&r.width>0&&r.height>0;};
                   const brokenImages=[...document.images].filter(i=>{const src=(i.currentSrc||i.getAttribute('src')||'').trim();return src&&i.complete&&i.naturalWidth===0&&!src.startsWith('data:')&&!src.startsWith('blob:');}).map(i=>i.currentSrc||i.getAttribute('src')).slice(0,12);
                   const bodyText=(document.body?.innerText||'').replace(/\s+/g,' ').trim();
                   const home=document.documentElement.classList.contains('ot-reference-home');
+                  const navText=[...document.querySelectorAll('.ot-ref-nav>.ot-ref-width>a')].map(n=>(n.textContent||'').replace(/\s+/g,' ').trim()).join(' | ');
+                  const filter=document.querySelector('.filter-row');
+                  const filterStyle=filter?getComputedStyle(filter):null;
+                  const filterRect=filter?.getBoundingClientRect();
+                  const usedHero=document.querySelector('.used-hero');
+                  const usedHeading=document.querySelector('.used-hero h1');
+                  const footerLogo=[...document.querySelectorAll('footer .brand img,footer .ot-brand-logo-image,footer .ot-ref-footer-logo img')].filter(visible);
                   return {
                     title:document.title,
                     bodyWidth:document.documentElement.scrollWidth,
                     viewport:innerWidth,
                     refHeaders:[...document.querySelectorAll('.ot-ref-header')].filter(visible).length,
                     topNav:home?[...document.querySelectorAll('.ot-ref-nav>.ot-ref-width>.ot-ref-nav-item,.ot-ref-nav>.ot-ref-width>a')].filter(visible).length:0,
+                    navText,
                     featured:[...document.querySelectorAll('.ot-ref-product')].filter(visible).length,
                     catalogueCards:[...document.querySelectorAll('main .grid .card')].filter(visible).length,
                     loadMore:Boolean(document.querySelector('.ot-catalogue-loadmore button')&&visible(document.querySelector('.ot-catalogue-loadmore button'))),
@@ -83,7 +91,12 @@ jobs:
                     ukRefresh:document.documentElement.classList.contains('ot-uk-refresh'),
                     brokenImages,
                     bodyText:bodyText.slice(0,7000),
-                    fitmentPanel:Boolean(document.querySelector('.fitment-panel')&&visible(document.querySelector('.fitment-panel')))
+                    fitmentPanel:Boolean(document.querySelector('.fitment-panel')&&visible(document.querySelector('.fitment-panel'))),
+                    filterPosition:filterStyle?.position||'',
+                    filterHeight:filterRect?.height||0,
+                    footerLogoCount:footerLogo.length,
+                    usedHeroHeight:usedHero?.getBoundingClientRect().height||0,
+                    usedHeadingSize:usedHeading?parseFloat(getComputedStyle(usedHeading).fontSize)||0:0
                   };
                 });
                 const key=`${label}/${route}`;
@@ -97,9 +110,19 @@ jobs:
                   if(info.featured<1) failures.push(`${key}: no visible featured product cards`);
                   if(label==='phone'&&info.topNav!==4) failures.push(`${key}: expected 4 compact mobile nav items, got ${info.topNav}`);
                 }
+                if(route==='index.html'&&/(Used OEM\s+Used OEM|Solar & 12V\s+Solar & 12V|Overlanding\s+Overlanding|Featured Deals\s+Featured Deals|Support\s+Support)/i.test(info.navText)) failures.push(`${key}: repeated master navigation label detected: ${info.navText}`);
                 if(route==='us-catalogue.html'){
                   if(info.catalogueCards>24) failures.push(`${key}: catalogue renders ${info.catalogueCards} cards initially`);
                   if(info.catalogueCards>0&&!info.loadMore) warnings.push(`${key}: no load-more visible`);
+                }
+                if(route==='shield-autocare-uk.html'){
+                  if(label==='desktop'&&info.filterPosition==='sticky') failures.push(`${key}: category filter row is still sticky`);
+                  if(label==='desktop'&&info.filterHeight>80) failures.push(`${key}: category filter row is too tall (${info.filterHeight}px)`);
+                  if(info.footerLogoCount>1) failures.push(`${key}: duplicate visible footer logo layers (${info.footerLogoCount})`);
+                }
+                if(route==='used-auto-parts.html'&&label==='desktop'){
+                  if(info.usedHeadingSize>36.5) failures.push(`${key}: used OEM hero heading still oversized (${info.usedHeadingSize}px)`);
+                  if(info.usedHeroHeight>520) failures.push(`${key}: used OEM hero still too tall (${info.usedHeroHeight}px)`);
                 }
                 if((route==='cart.html'||route==='checkout.html')&&info.mobileStoreBar) failures.push(`${key}: mobile store overlay is still visible`);
                 if((route==='cart.html'||route==='checkout.html')&&/US operator:\s*PRP Xpert LLC|30 N Gould|Sheridan,? WY 82801/i.test(info.bodyText)) failures.push(`${key}: legacy US operator/address visible`);
