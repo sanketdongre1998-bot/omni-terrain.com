@@ -5,7 +5,8 @@
 
   const styleAssets=[
     ["otSubtleStorefront","/assets/omni-subtle-storefront.css?v=20260912-1"],
-    ["otSubtleEnhancements","/assets/omni-subtle-enhancements.css?v=20260912-1"]
+    ["otSubtleEnhancements","/assets/omni-subtle-enhancements.css?v=20260912-1"],
+    ["otUiConsistency","/assets/ui-consistency.css?v=20260917-1"]
   ];
 
   const ensureStyles=()=>{
