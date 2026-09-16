@@ -11,6 +11,28 @@
     if (node && node.textContent !== value) node.textContent = value;
   };
 
+  function installLastMileStyle() {
+    let style = document.getElementById("otInternalShellLastMile");
+    if (!style) {
+      style = document.createElement("style");
+      style.id = "otInternalShellLastMile";
+      document.head.appendChild(style);
+    }
+    style.textContent = `
+      #otUnifiedHeaderShell .ot-unified-region a.active{
+        background:#fff!important;
+        color:#0b4e93!important;
+      }
+      html[lang="en-US"] body.ot-catalogue-premium .cp-hero-copy>p::before,
+      html[lang="en-US"] body.ot-catalogue-premium .cp-hero-copy>p::after,
+      html[lang="en-US"] body.ot-catalogue-premium .cp-mpn-card>p::before,
+      html[lang="en-US"] body.ot-catalogue-premium .cp-mpn-card>p::after{
+        content:none!important;
+        display:none!important;
+      }
+    `;
+  }
+
   function stabilizeHeader() {
     const root = document.getElementById("otUnifiedHeaderShell");
     if (!root) return false;
@@ -50,6 +72,7 @@
   }
 
   function pass() {
+    installLastMileStyle();
     stabilizeHeader();
     stabilizeCatalogueCopy();
   }
