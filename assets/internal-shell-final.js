@@ -68,6 +68,29 @@
     });
   }
 
+  function removeUkCatalogueFloatingCart() {
+    if (file !== "shield-autocare-uk.html") return;
+    const exactCartLabel = /^view\s+cart\s*\d+\s*item(?:\(s\)|s)?$/i;
+    document.querySelectorAll("a,button,div,aside,nav").forEach(node => {
+      if (!node.isConnected || node.closest("#otUnifiedHeaderShell")) return;
+      const text = String(node.innerText || node.textContent || "").replace(/\s+/g, " ").trim();
+      if (!exactCartLabel.test(text)) return;
+
+      let candidate = node;
+      for (let depth = 0; candidate && depth < 4; depth += 1, candidate = candidate.parentElement) {
+        if (candidate.closest?.("#otUnifiedHeaderShell")) break;
+        const style = getComputedStyle(candidate);
+        const rect = candidate.getBoundingClientRect();
+        const floating = style.position === "fixed" || style.position === "sticky";
+        const compact = rect.height > 0 && rect.height <= 110 && rect.width > 120;
+        if (floating && compact) {
+          candidate.remove();
+          break;
+        }
+      }
+    });
+  }
+
   function stabilizeHeader() {
     const root = document.getElementById("otUnifiedHeaderShell");
     if (!root) return false;
@@ -108,6 +131,7 @@
   function pass() {
     installLastMileStyle();
     removeLegacyShells();
+    removeUkCatalogueFloatingCart();
     stabilizeHeader();
     stabilizeCatalogueCopy();
   }
@@ -126,6 +150,7 @@
           requestAnimationFrame(() => {
             queued = false;
             removeLegacyShells();
+            removeUkCatalogueFloatingCart();
             stabilizeHeader();
             if (file === "us-catalogue.html") stabilizeCatalogueCopy();
           });
