@@ -54,15 +54,29 @@
     if (!document.querySelector('link[data-ot-uk-catalogue-commercial]')) {
       const css = document.createElement("link");
       css.rel = "stylesheet";
-      css.href = "assets/uk-catalogue-commercial.css?v=4";
+      css.href = "assets/uk-catalogue-commercial.css?v=5";
       css.dataset.otUkCatalogueCommercial = "true";
       document.head.appendChild(css);
+    }
+
+    if (!document.getElementById("otUkCatalogueLogoFix")) {
+      const logoFix = document.createElement("style");
+      logoFix.id = "otUkCatalogueLogoFix";
+      logoFix.textContent = `
+        html.ot-uk-catalogue-commercial #header .brand:before,
+        html.ot-uk-catalogue-commercial #header .brand:after{content:none!important;display:none!important}
+        html.ot-uk-catalogue-commercial #header .brand .wordmark{display:none!important}
+        html.ot-uk-catalogue-commercial #header .brand img{
+          display:block!important;width:210px!important;max-width:210px!important;height:auto!important;
+          max-height:54px!important;object-fit:contain!important;object-position:left center!important
+        }`;
+      document.head.appendChild(logoFix);
     }
 
     const headerBrand = document.querySelector("#header .brand");
     if (headerBrand) {
       headerBrand.href = "uk.html";
-      headerBrand.innerHTML = '<img src="/assets/omni-terrain-approved-gt.webp?v=1" alt="Omni Terrain">';
+      headerBrand.innerHTML = '<img src="/assets/omni-terrain-subtle-logo.svg?v=2" alt="Omni Terrain">';
     }
 
     const heroContainer = document.querySelector(".catalogue-hero > .container");
