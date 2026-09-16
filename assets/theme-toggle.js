@@ -51,7 +51,7 @@
   const ensureScripts=()=>{
     ensureScript('script[data-ot-subtle-storefront]',"/assets/omni-subtle-storefront.js?v=20260917-2","otSubtleStorefront");
     ensureScript('script[data-ot-master-dropdown]',"/assets/master-dropdown.js?v=20260917-3","otMasterDropdown");
-    if(!isHome)ensureScript('script[data-ot-internal-shell-final]',"/assets/internal-shell-final.js?v=20260917-3","otInternalShellFinal");
+    if(!isHome)ensureScript('script[data-ot-internal-shell-final]',"/assets/internal-shell-final.js?v=20260917-4","otInternalShellFinal");
     if(isHome)ensureScript('script[data-ot-homepage-categorybar-sync]',"/assets/homepage-categorybar-sync.js?v=20260917-2","otHomepageCategorybarSync");
   };
 
@@ -67,8 +67,5 @@
     ensureScripts();
   };
 
-  /* Most pages load this deferred at the end of body. Apply immediately so the
-     canonical header assets win the first rendered frame instead of replacing
-     a legacy header after the user has already seen it. */
   apply();
 })();
