@@ -1,0 +1,209 @@
+/* Omni Terrain US UI consistency layer — one visual language for homepage + catalogue/internal store pages. */
+:root{
+  --ot-ui-blue:#075fca;
+  --ot-ui-blue-dark:#064a9b;
+  --ot-ui-navy:#12325a;
+  --ot-ui-text:#1d3553;
+  --ot-ui-muted:#64748b;
+  --ot-ui-line:#d9e4ee;
+  --ot-ui-line-strong:#bfd0df;
+  --ot-ui-soft:#f5f9fd;
+  --ot-ui-radius:7px;
+  --ot-ui-panel-radius:10px;
+  --ot-ui-shadow:0 10px 28px rgba(9,40,75,.10);
+  --ot-ui-menu-shadow:0 14px 34px rgba(9,40,75,.16);
+}
+
+/* Keep the homepage and internal US category bars visually identical. */
+@media (min-width:861px){
+  html[lang="en-US"] .ot-reference-home .ot-ref-nav,
+  html[lang="en-US"] .ot-shell-loaded .ot-site-categorybar{
+    border-top:1px solid #e5edf4!important;
+    border-bottom:1px solid var(--ot-ui-line)!important;
+    background:#fff!important;
+  }
+  html[lang="en-US"] .ot-reference-home .ot-ref-nav .ot-ref-width,
+  html[lang="en-US"] .ot-shell-loaded .ot-site-categorybar>.ot-shell-container{
+    display:flex!important;
+    align-items:stretch!important;
+    justify-content:center!important;
+    gap:0!important;
+    width:min(1400px,calc(100% - 40px))!important;
+    margin-inline:auto!important;
+    overflow:visible!important;
+  }
+  html[lang="en-US"] .ot-reference-home .ot-ref-nav .ot-ref-nav-item,
+  html[lang="en-US"] .ot-shell-loaded .ot-site-nav-item{
+    position:relative!important;
+    width:auto!important;
+    min-width:0!important;
+  }
+  html[lang="en-US"] .ot-reference-home .ot-ref-nav .ot-ref-nav-item>button,
+  html[lang="en-US"] .ot-reference-home .ot-ref-nav .ot-ref-width>a,
+  html[lang="en-US"] .ot-shell-loaded .ot-site-categorybar a,
+  html[lang="en-US"] .ot-shell-loaded .ot-site-nav-item>button{
+    display:flex!important;
+    width:auto!important;
+    height:45px!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:8px!important;
+    box-sizing:border-box!important;
+    padding:0 28px!important;
+    border:0!important;
+    border-right:1px solid #e3ebf2!important;
+    border-radius:0!important;
+    background:#fff!important;
+    color:var(--ot-ui-navy)!important;
+    text-decoration:none!important;
+    font:800 12px/1 Manrope,Arial,sans-serif!important;
+    white-space:nowrap!important;
+    cursor:pointer!important;
+  }
+  html[lang="en-US"] .ot-reference-home .ot-ref-nav .ot-ref-nav-item:first-child>button,
+  html[lang="en-US"] .ot-shell-loaded .ot-site-categorybar>.ot-shell-container>*:first-child>button{
+    border-left:1px solid #e3ebf2!important;
+  }
+  html[lang="en-US"] .ot-reference-home .ot-ref-nav .ot-ref-width>a:hover,
+  html[lang="en-US"] .ot-reference-home .ot-ref-nav .ot-ref-nav-item>button:hover,
+  html[lang="en-US"] .ot-reference-home .ot-ref-nav .ot-ref-nav-item:focus-within>button,
+  html[lang="en-US"] .ot-shell-loaded .ot-site-categorybar a:hover,
+  html[lang="en-US"] .ot-shell-loaded .ot-site-nav-item>button:hover,
+  html[lang="en-US"] .ot-shell-loaded .ot-site-nav-item:focus-within>button,
+  html[lang="en-US"] .ot-shell-loaded .ot-site-nav-item.is-open>button{
+    background:#f2f7fc!important;
+    color:var(--ot-ui-blue)!important;
+  }
+  html[lang="en-US"] .ot-reference-home .ot-ref-menu,
+  html[lang="en-US"] .ot-shell-loaded .ot-site-dropdown{
+    top:45px!important;
+    left:0!important;
+    width:250px!important;
+    box-sizing:border-box!important;
+    padding:13px 15px 14px!important;
+    border:1px solid #d9e3ed!important;
+    border-radius:0 0 8px 8px!important;
+    background:#fff!important;
+    box-shadow:var(--ot-ui-menu-shadow)!important;
+  }
+  html[lang="en-US"] .ot-reference-home .ot-ref-menu h4,
+  html[lang="en-US"] .ot-shell-loaded .ot-site-dropdown h4{
+    margin:0 0 9px!important;
+    color:#102f59!important;
+    font:850 14px/1.2 Manrope,Arial,sans-serif!important;
+  }
+  html[lang="en-US"] .ot-reference-home .ot-ref-menu a,
+  html[lang="en-US"] .ot-shell-loaded .ot-site-dropdown a{
+    display:flex!important;
+    width:100%!important;
+    height:auto!important;
+    min-height:34px!important;
+    align-items:center!important;
+    justify-content:flex-start!important;
+    padding:7px 2px!important;
+    border:0!important;
+    background:#fff!important;
+    color:#304b6c!important;
+    text-decoration:none!important;
+    font:650 11px/1.35 Manrope,Arial,sans-serif!important;
+  }
+  html[lang="en-US"] .ot-reference-home .ot-ref-menu a:hover,
+  html[lang="en-US"] .ot-shell-loaded .ot-site-dropdown a:hover{
+    background:#fff!important;
+    color:var(--ot-ui-blue)!important;
+  }
+  html[lang="en-US"] .ot-reference-home .ot-ref-menu .all,
+  html[lang="en-US"] .ot-shell-loaded .ot-site-dropdown .all{
+    margin-top:6px!important;
+    padding-top:10px!important;
+    border-top:1px solid #e5ecf3!important;
+    color:var(--ot-ui-blue)!important;
+    font-weight:850!important;
+  }
+}
+
+/* One select/input treatment: homepage finder and catalogue filters should feel like the same component family. */
+html[lang="en-US"] .ot-reference-home .ot-ref-findform select,
+html[lang="en-US"] .ot-reference-home .ot-ref-findform input,
+html[lang="en-US"] .ot-shell-loaded .ot-catalogue-controls .ot-filter-select,
+html[lang="en-US"] .ot-shell-loaded .ot-catalogue-controls .ot-search-input{
+  min-height:44px!important;
+  height:44px!important;
+  box-sizing:border-box!important;
+  border:1px solid var(--ot-ui-line-strong)!important;
+  border-radius:var(--ot-ui-radius)!important;
+  background-color:#fff!important;
+  color:var(--ot-ui-text)!important;
+  font:650 12px/1.2 Manrope,Arial,sans-serif!important;
+  outline:none!important;
+  box-shadow:none!important;
+  transition:border-color .16s ease,box-shadow .16s ease,background .16s ease!important;
+}
+html[lang="en-US"] .ot-reference-home .ot-ref-findform select,
+html[lang="en-US"] .ot-shell-loaded .ot-catalogue-controls .ot-filter-select{
+  -webkit-appearance:none!important;
+  appearance:none!important;
+  padding:0 38px 0 13px!important;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%23586f8b' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")!important;
+  background-repeat:no-repeat!important;
+  background-position:right 13px center!important;
+  background-size:12px 8px!important;
+}
+html[lang="en-US"] .ot-reference-home .ot-ref-findform input,
+html[lang="en-US"] .ot-shell-loaded .ot-catalogue-controls .ot-search-input{
+  padding-left:13px!important;
+}
+html[lang="en-US"] .ot-reference-home .ot-ref-findform select:focus,
+html[lang="en-US"] .ot-reference-home .ot-ref-findform input:focus,
+html[lang="en-US"] .ot-shell-loaded .ot-catalogue-controls .ot-filter-select:focus,
+html[lang="en-US"] .ot-shell-loaded .ot-catalogue-controls .ot-search-input:focus{
+  border-color:#1682e7!important;
+  box-shadow:0 0 0 3px rgba(22,130,231,.10)!important;
+  background-color:#fff!important;
+}
+
+/* Catalogue control panel: remove the oversized rounded-card treatment so it matches the homepage finder. */
+html[lang="en-US"] .ot-shell-loaded .ot-catalogue-controls{
+  margin-bottom:18px!important;
+  padding:16px!important;
+  border:1px solid #d7e5f2!important;
+  border-radius:var(--ot-ui-panel-radius)!important;
+  background:linear-gradient(90deg,#f7fafe,#fbfdff)!important;
+  box-shadow:0 5px 17px rgba(11,57,103,.05)!important;
+  backdrop-filter:none!important;
+}
+html[lang="en-US"] .ot-shell-loaded .ot-control-row{gap:10px!important}
+html[lang="en-US"] .ot-shell-loaded .ot-control-meta{margin-top:10px!important;color:#697b91!important}
+html[lang="en-US"] .ot-shell-loaded .ot-control-meta b{color:#123863!important}
+html[lang="en-US"] .ot-shell-loaded .ot-clear-filters{color:var(--ot-ui-blue)!important}
+html[lang="en-US"] .ot-shell-loaded .ot-search-results{
+  border:1px solid #d9e3ed!important;
+  border-radius:8px!important;
+  background:#fff!important;
+  box-shadow:var(--ot-ui-menu-shadow)!important;
+}
+html[lang="en-US"] .ot-shell-loaded .ot-search-result{color:#173962!important}
+html[lang="en-US"] .ot-shell-loaded .ot-search-result:hover{background:#f5f9fd!important}
+html[lang="en-US"] .ot-shell-loaded .ot-search-result em{color:var(--ot-ui-blue)!important}
+
+/* Same compact primary action language in find/search areas. */
+html[lang="en-US"] .ot-reference-home .ot-ref-findform button,
+html[lang="en-US"] .ot-shell-loaded .ot-site-search button{
+  min-height:44px!important;
+  border:0!important;
+  border-radius:var(--ot-ui-radius)!important;
+  background:linear-gradient(#1682e7,#075fca)!important;
+  color:#fff!important;
+  font:850 12px/1 Manrope,Arial,sans-serif!important;
+  cursor:pointer!important;
+}
+html[lang="en-US"] .ot-shell-loaded .ot-site-search{border-radius:var(--ot-ui-radius)!important}
+
+/* Mobile controls stay clean and predictable instead of switching visual language. */
+@media(max-width:620px){
+  html[lang="en-US"] .ot-shell-loaded .ot-catalogue-controls{padding:12px!important;border-radius:9px!important}
+  html[lang="en-US"] .ot-reference-home .ot-ref-findform select,
+  html[lang="en-US"] .ot-reference-home .ot-ref-findform input,
+  html[lang="en-US"] .ot-shell-loaded .ot-catalogue-controls .ot-filter-select,
+  html[lang="en-US"] .ot-shell-loaded .ot-catalogue-controls .ot-search-input{min-height:46px!important;height:46px!important;font-size:12px!important}
+}
