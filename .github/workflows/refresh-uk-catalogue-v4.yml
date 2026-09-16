@@ -1,0 +1,53 @@
+name: Refresh UK catalogue layout v4
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/refresh-uk-catalogue-v4.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Force UK catalogue asset refresh
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          html_path = Path('shield-autocare-uk.html')
+          html = html_path.read_text(encoding='utf-8')
+          html = html.replace('href="assets/shield-catalogue.css"', 'href="assets/shield-catalogue.css?v=4"')
+          if 'uk-catalogue-commercial.css?v=4' not in html:
+              html = html.replace('<link rel="stylesheet" href="assets/storefront-performance.css">', '<link rel="stylesheet" href="assets/storefront-performance.css?v=18"><link rel="stylesheet" href="assets/uk-catalogue-commercial.css?v=4">')
+          html = html.replace('src="assets/shield-catalogue.js"', 'src="assets/shield-catalogue.js?v=4"')
+          html = html.replace('src="assets/storefront-performance.js"', 'src="assets/storefront-performance.js?v=18"')
+          html_path.write_text(html, encoding='utf-8')
+
+          js_path = Path('assets/shield-catalogue.js')
+          js = js_path.read_text(encoding='utf-8')
+          js = js.replace('assets/uk-catalogue-commercial.css?v=2', 'assets/uk-catalogue-commercial.css?v=4')
+          js = js.replace('Specialist campervan gear.<br><em>One focused store.</em>', 'Specialist campervan gear.<br><em>One focused range.</em>')
+          js = js.replace('Shop practical campervan refrigeration, frameless windows, blackout blinds and flyscreens with clear GBP pricing and product support.', 'Shop specialist campervan refrigeration, frameless windows, blinds and flyscreens with clear GBP pricing, product details and UK support.')
+          js_path.write_text(js, encoding='utf-8')
+          PY
+      - name: Commit catalogue refresh
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add shield-autocare-uk.html assets/shield-catalogue.js
+          if git diff --cached --quiet; then
+            echo 'No changes needed.'
+          else
+            git commit -m 'Render UK page as focused catalogue layout'
+            git push origin HEAD:main
+          fi
