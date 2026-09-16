@@ -1,0 +1,111 @@
+/* Omni Terrain mobile + rendering performance pass. Keep visual language intact; only harden responsiveness and paint cost. */
+*,*::before,*::after{box-sizing:border-box}
+img,svg,video{max-width:100%}
+img{height:auto}
+
+/* Skip expensive off-screen card painting while preserving layout space. */
+@supports (content-visibility:auto){
+  .ot-ref-product,.ot-ref-category,.product-card,.live-card,.card,.selection-card{content-visibility:auto;contain-intrinsic-size:320px 280px}
+}
+
+@media (max-width:860px){
+  html,body{max-width:100%;overflow-x:hidden}
+  button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}
+
+  /* Reference US/UK homepage shell */
+  .ot-ref-width{width:min(100% - 20px,840px)!important}
+  .ot-ref-utility .ot-ref-width{grid-template-columns:minmax(0,1fr) auto!important;gap:8px!important}
+  .ot-ref-utility-center{display:none!important}
+  .ot-ref-utility-left{min-width:0;gap:7px!important}
+  .ot-ref-utility-left>span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ot-ref-utility-right{gap:8px!important}
+  .ot-ref-utility-right a:first-child{display:none!important}
+
+  .ot-ref-mainbar .ot-ref-width{grid-template-columns:minmax(120px,150px) minmax(0,1fr)!important;gap:10px!important;min-height:66px!important;position:relative}
+  .ot-ref-logo img{width:145px!important;height:44px!important}
+  .ot-ref-actions{position:absolute!important;right:0!important;top:11px!important;gap:6px!important}
+  .ot-ref-account{display:none!important}
+  .ot-ref-cart{min-height:40px!important;padding:4px 6px!important}
+  .ot-ref-search{grid-column:1/-1!important;grid-row:2!important;margin:0 0 9px!important;grid-template-columns:minmax(0,1fr) 82px!important}
+  .ot-ref-search input{height:44px!important;min-width:0!important;font-size:16px!important;padding:0 12px!important}
+  .ot-ref-search button{min-height:44px!important;font-size:12px!important}
+
+  /* Same category bar on mobile, scrollable instead of wrapping/breaking layout. */
+  .ot-ref-nav{overflow-x:auto!important;overflow-y:hidden!important;overscroll-behavior-inline:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .ot-ref-nav::-webkit-scrollbar{display:none}
+  .ot-ref-nav .ot-ref-width{width:max-content!important;min-width:100%!important;margin:0!important;padding:0!important;justify-content:flex-start!important;display:flex!important}
+  .ot-ref-nav .ot-ref-nav-item,.ot-ref-nav .ot-ref-width>a{flex:0 0 auto!important}
+  .ot-ref-nav .ot-ref-nav-item>button,.ot-ref-nav .ot-ref-width>a{height:44px!important;min-height:44px!important;padding:0 14px!important;font-size:11px!important;white-space:nowrap!important;border-right:1px solid #e3ebf2!important}
+  .ot-ref-menu,.ot-site-dropdown,.ot-mega-menu,.ot-master-dropdown{display:none!important}
+
+  .ot-home-launch-offer{padding:8px 10px 4px!important}
+  .ot-home-launch-offer .ot-ref-width{width:100%!important}
+  .ot-home-launch-offer-inner{grid-template-columns:1fr!important;gap:10px!important;padding:14px!important}
+  .ot-home-launch-copy strong{font-size:18px!important}
+  .ot-home-launch-copy p{font-size:11px!important;line-height:1.45!important}
+  .ot-home-launch-offer-inner>a{width:100%!important;min-height:44px!important}
+
+  .ot-ref-finder{padding:12px 0 8px!important}
+  .ot-ref-finder-card{grid-template-columns:1fr!important;gap:10px!important;padding:14px!important}
+  .ot-ref-findtabs{grid-template-columns:repeat(2,1fr)!important}
+  .ot-ref-findtabs span{min-height:42px!important}
+  .ot-ref-findform{grid-template-columns:1fr!important;gap:8px!important}
+  .ot-ref-findform select,.ot-ref-findform input,.ot-ref-findform button{width:100%!important;height:44px!important;min-height:44px!important;font-size:16px!important}
+
+  .ot-ref-category-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+  .ot-ref-products{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+  .ot-ref-product-media{height:145px!important;padding:8px!important}
+  .ot-ref-product-media img{height:125px!important;object-fit:contain!important}
+  .ot-ref-product-body h3{min-height:0!important}
+  .ot-ref-trust .ot-ref-width{grid-template-columns:repeat(2,1fr)!important}
+  .ot-ref-trust-item:nth-child(2){border-right:0!important}
+  .ot-ref-trust-item{min-width:0!important;padding:12px!important}
+  .ot-ref-footer-main{grid-template-columns:1fr 1fr!important;gap:20px 16px!important}
+  .ot-ref-footer-main>div:first-child,.ot-ref-footer-main>div:last-child{grid-column:1/-1!important}
+
+  /* Internal catalogue/product shell */
+  .ot-shell-container{width:min(100% - 20px,var(--ot-shell-max,1400px))!important}
+  .ot-commerce-search{flex-basis:100%!important;max-width:none!important;height:44px!important}
+  .ot-commerce-search input{font-size:16px!important}
+  .ot-commerce-search button{min-width:80px!important}
+  .header-main,.ot-site-header-main{gap:8px!important}
+  .header-actions,.ot-site-actions{gap:6px!important;min-width:0!important}
+  .cart-link,.ot-site-cart,.menu-btn,.ot-site-menu{min-height:44px!important}
+
+  .product-layout{grid-template-columns:1fr!important;gap:12px!important}
+  .ot-modern-buy-column{position:static!important;top:auto!important}
+  .purchase-actions{display:grid!important;grid-template-columns:1fr!important;gap:8px!important}
+  .purchase-actions>*{width:100%!important;min-height:46px!important}
+
+  .product-grid,.live-grid,.grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+  .product-card,.live-card,.card{min-width:0!important}
+}
+
+@media (max-width:520px){
+  .ot-ref-width{width:min(100% - 14px,510px)!important}
+  .ot-ref-utility{font-size:9px!important}
+  .ot-ref-region a{min-width:34px!important;height:24px!important;padding:0 7px!important}
+  .ot-ref-mainbar .ot-ref-width{grid-template-columns:126px minmax(0,1fr)!important}
+  .ot-ref-logo img{width:124px!important;height:40px!important}
+  .ot-ref-cart span{display:none!important}
+  .ot-ref-category-grid,.ot-ref-products,.product-grid,.live-grid,.grid{grid-template-columns:1fr!important}
+  .ot-ref-category img{height:150px!important}
+  .ot-ref-product-media{height:180px!important}
+  .ot-ref-product-media img{height:160px!important}
+  .ot-ref-trust .ot-ref-width{grid-template-columns:1fr!important}
+  .ot-ref-trust-item{border-right:0!important;border-bottom:1px solid #dce7f1!important}
+  .ot-ref-trust-item:last-child{border-bottom:0!important}
+  .ot-ref-footer-main{grid-template-columns:1fr!important}
+  .ot-ref-footer-main>*{grid-column:auto!important}
+
+  .ot-site-footer-grid{grid-template-columns:1fr!important}
+  .ot-site-footer-grid>div:first-child{grid-column:auto!important}
+  .quick-cards,.facts{grid-template-columns:1fr!important}
+  .gallery-thumbs{overflow-x:auto!important;display:flex!important;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .gallery-thumbs::-webkit-scrollbar{display:none}
+  .gallery-thumb{flex:0 0 72px!important}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
