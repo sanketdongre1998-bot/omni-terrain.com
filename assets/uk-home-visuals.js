@@ -3,12 +3,32 @@
   if ((location.pathname.split('/').pop() || '').toLowerCase() !== 'uk.html') return;
 
   const HERO = '/assets/omni-main-hero-20260916.png';
+  const AUTO_FALLBACK = '/assets/ot-cat-new-auto-final.jpg?v=4';
+  const AUTO_SHARP_CHUNKS = [
+    '/assets/.newauto-q30-1.txt?v=1',
+    '/assets/.newauto-q30-2.txt?v=1',
+    '/assets/.newauto-q30-3.txt?v=1'
+  ];
+  let sharpAutoSrc = '';
+  let sharpAutoRequested = false;
+
   const CATEGORY_IMAGES = {
-    'Auto Parts': ['/assets/ot-cat-new-auto-final.jpg?v=4', 'Automotive parts and service essentials'],
     'Marine': ['/assets/ot-cat-marine.webp?v=4', 'Marine equipment and accessories'],
     'Campervan': ['/assets/ot-cat-overland.webp?v=4', 'Campervan and overlanding gear'],
     '12V & Power': ['/assets/ot-cat-solar.webp?v=4', 'Solar and 12V power equipment'],
     'Featured': ['/assets/ot-cat-deals.webp?v=4', 'Featured automotive and outdoor gear']
+  };
+
+  const chunkedBlobUrl = async paths => {
+    const base64 = (await Promise.all(paths.map(async path => {
+      const response = await fetch(path, { cache: 'force-cache' });
+      if (!response.ok) throw new Error(`Failed to load ${path}`);
+      return (await response.text()).trim();
+    }))).join('');
+    const binary = atob(base64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
+    return URL.createObjectURL(new Blob([bytes], { type: 'image/webp' }));
   };
 
   const apply = () => {
@@ -49,11 +69,19 @@
         return;
       }
 
-      const item = CATEGORY_IMAGES[title];
       const img = card.querySelector('img');
-      if (!item || !img) return;
-      img.src = item[0];
-      img.alt = item[1];
+      if (!img) return;
+
+      if (title === 'Auto Parts') {
+        img.src = sharpAutoSrc || AUTO_FALLBACK;
+        img.alt = 'Automotive parts and service essentials';
+      } else {
+        const item = CATEGORY_IMAGES[title];
+        if (!item) return;
+        img.src = item[0];
+        img.alt = item[1];
+      }
+
       img.loading = 'lazy';
       img.decoding = 'async';
       img.style.backgroundImage = 'none';
@@ -65,7 +93,24 @@
     return !!hero;
   };
 
-  const run = () => [0, 100, 250, 600, 1200, 2500].forEach(ms => setTimeout(apply, ms));
+  const prepareSharpAuto = async () => {
+    if (sharpAutoRequested) return;
+    sharpAutoRequested = true;
+    try {
+      sharpAutoSrc = await chunkedBlobUrl(AUTO_SHARP_CHUNKS);
+      apply();
+    } catch (error) {
+      console.warn('UK Auto Parts image enhancement failed', error);
+    }
+  };
+
+  const run = () => {
+    apply();
+    prepareSharpAuto();
+    setTimeout(apply, 150);
+    setTimeout(apply, 600);
+  };
+
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run, { once: true });
   else run();
   window.addEventListener('load', apply, { once: true });
