@@ -1,56 +1,103 @@
-/* UK catalogue commercial hero refresh — shield-autocare-uk.html only */
-html.ot-uk-catalogue-commercial .catalogue-hero{padding:0!important;background:#fff!important}
-html.ot-uk-catalogue-commercial .catalogue-hero>.container{width:100%!important;max-width:none!important;margin:0!important;padding:0!important}
-html.ot-uk-catalogue-commercial .catalogue-hero-shell{position:relative!important;min-height:520px!important;border:0!important;border-radius:0!important;overflow:hidden!important;background:
-  linear-gradient(90deg,rgba(5,20,38,.96) 0%,rgba(7,27,50,.88) 31%,rgba(8,32,57,.56) 53%,rgba(8,28,48,.10) 72%,rgba(7,26,48,.02) 100%),
-  url('https://images.unsplash.com/photo-1773762159818-d929964ab226?auto=format&fit=crop&fm=jpg&q=82&w=2400') center 56%/cover no-repeat!important;
-box-shadow:none!important;color:#fff!important}
-html.ot-uk-catalogue-commercial .catalogue-hero-shell:after{display:none!important}
-html.ot-uk-catalogue-commercial .catalogue-hero-grid{min-height:520px!important;grid-template-columns:minmax(0,760px) 1fr!important;align-items:center!important;padding:58px 7vw 132px!important}
-html.ot-uk-catalogue-commercial .catalogue-hero-grid>div:first-child{max-width:760px!important}
-html.ot-uk-catalogue-commercial .catalogue-hero .eyebrow{color:#9bc9ff!important;font-size:.68rem!important;letter-spacing:.18em!important}
-html.ot-uk-catalogue-commercial .catalogue-hero h1{max-width:760px!important;margin:18px 0 20px!important;color:#fff!important;font:800 clamp(4rem,6.2vw,6.7rem)/.79 "Barlow Condensed",sans-serif!important;letter-spacing:-.038em!important;text-transform:none!important;text-shadow:0 3px 24px rgba(0,0,0,.22)}
-html.ot-uk-catalogue-commercial .catalogue-hero h1 em{color:#59a8ff!important;font-style:normal!important}
-html.ot-uk-catalogue-commercial .catalogue-hero .hero-copy{max-width:690px!important;color:#edf4fb!important;font-size:.98rem!important;line-height:1.72!important;text-shadow:0 2px 16px rgba(0,0,0,.28)}
-html.ot-uk-catalogue-commercial .catalogue-hero .hero-actions{margin-top:26px!important}
-html.ot-uk-catalogue-commercial .catalogue-hero .button.primary{background:linear-gradient(#2b78d0,#1b63ba)!important;border:1px solid #2c75ca!important;color:#fff!important;box-shadow:0 12px 26px rgba(0,49,105,.28)!important}
-html.ot-uk-catalogue-commercial .catalogue-hero .button.light{background:#fff!important;border:1px solid rgba(255,255,255,.8)!important;color:#153c70!important}
-html.ot-uk-catalogue-commercial .catalogue-hero .hero-seal{display:none!important}
-html.ot-uk-catalogue-commercial .catalogue-hero .hero-facts{left:7vw!important;right:auto!important;bottom:28px!important;max-width:760px!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important}
-html.ot-uk-catalogue-commercial .catalogue-hero .hero-fact{min-height:88px!important;padding:15px 16px!important;border:1px solid rgba(255,255,255,.22)!important;border-radius:12px!important;background:rgba(4,20,38,.72)!important;backdrop-filter:blur(9px)!important;box-shadow:0 8px 24px rgba(0,0,0,.14)!important}
-html.ot-uk-catalogue-commercial .catalogue-hero .hero-fact b{color:#fff!important;font-size:.59rem!important}
-html.ot-uk-catalogue-commercial .catalogue-hero .hero-fact span{color:#dce8f4!important;font-size:.68rem!important;line-height:1.4!important}
+/* UK catalogue premium layout — shield-autocare-uk.html only */
+html.ot-uk-catalogue-commercial body{background:#fff!important;color:#17324f!important;font-family:Manrope,Arial,sans-serif!important}
+html.ot-uk-catalogue-commercial #header .brand{display:flex!important;align-items:center!important;min-width:210px!important}
+html.ot-uk-catalogue-commercial #header .brand img{display:block!important;width:190px!important;height:auto!important;object-fit:contain!important}
+html.ot-uk-catalogue-commercial #header .nav-links a{color:#123a73!important;opacity:1!important;font-weight:800!important}
+html.ot-uk-catalogue-commercial #header .nav-links a.active{color:#075fca!important}
+html.ot-uk-catalogue-commercial .draft-strip{background:#fff!important;border-bottom:1px solid #dce6ef!important;color:#526b85!important}
+html.ot-uk-catalogue-commercial .draft-pill{background:#102f59!important;color:#fff!important}
 
-html.ot-uk-catalogue-commercial #products{padding-top:62px!important}
-html.ot-uk-catalogue-commercial #products .section-title{color:#103368!important;text-transform:none!important}
-html.ot-uk-catalogue-commercial #products .section-copy{color:#62748a!important}
-html.ot-uk-catalogue-commercial .filter-row{position:sticky;top:78px;z-index:12;padding:12px 0;background:rgba(255,255,255,.96);backdrop-filter:blur(8px)}
-html.ot-uk-catalogue-commercial .product-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:16px!important}
-html.ot-uk-catalogue-commercial .product-card{border-radius:12px!important;box-shadow:0 5px 18px rgba(7,26,48,.06)!important}
-html.ot-uk-catalogue-commercial .product-image{min-height:205px!important;padding:20px!important;background:#f8fafc!important}
-html.ot-uk-catalogue-commercial .product-image img{height:170px!important}
-html.ot-uk-catalogue-commercial .product-body{padding:19px!important}
-html.ot-uk-catalogue-commercial .product-card h3{font-size:1.45rem!important;line-height:.98!important;text-transform:none!important}
-html.ot-uk-catalogue-commercial .product-card p{font-size:.75rem!important;line-height:1.55!important}
-html.ot-uk-catalogue-commercial .card-actions .button{width:100%!important}
+html.ot-uk-catalogue-commercial .catalogue-hero{padding:20px 0 22px!important;background:#eef4f9!important;color:#17324f!important}
+html.ot-uk-catalogue-commercial .catalogue-hero>.container{width:min(1400px,calc(100% - 40px))!important;max-width:1400px!important;margin:auto!important;padding:0!important;border:1px solid #d8e4ef!important;border-radius:12px!important;background:#fff!important;box-shadow:0 8px 24px rgba(15,48,83,.06)!important;overflow:hidden!important}
+html.ot-uk-catalogue-commercial .ukcp-hero{position:relative;background:#fff}
+html.ot-uk-catalogue-commercial .ukcp-hero-grid{position:relative;display:grid;grid-template-columns:minmax(0,1.28fr) minmax(360px,.82fr);gap:34px;align-items:center;min-height:355px;padding:34px 36px 28px;background:linear-gradient(90deg,rgba(255,255,255,.995) 0%,rgba(247,250,254,.98) 40%,rgba(239,246,253,.86) 64%,rgba(232,241,250,.38) 100%),url('/assets/ot-cat-overland.webp?v=4') right center/48% 100% no-repeat!important}
+html.ot-uk-catalogue-commercial .ukcp-hero-grid:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent 0 63%,rgba(255,255,255,.03) 100%)}
+html.ot-uk-catalogue-commercial .ukcp-hero-copy,html.ot-uk-catalogue-commercial .ukcp-search-card{position:relative;z-index:1}
+html.ot-uk-catalogue-commercial .ukcp-kicker{color:#0f5fbd;font:800 9px/1 "DM Mono",monospace;letter-spacing:.13em;text-transform:uppercase}
+html.ot-uk-catalogue-commercial .ukcp-hero h1{max-width:730px;margin:10px 0 12px;color:#113a73!important;font:800 clamp(48px,5.4vw,74px)/.82 "Barlow Condensed",Impact,sans-serif;letter-spacing:-.025em;text-transform:uppercase}
+html.ot-uk-catalogue-commercial .ukcp-hero h1 em{color:#0b66d2!important;font-style:normal}
+html.ot-uk-catalogue-commercial .ukcp-hero-copy>p{max-width:760px;margin:0;color:#183d66!important;font:600 15px/1.5 Manrope,Arial,sans-serif}
+html.ot-uk-catalogue-commercial .ukcp-hero-subcopy{max-width:710px!important;margin-top:9px!important;color:#657b91!important;font:500 11px/1.5 Manrope,Arial,sans-serif!important}
+html.ot-uk-catalogue-commercial .ukcp-hero-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}
+html.ot-uk-catalogue-commercial .ukcp-hero-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 20px;border:1px solid #9fb9d7;border-radius:6px;background:#fff;color:#123a73!important;text-decoration:none;font:800 11px/1 Manrope,Arial,sans-serif}
+html.ot-uk-catalogue-commercial .ukcp-hero-actions a:first-child{border-color:#075fca;background:linear-gradient(#1682e7,#075fca);color:#fff!important;box-shadow:0 7px 18px rgba(7,95,202,.18)}
 
-@media(max-width:1180px){
-  html.ot-uk-catalogue-commercial .product-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+html.ot-uk-catalogue-commercial .ukcp-search-card{justify-self:end;width:min(100%,430px);padding:24px 24px 22px;border:1px solid #d0ddea;border-radius:12px;background:rgba(255,255,255,.97);box-shadow:0 12px 28px rgba(10,49,91,.10)}
+html.ot-uk-catalogue-commercial .ukcp-search-heading{display:flex;align-items:center;gap:13px;padding-bottom:14px;border-bottom:1px solid #dfe7ef}
+html.ot-uk-catalogue-commercial .ukcp-search-icon{display:grid;width:56px;height:56px;place-items:center;border-radius:50%;background:#edf4ff;color:#0a4f9f;font-size:28px;font-weight:800}
+html.ot-uk-catalogue-commercial .ukcp-search-heading strong{display:block;color:#123a73!important;font:800 38px/.86 "Barlow Condensed",Impact,sans-serif;text-transform:uppercase}
+html.ot-uk-catalogue-commercial .ukcp-search-heading b{display:block;margin-top:6px;color:#0e3568!important;font:750 14px/1.2 Manrope,Arial,sans-serif}
+html.ot-uk-catalogue-commercial .ukcp-search-card>p{margin:14px 0!important;color:#60748a!important;font:500 11px/1.5 Manrope,Arial,sans-serif}
+html.ot-uk-catalogue-commercial .ukcp-search-form{display:grid;grid-template-columns:minmax(0,1fr) 92px;overflow:hidden;border:1px solid #bacbdd;border-radius:6px;background:#fff}
+html.ot-uk-catalogue-commercial .ukcp-search-form:focus-within{border-color:#1682e7;box-shadow:0 0 0 3px rgba(22,130,231,.09)}
+html.ot-uk-catalogue-commercial .ukcp-search-form input{height:48px;min-width:0;padding:0 13px;border:0!important;outline:0!important;background:#fff!important;color:#25415f!important;font:600 11px/1 Manrope,Arial,sans-serif}
+html.ot-uk-catalogue-commercial .ukcp-search-form button{border:0;background:linear-gradient(#1682e7,#075fca);color:#fff;font:850 11px/1 Manrope,Arial,sans-serif;cursor:pointer}
+html.ot-uk-catalogue-commercial .ukcp-search-help{display:inline-block;margin-top:13px;color:#075fca!important;text-decoration:none;font:750 10px/1.35 Manrope,Arial,sans-serif}
+
+html.ot-uk-catalogue-commercial .ukcp-stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #dce6ef;background:#fff}
+html.ot-uk-catalogue-commercial .ukcp-stat{display:grid;grid-template-columns:44px 1fr;align-items:center;gap:11px;min-height:82px;padding:11px 22px;border-right:1px solid #e3eaf1}
+html.ot-uk-catalogue-commercial .ukcp-stat:last-child{border-right:0}
+html.ot-uk-catalogue-commercial .ukcp-stat-icon{display:grid;width:44px;height:44px;place-items:center;border-radius:50%;background:#edf4ff;color:#0b4f9c;font-size:20px;font-weight:900}
+html.ot-uk-catalogue-commercial .ukcp-stat b{display:block;color:#113a73!important;font:800 13px/1.2 Manrope,Arial,sans-serif}
+html.ot-uk-catalogue-commercial .ukcp-stat span:not(.ukcp-stat-icon){display:block;margin-top:3px;color:#66788d!important;font:500 9px/1.35 Manrope,Arial,sans-serif}
+
+html.ot-uk-catalogue-commercial #products{padding:42px 0 72px!important;background:#fff!important}
+html.ot-uk-catalogue-commercial #products .section-header{display:flex!important;align-items:end!important;justify-content:space-between!important;gap:28px!important;margin-bottom:18px!important}
+html.ot-uk-catalogue-commercial #products .section-header .eyebrow{color:#0f5fbd!important;font-size:8px!important;font-weight:800!important;letter-spacing:.08em!important}
+html.ot-uk-catalogue-commercial #products .section-title{margin:6px 0 0!important;color:#123a73!important;font:800 clamp(36px,4.5vw,54px)/.92 "Barlow Condensed",Impact,sans-serif!important;letter-spacing:-.02em!important;text-transform:uppercase!important}
+html.ot-uk-catalogue-commercial #products .section-title em{color:#0b66d2!important}
+html.ot-uk-catalogue-commercial #products .section-copy{max-width:510px!important;margin:0!important;color:#697b8f!important;font:500 10px/1.55 Manrope,Arial,sans-serif!important}
+
+html.ot-uk-catalogue-commercial .ukcp-departments{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 18px}
+html.ot-uk-catalogue-commercial .ukcp-department{position:relative;min-height:145px;padding:20px;border:1px solid #dfe3e8;border-radius:8px;background:#fff;color:#172536;text-decoration:none;box-shadow:0 2px 10px rgba(7,26,48,.04);overflow:hidden}
+html.ot-uk-catalogue-commercial .ukcp-department:hover{transform:translateY(-2px);border-color:#9fb1c5;box-shadow:0 8px 20px rgba(7,26,48,.08)}
+html.ot-uk-catalogue-commercial .ukcp-department small{color:#8a671a!important;font-size:9px;font-weight:800;text-transform:uppercase}
+html.ot-uk-catalogue-commercial .ukcp-department b{display:block;max-width:320px;margin-top:25px;color:#103368!important;font:800 25px/.95 "Barlow Condensed",Impact,sans-serif;text-transform:uppercase}
+html.ot-uk-catalogue-commercial .ukcp-department:after{content:"Shop category →";position:absolute;left:20px;bottom:18px;color:#0f4a91;font:800 10px/1 Manrope,Arial,sans-serif}
+
+html.ot-uk-catalogue-commercial .filter-row{position:sticky;top:78px;z-index:12;padding:12px 0;margin-bottom:12px!important;background:rgba(255,255,255,.97);backdrop-filter:blur(8px)}
+html.ot-uk-catalogue-commercial .filter-button{border-color:#d2deea!important;color:#21456e!important}
+html.ot-uk-catalogue-commercial .filter-button[aria-pressed="true"]{background:#123a73!important;border-color:#123a73!important;color:#fff!important}
+html.ot-uk-catalogue-commercial .filter-result{color:#708298!important;font-size:11px!important}
+html.ot-uk-catalogue-commercial .product-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:14px!important}
+html.ot-uk-catalogue-commercial .product-card{border:1px solid #dce2e8!important;border-radius:8px!important;background:#fff!important;box-shadow:0 2px 10px rgba(7,26,48,.04)!important}
+html.ot-uk-catalogue-commercial .product-card:hover{transform:translateY(-2px)!important;border-color:#9fb1c5!important;box-shadow:0 9px 22px rgba(7,26,48,.09)!important}
+html.ot-uk-catalogue-commercial .product-image{min-height:205px!important;padding:18px!important;background:#fff!important;border-bottom:1px solid #edf0f2!important}
+html.ot-uk-catalogue-commercial .product-image img{height:170px!important;object-fit:contain!important;mix-blend-mode:normal!important}
+html.ot-uk-catalogue-commercial .product-body{padding:15px!important}
+html.ot-uk-catalogue-commercial .product-kicker{font-size:8px!important;color:#7e6a3e!important}
+html.ot-uk-catalogue-commercial .product-card h3{min-height:46px;margin:11px 0 8px!important;color:#103368!important;font:800 18px/1.15 Manrope,Arial,sans-serif!important;text-transform:none!important}
+html.ot-uk-catalogue-commercial .product-card p{font-size:11px!important;line-height:1.5!important;color:#66788d!important}
+html.ot-uk-catalogue-commercial .card-price strong{color:#c53125!important;font:800 21px/1 Manrope,Arial,sans-serif!important}
+html.ot-uk-catalogue-commercial .card-link{color:#0f4a91!important;font-size:10px!important;font-weight:900!important}
+html.ot-uk-catalogue-commercial .card-actions .button{width:100%!important;border-radius:6px!important;background:linear-gradient(#1682e7,#075fca)!important}
+
+@media(max-width:1120px){
+  html.ot-uk-catalogue-commercial .ukcp-hero-grid{grid-template-columns:minmax(0,1fr) 360px;padding:30px}
+  html.ot-uk-catalogue-commercial .ukcp-stat{padding:11px 16px}
+  html.ot-uk-catalogue-commercial .product-grid{grid-template-columns:repeat(3,1fr)!important}
 }
-@media(max-width:900px){
-  html.ot-uk-catalogue-commercial .catalogue-hero-shell{min-height:610px!important;background-position:62% center!important}
-  html.ot-uk-catalogue-commercial .catalogue-hero-grid{min-height:610px!important;display:block!important;padding:54px 6vw 170px!important}
-  html.ot-uk-catalogue-commercial .catalogue-hero .hero-facts{left:6vw!important;right:6vw!important;max-width:none!important}
-  html.ot-uk-catalogue-commercial .product-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+@media(max-width:860px){
+  html.ot-uk-catalogue-commercial .ukcp-hero-grid{grid-template-columns:1fr;min-height:0;padding:26px;background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(243,248,253,.95)),url('/assets/ot-cat-overland.webp?v=4') center/cover no-repeat!important}
+  html.ot-uk-catalogue-commercial .ukcp-search-card{justify-self:stretch;width:auto}
+  html.ot-uk-catalogue-commercial .ukcp-stats{grid-template-columns:1fr 1fr}
+  html.ot-uk-catalogue-commercial .ukcp-stat:nth-child(2){border-right:0}
+  html.ot-uk-catalogue-commercial #products .section-header{display:block!important}
+  html.ot-uk-catalogue-commercial #products .section-copy{margin-top:10px!important}
+  html.ot-uk-catalogue-commercial .ukcp-departments{grid-template-columns:1fr 1fr}
+  html.ot-uk-catalogue-commercial .product-grid{grid-template-columns:repeat(2,1fr)!important}
 }
-@media(max-width:620px){
-  html.ot-uk-catalogue-commercial .catalogue-hero-shell{min-height:650px!important;background-position:68% center!important}
-  html.ot-uk-catalogue-commercial .catalogue-hero-grid{padding:40px 22px 238px!important}
-  html.ot-uk-catalogue-commercial .catalogue-hero h1{font-size:3.55rem!important}
-  html.ot-uk-catalogue-commercial .catalogue-hero .hero-copy{font-size:.9rem!important}
-  html.ot-uk-catalogue-commercial .catalogue-hero .hero-facts{left:18px!important;right:18px!important;bottom:18px!important;grid-template-columns:1fr!important}
-  html.ot-uk-catalogue-commercial .catalogue-hero .hero-fact{min-height:0!important}
-  html.ot-uk-catalogue-commercial .product-grid{grid-template-columns:1fr!important}
+@media(max-width:560px){
+  html.ot-uk-catalogue-commercial .catalogue-hero{padding-top:12px!important}
+  html.ot-uk-catalogue-commercial .catalogue-hero>.container{width:calc(100% - 20px)!important}
+  html.ot-uk-catalogue-commercial .ukcp-hero-grid{padding:21px}
+  html.ot-uk-catalogue-commercial .ukcp-hero h1{font-size:46px!important}
+  html.ot-uk-catalogue-commercial .ukcp-hero-copy>p{font-size:13px!important}
+  html.ot-uk-catalogue-commercial .ukcp-search-card{padding:18px}
+  html.ot-uk-catalogue-commercial .ukcp-stats{grid-template-columns:1fr}
+  html.ot-uk-catalogue-commercial .ukcp-stat{border-right:0;border-bottom:1px solid #e3eaf1}
+  html.ot-uk-catalogue-commercial .ukcp-stat:last-child{border-bottom:0}
+  html.ot-uk-catalogue-commercial .ukcp-departments,html.ot-uk-catalogue-commercial .product-grid{grid-template-columns:1fr!important}
   html.ot-uk-catalogue-commercial .filter-row{top:66px;overflow-x:auto;flex-wrap:nowrap!important}
   html.ot-uk-catalogue-commercial .filter-button{flex:0 0 auto}
 }
