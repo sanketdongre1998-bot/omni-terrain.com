@@ -19,3 +19,68 @@ html.ot-uk-refresh .detail-card,html.ot-uk-refresh .fitment-copy,html.ot-uk-refr
 html.ot-uk-refresh .gallery-main{padding:14px!important}
 html.ot-uk-refresh .product-title{font-size:2.65rem!important}
 }
+
+/* 2026-09-17 catalogue polish: filters belong in document flow, not over product photography. */
+html.ot-uk-catalogue-commercial #products{overflow:visible!important}
+html.ot-uk-catalogue-commercial #products .filter-row{
+  position:relative!important;
+  top:auto!important;
+  z-index:1!important;
+  display:flex!important;
+  align-items:center!important;
+  flex-wrap:wrap!important;
+  gap:8px!important;
+  min-height:0!important;
+  padding:4px 0 10px!important;
+  margin:0 0 4px!important;
+  background:#fff!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  box-shadow:none!important;
+}
+html.ot-uk-catalogue-commercial #products .filter-button{
+  min-height:38px!important;
+  padding:0 15px!important;
+  border-radius:6px!important;
+  font-size:11px!important;
+  line-height:1!important;
+}
+html.ot-uk-catalogue-commercial #products .filter-result{
+  margin:0 0 14px!important;
+  min-height:18px!important;
+  font-size:10px!important;
+  line-height:1.5!important;
+}
+html.ot-uk-catalogue-commercial #products .product-grid{clear:both!important;position:relative!important;z-index:0!important}
+
+/* One clean UK footer logo; neutralise legacy .brand pseudo-artwork and text-wordmark collisions. */
+html.ot-uk-catalogue-commercial footer .footer-grid>div:first-child>.brand{
+  display:block!important;
+  position:relative!important;
+  width:218px!important;
+  max-width:100%!important;
+  height:54px!important;
+  min-width:0!important;
+  padding:0!important;
+  margin:0 0 18px!important;
+  background:url('/assets/omni-terrain-subtle-logo.svg?v=3') left center/contain no-repeat!important;
+  color:transparent!important;
+  overflow:hidden!important;
+}
+html.ot-uk-catalogue-commercial footer .footer-grid>div:first-child>.brand::before,
+html.ot-uk-catalogue-commercial footer .footer-grid>div:first-child>.brand::after{
+  content:none!important;
+  display:none!important;
+}
+html.ot-uk-catalogue-commercial footer .footer-grid>div:first-child>.brand .wordmark{display:none!important}
+html.ot-uk-catalogue-commercial footer .footer-copy{margin-top:0!important;max-width:420px!important;font-size:13px!important;line-height:1.65!important}
+html.ot-uk-catalogue-commercial footer .legal-note{max-width:460px!important;font-size:11px!important;line-height:1.55!important}
+html.ot-uk-catalogue-commercial footer .footer-grid{align-items:start!important}
+html.ot-uk-catalogue-commercial .mobile-draft-bar{display:none!important}
+
+@media(max-width:760px){
+  html.ot-uk-catalogue-commercial #products .filter-row{padding:2px 0 8px!important;gap:6px!important}
+  html.ot-uk-catalogue-commercial #products .filter-button{min-height:36px!important;padding:0 12px!important;font-size:10px!important}
+  html.ot-uk-catalogue-commercial footer .footer-grid>div:first-child>.brand{width:190px!important;height:48px!important}
+  html.ot-uk-catalogue-commercial footer .footer-copy{font-size:12px!important}
+}
