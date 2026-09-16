@@ -1,0 +1,20 @@
+/* Prevent legacy per-page headers from flashing before the unified master header mounts. */
+html.ot-master-header-pending body > .announcement,
+html.ot-master-header-pending body > .market-strip,
+html.ot-master-header-pending body > .topbar,
+html.ot-master-header-pending body > .used-top,
+html.ot-master-header-pending body > .launch-strip,
+html.ot-master-header-pending body > .draft-strip,
+html.ot-master-header-pending body > .ot-retail-header,
+html.ot-master-header-pending body > .ot-ref-header,
+html.ot-master-header-pending body > #otUsShellTop,
+html.ot-master-header-pending body > header {
+  display: none !important;
+}
+
+/* The canonical shell is nested inside this root, so it remains visible while the lock is active. */
+html.ot-master-header-pending #otUnifiedHeaderShell,
+html.ot-master-header-pending #otUnifiedHeaderShell .ot-unified-header,
+html.ot-master-header-pending #otUnifiedHeaderShell .ot-unified-utility {
+  display: block !important;
+}
