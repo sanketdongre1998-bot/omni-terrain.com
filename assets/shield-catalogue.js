@@ -47,36 +47,102 @@
     });
   }
 
+  function ensureStyle(selector, href, dataKey) {
+    const existing = document.querySelector(selector);
+    if (existing) {
+      if (existing.tagName === "LINK" && existing.getAttribute("href") !== href) existing.setAttribute("href", href);
+      return existing;
+    }
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = href;
+    if (dataKey) link.dataset[dataKey] = "true";
+    document.head.appendChild(link);
+    return link;
+  }
+
   function renderUkCatalogue() {
     if (!isUkCatalogue) return;
 
-    document.documentElement.classList.add("ot-uk-catalogue-commercial");
-    if (!document.querySelector('link[data-ot-uk-catalogue-commercial]')) {
-      const css = document.createElement("link");
-      css.rel = "stylesheet";
-      css.href = "assets/uk-catalogue-commercial.css?v=5";
-      css.dataset.otUkCatalogueCommercial = "true";
-      document.head.appendChild(css);
-    }
+    document.documentElement.classList.add("ot-uk-catalogue-commercial", "ot-shell-loaded");
+    ensureStyle('link[data-ot-uk-catalogue-commercial],link[href*="uk-catalogue-commercial.css"]', "/assets/uk-catalogue-commercial.css?v=5", "otUkCatalogueCommercial");
+    ensureStyle('link[data-ot-us-shell],link[href*="us-shell.css"]', "/assets/us-shell.css?v=4", "otUsShell");
+    ensureStyle('link[data-ot-us-shell-refresh],link[href*="us-shell-refresh.css"]', "/assets/us-shell-refresh.css?v=2", "otUsShellRefresh");
+    ensureStyle('link[data-ot-ui-consistency],link[href*="ui-consistency.css"]', "/assets/ui-consistency.css?v=1", "otUiConsistency");
 
-    if (!document.getElementById("otUkCatalogueLogoFix")) {
-      const logoFix = document.createElement("style");
-      logoFix.id = "otUkCatalogueLogoFix";
-      logoFix.textContent = `
-        html.ot-uk-catalogue-commercial #header .brand:before,
-        html.ot-uk-catalogue-commercial #header .brand:after{content:none!important;display:none!important}
-        html.ot-uk-catalogue-commercial #header .brand .wordmark{display:none!important}
-        html.ot-uk-catalogue-commercial #header .brand img{
-          display:block!important;width:210px!important;max-width:210px!important;height:auto!important;
-          max-height:54px!important;object-fit:contain!important;object-position:left center!important
-        }`;
-      document.head.appendChild(logoFix);
-    }
+    document.querySelectorAll("body > .announcement, body > .market-strip, body > #header, body > .draft-strip").forEach((node) => node.remove());
+    document.getElementById("otUkCatalogueTop")?.remove();
 
-    const headerBrand = document.querySelector("#header .brand");
-    if (headerBrand) {
-      headerBrand.href = "uk.html";
-      headerBrand.innerHTML = '<img src="/assets/omni-terrain-subtle-logo.svg?v=2" alt="Omni Terrain">';
+    const ukMenu = (label) => `<h4>${label}</h4><a href="/shield-autocare-uk.html">Current UK range</a><a href="/uk-contact.html">Product &amp; fitment help</a><a href="/uk-shipping-delivery-policy.html">Delivery information</a><a class="all" href="/shield-autocare-uk.html">Shop available products →</a>`;
+    const shell = document.createElement("div");
+    shell.id = "otUkCatalogueTop";
+    shell.innerHTML = `
+      <div class="ot-site-announcement"><div class="ot-shell-container">
+        <div class="ot-site-utility-left"><span>UK delivery on eligible products</span><span class="ot-site-region"><a href="/">US</a><a class="active" href="/uk.html">UK</a></span></div>
+        <div class="ot-site-utility-center">Omni Terrain UK</div>
+        <div class="ot-site-utility-right"><a href="/uk-contact.html">Expert Support</a><a href="/uk-returns-refunds-policy.html">Easy Returns</a></div>
+      </div></div>
+      <header class="ot-site-header" id="otUkSiteHeader">
+        <div class="ot-shell-container ot-site-header-main">
+          <a class="ot-site-brand ot-logo-direct" href="/uk.html" aria-label="Omni Terrain UK home"><img class="ot-brand-logo-image" src="/assets/omni-terrain-subtle-logo.svg?v=3" alt="Omni Terrain" width="340" height="78" decoding="async" loading="eager" fetchpriority="high"></a>
+          <form class="ot-site-search" id="otUkSiteSearch" role="search"><input type="search" aria-label="Search UK products" placeholder="Search products, brand or MPN"><button type="submit">Search</button></form>
+          <div class="ot-site-actions">
+            <a class="ot-auth-trigger ot-auth-primary" href="/uk-contact.html"><span>Support</span><strong>UK Help</strong></a>
+            <a class="ot-site-cart" href="/uk-cart.html"><span>Cart</span><strong><span class="ot-site-cart-count" data-uk-cart-count>0</span> items</strong></a>
+            <button class="ot-site-menu" id="otUkSiteMenu" type="button" aria-expanded="false" aria-controls="otUkSiteMobileNav">Menu</button>
+          </div>
+        </div>
+        <nav class="ot-site-categorybar" aria-label="UK store categories"><div class="ot-shell-container">
+          <div class="ot-site-nav-item"><button type="button" aria-expanded="false">Auto Parts <i class="ot-site-nav-caret"></i></button><div class="ot-site-dropdown">${ukMenu("Auto Parts")}</div></div>
+          <div class="ot-site-nav-item"><button type="button" aria-expanded="false">Marine <i class="ot-site-nav-caret"></i></button><div class="ot-site-dropdown">${ukMenu("Marine")}</div></div>
+          <a class="active" href="/shield-autocare-uk.html">Campervan &amp; 12V</a>
+          <a href="/shield-autocare-uk.html">Travel &amp; Overlanding</a>
+          <a href="/uk-tyres.html">Tyres</a>
+          <a class="featured" href="/shield-autocare-uk.html#products">Featured Deals</a>
+          <a href="/uk-contact.html">Support</a>
+        </div></nav>
+        <nav class="ot-site-mobile-nav" id="otUkSiteMobileNav" aria-label="UK mobile navigation"><a href="/uk.html">UK Home</a><a href="/shield-autocare-uk.html">Shop Available Products</a><a href="/shield-autocare-uk.html#fridges">Fridges</a><a href="/shield-autocare-uk.html#windows">Windows</a><a href="/shield-autocare-uk.html#blinds">Blinds &amp; Flyscreens</a><a href="/uk-tyres.html">Tyres</a><a href="/uk-cart.html">Cart</a><a href="/uk-contact.html">Contact &amp; Support</a></nav>
+      </header>`;
+    document.body.insertBefore(shell, document.body.firstChild);
+
+    const shellHeader = document.getElementById("otUkSiteHeader");
+    const shellMenu = document.getElementById("otUkSiteMenu");
+    const shellMobile = document.getElementById("otUkSiteMobileNav");
+    if (shellHeader) {
+      const update = () => shellHeader.classList.toggle("scrolled", window.scrollY > 8);
+      update();
+      window.addEventListener("scroll", update, { passive: true });
+    }
+    const navItems = [...shell.querySelectorAll(".ot-site-nav-item")];
+    const closeNav = (except = null) => navItems.forEach((item) => {
+      if (item === except) return;
+      item.classList.remove("is-open");
+      item.querySelector(":scope>button")?.setAttribute("aria-expanded", "false");
+    });
+    navItems.forEach((item) => {
+      const button = item.querySelector(":scope>button");
+      button?.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const opening = !item.classList.contains("is-open");
+        closeNav(item);
+        item.classList.toggle("is-open", opening);
+        button.setAttribute("aria-expanded", opening ? "true" : "false");
+      });
+    });
+    document.addEventListener("click", (event) => { if (!event.target.closest("#otUkCatalogueTop .ot-site-nav-item")) closeNav(); });
+    document.addEventListener("keydown", (event) => { if (event.key === "Escape") closeNav(); });
+    if (shellMenu && shellMobile) {
+      shellMenu.addEventListener("click", () => {
+        const open = shellMobile.classList.toggle("open");
+        shellMenu.setAttribute("aria-expanded", String(open));
+        shellMenu.textContent = open ? "Close" : "Menu";
+      });
+      shellMobile.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => {
+        shellMobile.classList.remove("open");
+        shellMenu.setAttribute("aria-expanded", "false");
+        shellMenu.textContent = "Menu";
+      }));
     }
 
     const heroContainer = document.querySelector(".catalogue-hero > .container");
@@ -128,58 +194,14 @@
         <a class="ukcp-department" href="#blinds"><small>PRIVACY & VENTILATION</small><b>Blinds &amp; Flyscreens</b></a>`;
       filterRow.insertAdjacentElement("beforebegin", departments);
     }
-  }
 
-  renderUkCatalogue();
-
-  const menu = document.getElementById("menuToggle");
-  const mobileNav = document.getElementById("mobileNav");
-  const header = document.getElementById("header");
-
-  if (menu && mobileNav) {
-    menu.addEventListener("click", () => {
-      const open = mobileNav.classList.toggle("open");
-      menu.setAttribute("aria-expanded", String(open));
-      menu.textContent = open ? "Close" : "Menu";
+    document.getElementById("otUkSiteSearch")?.addEventListener("submit", (event) => {
+      event.preventDefault();
+      applyTextSearch(event.currentTarget.querySelector("input")?.value || "");
     });
   }
 
-  if (header) {
-    const updateHeader = () => header.classList.toggle("scrolled", window.scrollY > 8);
-    updateHeader();
-    window.addEventListener("scroll", updateHeader, { passive: true });
-  }
-
-  if (isUkStore) {
-    const desktopNav = document.querySelector(".nav-links");
-    if (desktopNav && !desktopNav.querySelector('a[href="uk-tyres.html"]')) {
-      const link = document.createElement("a");
-      link.href = "uk-tyres.html";
-      link.textContent = "Tyres";
-      if (path.endsWith("/uk-tyres.html")) {
-        link.classList.add("active");
-        link.setAttribute("aria-current", "page");
-      }
-      const support = [...desktopNav.querySelectorAll("a")].find((a) => /support|help/i.test(a.textContent));
-      desktopNav.insertBefore(link, support || null);
-    }
-    if (mobileNav && !mobileNav.querySelector('a[href="uk-tyres.html"]')) {
-      const link = document.createElement("a");
-      link.href = "uk-tyres.html";
-      link.textContent = "Tyres · 351 staged references";
-      mobileNav.insertBefore(link, mobileNav.children[1] || null);
-    }
-
-    if (path.endsWith("/uk.html")) {
-      const grid = document.querySelector("#shop-by-use .uk-category-grid");
-      if (grid && !grid.querySelector('a[href="uk-tyres.html"]')) {
-        const card = document.createElement("a");
-        card.href = "uk-tyres.html";
-        card.innerHTML = '<span class="range-status">Feed pending</span><h3>Tyres</h3><p>Browse 351 staged car, van and SUV tyre references by size and brand. Live price and stock will appear only after supplier SFTP validation.</p><b>Browse staged tyre range →</b>';
-        grid.insertBefore(card, grid.children[1] || null);
-      }
-    }
-  }
+  renderUkCatalogue();
 
   const filterButtons = [...document.querySelectorAll("[data-filter]")];
   const productCards = [...document.querySelectorAll("[data-product-category]")];
