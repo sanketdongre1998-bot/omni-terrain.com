@@ -3,6 +3,7 @@
 
   const path = window.location.pathname.toLowerCase();
   const isUkStore = path.endsWith("/uk.html") || path.endsWith("/shield-autocare-uk.html") || path.endsWith("/uk-tyres.html") || path.includes("/uk-");
+  const isUkCatalogue = path.endsWith("/shield-autocare-uk.html");
 
   // UK-only visual refresh. The US storefront never loads this stylesheet/class.
   if (isUkStore) {
@@ -51,6 +52,46 @@
     document.querySelectorAll('script[type="application/ld+json"]').forEach((script) => {
       if (/PRASAD\s+INC\s+LTD|19\s+Stones\s+Avenue/i.test(script.textContent || "")) script.remove();
     });
+  }
+
+  // Make the live UK products page feel like a proper commercial catalogue rather than a supplier page.
+  if (isUkCatalogue) {
+    document.documentElement.classList.add("ot-uk-catalogue-commercial");
+    if (!document.querySelector('link[data-ot-uk-catalogue-commercial]')) {
+      const css = document.createElement("link");
+      css.rel = "stylesheet";
+      css.href = "assets/uk-catalogue-commercial.css?v=1";
+      css.dataset.otUkCatalogueCommercial = "true";
+      document.head.appendChild(css);
+    }
+
+    const eyebrow = document.querySelector(".catalogue-hero .eyebrow");
+    if (eyebrow) eyebrow.textContent = "Omni Terrain UK · Available now · Campervan essentials";
+
+    const heroTitle = document.querySelector(".catalogue-hero h1");
+    if (heroTitle) heroTitle.innerHTML = "Adventure-ready gear.<br><em>Clear fitment.</em>";
+
+    const heroCopy = document.querySelector(".catalogue-hero .hero-copy");
+    if (heroCopy) heroCopy.textContent = "Shop our current UK range of compressor fridges, frameless campervan windows, blackout blinds and flyscreens, with clear GBP pricing, fitment guidance and support before you buy.";
+
+    const facts = [...document.querySelectorAll(".catalogue-hero .hero-fact")];
+    if (facts[0]) {
+      facts[0].querySelector("b").textContent = "UK stock & delivery";
+      facts[0].querySelector("span").textContent = "Available products with clear UK delivery information.";
+    }
+    if (facts[1]) {
+      facts[1].querySelector("b").textContent = "VAT included";
+      facts[1].querySelector("span").textContent = "Customer prices displayed in GBP include UK VAT.";
+    }
+    if (facts[2]) {
+      facts[2].querySelector("b").textContent = "Fitment support";
+      facts[2].querySelector("span").textContent = "Dimensions and pre-install checks before you order.";
+    }
+
+    const sectionTitle = document.querySelector("#products .section-title");
+    if (sectionTitle) sectionTitle.innerHTML = "Shop available<br><em>products.</em>";
+    const sectionCopy = document.querySelector("#products .section-copy");
+    if (sectionCopy) sectionCopy.textContent = "Browse the live UK range by product type. Each listing includes the current GBP price, product details and fitment guidance.";
   }
 
   const menu = document.getElementById("menuToggle");
