@@ -15,6 +15,7 @@
     ["otHeaderFirstPaintLock","/assets/header-first-paint-lock.css?v=20260917-2"],
     ["otMobilePerformance","/assets/mobile-performance.css?v=20260917-1"]
   ];
+  if(!isHome)styleAssets.push(["otInternalShellFinal","/assets/internal-shell-final.css?v=20260917-1"]);
   if(isHome)styleAssets.push(["otHomepageCategorybarSync","/assets/homepage-categorybar-sync.css?v=20260917-1"]);
 
   const ensureStyles=()=>{
@@ -50,6 +51,7 @@
   const ensureScripts=()=>{
     ensureScript('script[data-ot-subtle-storefront]',"/assets/omni-subtle-storefront.js?v=20260917-2","otSubtleStorefront");
     ensureScript('script[data-ot-master-dropdown]',"/assets/master-dropdown.js?v=20260917-3","otMasterDropdown");
+    if(!isHome)ensureScript('script[data-ot-internal-shell-final]',"/assets/internal-shell-final.js?v=20260917-1","otInternalShellFinal");
     if(isHome)ensureScript('script[data-ot-homepage-categorybar-sync]',"/assets/homepage-categorybar-sync.js?v=20260917-2","otHomepageCategorybarSync");
   };
 
