@@ -5,7 +5,6 @@
   const isUkStore = path.endsWith("/uk.html") || path.endsWith("/shield-autocare-uk.html") || path.endsWith("/uk-tyres.html") || path.includes("/uk-");
   const isUkCatalogue = path.endsWith("/shield-autocare-uk.html");
 
-  // UK-only visual refresh. The US storefront never loads this stylesheet/class.
   if (isUkStore) {
     document.documentElement.classList.add("ot-uk-refresh");
     if (!document.querySelector('link[data-ot-uk-refresh]')) {
@@ -16,8 +15,6 @@
       document.head.appendChild(refresh);
     }
 
-    // Keep company identifiers out of prominent merchandising surfaces. Dedicated legal/policy
-    // pages remain the place for required business disclosures rather than repeating them site-wide.
     document.querySelectorAll(".market-note").forEach((el) => {
       if (/PRASAD\s+INC\s+LTD/i.test(el.textContent || "")) el.textContent = "UK storefront";
     });
@@ -32,15 +29,11 @@
     document.querySelectorAll(".business-band").forEach((band) => {
       if (/PRASAD\s+INC\s+LTD|19\s+Stones\s+Avenue/i.test(band.textContent || "")) {
         const container = band.querySelector(".container");
-        if (container) {
-          container.innerHTML = '<div class="lead"><strong>Omni Terrain UK</strong><span>Practical product information and customer support for UK orders.</span></div><div><strong>Customer support</strong><span>support@omni-terrain.com</span></div><div><strong>Policies & terms</strong><span><a href="uk-terms-conditions.html">View UK legal information →</a></span></div>';
-        }
+        if (container) container.innerHTML = '<div class="lead"><strong>Omni Terrain UK</strong><span>Practical product information and customer support for UK orders.</span></div><div><strong>Customer support</strong><span>support@omni-terrain.com</span></div><div><strong>Policies & terms</strong><span><a href="uk-terms-conditions.html">View UK legal information →</a></span></div>';
       }
     });
     document.querySelectorAll(".legal-note").forEach((el) => {
-      if (/PRASAD\s+INC\s+LTD|19\s+Stones\s+Avenue/i.test(el.textContent || "")) {
-        el.innerHTML = 'UK business and legal information is available in our <a href="uk-terms-conditions.html">Terms &amp; Conditions</a>.';
-      }
+      if (/PRASAD\s+INC\s+LTD|19\s+Stones\s+Avenue/i.test(el.textContent || "")) el.innerHTML = 'UK business and legal information is available in our <a href="uk-terms-conditions.html">Terms &amp; Conditions</a>.';
     });
     document.querySelectorAll(".footer-bottom span").forEach((el) => {
       if (/PRASAD\s+INC\s+LTD|19\s+Stones\s+Avenue/i.test(el.textContent || "")) el.textContent = "United Kingdom storefront";
@@ -54,45 +47,76 @@
     });
   }
 
-  // Make the live UK products page feel like a proper commercial catalogue rather than a supplier page.
-  if (isUkCatalogue) {
+  function renderUkCatalogue() {
+    if (!isUkCatalogue) return;
+
     document.documentElement.classList.add("ot-uk-catalogue-commercial");
     if (!document.querySelector('link[data-ot-uk-catalogue-commercial]')) {
       const css = document.createElement("link");
       css.rel = "stylesheet";
-      css.href = "assets/uk-catalogue-commercial.css?v=1";
+      css.href = "assets/uk-catalogue-commercial.css?v=2";
       css.dataset.otUkCatalogueCommercial = "true";
       document.head.appendChild(css);
     }
 
-    const eyebrow = document.querySelector(".catalogue-hero .eyebrow");
-    if (eyebrow) eyebrow.textContent = "Omni Terrain UK · Available now · Campervan essentials";
-
-    const heroTitle = document.querySelector(".catalogue-hero h1");
-    if (heroTitle) heroTitle.innerHTML = "Adventure-ready gear.<br><em>Clear fitment.</em>";
-
-    const heroCopy = document.querySelector(".catalogue-hero .hero-copy");
-    if (heroCopy) heroCopy.textContent = "Shop our current UK range of compressor fridges, frameless campervan windows, blackout blinds and flyscreens, with clear GBP pricing, fitment guidance and support before you buy.";
-
-    const facts = [...document.querySelectorAll(".catalogue-hero .hero-fact")];
-    if (facts[0]) {
-      facts[0].querySelector("b").textContent = "UK stock & delivery";
-      facts[0].querySelector("span").textContent = "Available products with clear UK delivery information.";
+    const headerBrand = document.querySelector("#header .brand");
+    if (headerBrand) {
+      headerBrand.href = "uk.html";
+      headerBrand.innerHTML = '<img src="/assets/omni-terrain-approved-gt.webp?v=1" alt="Omni Terrain">';
     }
-    if (facts[1]) {
-      facts[1].querySelector("b").textContent = "VAT included";
-      facts[1].querySelector("span").textContent = "Customer prices displayed in GBP include UK VAT.";
-    }
-    if (facts[2]) {
-      facts[2].querySelector("b").textContent = "Fitment support";
-      facts[2].querySelector("span").textContent = "Dimensions and pre-install checks before you order.";
+
+    const heroContainer = document.querySelector(".catalogue-hero > .container");
+    if (heroContainer) {
+      heroContainer.innerHTML = `
+        <div class="ukcp-hero">
+          <div class="ukcp-hero-grid">
+            <div class="ukcp-hero-copy">
+              <div class="ukcp-kicker">Omni Terrain / UK Store</div>
+              <h1>Specialist campervan gear.<br><em>One focused store.</em></h1>
+              <p>Shop practical campervan refrigeration, frameless windows, blackout blinds and flyscreens with clear GBP pricing and product support.</p>
+              <p class="ukcp-hero-subcopy">Browse by product type, supplier part number and size, with VAT-inclusive pricing and fitment guidance before you order.</p>
+              <div class="ukcp-hero-actions">
+                <a href="#fridges">Shop Fridges →</a>
+                <a href="#windows">Windows</a>
+                <a href="#blinds">Blinds &amp; Flyscreens</a>
+              </div>
+            </div>
+            <aside class="ukcp-search-card" aria-label="Search UK products">
+              <div class="ukcp-search-heading"><span class="ukcp-search-icon">⌕</span><div><strong>MPN / PRODUCT</strong><b>Find the right item faster</b></div></div>
+              <p>Search the live UK range by product name, brand, manufacturer part number or size.</p>
+              <form class="ukcp-search-form"><input type="search" autocomplete="off" aria-label="Search UK products" placeholder="Enter MPN, product or size"><button type="submit">Search</button></form>
+              <a class="ukcp-search-help" href="uk-contact.html">Need help choosing the right product? →</a>
+            </aside>
+          </div>
+          <div class="ukcp-stats">
+            <div class="ukcp-stat"><span class="ukcp-stat-icon">→</span><div><b>UK Delivery</b><span>Clear delivery information before checkout</span></div></div>
+            <div class="ukcp-stat"><span class="ukcp-stat-icon">£</span><div><b>VAT Included</b><span>Customer prices displayed in GBP include VAT</span></div></div>
+            <div class="ukcp-stat"><span class="ukcp-stat-icon">⚙</span><div><b>Fitment Support</b><span>Dimensions and pre-install checks available</span></div></div>
+            <div class="ukcp-stat"><span class="ukcp-stat-icon">✓</span><div><b>Secure Checkout</b><span>Shop online through Omni Terrain</span></div></div>
+          </div>
+        </div>`;
     }
 
     const sectionTitle = document.querySelector("#products .section-title");
-    if (sectionTitle) sectionTitle.innerHTML = "Shop available<br><em>products.</em>";
+    if (sectionTitle) sectionTitle.innerHTML = "Start with your<br><em>setup.</em>";
+    const sectionEyebrow = document.querySelector("#products .section-header .eyebrow");
+    if (sectionEyebrow) sectionEyebrow.textContent = "Shop by product type";
     const sectionCopy = document.querySelector("#products .section-copy");
-    if (sectionCopy) sectionCopy.textContent = "Browse the live UK range by product type. Each listing includes the current GBP price, product details and fitment guidance.";
+    if (sectionCopy) sectionCopy.textContent = "Three focused product groups keep the UK range easy to browse before you narrow by exact part number, size or specification.";
+
+    const filterRow = document.querySelector("#products .filter-row");
+    if (filterRow && !document.querySelector(".ukcp-departments")) {
+      const departments = document.createElement("div");
+      departments.className = "ukcp-departments";
+      departments.innerHTML = `
+        <a class="ukcp-department" href="#fridges"><small>REFRIGERATION</small><b>Campervan Fridges</b></a>
+        <a class="ukcp-department" href="#windows"><small>FITMENT & APERTURES</small><b>Frameless Windows</b></a>
+        <a class="ukcp-department" href="#blinds"><small>PRIVACY & VENTILATION</small><b>Blinds &amp; Flyscreens</b></a>`;
+      filterRow.insertAdjacentElement("beforebegin", departments);
+    }
   }
+
+  renderUkCatalogue();
 
   const menu = document.getElementById("menuToggle");
   const mobileNav = document.getElementById("mobileNav");
@@ -112,7 +136,6 @@
     window.addEventListener("scroll", updateHeader, { passive: true });
   }
 
-  // UK-only catalogue discovery. The US storefront does not load this path-specific enhancement.
   if (isUkStore) {
     const desktopNav = document.querySelector(".nav-links");
     if (desktopNav && !desktopNav.querySelector('a[href="uk-tyres.html"]')) {
@@ -133,7 +156,6 @@
       mobileNav.insertBefore(link, mobileNav.children[1] || null);
     }
 
-    // Add a visible tyre-range card to the UK home only. It stays informational until SFTP validation.
     if (path.endsWith("/uk.html")) {
       const grid = document.querySelector("#shop-by-use .uk-category-grid");
       if (grid && !grid.querySelector('a[href="uk-tyres.html"]')) {
@@ -156,28 +178,50 @@
       card.hidden = !show;
       if (show) visible += 1;
     });
-    filterButtons.forEach((button) => {
-      button.setAttribute("aria-pressed", String(button.dataset.filter === filter));
-    });
+    filterButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.filter === filter)));
     if (filterCount) filterCount.textContent = String(visible);
+  }
+
+  function applyTextSearch(query) {
+    const q = String(query || "").trim().toLowerCase();
+    let visible = 0;
+    productCards.forEach((card) => {
+      const text = (card.textContent || "").toLowerCase();
+      const show = !q || text.includes(q);
+      card.hidden = !show;
+      if (show) visible += 1;
+    });
+    filterButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.filter === "all")));
+    if (filterCount) filterCount.textContent = String(visible);
+    document.getElementById("products")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   filterButtons.forEach((button) => {
     button.addEventListener("click", () => {
       applyFilter(button.dataset.filter);
       const url = new URL(window.location.href);
-      if (button.dataset.filter === "all") {
-        url.hash = "products";
-      } else {
-        url.hash = button.dataset.filter;
-      }
+      url.hash = button.dataset.filter === "all" ? "products" : button.dataset.filter;
       window.history.replaceState(null, "", url);
     });
   });
 
-  const initialFilter = ["fridges", "windows", "blinds"].includes(window.location.hash.slice(1))
-    ? window.location.hash.slice(1)
-    : "all";
+  document.querySelectorAll(".ukcp-department,.ukcp-hero-actions a[href^='#']").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      const filter = link.getAttribute("href")?.slice(1);
+      if (!["fridges", "windows", "blinds"].includes(filter)) return;
+      event.preventDefault();
+      applyFilter(filter);
+      window.history.replaceState(null, "", `#${filter}`);
+      document.getElementById("products")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+
+  document.querySelector(".ukcp-search-form")?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    applyTextSearch(event.currentTarget.querySelector("input")?.value || "");
+  });
+
+  const initialFilter = ["fridges", "windows", "blinds"].includes(window.location.hash.slice(1)) ? window.location.hash.slice(1) : "all";
   if (filterButtons.length) applyFilter(initialFilter);
 
   const galleryMain = document.getElementById("galleryMain");
