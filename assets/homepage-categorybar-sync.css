@@ -1,0 +1,103 @@
+/* Homepage category bar sync — makes US + UK storefront home navigation match the shared internal catalogue shell. */
+@media (min-width:861px){
+  html.ot-reference-home .ot-ref-nav{
+    border-top:1px solid #e5edf4!important;
+    border-bottom:1px solid #d9e4ee!important;
+    background:#fff!important;
+  }
+  html.ot-reference-home .ot-ref-nav .ot-ref-width{
+    display:flex!important;
+    width:min(1400px,calc(100% - 40px))!important;
+    margin-inline:auto!important;
+    align-items:stretch!important;
+    justify-content:center!important;
+    gap:0!important;
+    overflow:visible!important;
+  }
+  html.ot-reference-home .ot-ref-nav .ot-ref-nav-item{
+    position:relative!important;
+    width:auto!important;
+    min-width:0!important;
+    flex:0 0 auto!important;
+  }
+  html.ot-reference-home .ot-ref-nav .ot-ref-nav-item>button,
+  html.ot-reference-home .ot-ref-nav .ot-ref-width>a,
+  html.ot-reference-home .ot-ref-nav .ot-ref-width>a:visited{
+    display:flex!important;
+    width:auto!important;
+    height:40px!important;
+    box-sizing:border-box!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:7px!important;
+    padding:0 28px!important;
+    border:0!important;
+    border-right:1px solid #e3ebf2!important;
+    border-radius:0!important;
+    background:#fff!important;
+    color:#12325a!important;
+    text-decoration:none!important;
+    font:800 12px/1 Manrope,Arial,sans-serif!important;
+    white-space:nowrap!important;
+    cursor:pointer!important;
+  }
+  html.ot-reference-home .ot-ref-nav .ot-ref-nav-item:first-child>button{
+    border-left:1px solid #e3ebf2!important;
+  }
+  html.ot-reference-home .ot-ref-nav .ot-ref-width>a:hover,
+  html.ot-reference-home .ot-ref-nav .ot-ref-width>a:focus-visible,
+  html.ot-reference-home .ot-ref-nav .ot-ref-nav-item>button:hover,
+  html.ot-reference-home .ot-ref-nav .ot-ref-nav-item:focus-within>button,
+  html.ot-reference-home .ot-ref-nav .ot-ref-nav-item.is-open>button{
+    background:#f3f7fb!important;
+    color:#075fca!important;
+    outline:0!important;
+  }
+
+  /* Retire the homepage-only pseudo labels so the real nav text behaves exactly like internal pages. */
+  html.ot-reference-home .ot-ref-nav .ot-ref-nav-item>button::before,
+  html.ot-reference-home .ot-ref-nav .ot-ref-width>a::before,
+  html.ot-reference-home .ot-ref-nav .ot-ref-width>a::after{
+    content:none!important;
+  }
+  html.ot-reference-home .ot-ref-nav .ot-ref-nav-item>button::after{
+    content:""!important;
+    display:inline-block!important;
+    flex:0 0 auto!important;
+    width:6px!important;
+    height:6px!important;
+    margin-left:1px!important;
+    border:0!important;
+    border-right:1.5px solid currentColor!important;
+    border-bottom:1.5px solid currentColor!important;
+    transform:translateY(-2px) rotate(45deg)!important;
+  }
+  html.ot-reference-home .ot-ref-nav .ot-ref-width>a.featured,
+  html.ot-reference-home .ot-ref-nav .ot-ref-width>a.featured:visited{
+    color:#b97700!important;
+  }
+  html.ot-reference-home .ot-ref-nav .ot-ref-width>a.featured::before{
+    content:"◆"!important;
+    display:inline-block!important;
+    margin-right:7px!important;
+    color:#f6b624!important;
+    font-size:10px!important;
+  }
+  html.ot-reference-home .ot-ref-nav .ot-ref-width>a.ot-ref-used-nav,
+  html.ot-reference-home .ot-ref-nav .ot-ref-width>a.ot-ref-used-nav:visited{
+    color:#12325a!important;
+  }
+  html.ot-reference-home .ot-ref-nav .ot-ref-menu{
+    top:40px!important;
+    width:250px!important;
+    min-width:250px!important;
+  }
+}
+
+@media (min-width:861px) and (max-width:1180px){
+  html.ot-reference-home .ot-ref-nav .ot-ref-nav-item>button,
+  html.ot-reference-home .ot-ref-nav .ot-ref-width>a{
+    padding:0 18px!important;
+    font-size:10px!important;
+  }
+}
