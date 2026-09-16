@@ -140,8 +140,24 @@
     applyQueryToCatalogue();
   }
 
-  const observer = new MutationObserver(() => run());
-  if (document.documentElement) observer.observe(document.documentElement,{childList:true,subtree:true});
+  let queued = false;
+  const scheduleRun = () => {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(() => { queued = false; run(); });
+  };
+
+  let observer;
+  if ("MutationObserver" in window && document.documentElement) {
+    observer = new MutationObserver(mutations => {
+      if (!mutations.some(m => m.addedNodes && m.addedNodes.length)) return;
+      scheduleRun();
+    });
+    observer.observe(document.documentElement,{childList:true,subtree:true});
+    setTimeout(() => observer.disconnect(), 3200);
+  }
+
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded",run,{once:true}); else run();
-  setTimeout(run,250); setTimeout(run,900); setTimeout(run,1800);
+  setTimeout(run,220);
+  setTimeout(run,850);
 })();
