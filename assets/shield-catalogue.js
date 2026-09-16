@@ -54,7 +54,7 @@
     if (!document.querySelector('link[data-ot-uk-catalogue-commercial]')) {
       const css = document.createElement("link");
       css.rel = "stylesheet";
-      css.href = "assets/uk-catalogue-commercial.css?v=2";
+      css.href = "assets/uk-catalogue-commercial.css?v=4";
       css.dataset.otUkCatalogueCommercial = "true";
       document.head.appendChild(css);
     }
@@ -72,8 +72,8 @@
           <div class="ukcp-hero-grid">
             <div class="ukcp-hero-copy">
               <div class="ukcp-kicker">Omni Terrain / UK Store</div>
-              <h1>Specialist campervan gear.<br><em>One focused store.</em></h1>
-              <p>Shop practical campervan refrigeration, frameless windows, blackout blinds and flyscreens with clear GBP pricing and product support.</p>
+              <h1>Specialist campervan gear.<br><em>One focused range.</em></h1>
+              <p>Shop specialist campervan refrigeration, frameless windows, blinds and flyscreens with clear GBP pricing, product details and UK support.</p>
               <p class="ukcp-hero-subcopy">Browse by product type, supplier part number and size, with VAT-inclusive pricing and fitment guidance before you order.</p>
               <div class="ukcp-hero-actions">
                 <a href="#fridges">Shop Fridges →</a>
