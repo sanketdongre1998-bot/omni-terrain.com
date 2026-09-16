@@ -30,15 +30,42 @@
         content:none!important;
         display:none!important;
       }
+      body>#otUkCatalogueTop,
+      body>#otUsShellTop,
+      body>.announcement,
+      body>.market-strip,
+      body>.topbar,
+      body>.used-top,
+      body>.launch-strip,
+      body>.draft-strip,
+      body>.ot-retail-header,
+      body>.ot-ref-header,
       body>.ot-site-mobile-bar,
-      body>.mobile-store-bar{
+      body>.mobile-store-bar,
+      body>header:not(#otUnifiedHeaderShell header){
         display:none!important;
       }
     `;
   }
 
-  function removeLegacyOverlays() {
-    document.querySelectorAll("body > .ot-site-mobile-bar, body > .mobile-store-bar").forEach(node => node.remove());
+  function removeLegacyShells() {
+    document.querySelectorAll([
+      "body > #otUkCatalogueTop",
+      "body > #otUsShellTop",
+      "body > .announcement",
+      "body > .market-strip",
+      "body > .topbar",
+      "body > .used-top",
+      "body > .launch-strip",
+      "body > .draft-strip",
+      "body > .ot-retail-header",
+      "body > .ot-ref-header",
+      "body > .ot-site-mobile-bar",
+      "body > .mobile-store-bar",
+      "body > header"
+    ].join(",")).forEach(node => {
+      if (!node.closest("#otUnifiedHeaderShell")) node.remove();
+    });
   }
 
   function stabilizeHeader() {
@@ -61,7 +88,6 @@
     if (search) search.style.minWidth = "0";
     if (actions) actions.style.minWidth = "0";
 
-    /* Once the canonical shell exists, legacy first-paint protection is no longer needed. */
     document.documentElement.classList.remove("ot-master-header-pending");
     return true;
   }
@@ -81,17 +107,15 @@
 
   function pass() {
     installLastMileStyle();
-    removeLegacyOverlays();
+    removeLegacyShells();
     stabilizeHeader();
     stabilizeCatalogueCopy();
   }
 
   const ready = () => {
     pass();
-    [120, 350, 700, 1200, 2000, 3500].forEach(ms => setTimeout(pass, ms));
+    [60, 120, 250, 450, 750, 1200, 2000, 3500, 5500, 8000].forEach(ms => setTimeout(pass, ms));
 
-    /* A few legacy scripts can add UI or update copy after load. Hold the
-       canonical internal shell steady during that initialization window. */
     if ("MutationObserver" in window) {
       const target = document.body;
       if (target) {
@@ -101,12 +125,13 @@
           queued = true;
           requestAnimationFrame(() => {
             queued = false;
-            removeLegacyOverlays();
+            removeLegacyShells();
+            stabilizeHeader();
             if (file === "us-catalogue.html") stabilizeCatalogueCopy();
           });
         });
         observer.observe(target, { childList: true, subtree: true, characterData: file === "us-catalogue.html" });
-        setTimeout(() => observer.disconnect(), 6500);
+        setTimeout(() => observer.disconnect(), 12000);
       }
     }
   };
