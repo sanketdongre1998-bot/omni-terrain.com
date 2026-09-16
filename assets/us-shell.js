@@ -32,15 +32,7 @@
   }
 
   function brand() {
-    return `<img class="ot-brand-logo-image" src="/assets/omni-terrain-approved-gt.webp?v=1" alt="Omni Terrain — Road, Water, Power" width="300" height="80" decoding="async" loading="eager" fetchpriority="high">`;
-  }
-
-  function personIcon() {
-    return `<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm7 8a7 7 0 0 0-14 0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-  }
-
-  function cartIcon() {
-    return `<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 4h2l2.1 10.1a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 2-1.6L20 8H7M10 20a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm8 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    return `<img class="ot-brand-logo-image" src="/assets/omni-terrain-subtle-logo.svg?v=3" alt="Omni Terrain" width="340" height="78" decoding="async" loading="eager" fetchpriority="high">`;
   }
 
   function autoMenu() {
@@ -86,7 +78,8 @@
   function injectCss() {
     ensureStyle('link[href*="storefront-performance.css"]', "/assets/storefront-performance.css", "otStorefrontPerformance");
     ensureStyle('link[href*="us-shell.css"]', "/assets/us-shell.css?v=4", "otUsShell");
-    ensureStyle('link[data-ot-us-shell-refresh],link[href*="us-shell-refresh.css"]', "/assets/us-shell-refresh.css?v=1", "otUsShellRefresh");
+    ensureStyle('link[data-ot-us-shell-refresh],link[href*="us-shell-refresh.css"]', "/assets/us-shell-refresh.css?v=2", "otUsShellRefresh");
+    ensureStyle('link[data-ot-ui-consistency],link[href*="ui-consistency.css"]', "/assets/ui-consistency.css?v=1", "otUiConsistency");
     ensureStyle('link[data-ot-image-layout-fix],link[data-ot-image-layout],link[href*="image-layout-fix.css"]', "/assets/image-layout-fix.css?v=2", "otImageLayoutFix");
     ensureStyle('link[data-ot-responsive-hardening],link[href*="responsive-hardening.css"]', "/assets/responsive-hardening.css?v=4", "otResponsiveHardening");
     ensureStyle('link[data-ot-brand-speed],link[href*="brand-speed.css"]', "/assets/brand-speed.css?v=16", "otBrandSpeed");
@@ -238,14 +231,18 @@
     const shell = document.createElement("div");
     shell.id = "otUsShellTop";
     shell.innerHTML = `
-      <div class="ot-site-announcement"><div class="ot-shell-container"><span><strong>Omni Terrain US:</strong> Specialist automotive, marine, RV &amp; 12V products.</span><a href="/deals.html">Shop 7 featured deals →</a></div></div>
+      <div class="ot-site-announcement"><div class="ot-shell-container">
+        <div class="ot-site-utility-left"><span>Free standard shipping on eligible featured products</span><span class="ot-site-region"><a class="active" href="/">US</a><a href="/uk.html">UK</a></span></div>
+        <div class="ot-site-utility-center">Opening Offers · Omni Terrain US</div>
+        <div class="ot-site-utility-right"><a href="/contact-and-order-help.html">Expert Support</a><a href="/returns-refunds-policy.html">Easy Returns</a></div>
+      </div></div>
       <header class="ot-site-header" id="otSiteHeader">
         <div class="ot-shell-container ot-site-header-main">
           <a class="ot-site-brand ot-logo-direct" href="/" aria-label="Omni Terrain home">${brand()}</a>
-          <form class="ot-site-search" id="otSiteSearch" role="search"><input type="search" aria-label="Search products" placeholder="Search products, brand or MPN"><button type="submit">Search</button></form>
+          <form class="ot-site-search" id="otSiteSearch" role="search"><input type="search" aria-label="Search products" placeholder="Search brand, MPN, part or vehicle..."><button type="submit">Search</button></form>
           <div class="ot-site-actions">
-            <button class="ot-auth-trigger ot-auth-primary" type="button" data-ot-auth-trigger aria-haspopup="dialog" aria-controls="otAuthDialog">${personIcon()}<span class="ot-auth-trigger-label">Sign in / Create account</span></button>
-            <a class="ot-site-cart" href="/cart.html">${cartIcon()}<span>Cart</span><span class="ot-site-cart-count" data-cart-count>${cartCount()}</span></a>
+            <button class="ot-auth-trigger ot-auth-primary" type="button" data-ot-auth-trigger aria-haspopup="dialog" aria-controls="otAuthDialog"><span>Account</span><strong>Sign In</strong></button>
+            <a class="ot-site-cart" href="/cart.html"><span>Cart</span><strong><span class="ot-site-cart-count" data-cart-count>${cartCount()}</span> items</strong></a>
             <button class="ot-site-menu" id="otSiteMenu" type="button" aria-expanded="false" aria-controls="otSiteMobileNav">Menu</button>
           </div>
         </div>
