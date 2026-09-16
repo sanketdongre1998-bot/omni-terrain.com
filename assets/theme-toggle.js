@@ -7,7 +7,8 @@
     ["otSubtleStorefront","/assets/omni-subtle-storefront.css?v=20260912-1"],
     ["otSubtleEnhancements","/assets/omni-subtle-enhancements.css?v=20260912-1"],
     ["otUiConsistency","/assets/ui-consistency.css?v=20260917-1"],
-    ["otMasterDropdown","/assets/master-dropdown.css?v=20260917-1"]
+    ["otMasterDropdown","/assets/master-dropdown.css?v=20260917-1"],
+    ["otHomepageCategorybarSync","/assets/homepage-categorybar-sync.css?v=20260917-1"]
   ];
 
   const ensureStyles=()=>{
@@ -43,6 +44,7 @@
   const ensureScripts=()=>{
     ensureScript('script[data-ot-subtle-storefront]',"/assets/omni-subtle-storefront.js?v=20260912-1","otSubtleStorefront");
     ensureScript('script[data-ot-master-dropdown]',"/assets/master-dropdown.js?v=20260917-1","otMasterDropdown");
+    ensureScript('script[data-ot-homepage-categorybar-sync]',"/assets/homepage-categorybar-sync.js?v=20260917-1","otHomepageCategorybarSync");
   };
 
   const apply=()=>{
