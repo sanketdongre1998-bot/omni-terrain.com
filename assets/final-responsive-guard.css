@@ -32,8 +32,8 @@
   html.ot-reference-home .ot-ref-nav{overflow:hidden!important}
   html.ot-reference-home .ot-ref-nav .ot-ref-width{
     display:grid!important;
-    grid-auto-flow:column!important;
-    grid-auto-columns:minmax(0,1fr)!important;
+    grid-auto-flow:initial!important;
+    grid-auto-columns:unset!important;
     width:100%!important;
     min-width:0!important;
     max-width:100%!important;
@@ -41,6 +41,12 @@
     padding:0 8px!important;
     box-sizing:border-box!important;
     overflow:visible!important;
+  }
+  html.ot-reference-home .ot-ref-nav .ot-ref-width:has(.ot-ref-used-nav){
+    grid-template-columns:122px repeat(6,minmax(0,1fr))!important;
+  }
+  html.ot-reference-home .ot-ref-nav .ot-ref-width:not(:has(.ot-ref-used-nav)){
+    grid-template-columns:122px repeat(5,minmax(0,1fr))!important;
   }
   html.ot-reference-home .ot-ref-nav .ot-ref-nav-item,
   html.ot-reference-home .ot-ref-nav .ot-ref-width>a{
@@ -55,12 +61,17 @@
     min-width:0!important;
     height:44px!important;
     min-height:44px!important;
-    padding:0 4px!important;
+    padding:0 3px!important;
     justify-content:center!important;
     overflow:hidden!important;
     text-overflow:ellipsis!important;
     white-space:nowrap!important;
-    font-size:10px!important;
+    font-size:9px!important;
+    letter-spacing:-.02em!important;
+  }
+  html.ot-reference-home .ot-ref-nav .ot-ref-nav-item:first-child>button{
+    font-size:9px!important;
+    letter-spacing:-.04em!important;
   }
 }
 
@@ -93,9 +104,10 @@
     max-width:100%!important;
     min-width:0!important;
   }
-  html[lang="en-GB"] body:has(.catalogue-hero) .filter-button{
+  html[lang="en-GB"] .filter-button{
+    height:40px!important;
     min-height:40px!important;
-    height:auto!important;
+    box-sizing:border-box!important;
     padding-top:2px!important;
     padding-bottom:2px!important;
   }
