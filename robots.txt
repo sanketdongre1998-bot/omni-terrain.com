@@ -4,3 +4,5 @@ Allow: /
 
 Sitemap: https://omni-terrain.com/sitemap.xml
 Sitemap: https://omni-terrain.com/sitemap-deals.xml
+Sitemap: https://omni-terrain.com/sitemap-regional.xml
+Sitemap: https://omni-terrain.com/sitemap-used.xml
