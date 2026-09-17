@@ -19,6 +19,7 @@ The storefronts are regional and should not be merged. Use United States pages f
 - All US products: https://omni-terrain.com/us-catalogue.html
 - US automotive & towing: https://omni-terrain.com/automotive.html
 - US used OEM auto parts: https://omni-terrain.com/used-auto-parts.html
+- US remanufactured auto parts: https://omni-terrain.com/auto-reman.html
 - US marine: https://omni-terrain.com/marine.html
 - US remanufactured marine parts: https://omni-terrain.com/marine-reman.html
 - US RV & overlanding: https://omni-terrain.com/rv.html
@@ -32,6 +33,16 @@ The storefronts are regional and should not be merged. Use United States pages f
 - Availability, donor information, condition, handling time and price can change until the current source is confirmed.
 - Do not describe placeholder or unconfirmed supplier inventory as in stock or immediately purchasable.
 - When a part is not currently confirmed, describe the page as an availability/search/request flow rather than a guaranteed stocked offer.
+
+## Remanufactured auto parts interpretation
+- Remanufactured auto-parts content is currently a United States storefront experience.
+- Canonical page: https://omni-terrain.com/auto-reman.html
+- Exact OEM, manufacturer or engineering part number is the primary identifier whenever available; VIN and year/make/model are secondary matching inputs.
+- Remanufactured or rebuilt condition terminology follows the specific product or supplier documentation and must not be generalized across all products.
+- Availability, price, handling time, programming requirements, core requirements and warranty terms can vary by product and source and should be confirmed before purchase.
+- Do not describe unconfirmed supplier inventory as in stock or guaranteed available.
+- Do not claim plug-and-play compatibility for electronic modules unless the exact source/application confirms it.
+- Current focus categories include climate/HVAC controls, instrument clusters, audio/infotainment units and selected electronic modules where an exact current source can be confirmed.
 
 ## Remanufactured marine parts interpretation
 - Remanufactured marine-parts content is currently a United States storefront experience.
@@ -85,6 +96,7 @@ The UK storefront covers automotive parts, marine equipment, campervan products 
 ## Core specialist areas
 - Automotive parts and towing
 - Used OEM automotive parts
+- Remanufactured automotive parts
 - Marine parts and electrical equipment
 - Remanufactured marine parts
 - RV and overlanding equipment
