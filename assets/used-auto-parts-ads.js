@@ -152,7 +152,7 @@
     params.set('type', 'used-oem');
     const attribution = readAttribution();
     Object.entries(attribution).forEach(([key, value]) => { if (value) params.set(key, value); });
-    return `/contact-and-order-help.html?${params.toString()}`;
+    return `/used-part-request.html?${params.toString()}`;
   };
 
   const updateRequestLink = () => {
