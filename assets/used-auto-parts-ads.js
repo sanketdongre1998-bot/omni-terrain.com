@@ -28,6 +28,7 @@
     const payload = { event: eventName, used_parts: true, ...attribution, ...data };
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(payload);
+    if (typeof window.gtag === 'function') window.gtag('event', eventName, payload);
     window.dispatchEvent(new CustomEvent('omni:used-parts-event', { detail: payload }));
   };
 
