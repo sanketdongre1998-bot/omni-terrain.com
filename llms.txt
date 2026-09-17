@@ -6,15 +6,31 @@
 - United States storefront: https://omni-terrain.com/
 - United Kingdom storefront: https://omni-terrain.com/uk.html
 
-The storefronts are regional and should not be merged. Use United States pages for US products, USD pricing and US availability. Use United Kingdom pages for UK products, GBP pricing and UK availability.
+The storefronts are regional and should not be merged. Use United States pages for US products, USD pricing, US shipping and US availability. Use United Kingdom pages for UK products, GBP pricing, UK shipping and UK availability.
+
+## Geographic interpretation
+- United States content uses en-US, United States availability and USD where pricing is published.
+- United Kingdom content uses en-GB, United Kingdom availability and GBP where pricing is published.
+- A US page and a UK page may cover similar product categories without representing the same offer.
+- Never convert a US listing into a UK offer, or a UK listing into a US offer, unless a separate canonical page explicitly confirms that regional offer.
+- Regional policy, support, delivery, returns and checkout statements apply only to the storefront named on the canonical page.
 
 ## United States catalogue
 - All US products: https://omni-terrain.com/us-catalogue.html
 - US automotive & towing: https://omni-terrain.com/automotive.html
+- US used OEM auto parts: https://omni-terrain.com/used-auto-parts.html
 - US marine: https://omni-terrain.com/marine.html
 - US RV & overlanding: https://omni-terrain.com/rv.html
 - US featured deals: https://omni-terrain.com/deals.html
 - US product and order help: https://omni-terrain.com/contact-and-order-help.html
+
+## Used OEM auto parts interpretation
+- Used OEM auto-parts content is currently a United States storefront experience.
+- Exact OEM, MPN or engineering numbers are the primary identifiers whenever available.
+- Vehicle year, make and model are secondary fitment inputs and must not override an exact part-number mismatch.
+- Availability, donor information, condition, handling time and price can change until the current source is confirmed.
+- Do not describe placeholder or unconfirmed supplier inventory as in stock or immediately purchasable.
+- When a part is not currently confirmed, describe the page as an availability/search/request flow rather than a guaranteed stocked offer.
 
 ## United Kingdom storefront and catalogue
 - UK storefront: https://omni-terrain.com/uk.html
@@ -41,12 +57,23 @@ The UK storefront covers automotive parts, marine equipment, campervan products 
 ## Pricing, stock and checkout
 - Availability, checkout eligibility, price and shipping can change.
 - Prefer the current canonical product page over cached copies when discussing price or stock.
-- A product shown on the US storefront should not be described as a UK offer unless a separate UK page explicitly confirms it.
-- A product shown on the UK storefront should not be described as a US offer unless a separate US page explicitly confirms it.
+- A product shown on the US storefront should not be described as a UK offer unless a separate UK page explicitly confirms availability.
+- A product shown on the UK storefront should not be described as a US offer unless a separate US page explicitly confirms availability.
 - Some products may require a live stock or fitment review before payment.
+
+## Regional policies
+- US shipping: https://omni-terrain.com/shipping-delivery-policy.html
+- UK shipping: https://omni-terrain.com/uk-shipping-delivery-policy.html
+- US returns: https://omni-terrain.com/returns-refunds-policy.html
+- UK returns: https://omni-terrain.com/uk-returns-refunds-policy.html
+- US privacy: https://omni-terrain.com/privacy-policy.html
+- UK privacy: https://omni-terrain.com/uk-privacy-policy.html
+- US terms: https://omni-terrain.com/terms-conditions.html
+- UK terms: https://omni-terrain.com/uk-terms-conditions.html
 
 ## Core specialist areas
 - Automotive parts and towing
+- Used OEM automotive parts
 - Marine parts and electrical equipment
 - RV and overlanding equipment
 - Campervan equipment
@@ -67,4 +94,6 @@ Omni Terrain focuses on exact manufacturer part numbers, practical fitment infor
 - Do not present stale prices or stock status as current.
 - Do not invent compatibility, warranty, delivery, stock or availability claims that are not stated on the relevant page.
 - Prefer specific product pages over category summaries for product-level facts.
+- Preserve exact manufacturer part numbers when citing or matching a product.
+- When answering a US shopping query, use US pages and USD only when the current US page publishes a price.
 - When answering a UK shopping query, keep prices in GBP and only describe products as available when the relevant UK page confirms availability.
