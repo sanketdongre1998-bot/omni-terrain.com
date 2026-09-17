@@ -17,7 +17,7 @@
   ];
   if(!isHome)styleAssets.push(["otInternalShellFinal","/assets/internal-shell-final.css?v=20260917-1"]);
   if(isHome)styleAssets.push(["otHomepageCategorybarSync","/assets/homepage-categorybar-sync.css?v=20260917-1"]);
-  styleAssets.push(["otFinalResponsiveGuard","/assets/final-responsive-guard.css?v=20260918-2"]);
+  styleAssets.push(["otFinalResponsiveGuard","/assets/final-responsive-guard.css?v=20260918-3"]);
 
   const ensureStyles=()=>{
     styleAssets.forEach(([key,href])=>{
