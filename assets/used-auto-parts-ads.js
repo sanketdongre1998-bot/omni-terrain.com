@@ -172,7 +172,7 @@
     if (!resultsSection || !resultsGrid || !resultsSummary) return;
     resultsSection.hidden = false;
     if (!items.length) {
-      resultsSummary.textContent = 'No live match was returned for this search.';
+      resultsSummary.textContent = 'Current availability needs confirmation for this search.';
       resultsGrid.innerHTML = `<div class="used-empty-result"><strong>Need this exact part?</strong><span>Request a current availability check. We do not publish placeholder stock or placeholder pricing.</span><a class="used-result-cta" href="${esc(requestUrl(criteria()))}" data-used-request-link>Request this part →</a></div>`;
       return;
     }
@@ -217,7 +217,7 @@
     track('used_search', c);
     const p = provider();
     if (!p.ready || typeof p.search !== 'function') {
-      setStatus('Live supplier inventory is not connected yet. Use “Request current availability” and we’ll check this exact part.', 'notice');
+      setStatus('Current availability needs a source check. Call now or use “Request current availability” and we’ll verify this exact part.', 'notice');
       if (resultsSection) resultsSection.hidden = false;
       renderResults([], 0);
       resultsSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -234,7 +234,7 @@
       const items = Array.isArray(response) ? response : Array.isArray(response?.items) ? response.items : [];
       const total = Number(response?.total ?? items.length) || items.length;
       renderResults(items, total);
-      setStatus(items.length ? 'Current matches loaded. Verify the exact OEM number and condition before ordering.' : 'No live match returned. Request this part and we’ll check current sourcing options.', items.length ? 'success' : 'notice');
+      setStatus(items.length ? 'Current matches loaded. Verify the exact OEM number and condition before ordering.' : 'No confirmed match returned yet. Request this part and we’ll check current sourcing options.', items.length ? 'success' : 'notice');
       track(items.length ? 'used_search_results' : 'used_no_result', { ...c, result_count: items.length, total });
     } catch (error) {
       renderResults([], 0);
