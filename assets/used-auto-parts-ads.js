@@ -294,6 +294,8 @@
       setTimeout(() => part?.focus(), 150);
     }));
     document.addEventListener('click', (event) => {
+      const call = event.target.closest('[data-used-call]');
+      if (call) track('used_oem_call_click', { ...criteria(), page_path: location.pathname, call_position: call.closest('.used-mobile-conversion') ? 'mobile_sticky' : call.closest('.used-request') ? 'search_card' : 'hero' });
       const request = event.target.closest('[data-used-request-link],#usedRequestFallback');
       if (request) track('used_request_click', criteria());
       const result = event.target.closest('[data-used-result-link]');
