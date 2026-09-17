@@ -84,3 +84,74 @@ html.ot-uk-catalogue-commercial .mobile-draft-bar{display:none!important}
   html.ot-uk-catalogue-commercial footer .footer-grid>div:first-child>.brand{width:190px!important;height:48px!important}
   html.ot-uk-catalogue-commercial footer .footer-copy{font-size:12px!important}
 }
+
+/* 2026-09-17 footer hotfix: the runtime injects a real logo image into .brand.
+   Use that image only; do not also paint the legacy background logo underneath it. */
+html.ot-uk-refresh body:has(.catalogue-hero) footer .footer-grid>div:first-child>.brand,
+html.ot-uk-catalogue-commercial footer .footer-grid>div:first-child>.brand{
+  display:flex!important;
+  width:220px!important;
+  max-width:100%!important;
+  height:56px!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  padding:0!important;
+  margin:0 0 14px!important;
+  background:none!important;
+  color:transparent!important;
+  overflow:hidden!important;
+}
+html.ot-uk-refresh body:has(.catalogue-hero) footer .footer-grid>div:first-child>.brand::before,
+html.ot-uk-refresh body:has(.catalogue-hero) footer .footer-grid>div:first-child>.brand::after,
+html.ot-uk-catalogue-commercial footer .footer-grid>div:first-child>.brand::before,
+html.ot-uk-catalogue-commercial footer .footer-grid>div:first-child>.brand::after{
+  content:none!important;
+  display:none!important;
+  background:none!important;
+}
+html.ot-uk-refresh body:has(.catalogue-hero) footer .footer-grid>div:first-child>.brand .wordmark,
+html.ot-uk-catalogue-commercial footer .footer-grid>div:first-child>.brand .wordmark{
+  display:none!important;
+}
+html.ot-uk-refresh body:has(.catalogue-hero) footer .footer-grid>div:first-child>.brand>img,
+html.ot-uk-catalogue-commercial footer .footer-grid>div:first-child>.brand>img{
+  display:block!important;
+  width:210px!important;
+  max-width:100%!important;
+  height:54px!important;
+  max-height:54px!important;
+  margin:0!important;
+  object-fit:contain!important;
+  object-position:left center!important;
+  filter:none!important;
+  opacity:1!important;
+}
+
+/* Remove the second repeated legal-information sentence below the footer grid. */
+html.ot-uk-refresh body:has(.catalogue-hero) footer>.legal-note,
+html.ot-uk-catalogue-commercial footer>.legal-note{
+  display:none!important;
+}
+
+/* Slightly tighten the end of the catalogue so the footer does not feel detached. */
+html.ot-uk-refresh body:has(.catalogue-hero) .section.navy,
+html.ot-uk-catalogue-commercial .section.navy{
+  padding-bottom:48px!important;
+}
+html.ot-uk-refresh body:has(.catalogue-hero) footer,
+html.ot-uk-catalogue-commercial footer{
+  padding-top:34px!important;
+}
+
+@media(max-width:760px){
+  html.ot-uk-refresh body:has(.catalogue-hero) footer .footer-grid>div:first-child>.brand,
+  html.ot-uk-catalogue-commercial footer .footer-grid>div:first-child>.brand{
+    width:190px!important;
+    height:50px!important;
+  }
+  html.ot-uk-refresh body:has(.catalogue-hero) footer .footer-grid>div:first-child>.brand>img,
+  html.ot-uk-catalogue-commercial footer .footer-grid>div:first-child>.brand>img{
+    width:184px!important;
+    height:48px!important;
+  }
+}
