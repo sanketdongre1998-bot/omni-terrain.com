@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en-US" data-theme="light" data-ot-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,follow">
+  <meta name="theme-color" content="#0b63ce">
+  <title>Request Used OEM Part Availability | Omni Terrain US</title>
+  <meta name="description" content="Request a current availability check for a used OEM auto part by exact OEM/MPN and vehicle details.">
+  <link rel="stylesheet" href="/assets/used-auto-parts.css?v=2">
+  <link rel="stylesheet" href="/assets/firebase-auth.css?v=retail-3">
+  <style>
+    *{box-sizing:border-box}.request-page{min-height:70vh;background:linear-gradient(135deg,#eef5fb,#fff 60%,#f7fafc);padding:34px 0 62px}.request-shell{display:grid;grid-template-columns:minmax(0,.78fr) minmax(480px,1.22fr);gap:22px;align-items:start}.request-info,.request-form-card{border:1px solid #d8e3ec;border-radius:12px;background:#fff;box-shadow:0 8px 24px rgba(12,54,94,.06)}.request-info{padding:25px}.request-form-card{padding:25px}.request-kicker{display:block;color:#075fca;font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.request-info h1{margin:9px 0 12px;color:#123e6e;font-size:clamp(28px,3vw,38px);line-height:1.05}.request-info>p{margin:0;color:#677c91;font-size:12px;line-height:1.65}.request-summary{display:grid;gap:8px;margin-top:20px}.request-summary div{padding:11px 12px;border:1px solid #e3ebf2;border-radius:7px;background:#f9fbfd}.request-summary small{display:block;color:#7a8ca0;font-size:8px;text-transform:uppercase;letter-spacing:.06em}.request-summary strong{display:block;margin-top:4px;color:#173e69;font-size:11px;overflow-wrap:anywhere}.request-trust{margin-top:18px;padding-top:16px;border-top:1px solid #e8eef4;color:#6a7d91;font-size:9px;line-height:1.6}.request-trust strong{color:#173e69}.request-form-card h2{margin:0;color:#123e6e;font-size:22px}.request-form-card>p{margin:6px 0 18px;color:#718398;font-size:10px;line-height:1.55}.request-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.request-field{display:grid;gap:5px}.request-field.full{grid-column:1/-1}.request-field label{color:#345674;font-size:9px;font-weight:900}.request-field input,.request-field select,.request-field textarea{width:100%;min-width:0;border:1px solid #cbd9e5;border-radius:7px;background:#fff;color:#163957;font:inherit;font-size:11px;outline:none}.request-field input,.request-field select{height:42px;padding:0 11px}.request-field textarea{min-height:105px;padding:11px;resize:vertical}.request-field input:focus,.request-field select:focus,.request-field textarea:focus{border-color:#5595d5;box-shadow:0 0 0 3px rgba(7,95,202,.08)}.request-submit{width:100%;min-height:45px;margin-top:14px;border:0;border-radius:7px;background:#075fca;color:#fff;font-weight:900;cursor:pointer}.request-note{margin-top:10px;color:#7a8ca0;font-size:8.5px;line-height:1.5}.request-status{display:none;margin-top:12px;padding:12px;border:1px solid #cfe3d7;border-radius:7px;background:#f0f8f3;color:#245f43;font-size:10px;line-height:1.5}.request-status.show{display:block}.request-email-link{display:inline-flex;min-height:38px;margin-top:9px;align-items:center;justify-content:center;padding:0 13px;border-radius:6px;background:#143f70;color:#fff;text-decoration:none;font-weight:900}.used-footer{margin-top:0!important}@media(max-width:900px){.request-shell{grid-template-columns:1fr}.request-info,.request-form-card{padding:21px}}@media(max-width:600px){.request-page{padding:20px 0 42px}.request-grid{grid-template-columns:1fr}.request-field.full{grid-column:auto}.request-info h1{font-size:28px}}
+  </style>
+</head>
+<body>
+  <div class="used-top"><div class="used-width"><span>US storefront · Used OEM request</span><span><a href="/used-auto-parts.html">Back to used parts</a> · <a href="/returns-refunds-policy.html">Returns</a></span></div></div>
+  <header class="used-header">
+    <div class="used-width used-mainbar">
+      <a class="used-logo" href="/" aria-label="Omni Terrain home"><img src="/assets/omni-terrain-subtle-logo.svg?v=1" alt="Omni Terrain"></a>
+      <div style="font-size:12px;font-weight:900;color:#183958">Used OEM availability request</div>
+      <div class="used-actions"><a href="/used-auto-parts.html">Used OEM Search</a><a href="/cart.html">Cart</a></div>
+    </div>
+  </header>
+
+  <main class="request-page"><div class="used-width request-shell">
+    <section class="request-info">
+      <span class="request-kicker">Current source check</span>
+      <h1>Request this exact used OEM part.</h1>
+      <p>Send the part number and vehicle details you already searched. Omni Terrain can use those details to check current sourcing options without treating unverified inventory as guaranteed stock.</p>
+      <div class="request-summary" id="requestSummary">
+        <div><small>OEM / MPN</small><strong id="summaryPart">Not supplied</strong></div>
+        <div><small>Vehicle</small><strong id="summaryVehicle">Not supplied</strong></div>
+        <div><small>Category</small><strong id="summaryCategory">Not supplied</strong></div>
+      </div>
+      <div class="request-trust"><strong>Before purchase:</strong> current availability, condition details, price, handling and applicable return terms should be confirmed for the actual sourced part.</div>
+    </section>
+
+    <section class="request-form-card">
+      <h2>Availability request</h2>
+      <p>Complete your contact details and review the prefilled part information. This page does not collect payment details.</p>
+      <form id="usedAvailabilityForm">
+        <div class="request-grid">
+          <div class="request-field"><label for="requestName">Name</label><input id="requestName" name="name" autocomplete="name" required></div>
+          <div class="request-field"><label for="requestEmail">Email</label><input id="requestEmail" name="email" type="email" autocomplete="email" required></div>
+          <div class="request-field"><label for="requestPhone">Phone (optional)</label><input id="requestPhone" name="phone" type="tel" autocomplete="tel"></div>
+          <div class="request-field"><label for="requestPart">OEM / MPN / engineering number</label><input id="requestPart" name="part" autocomplete="off" required></div>
+          <div class="request-field"><label for="requestYear">Year</label><input id="requestYear" name="year" inputmode="numeric"></div>
+          <div class="request-field"><label for="requestMake">Make</label><input id="requestMake" name="make"></div>
+          <div class="request-field"><label for="requestModel">Model</label><input id="requestModel" name="model"></div>
+          <div class="request-field"><label for="requestCategory">Category</label><input id="requestCategory" name="category"></div>
+          <div class="request-field full"><label for="requestVin">VIN (optional)</label><input id="requestVin" name="vin" autocomplete="off" placeholder="Useful when exact vehicle configuration needs review"></div>
+          <div class="request-field full"><label for="requestNotes">Notes (optional)</label><textarea id="requestNotes" name="notes" placeholder="Add trim, option, condition preference or any other useful detail."></textarea></div>
+        </div>
+        <button class="request-submit" type="submit">Prepare availability request →</button>
+        <div class="request-note">Your email application will open with the request details. Review the email before sending. Never include card numbers, passwords or banking credentials.</div>
+        <div class="request-status" id="requestStatus" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+  </div></main>
+
+  <footer class="used-footer"><div class="used-width"><div class="used-footer-grid"><div><a href="/"><img src="/assets/omni-terrain-subtle-logo.svg?v=1" alt="Omni Terrain"></a><p>Used OEM auto-parts sourcing for the United States with exact-number matching and current availability checks.</p></div><div><h4>Used OEM</h4><nav><a href="/used-auto-parts.html">Search Used Parts</a><a href="/contact-and-order-help.html">General Support</a></nav></div><div><h4>Policies</h4><nav><a href="/shipping-delivery-policy.html">Shipping</a><a href="/returns-refunds-policy.html">Returns</a><a href="/privacy-policy.html">Privacy</a></nav></div><div><h4>Contact</h4><nav><a href="mailto:support@omni-terrain.com">support@omni-terrain.com</a><a href="tel:+13075330570">+1 307-533-0570</a></nav></div></div><div class="used-copyright"><span>© 2026 Omni Terrain. All rights reserved.</span><span>US Store · Used OEM inventory subject to current availability</span></div></div></footer>
+
+  <script>
+    (()=>{
+      const params=new URLSearchParams(location.search);
+      const get=(key)=>String(params.get(key)||'').trim();
+      const attributionKeys=['utm_source','utm_medium','utm_campaign','utm_term','utm_content','gclid','gbraid','wbraid'];
+      const attribution={};
+      attributionKeys.forEach(key=>{if(get(key))attribution[key]=get(key);});
+      if(Object.keys(attribution).length){try{sessionStorage.setItem('omniUsedAttribution',JSON.stringify(attribution));}catch(_){}}
+      else{try{Object.assign(attribution,JSON.parse(sessionStorage.getItem('omniUsedAttribution')||'{}')||{});}catch(_){}}
+      const ids={part:'requestPart',year:'requestYear',make:'requestMake',model:'requestModel',category:'requestCategory'};
+      Object.entries(ids).forEach(([key,id])=>{const el=document.getElementById(id);if(el&&get(key))el.value=get(key);});
+      const text=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value||'Not supplied';};
+      text('summaryPart',get('part'));
+      text('summaryVehicle',[get('year'),get('make'),get('model')].filter(Boolean).join(' '));
+      text('summaryCategory',get('category'));
+      const track=(event,data={})=>{const payload={event,used_parts:true,...attribution,...data};window.dataLayer=window.dataLayer||[];window.dataLayer.push(payload);window.dispatchEvent(new CustomEvent('omni:used-parts-event',{detail:payload}));};
+      track('used_request_view',{part:get('part'),year:get('year'),make:get('make'),model:get('model'),category:get('category')});
+      const form=document.getElementById('usedAvailabilityForm');
+      const status=document.getElementById('requestStatus');
+      form?.addEventListener('submit',(event)=>{
+        event.preventDefault();
+        if(!form.reportValidity())return;
+        const data=Object.fromEntries(new FormData(form).entries());
+        const vehicle=[data.year,data.make,data.model].filter(Boolean).join(' ')||'Not supplied';
+        const attributionLines=Object.entries(attribution).map(([key,value])=>`${key}: ${value}`);
+        const body=[
+          'USED OEM AVAILABILITY REQUEST','',
+          `Name: ${data.name}`,
+          `Email: ${data.email}`,
+          `Phone: ${data.phone||'Not supplied'}`,'',
+          `OEM / MPN: ${data.part}`,
+          `Vehicle: ${vehicle}`,
+          `Category: ${data.category||'Not supplied'}`,
+          `VIN: ${data.vin||'Not supplied'}`,
+          `Notes: ${data.notes||'None'}`,
+          ...(attributionLines.length?['','Attribution:',...attributionLines]:[]),
+          '','Please confirm current availability, condition, price, handling and applicable return terms before purchase.'
+        ].join('\n');
+        const subject=`Used OEM availability - ${data.part}`;
+        const mailto=`mailto:support@omni-terrain.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        track('used_request_prepare',{part:data.part,year:data.year,make:data.make,model:data.model,category:data.category});
+        status.classList.add('show');
+        status.innerHTML='<strong>Request prepared.</strong><br>Open your email application, review the details, then send it.<br><a class="request-email-link" id="openUsedRequestEmail" href="'+mailto.replace(/"/g,'&quot;')+'">Open prepared email →</a>';
+        document.getElementById('openUsedRequestEmail')?.addEventListener('click',()=>track('used_request_email_open',{part:data.part,category:data.category}),{once:true});
+      });
+    })();
+  </script>
+  <script type="module" src="/assets/firebase-auth.js?v=retail-3"></script>
+  <script defer src="/assets/theme-toggle.js?v=3"></script>
+</body>
+</html>
