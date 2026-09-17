@@ -53,6 +53,7 @@
     ensureScript('script[data-ot-subtle-storefront]',"/assets/omni-subtle-storefront.js?v=20260917-2","otSubtleStorefront");
     ensureScript('script[data-ot-master-dropdown]',"/assets/master-dropdown.js?v=20260917-3","otMasterDropdown");
     ensureScript('script[data-ot-marine-reman-nav]',"/assets/marine-reman-nav.js?v=20260918-1","otMarineRemanNav");
+    if(file==="marine-reman.html")ensureScript('script[data-ot-marine-reman-form-priority]',"/assets/marine-reman-form-priority.js?v=20260918-1","otMarineRemanFormPriority");
     if(!isHome)ensureScript('script[data-ot-internal-shell-final]',"/assets/internal-shell-final.js?v=20260917-6","otInternalShellFinal");
     if(isHome){
       ensureScript('script[data-ot-homepage-categorybar-sync]',"/assets/homepage-categorybar-sync.js?v=20260917-2","otHomepageCategorybarSync");
