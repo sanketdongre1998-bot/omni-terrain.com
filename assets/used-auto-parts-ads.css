@@ -46,3 +46,15 @@
 @media(max-width:1000px){.used-hero-grid{grid-template-columns:1fr!important}.used-request{max-width:760px;width:100%}.used-trust-grid{grid-template-columns:repeat(2,1fr)}.used-trust-item:nth-child(2){border-right:0}.used-trust-item:nth-child(-n+2){border-bottom:1px solid #e8eef4}}
 @media(max-width:720px){.used-fitment-grid{grid-template-columns:1fr}.used-request-actions{grid-template-columns:1fr}.used-request-secondary{width:100%}.used-results-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.used-wide-categories .used-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.used-results-head{display:block}.used-results-head p{margin-top:5px}}
 @media(max-width:520px){.used-hero{padding:18px 0!important}.used-hero h1{font-size:28px!important}.used-points{grid-template-columns:1fr!important}.used-trust-grid{grid-template-columns:1fr}.used-trust-item{border-right:0!important;border-bottom:1px solid #e8eef4}.used-trust-item:last-child{border-bottom:0}.used-results-grid{grid-template-columns:1fr}.used-wide-categories .used-grid{grid-template-columns:1fr 1fr}.used-result-media{height:145px}}
+
+
+/* Call-first conversion layer — aligned with Marine Reman landing page */
+.used-hero-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:17px}
+.used-call-primary,.used-search-secondary{display:inline-flex;min-height:48px;align-items:center;justify-content:center;padding:0 17px;border-radius:8px;text-decoration:none;font-size:11px;font-weight:900}
+.used-call-primary{background:#0869d5;color:#fff;box-shadow:0 8px 20px rgba(8,105,213,.2)}
+.used-search-secondary{border:1px solid #a9bfd3;background:#fff;color:#17466f}
+.used-hero-call-note{margin-top:9px;color:#6b7f93;font-size:9px;line-height:1.45}
+.used-request-call{display:flex;min-height:52px;margin:0 0 11px;align-items:center;justify-content:space-between;gap:12px;padding:8px 11px;border:1px solid #bdd4e7;border-radius:8px;background:#eef7ff;color:#16456e;text-decoration:none}
+.used-request-call span{font-size:9px;font-weight:800}.used-request-call strong{color:#075fca;font-size:11px}
+.used-mobile-conversion{display:none}
+@media(max-width:720px){body{padding-bottom:70px}.used-hero-actions{display:grid;grid-template-columns:1fr}.used-call-primary,.used-search-secondary{width:100%}.used-request-call{align-items:flex-start;flex-direction:column;gap:3px}.used-mobile-conversion{position:fixed;left:8px;right:8px;bottom:8px;z-index:1900;display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:6px;border:1px solid rgba(7,31,55,.15);border-radius:14px;background:rgba(255,255,255,.97);box-shadow:0 14px 34px rgba(7,31,55,.2)}.used-mobile-conversion a{display:flex;min-height:48px;align-items:center;justify-content:center;border-radius:9px;text-decoration:none;font-size:11px;font-weight:900}.used-mobile-conversion a:first-child{background:#0869d5;color:#fff}.used-mobile-conversion a:last-child{background:#eaf2fa;color:#113a5d}}
