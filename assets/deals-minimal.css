@@ -1,0 +1,170 @@
+/* Omni Terrain US deals page — compact retail treatment, 2026-09-17 */
+
+.ot-deals-page{
+  padding:24px 0 72px!important;
+  background:#f7f9fb!important;
+}
+
+.ot-deals-page>.container{
+  width:min(1320px,calc(100% - 40px))!important;
+}
+
+/* Minimal first fold: lighter, shorter and easier to scan. */
+.ot-deals-hero{
+  display:grid!important;
+  grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr)!important;
+  grid-template-areas:
+    "kicker copy"
+    "title copy"
+    "title chips"!important;
+  column-gap:46px!important;
+  row-gap:8px!important;
+  align-items:start!important;
+  min-height:0!important;
+  padding:28px 34px!important;
+  border:1px solid #dce6ef!important;
+  border-radius:14px!important;
+  background:linear-gradient(115deg,#f4f9ff 0%,#ffffff 58%,#eef6ff 100%)!important;
+  color:#102846!important;
+  box-shadow:0 7px 22px rgba(13,54,94,.055)!important;
+  overflow:hidden!important;
+}
+
+.ot-deals-hero>.ot-growth-kicker{
+  grid-area:kicker!important;
+  align-self:end!important;
+  color:#9a6a0a!important;
+  font:800 10px/1.2 Manrope,Arial,sans-serif!important;
+  letter-spacing:.09em!important;
+  text-transform:uppercase!important;
+}
+
+.ot-deals-hero h1{
+  grid-area:title!important;
+  max-width:540px!important;
+  margin:4px 0 0!important;
+  color:#0a3976!important;
+  font:800 clamp(40px,4.3vw,58px)/.94 Manrope,Arial,sans-serif!important;
+  letter-spacing:-.045em!important;
+  text-transform:none!important;
+}
+
+.ot-deals-hero>p{
+  grid-area:copy!important;
+  align-self:end!important;
+  max-width:640px!important;
+  margin:0!important;
+  padding-top:3px!important;
+  color:#60738b!important;
+  font:500 13px/1.65 Manrope,Arial,sans-serif!important;
+}
+
+.ot-deals-chips{
+  grid-area:chips!important;
+  display:flex!important;
+  flex-wrap:wrap!important;
+  align-self:start!important;
+  gap:7px!important;
+  margin:8px 0 0!important;
+}
+
+.ot-deals-chips span{
+  display:inline-flex!important;
+  min-height:32px!important;
+  align-items:center!important;
+  padding:0 10px!important;
+  border:1px solid #d9e4ee!important;
+  border-radius:6px!important;
+  background:#fff!important;
+  color:#294965!important;
+  font:700 10px/1.2 Manrope,Arial,sans-serif!important;
+  white-space:nowrap!important;
+}
+
+/* Keep the section heading proportional to the new compact hero. */
+#featuredDealsHeading{
+  margin-top:6px!important;
+  color:#0a3976!important;
+  font:800 clamp(32px,3.6vw,48px)/1.02 Manrope,Arial,sans-serif!important;
+  letter-spacing:-.035em!important;
+  text-transform:none!important;
+}
+
+.ot-deals-page section[aria-labelledby="featuredDealsHeading"]>div:first-child{
+  margin-top:28px!important;
+  align-items:center!important;
+}
+
+.ot-deals-page section[aria-labelledby="featuredDealsHeading"]>div:first-child>a{
+  font-size:12px!important;
+  text-decoration:none!important;
+}
+
+.ot-deal-card{
+  border-radius:12px!important;
+  box-shadow:0 5px 16px rgba(18,50,90,.055)!important;
+}
+
+.ot-deal-media{
+  height:220px!important;
+  padding:20px!important;
+  background:#f7f9fb!important;
+}
+
+.ot-deal-media img{
+  height:174px!important;
+}
+
+.ot-deal-body{
+  padding:17px!important;
+}
+
+.ot-deal-card h2{
+  margin:10px 0 7px!important;
+  color:#12345d!important;
+  font:800 18px/1.25 Manrope,Arial,sans-serif!important;
+  letter-spacing:-.02em!important;
+  text-transform:none!important;
+}
+
+.ot-deal-button{
+  min-height:44px!important;
+  border-radius:7px!important;
+  background:#0a3976!important;
+  font-size:12px!important;
+}
+
+.ot-deals-info{
+  gap:10px!important;
+  margin-top:18px!important;
+}
+
+.ot-deals-info div{
+  padding:16px!important;
+  border-radius:10px!important;
+}
+
+@media(max-width:860px){
+  .ot-deals-hero{
+    grid-template-columns:1fr!important;
+    grid-template-areas:"kicker" "title" "copy" "chips"!important;
+    row-gap:9px!important;
+    padding:24px!important;
+  }
+  .ot-deals-hero h1{max-width:680px!important}
+  .ot-deals-hero>p{max-width:720px!important;padding-top:0!important}
+}
+
+@media(max-width:620px){
+  .ot-deals-page{padding:14px 0 54px!important}
+  .ot-deals-page>.container{width:min(100% - 22px,1320px)!important}
+  .ot-deals-hero{padding:20px 18px!important;border-radius:10px!important}
+  .ot-deals-hero h1{font-size:38px!important;line-height:.98!important}
+  .ot-deals-hero>p{font-size:12px!important;line-height:1.58!important}
+  .ot-deals-chips{gap:6px!important}
+  .ot-deals-chips span{min-height:30px!important;font-size:9px!important;white-space:normal!important}
+  .ot-deals-page section[aria-labelledby="featuredDealsHeading"]>div:first-child{display:block!important;margin-top:22px!important}
+  .ot-deals-page section[aria-labelledby="featuredDealsHeading"]>div:first-child>a{display:inline-block!important;margin-top:10px!important}
+  .ot-deal-media{height:205px!important}
+  .ot-deal-media img{height:160px!important}
+}
