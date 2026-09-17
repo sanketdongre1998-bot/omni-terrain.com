@@ -3,81 +3,141 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>Used OEM Auto Parts | Omni Terrain US</title>
-  <meta name="description" content="Shop selected used OEM auto parts by exact OEM or manufacturer part number, vehicle details and condition. Electronics, modules, audio, climate controls and more from Omni Terrain US.">
+  <title>Used OEM Auto Parts by Part Number | Omni Terrain US</title>
+  <meta name="description" content="Search used OEM auto parts by OEM/MPN, vehicle details and category. Review current availability, condition information and fitment support from Omni Terrain US.">
   <meta name="robots" content="index,follow">
   <link rel="canonical" href="https://omni-terrain.com/used-auto-parts.html">
   <meta property="og:site_name" content="Omni Terrain">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Used OEM Auto Parts | Omni Terrain US">
-  <meta property="og:description" content="Selected genuine used OEM parts with part-number-led matching and clear condition information.">
+  <meta property="og:title" content="Used OEM Auto Parts by Part Number | Omni Terrain US">
+  <meta property="og:description" content="Search used OEM parts by exact OEM/MPN, vehicle details and current availability.">
   <meta property="og:url" content="https://omni-terrain.com/used-auto-parts.html">
   <meta property="og:image" content="https://omni-terrain.com/assets/omni-terrain-emblem.webp">
-  <link rel="stylesheet" href="/assets/used-auto-parts.css?v=1">
+  <link rel="stylesheet" href="/assets/used-auto-parts.css?v=2">
+  <link rel="stylesheet" href="/assets/used-auto-parts-ads.css?v=1">
   <link rel="stylesheet" href="/assets/firebase-auth.css?v=retail-3">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Used OEM Auto Parts","url":"https://omni-terrain.com/used-auto-parts.html","description":"Selected used OEM auto parts for the United States, matched by OEM/MPN and vehicle details.","isPartOf":{"@type":"WebSite","name":"Omni Terrain","url":"https://omni-terrain.com/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Used OEM Auto Parts by Part Number","url":"https://omni-terrain.com/used-auto-parts.html","description":"Used OEM auto parts for the United States searched by OEM/MPN, vehicle details, category and current availability.","isPartOf":{"@type":"WebSite","name":"Omni Terrain","url":"https://omni-terrain.com/"}}</script>
 </head>
 <body>
   <div class="used-top"><div class="used-width"><span>US storefront · Used OEM Auto Parts</span><span><a href="/contact-and-order-help.html">Fitment help</a> · <a href="/returns-refunds-policy.html">Returns</a></span></div></div>
   <header class="used-header">
     <div class="used-width used-mainbar">
       <a class="used-logo" href="/" aria-label="Omni Terrain home"><img src="/assets/omni-terrain-subtle-logo.svg?v=1" alt="Omni Terrain"></a>
-      <form class="used-search" id="usedTopSearch" role="search"><input id="usedTopQuery" type="search" aria-label="Search used OEM parts" placeholder="OEM / MPN, part name, year make model"><button type="submit">Search</button></form>
+      <form class="used-search" id="usedTopSearch" role="search"><input id="usedTopQuery" type="search" aria-label="Search used OEM parts" placeholder="OEM / MPN, part name or vehicle"><button type="submit">Search</button></form>
       <div class="used-actions"><button type="button" data-ot-auth-trigger style="border:0;background:transparent;color:#183958;font-weight:800;cursor:pointer">Sign In</button><a href="/cart.html">Cart <b id="usedCartCount">0</b></a></div>
     </div>
-    <nav class="used-nav"><div class="used-width"><a href="/">Home</a><a href="/automotive.html">New Auto Parts</a><a class="active" href="/used-auto-parts.html">Used OEM</a><a href="/marine.html">Marine</a><a href="/us-catalogue.html">Solar & 12V</a><a href="/rv.html">Overlanding</a><a href="/deals.html">Deals</a><a href="/contact-and-order-help.html">Support</a></div></nav>
+    <nav class="used-nav"><div class="used-width"><a href="/">Home</a><a href="/automotive.html">New Auto Parts</a><a class="active" href="/used-auto-parts.html">Used OEM</a><a href="/marine.html">Marine</a><a href="/us-catalogue.html">Solar &amp; 12V</a><a href="/rv.html">Overlanding</a><a href="/deals.html">Deals</a><a href="/contact-and-order-help.html">Support</a></div></nav>
   </header>
 
   <main>
     <section class="used-hero"><div class="used-width used-hero-grid">
       <div>
         <span class="used-kicker">USED OEM · UNITED STATES</span>
-        <h1>Genuine used factory parts, matched by exact part number.</h1>
-        <p>Omni Terrain’s used-parts storefront is built around the information that matters most: OEM/MPN, donor vehicle details, condition and availability. We’re starting with selected higher-value components where exact matching reduces fitment mistakes.</p>
-        <div class="used-points"><div class="used-point"><strong>Part-number led</strong><span>Search OEM, MPN or engineering number first.</span></div><div class="used-point"><strong>Condition shown</strong><span>Used condition and visible notes belong on every live listing.</span></div><div class="used-point"><strong>Fitment help</strong><span>Vehicle details are checked before uncertain orders.</span></div></div>
+        <h1>Search used OEM auto parts by exact part number.</h1>
+        <p>Use the OEM/MPN or engineering number whenever possible, then add vehicle details to narrow the match. Omni Terrain is built to support broad used-parts coverage while keeping condition, donor information and current availability clear before purchase.</p>
+        <div class="used-points">
+          <div class="used-point"><strong>Exact-number matching</strong><span>OEM, MPN or engineering number stays primary.</span></div>
+          <div class="used-point"><strong>Current availability</strong><span>Supplier stock is checked rather than assumed.</span></div>
+          <div class="used-point"><strong>Condition details</strong><span>Published listings show used condition and source notes.</span></div>
+          <div class="used-point"><strong>Fitment support</strong><span>Vehicle details help reduce uncertain orders.</span></div>
+        </div>
       </div>
+
       <aside class="used-request" id="used-search">
         <h2>Find a used OEM part</h2>
-        <p>Enter the exact number from your original part when possible. If stock is not live yet, the same request can be sent to our team for sourcing.</p>
-        <form id="usedRequestForm">
-          <input id="usedPartNumber" name="part" type="search" required placeholder="OEM / MPN / engineering number">
-          <input id="usedVehicle" name="vehicle" type="text" placeholder="Year Make Model (optional)">
-          <select id="usedCategory" name="category"><option value="">Select category (optional)</option><option>Audio & Infotainment</option><option>Modules & Computers</option><option>Climate Controls</option><option>Switches & Controls</option><option>Body & Electrical</option><option>Other OEM Part</option></select>
-          <button type="submit">Search / Request Part →</button>
+        <p>Start with the exact number from the original component. Vehicle and category details can be added when the number is unavailable or needs a second fitment check.</p>
+        <form id="usedRequestForm" novalidate>
+          <label class="used-field-label" for="usedPartNumber">OEM / MPN / engineering number</label>
+          <input id="usedPartNumber" name="part" type="search" autocomplete="off" placeholder="Example: FP5T-18C808-AA">
+
+          <label class="used-field-label">Vehicle details</label>
+          <div class="used-fitment-grid">
+            <select id="usedYear" name="year" aria-label="Vehicle year"><option value="">Select Year</option></select>
+            <select id="usedMake" name="make" aria-label="Vehicle make"><option value="">Select Make</option></select>
+            <select id="usedModel" name="model" aria-label="Vehicle model" disabled><option value="">Select Model</option></select>
+          </div>
+
+          <label class="used-field-label" for="usedCategory">Part category</label>
+          <select id="usedCategory" name="category">
+            <option value="">Select category (optional)</option>
+            <option>Audio &amp; Infotainment</option>
+            <option>Modules &amp; Computers</option>
+            <option>Climate Controls</option>
+            <option>Instrument Clusters</option>
+            <option>Switches &amp; Controls</option>
+            <option>Exterior &amp; Body</option>
+            <option>Lighting &amp; Lamps</option>
+            <option>Interior Parts</option>
+            <option>Drivetrain &amp; Mechanical</option>
+            <option>Towing &amp; Hauling</option>
+            <option>Other OEM Part</option>
+          </select>
+
+          <div class="used-request-actions">
+            <button type="submit">Search used inventory →</button>
+            <a class="used-request-secondary" id="usedRequestFallback" data-used-request-link href="/contact-and-order-help.html?type=used-oem">Request current availability</a>
+          </div>
+          <div class="used-search-status" id="usedSearchStatus" role="status" aria-live="polite"></div>
         </form>
-        <small>No fake inventory or placeholder pricing: only confirmed parts should be published as purchasable.</small>
+        <small>Availability and pricing can change until the source is confirmed. Omni Terrain does not publish placeholder stock as purchasable inventory.</small>
       </aside>
     </div></section>
 
-    <section class="used-section"><div class="used-width"><div class="used-heading"><h2>Launch categories</h2><p>Focused first on used OEM components where customers commonly search by exact number and where the value supports inspection, shipping and returns.</p></div><div class="used-grid">
-      <a class="used-card" href="#used-search" data-used-category="Audio & Infotainment"><span class="icon">♪</span><strong>Audio & Infotainment</strong><span>Receivers, amplifiers, radio modules and related OEM electronics.</span></a>
-      <a class="used-card" href="#used-search" data-used-category="Modules & Computers"><span class="icon">▦</span><strong>Modules & Computers</strong><span>Selected control modules and electronic units matched by exact number.</span></a>
-      <a class="used-card" href="#used-search" data-used-category="Climate Controls"><span class="icon">◌</span><strong>Climate Controls</strong><span>HVAC controls, temperature panels and selected climate electronics.</span></a>
-      <a class="used-card" href="#used-search" data-used-category="Switches & Controls"><span class="icon">⌁</span><strong>Switches & Controls</strong><span>OEM switch assemblies, controls and selected interior electronics.</span></a>
-      <a class="used-card" href="#used-search" data-used-category="Body & Electrical"><span class="icon">⚡</span><strong>Body & Electrical</strong><span>Selected electrical and body-related OEM components.</span></a>
-    </div></div></section>
+    <section class="used-trust-strip" aria-label="Used OEM shopping principles"><div class="used-width used-trust-grid">
+      <div class="used-trust-item"><strong>Used OEM</strong><span>Factory-origin components, not generic replacement labeling.</span></div>
+      <div class="used-trust-item"><strong>Part-number led</strong><span>Exact OEM/MPN matching before broad vehicle assumptions.</span></div>
+      <div class="used-trust-item"><strong>US sourcing</strong><span>Current supplier availability checked for the requested part.</span></div>
+      <div class="used-trust-item"><strong>Order support</strong><span>Condition, handling and return terms shown before purchase.</span></div>
+    </div></section>
 
-    <section class="used-section alt"><div class="used-width"><div class="used-heading"><h2>How used OEM buying works</h2><p>Used parts need a different customer flow from new catalogue products, so the storefront keeps the information separate and explicit.</p></div><div class="used-how"><div class="used-step"><b>1</b><h3>Match the number</h3><p>Start from the OEM/MPN printed on the original component, not only the vehicle description.</p></div><div class="used-step"><b>2</b><h3>Confirm vehicle details</h3><p>Year, make, model, trim and options are used when interchange or supersession needs review.</p></div><div class="used-step"><b>3</b><h3>Review condition</h3><p>Live listings should show condition notes and actual product photos whenever available.</p></div><div class="used-step"><b>4</b><h3>Ship & support</h3><p>Handling time, delivery terms and returns are shown before purchase for each live item.</p></div></div><div class="used-note"><strong>Used vs new:</strong> Used OEM inventory is intentionally kept separate from Omni Terrain’s new-parts catalogue so condition, donor information and part-number matching stay clear to the customer.</div></div></section>
+    <section class="used-section used-results-section" id="used-results" hidden><div class="used-width">
+      <div class="used-results-head"><h2>Current matching inventory</h2><p id="usedResultsSummary">Search by part number or vehicle details.</p></div>
+      <div class="used-results-grid" id="usedResultsGrid"></div>
+    </div></section>
+
+    <section class="used-section used-wide-categories"><div class="used-width">
+      <div class="used-heading"><h2>Browse used OEM categories</h2><p>The store can carry broad used-parts inventory. Paid promotion can stay focused on selected high-demand parts without narrowing the catalogue itself.</p></div>
+      <div class="used-grid">
+        <a class="used-card" href="#used-search" data-used-category="Audio & Infotainment"><span class="icon">♪</span><strong>Audio &amp; Infotainment</strong><span>Receivers, radios, amplifiers, screens and related OEM electronics.</span></a>
+        <a class="used-card" href="#used-search" data-used-category="Modules & Computers"><span class="icon">▦</span><strong>Modules &amp; Computers</strong><span>Selected OEM control modules and electronic units matched by number.</span></a>
+        <a class="used-card" href="#used-search" data-used-category="Climate Controls"><span class="icon">◌</span><strong>Climate Controls</strong><span>HVAC controls, temperature panels and climate electronics.</span></a>
+        <a class="used-card" href="#used-search" data-used-category="Instrument Clusters"><span class="icon">◫</span><strong>Instrument Clusters</strong><span>OEM clusters and displays where exact application details matter.</span></a>
+        <a class="used-card" href="#used-search" data-used-category="Switches & Controls"><span class="icon">⌁</span><strong>Switches &amp; Controls</strong><span>Switch assemblies, interior controls and related components.</span></a>
+        <a class="used-card" href="#used-search" data-used-category="Exterior & Body"><span class="icon">▱</span><strong>Exterior &amp; Body</strong><span>Selected body, trim, mirror and exterior OEM components.</span></a>
+        <a class="used-card" href="#used-search" data-used-category="Lighting & Lamps"><span class="icon">◉</span><strong>Lighting &amp; Lamps</strong><span>OEM lamps and lighting assemblies matched by application and number.</span></a>
+        <a class="used-card" href="#used-search" data-used-category="Interior Parts"><span class="icon">□</span><strong>Interior Parts</strong><span>Selected consoles, panels, controls and interior OEM components.</span></a>
+        <a class="used-card" href="#used-search" data-used-category="Drivetrain & Mechanical"><span class="icon">⚙</span><strong>Drivetrain &amp; Mechanical</strong><span>Selected higher-value mechanical parts where source details are clear.</span></a>
+        <a class="used-card" href="#used-search" data-used-category="Towing & Hauling"><span class="icon">↔</span><strong>Towing &amp; Hauling</strong><span>Selected OEM towing, hitch and hauling-related components.</span></a>
+      </div>
+
+      <div class="used-popular-searches" aria-label="Popular used OEM searches">
+        <a href="#used-search" data-used-category="Audio & Infotainment">Radios &amp; receivers</a>
+        <a href="#used-search" data-used-category="Audio & Infotainment">Amplifiers</a>
+        <a href="#used-search" data-used-category="Climate Controls">Climate controls</a>
+        <a href="#used-search" data-used-category="Instrument Clusters">Instrument clusters</a>
+        <a href="#used-search" data-used-category="Audio & Infotainment">Infotainment screens</a>
+        <a href="#used-search" data-used-category="Modules & Computers">Control modules</a>
+      </div>
+    </div></section>
+
+    <section class="used-section alt"><div class="used-width">
+      <div class="used-heading"><h2>How used OEM buying works</h2><p>Broad inventory can still stay accurate when the exact number, current source and condition are checked before the order is finalized.</p></div>
+      <div class="used-how">
+        <div class="used-step"><b>1</b><h3>Search the exact part</h3><p>Use the OEM/MPN first, then add year, make, model and category when useful.</p></div>
+        <div class="used-step"><b>2</b><h3>Verify current source</h3><p>Availability is checked against the connected used-parts inventory source before purchase.</p></div>
+        <div class="used-step"><b>3</b><h3>Review condition</h3><p>Published results should show used condition, available source notes and actual photos when supplied.</p></div>
+        <div class="used-step"><b>4</b><h3>Confirm order terms</h3><p>Price, handling, delivery and applicable return information are shown before the order is completed.</p></div>
+      </div>
+      <div class="used-note"><strong>Used vs new:</strong> Used OEM inventory remains separate from Omni Terrain’s new-parts catalogue so condition, donor information and part-number matching stay clear.</div>
+    </div></section>
   </main>
 
-  <footer class="used-footer"><div class="used-width"><div class="used-footer-grid"><div><a href="/"><img src="/assets/omni-terrain-subtle-logo.svg?v=1" alt="Omni Terrain"></a><p>Road / Water / Power. New specialist products plus selected used OEM auto parts for the United States.</p></div><div><h4>Shop</h4><nav><a href="/automotive.html">New Auto Parts</a><a href="/used-auto-parts.html">Used OEM Auto Parts</a><a href="/marine.html">Marine</a><a href="/rv.html">RV & Overlanding</a></nav></div><div><h4>Support</h4><nav><a href="/contact-and-order-help.html">Fitment & Order Help</a><a href="/shipping-delivery-policy.html">Shipping & Delivery</a><a href="/returns-refunds-policy.html">Returns & Refunds</a></nav></div><div><h4>Store</h4><nav><a href="/">US Home</a><a href="/uk.html">UK Store</a><a href="/privacy-policy.html">Privacy</a><a href="/terms-conditions.html">Terms</a></nav></div></div><div class="used-copyright"><span>© 2026 Omni Terrain. All rights reserved.</span><span>US Store · USD · Used OEM inventory subject to availability</span></div></div></footer>
+  <footer class="used-footer"><div class="used-width"><div class="used-footer-grid"><div><a href="/"><img src="/assets/omni-terrain-subtle-logo.svg?v=1" alt="Omni Terrain"></a><p>Road / Water / Power. New specialist products plus broad used OEM auto-parts sourcing for the United States.</p></div><div><h4>Shop</h4><nav><a href="/automotive.html">New Auto Parts</a><a href="/used-auto-parts.html">Used OEM Auto Parts</a><a href="/marine.html">Marine</a><a href="/rv.html">RV &amp; Overlanding</a></nav></div><div><h4>Support</h4><nav><a href="/contact-and-order-help.html">Fitment &amp; Order Help</a><a href="/shipping-delivery-policy.html">Shipping &amp; Delivery</a><a href="/returns-refunds-policy.html">Returns &amp; Refunds</a></nav></div><div><h4>Store</h4><nav><a href="/">US Home</a><a href="/uk.html">UK Store</a><a href="/privacy-policy.html">Privacy</a><a href="/terms-conditions.html">Terms</a></nav></div></div><div class="used-copyright"><span>© 2026 Omni Terrain. All rights reserved.</span><span>US Store · USD · Used OEM inventory subject to current availability</span></div></div></footer>
 
   <script type="module" src="/assets/firebase-auth.js?v=retail-3"></script>
   <script src="/assets/ui-stability.js?v=1"></script>
-  <script>
-    (()=>{
-      const cart=document.getElementById('usedCartCount');
-      try{const rows=JSON.parse(localStorage.getItem('omniTerrainUsCart')||'[]');if(cart&&Array.isArray(rows))cart.textContent=String(rows.reduce((n,row)=>n+Math.max(1,Number(row?.quantity)||1),0));}catch(_){}
-      const form=document.getElementById('usedRequestForm');
-      const top=document.getElementById('usedTopSearch');
-      const part=document.getElementById('usedPartNumber');
-      const vehicle=document.getElementById('usedVehicle');
-      const category=document.getElementById('usedCategory');
-      document.querySelectorAll('[data-used-category]').forEach(card=>card.addEventListener('click',()=>{if(category)category.value=card.dataset.usedCategory||'';setTimeout(()=>part?.focus(),120);}));
-      const send=(q,v,c)=>{const params=new URLSearchParams();if(q)params.set('part',q);if(v)params.set('vehicle',v);if(c)params.set('category',c);params.set('type','used-oem');location.href='/contact-and-order-help.html?'+params.toString();};
-      form?.addEventListener('submit',e=>{e.preventDefault();send(part?.value.trim()||'',vehicle?.value.trim()||'',category?.value||'');});
-      top?.addEventListener('submit',e=>{e.preventDefault();const q=document.getElementById('usedTopQuery')?.value.trim()||'';if(part)part.value=q;document.getElementById('used-search')?.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>part?.focus(),250);});
-    })();
-  </script>
-<script defer src="assets/theme-toggle.js?v=3"></script></body>
+  <script src="/assets/used-parts-provider.js?v=1"></script>
+  <script defer src="/assets/used-auto-parts-ads.js?v=1"></script>
+  <script defer src="/assets/theme-toggle.js?v=3"></script>
+</body>
 </html>
