@@ -1,7 +1,7 @@
 /* Used OEM ads/API readiness layer — 2026-09-17 */
 .used-hero{padding:24px 0 22px!important;background:linear-gradient(135deg,#eef5fb 0%,#fff 58%,#f7fafc 100%)!important}
 .used-hero-grid{grid-template-columns:minmax(0,1.1fr) minmax(390px,.9fr)!important;gap:24px!important;align-items:start!important}
-.used-hero h1{max-width:690px!important;margin:9px 0 9px!important;font-size:clamp(31px,3vw,39px)!important;line-height:1.06!important;letter-spacing:-.025em!important}
+.used-hero h1{max-width:690px!important;margin:9px 0 9px!important;font-size:clamp(30px,2.7vw,36px)!important;line-height:1.06!important;letter-spacing:-.025em!important}
 .used-hero-grid>div>p{max-width:720px!important;font-size:12.5px!important;line-height:1.55!important}
 .used-points{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:7px!important;margin-top:15px!important}
 .used-point{padding:9px 10px!important;border-radius:7px!important}
