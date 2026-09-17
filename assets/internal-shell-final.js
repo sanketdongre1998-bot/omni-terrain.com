@@ -45,6 +45,15 @@
       body>header:not(#otUnifiedHeaderShell header){
         display:none!important;
       }
+      @media (max-width:560px){
+        html[lang="en-GB"] body:has(.catalogue-hero) #products .filter-row .filter-button{
+          height:44px!important;
+          min-height:44px!important;
+          box-sizing:border-box!important;
+          padding-top:2px!important;
+          padding-bottom:2px!important;
+        }
+      }
     `;
   }
 
