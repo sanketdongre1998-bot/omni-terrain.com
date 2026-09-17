@@ -1,0 +1,102 @@
+/* Final responsive guard — loaded last after all storefront layers. */
+
+/* 761–860px is tablet, not mobile. Restore the deliberate tablet homepage header
+   after mobile-performance.css applies its <=860px mobile rules. */
+@media (min-width:761px) and (max-width:860px){
+  html.ot-reference-home,html.ot-reference-home body{max-width:100%!important;overflow-x:hidden!important}
+  html.ot-reference-home .ot-ref-mainbar .ot-ref-width{
+    width:min(100% - 28px,832px)!important;
+    min-height:64px!important;
+    grid-template-columns:170px minmax(300px,1fr) 150px!important;
+    grid-template-rows:auto!important;
+    gap:14px!important;
+  }
+  html.ot-reference-home .ot-ref-actions{
+    position:static!important;
+    display:flex!important;
+    justify-content:flex-end!important;
+    gap:8px!important;
+  }
+  html.ot-reference-home .ot-ref-account{
+    display:flex!important;
+    min-width:46px!important;
+    min-height:40px!important;
+    align-items:center!important;
+    justify-content:center!important;
+  }
+  html.ot-reference-home .ot-ref-search{
+    grid-column:auto!important;
+    grid-row:auto!important;
+    margin:0!important;
+  }
+  html.ot-reference-home .ot-ref-nav{overflow:hidden!important}
+  html.ot-reference-home .ot-ref-nav .ot-ref-width{
+    display:grid!important;
+    grid-auto-flow:column!important;
+    grid-auto-columns:minmax(0,1fr)!important;
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    margin:0!important;
+    padding:0 8px!important;
+    box-sizing:border-box!important;
+    overflow:visible!important;
+  }
+  html.ot-reference-home .ot-ref-nav .ot-ref-nav-item,
+  html.ot-reference-home .ot-ref-nav .ot-ref-width>a{
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    flex:initial!important;
+  }
+  html.ot-reference-home .ot-ref-nav .ot-ref-nav-item>button,
+  html.ot-reference-home .ot-ref-nav .ot-ref-width>a{
+    width:100%!important;
+    min-width:0!important;
+    height:44px!important;
+    min-height:44px!important;
+    padding:0 4px!important;
+    justify-content:center!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+    white-space:nowrap!important;
+    font-size:10px!important;
+  }
+}
+
+/* Narrow UK catalogue: avoid content-visibility intrinsic width widening the page,
+   and keep filter controls comfortably tappable. */
+@media (max-width:560px){
+  html[lang="en-GB"] body:has(.catalogue-hero),
+  html[lang="en-GB"] body:has(.catalogue-hero) main,
+  html[lang="en-GB"] body:has(.catalogue-hero) section{max-width:100%!important;overflow-x:clip!important}
+  html[lang="en-GB"] body:has(.catalogue-hero) .section.navy>.container,
+  html[lang="en-GB"] body:has(.catalogue-hero) .selection-grid{
+    width:min(100% - 28px,1280px)!important;
+    max-width:100%!important;
+    min-width:0!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+  }
+  html[lang="en-GB"] body:has(.catalogue-hero) .selection-grid{
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+  html[lang="en-GB"] body:has(.catalogue-hero) .selection-card{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    content-visibility:visible!important;
+    contain-intrinsic-size:auto!important;
+    overflow-wrap:anywhere!important;
+  }
+  html[lang="en-GB"] body:has(.catalogue-hero) .selection-card>*{
+    max-width:100%!important;
+    min-width:0!important;
+  }
+  html[lang="en-GB"] body:has(.catalogue-hero) .filter-button{
+    min-height:40px!important;
+    height:auto!important;
+    padding-top:2px!important;
+    padding-bottom:2px!important;
+  }
+}
