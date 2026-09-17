@@ -35,6 +35,8 @@
 .used-empty-result,.used-loading{grid-column:1/-1;padding:22px;border:1px dashed #c8d7e5;border-radius:9px;background:#f9fbfd;text-align:center}.used-empty-result strong{display:block;color:#153d69;font-size:15px}.used-empty-result span{display:block;max-width:620px;margin:7px auto 12px;color:#6d7f94;font-size:10px;line-height:1.5}.used-empty-result .used-result-cta{display:inline-flex;min-height:38px;align-items:center;justify-content:center;padding:0 14px;border-radius:6px;background:#075fca;color:#fff}.used-loading{color:#536d86;font-size:11px}
 
 .used-wide-categories .used-grid{grid-template-columns:repeat(5,minmax(0,1fr))}
+.used-wide-categories .used-heading>p{font-size:0!important}
+.used-wide-categories .used-heading>p::before{content:"Browse a broader range of used OEM categories while exact-number matching, condition details and current source verification stay consistent.";font-size:11px;line-height:1.6;color:#60748a}
 .used-popular-searches{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}.used-popular-searches a{display:inline-flex;min-height:32px;align-items:center;padding:0 11px;border:1px solid #d4e0eb;border-radius:999px;background:#fff;color:#345777;text-decoration:none;font-size:9px;font-weight:800}
 .used-popular-searches a:hover{border-color:#8eb3d6;color:#075fca}
 
