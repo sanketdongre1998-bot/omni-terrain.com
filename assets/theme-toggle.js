@@ -52,7 +52,7 @@
   const ensureScripts=()=>{
     ensureScript('script[data-ot-subtle-storefront]',"/assets/omni-subtle-storefront.js?v=20260917-2","otSubtleStorefront");
     ensureScript('script[data-ot-master-dropdown]',"/assets/master-dropdown.js?v=20260917-3","otMasterDropdown");
-    if(!isHome)ensureScript('script[data-ot-internal-shell-final]',"/assets/internal-shell-final.js?v=20260917-5","otInternalShellFinal");
+    if(!isHome)ensureScript('script[data-ot-internal-shell-final]',"/assets/internal-shell-final.js?v=20260917-6","otInternalShellFinal");
     if(isHome)ensureScript('script[data-ot-homepage-categorybar-sync]',"/assets/homepage-categorybar-sync.js?v=20260917-2","otHomepageCategorybarSync");
   };
 
