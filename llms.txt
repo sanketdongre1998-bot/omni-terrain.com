@@ -20,6 +20,7 @@ The storefronts are regional and should not be merged. Use United States pages f
 - US automotive & towing: https://omni-terrain.com/automotive.html
 - US used OEM auto parts: https://omni-terrain.com/used-auto-parts.html
 - US marine: https://omni-terrain.com/marine.html
+- US remanufactured marine parts: https://omni-terrain.com/marine-reman.html
 - US RV & overlanding: https://omni-terrain.com/rv.html
 - US featured deals: https://omni-terrain.com/deals.html
 - US product and order help: https://omni-terrain.com/contact-and-order-help.html
@@ -31,6 +32,16 @@ The storefronts are regional and should not be merged. Use United States pages f
 - Availability, donor information, condition, handling time and price can change until the current source is confirmed.
 - Do not describe placeholder or unconfirmed supplier inventory as in stock or immediately purchasable.
 - When a part is not currently confirmed, describe the page as an availability/search/request flow rather than a guaranteed stocked offer.
+
+## Remanufactured marine parts interpretation
+- Remanufactured marine-parts content is currently a United States storefront experience.
+- Canonical page: https://omni-terrain.com/marine-reman.html
+- Exact manufacturer part number is the primary identifier whenever available; engine brand, model and serial number are secondary matching inputs.
+- Remanufactured or rebuilt condition terminology follows the specific product or supplier documentation and must not be generalized across all products.
+- Availability, price, handling time, core requirements and warranty terms can vary by product and source and should be confirmed before purchase.
+- Do not describe unconfirmed supplier inventory as in stock or guaranteed available.
+- Do not invent a universal warranty period or core-return policy for all reman marine components.
+- Current focus categories include reman marine carburetors, selected trim and tilt components, starters, alternators and other rebuildable marine components where an exact current source can be confirmed.
 
 ## United Kingdom storefront and catalogue
 - UK storefront: https://omni-terrain.com/uk.html
@@ -75,6 +86,7 @@ The UK storefront covers automotive parts, marine equipment, campervan products 
 - Automotive parts and towing
 - Used OEM automotive parts
 - Marine parts and electrical equipment
+- Remanufactured marine parts
 - RV and overlanding equipment
 - Campervan equipment
 - 12V and mobile-power products
