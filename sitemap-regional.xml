@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://omni-terrain.com/</loc>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://omni-terrain.com/" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://omni-terrain.com/uk.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://omni-terrain.com/" />
+  </url>
+  <url>
+    <loc>https://omni-terrain.com/uk.html</loc>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://omni-terrain.com/" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://omni-terrain.com/uk.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://omni-terrain.com/" />
+  </url>
+  <url>
+    <loc>https://omni-terrain.com/contact-and-order-help.html</loc>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://omni-terrain.com/contact-and-order-help.html" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://omni-terrain.com/uk-contact.html" />
+  </url>
+  <url>
+    <loc>https://omni-terrain.com/uk-contact.html</loc>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://omni-terrain.com/contact-and-order-help.html" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://omni-terrain.com/uk-contact.html" />
+  </url>
+  <url>
+    <loc>https://omni-terrain.com/shipping-delivery-policy.html</loc>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://omni-terrain.com/shipping-delivery-policy.html" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://omni-terrain.com/uk-shipping-delivery-policy.html" />
+  </url>
+  <url>
+    <loc>https://omni-terrain.com/uk-shipping-delivery-policy.html</loc>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://omni-terrain.com/shipping-delivery-policy.html" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://omni-terrain.com/uk-shipping-delivery-policy.html" />
+  </url>
+  <url>
+    <loc>https://omni-terrain.com/returns-refunds-policy.html</loc>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://omni-terrain.com/returns-refunds-policy.html" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://omni-terrain.com/uk-returns-refunds-policy.html" />
+  </url>
+  <url>
+    <loc>https://omni-terrain.com/uk-returns-refunds-policy.html</loc>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://omni-terrain.com/returns-refunds-policy.html" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://omni-terrain.com/uk-returns-refunds-policy.html" />
+  </url>
+  <url>
+    <loc>https://omni-terrain.com/privacy-policy.html</loc>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://omni-terrain.com/privacy-policy.html" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://omni-terrain.com/uk-privacy-policy.html" />
+  </url>
+  <url>
+    <loc>https://omni-terrain.com/uk-privacy-policy.html</loc>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://omni-terrain.com/privacy-policy.html" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://omni-terrain.com/uk-privacy-policy.html" />
+  </url>
+  <url>
+    <loc>https://omni-terrain.com/terms-conditions.html</loc>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://omni-terrain.com/terms-conditions.html" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://omni-terrain.com/uk-terms-conditions.html" />
+  </url>
+  <url>
+    <loc>https://omni-terrain.com/uk-terms-conditions.html</loc>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://omni-terrain.com/terms-conditions.html" />
+    <xhtml:link rel="alternate" hreflang="en-GB" href="https://omni-terrain.com/uk-terms-conditions.html" />
+  </url>
+</urlset>
