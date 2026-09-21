@@ -47,19 +47,37 @@
       else copy.prepend(box);
     }
 
-    const label = box.querySelector(".ot-live-label");
-    if (label && label.textContent !== "Online price") label.textContent = "Online price";
+    box.querySelectorAll(".ot-live-label,.ot-live-stock,.status.buy,.status.stock,.stock-pill,.availability-pill").forEach(node => node.remove());
 
     const oldBreakdown = box.querySelector(".ot-live-breakdown");
     let shipping = box.querySelector(".ot-live-shipping");
-    if (oldBreakdown && !shipping) {
+    if (!shipping) {
       shipping = document.createElement("div");
       shipping.className = "ot-live-shipping";
-      shipping.innerHTML = /standard\s+us\s+shipping\s*included/i.test(oldBreakdown.textContent || "")
-        ? "<strong>In stock</strong> · Free standard US shipping"
-        : "<strong>In stock</strong> · Shipping confirmed before payment";
-      oldBreakdown.insertAdjacentElement("afterend", shipping);
+      const included = oldBreakdown && /standard\s+us\s+shipping\s*included/i.test(oldBreakdown.textContent || "");
+      shipping.innerHTML = included
+        ? "<strong>In stock</strong><span>Free standard US shipping</span>"
+        : "<strong>In stock</strong><span>Shipping confirmed before payment</span>";
+    } else {
+      const raw = String(shipping.textContent || "");
+      const included = /free|included/i.test(raw);
+      shipping.innerHTML = included
+        ? "<strong>In stock</strong><span>Free standard US shipping</span>"
+        : "<strong>In stock</strong><span>Shipping confirmed before payment</span>";
     }
+
+    const price = box.querySelector(".ot-live-price");
+    let row = box.querySelector(".ot-live-price-row");
+    if (!row && price) {
+      row = document.createElement("div");
+      row.className = "ot-live-price-row";
+      price.insertAdjacentElement("beforebegin", row);
+      row.append(price, shipping);
+    } else if (row && shipping.parentElement !== row) {
+      row.appendChild(shipping);
+    }
+
+    oldBreakdown?.remove();
 
     const trust = box.querySelector(".ot-live-trust");
     if (trust && trust.textContent !== "Secure Stripe checkout · Availability is confirmed again before payment.") {
