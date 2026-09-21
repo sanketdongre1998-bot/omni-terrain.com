@@ -27,6 +27,8 @@
   // Dark mode wins legacy force-light rules; PDP optimizer then applies product-specific final polish.
   styleAssets.push(["otDarkMode", "/assets/dark-mode.css?v=20260922-2"]);
   styleAssets.push(["otProductPageOptimizer", "/assets/product-page-optimizer.css?v=20260922-6"]);
+  // Final type/colour layer intentionally loads last so legacy 800/900 rules cannot win.
+  styleAssets.push(["otTypographyColorRefinement", "/assets/typography-color-refinement.css?v=20260922-1"]);
 
   const ensureStyles = () => {
     styleAssets.forEach(([key, href]) => {
