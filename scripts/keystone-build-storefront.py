@@ -152,7 +152,7 @@ def header():
 
 
 def footer():
-    return """<footer class="footer"><div class="container"><div><strong>Omni Terrain</strong><p>Specialist parts and equipment for road, water and travel.</p></div><div><a href="shipping-delivery-policy.html">Shipping</a> · <a href="returns-refunds-policy.html">Returns</a> · <a href="contact-and-order-help.html">Contact</a></div></div></footer><script defer src="assets/theme-toggle.js?v=13"></script>"""
+    return """<footer class="footer"><div class="container"><div><strong>Omni Terrain</strong><p>Specialist parts and equipment for road, water and travel.</p></div><div><a href="shipping-delivery-policy.html">Shipping</a> · <a href="returns-refunds-policy.html">Returns</a> · <a href="contact-and-order-help.html">Contact</a></div></div></footer><script defer src="assets/theme-toggle.js?v=14"></script>"""
 
 
 def media(row):
