@@ -288,3 +288,120 @@ html[data-ot-theme="dark"] table{background:var(--ot-dark-surface)!important;col
 html[data-ot-theme="dark"] th,
 html[data-ot-theme="dark"] td{border-color:var(--ot-dark-line)!important}
 html[data-ot-theme="dark"] th{background:#14263a!important}
+
+
+/* Unified internal header — explicit overrides for internal-shell-final.css */
+html[data-ot-theme="dark"] #otUnifiedHeaderShell,
+html[data-ot-theme="dark"] #otUnifiedHeaderShell .ot-unified-header,
+html[data-ot-theme="dark"] #otUnifiedHeaderShell .ot-unified-mainbar,
+html[data-ot-theme="dark"] #otUnifiedHeaderShell .ot-unified-nav{
+  background:var(--ot-dark-bg)!important;
+  border-color:var(--ot-dark-line)!important;
+  color:var(--ot-dark-text)!important;
+}
+html[data-ot-theme="dark"] #otUnifiedHeaderShell .ot-unified-header{
+  box-shadow:0 1px 0 var(--ot-dark-line),0 9px 24px rgba(0,0,0,.2)!important;
+}
+html[data-ot-theme="dark"] #otUnifiedHeaderShell .ot-unified-search{
+  background:#0e1d2d!important;
+  border-color:#3b536a!important;
+  box-shadow:none!important;
+}
+html[data-ot-theme="dark"] #otUnifiedHeaderShell .ot-unified-search input{
+  background:#0e1d2d!important;
+  color:#edf4fa!important;
+}
+html[data-ot-theme="dark"] #otUnifiedHeaderShell .ot-unified-account,
+html[data-ot-theme="dark"] #otUnifiedHeaderShell .ot-unified-cart,
+html[data-ot-theme="dark"] #otUnifiedHeaderShell .ot-unified-account>strong,
+html[data-ot-theme="dark"] #otUnifiedHeaderShell .ot-unified-cart>strong{
+  color:#e7f0f8!important;
+}
+html[data-ot-theme="dark"] #otUnifiedHeaderShell .ot-unified-account>span,
+html[data-ot-theme="dark"] #otUnifiedHeaderShell .ot-unified-cart>span{
+  color:#9fb0c1!important;
+}
+html[data-ot-theme="dark"] #otUnifiedHeaderShell .ot-unified-nav>.ot-unified-width>a,
+html[data-ot-theme="dark"] #otUnifiedHeaderShell .ot-unified-nav-item>button{
+  background:var(--ot-dark-surface)!important;
+  border-color:var(--ot-dark-line)!important;
+  color:#dce8f3!important;
+}
+html[data-ot-theme="dark"] #otUnifiedHeaderShell .ot-unified-nav>.ot-unified-width>a:hover,
+html[data-ot-theme="dark"] #otUnifiedHeaderShell .ot-unified-nav>.ot-unified-width>a.active,
+html[data-ot-theme="dark"] #otUnifiedHeaderShell .ot-unified-nav-item>button:hover,
+html[data-ot-theme="dark"] #otUnifiedHeaderShell .ot-unified-nav-item.active>button,
+html[data-ot-theme="dark"] #otUnifiedHeaderShell .ot-unified-nav-item.is-open>button{
+  background:var(--ot-dark-surface-2)!important;
+  color:#79b8ff!important;
+}
+html[data-ot-theme="dark"] #otUnifiedHeaderShell .ot-unified-dropdown{
+  background:var(--ot-dark-surface)!important;
+  border-color:var(--ot-dark-line)!important;
+  box-shadow:0 16px 38px rgba(0,0,0,.42)!important;
+}
+html[data-ot-theme="dark"] #otUnifiedHeaderShell .ot-unified-dropdown h4{
+  color:#eef5fb!important;
+}
+html[data-ot-theme="dark"] #otUnifiedHeaderShell .ot-unified-dropdown a{
+  background:var(--ot-dark-surface)!important;
+  color:#c2d2e1!important;
+}
+html[data-ot-theme="dark"] #otUnifiedHeaderShell .ot-unified-dropdown a:hover,
+html[data-ot-theme="dark"] #otUnifiedHeaderShell .ot-unified-dropdown .all{
+  background:var(--ot-dark-surface-2)!important;
+  color:#78b8ff!important;
+}
+html[data-ot-theme="dark"] #otUnifiedHeaderShell .ot-unified-dropdown .all{
+  border-color:var(--ot-dark-line)!important;
+}
+html[data-ot-theme="dark"] #otUnifiedHeaderShell .ot-unified-menu-button{
+  background:#112238!important;
+  border-color:#38516a!important;
+  color:#eaf2f9!important;
+}
+
+/* Old storefront CSS contains several force-light declarations. This final layer wins them. */
+html[data-ot-theme="dark"],
+html[data-ot-theme="dark"] body,
+html[data-ot-theme="dark"] main{
+  background-color:var(--ot-dark-bg)!important;
+  color:var(--ot-dark-text)!important;
+}
+html[data-ot-theme="dark"] :is(
+  .container,
+  .content,
+  .content-wrap,
+  .main-content,
+  .catalogue,
+  .catalog,
+  .products-section,
+  .product-section,
+  .results,
+  .results-section
+){
+  border-color:var(--ot-dark-line)!important;
+}
+html[data-ot-theme="dark"] :is(
+  .search-box,
+  .search-card,
+  .filter-card,
+  .sort-bar,
+  .toolbar,
+  .sidebar,
+  .product-details,
+  .product-summary,
+  .details-card,
+  .shipping-card,
+  .returns-card
+){
+  background:var(--ot-dark-surface)!important;
+  border-color:var(--ot-dark-line)!important;
+  color:var(--ot-dark-text)!important;
+}
+html[data-ot-theme="dark"] :is(h1,h2,h3,h4,h5,h6){
+  color:#edf4fa;
+}
+html[data-ot-theme="dark"] :is(p,li,dd,dt){
+  border-color:var(--ot-dark-line);
+}
