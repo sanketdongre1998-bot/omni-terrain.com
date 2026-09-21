@@ -26,7 +26,7 @@
   styleAssets.push(["otTypography20260922", "/assets/typography-20260922.css?v=1"]);
   // Dark mode wins legacy force-light rules; PDP optimizer then applies product-specific final polish.
   styleAssets.push(["otDarkMode", "/assets/dark-mode.css?v=20260922-2"]);
-  styleAssets.push(["otProductPageOptimizer", "/assets/product-page-optimizer.css?v=20260922-4"]);
+  styleAssets.push(["otProductPageOptimizer", "/assets/product-page-optimizer.css?v=20260922-5"]);
 
   const ensureStyles = () => {
     styleAssets.forEach(([key, href]) => {
@@ -61,7 +61,7 @@
   const ensureScripts = () => {
     ensureScript('script[data-ot-subtle-storefront]', "/assets/omni-subtle-storefront.js?v=20260917-2", "otSubtleStorefront");
     ensureScript('script[data-ot-master-dropdown]', "/assets/master-dropdown.js?v=20260922-2", "otMasterDropdown");
-    ensureScript('script[data-ot-product-page-optimizer]', "/assets/product-page-optimizer.js?v=20260922-5", "otProductPageOptimizer");
+    ensureScript('script[data-ot-product-page-optimizer]', "/assets/product-page-optimizer.js?v=20260922-6", "otProductPageOptimizer");
     ensureScript('script[data-ot-marine-reman-nav]', "/assets/marine-reman-nav.js?v=20260918-1", "otMarineRemanNav");
     if (file === "marine-reman.html") {
       ensureScript('script[data-ot-marine-reman-form-priority]', "/assets/marine-reman-form-priority.js?v=20260918-1", "otMarineRemanFormPriority");
