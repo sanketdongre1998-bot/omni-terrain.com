@@ -36,6 +36,23 @@
     return "";
   }
 
+  function normalizeLivePurchasePlacement() {
+    const copy = document.querySelector(".product-copy");
+    const box = document.querySelector(".ot-live-buybox");
+    if (!copy || !box) return;
+
+    const title = copy.querySelector("h1");
+    if (box.parentElement !== copy || (title && title.nextElementSibling !== box)) {
+      if (title) title.insertAdjacentElement("afterend", box);
+      else copy.prepend(box);
+    }
+
+    copy.querySelector(".notice")?.remove();
+    copy.querySelectorAll("p").forEach(node => {
+      if (node.querySelector("a.button")) node.remove();
+    });
+  }
+
   function installTrust(region) {
     const preferred = document.querySelector(".ot-live-buybox,.purchase-box");
     let row = document.querySelector(".ot-pdp-trust");
@@ -233,6 +250,7 @@
     if (info) info.setAttribute("data-ot-pdp-info", "true");
 
     softenLegacyDraftCopy();
+    normalizeLivePurchasePlacement();
     document.querySelectorAll(".product-copy .button.secondary").forEach(button => {
       if (/check\s+price\s*&?\s*availability/i.test(button.textContent || "")) button.textContent = "Check availability";
     });
@@ -268,6 +286,7 @@
   [3000,4500,6500].forEach(ms => setTimeout(() => {
     if (!document.body?.classList.contains("ot-pdp")) return;
     const region = document.body.classList.contains("ot-pdp-uk") ? "uk" : "us";
+    normalizeLivePurchasePlacement();
     installTrust(region);
     syncMobileDock(region);
   }, ms));
