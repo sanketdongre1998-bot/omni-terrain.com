@@ -899,3 +899,157 @@ html[data-ot-theme="dark"] body.ot-pdp-us .product-copy>.ot-live-buybox .ot-live
     grid-template-columns:1fr!important;
   }
 }
+
+
+/* Final clean live-product composition — single PDP owner */
+body.ot-pdp-us:has(.ot-live-buybox) .ot-product-confidence,
+body.ot-pdp-us:has(.ot-live-buybox) .ot-product-support,
+body.ot-pdp-us:has(.ot-live-buybox) .ot-pdp-trust{
+  display:none!important;
+}
+
+body.ot-pdp-us:has(.ot-live-buybox) .product-layout{
+  grid-template-columns:minmax(420px,.96fr) minmax(480px,1.04fr)!important;
+  gap:34px!important;
+}
+
+body.ot-pdp-us:has(.ot-live-buybox) .product-copy{
+  padding:26px 28px 28px!important;
+}
+
+body.ot-pdp-us:has(.ot-live-buybox) .product-copy h1{
+  max-width:720px!important;
+  margin:8px 0 12px!important;
+  font-family:var(--ot-font-display,"Barlow Condensed","Arial Narrow",sans-serif)!important;
+  font-size:clamp(34px,2.75vw,42px)!important;
+  font-weight:800!important;
+  line-height:1.01!important;
+  letter-spacing:-.012em!important;
+  text-transform:none!important;
+}
+
+body.ot-pdp-us .product-copy>.ot-live-buybox{
+  display:block!important;
+  width:100%!important;
+  margin:0 0 18px!important;
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+
+body.ot-pdp-us .product-copy>.ot-live-buybox .ot-live-price{
+  margin:0 0 5px!important;
+  color:#102a48!important;
+  font-family:var(--ot-font-display,"Barlow Condensed","Arial Narrow",sans-serif)!important;
+  font-size:42px!important;
+  font-weight:900!important;
+  line-height:.95!important;
+  letter-spacing:-.02em!important;
+}
+
+body.ot-pdp-us .product-copy>.ot-live-buybox .ot-live-shipping{
+  display:block!important;
+  margin:0 0 14px!important;
+  padding:0!important;
+  color:#6d7f8f!important;
+  font-family:var(--ot-font-body,Inter,Arial,sans-serif)!important;
+  font-size:10.5px!important;
+  line-height:1.4!important;
+  text-align:left!important;
+}
+body.ot-pdp-us .product-copy>.ot-live-buybox .ot-live-shipping strong{
+  color:#18724c!important;
+  font-size:10.5px!important;
+  font-weight:850!important;
+}
+body.ot-pdp-us .product-copy>.ot-live-buybox .ot-live-shipping span{
+  color:#6d7f8f!important;
+  font-size:10.5px!important;
+  font-weight:600!important;
+}
+
+body.ot-pdp-us .product-copy>.ot-live-buybox .ot-live-actions{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) 160px!important;
+  gap:9px!important;
+  margin:0!important;
+}
+
+body.ot-pdp-us .product-copy>.ot-live-buybox [data-ot-buy]{
+  min-height:48px!important;
+  border-radius:8px!important;
+  background:#1f5ed5!important;
+  border:1px solid #1f5ed5!important;
+  box-shadow:none!important;
+  color:#fff!important;
+  font-size:11px!important;
+  font-weight:850!important;
+}
+
+body.ot-pdp-us .product-copy>.ot-live-buybox [data-ot-add]{
+  min-height:48px!important;
+  border-radius:8px!important;
+  background:#fff!important;
+  border:1px solid #aebfd0!important;
+  box-shadow:none!important;
+  color:#183650!important;
+  font-size:11px!important;
+  font-weight:800!important;
+}
+
+body.ot-pdp-us .product-copy>.ot-live-buybox .ot-live-trust{
+  margin:8px 0 0!important;
+  padding:0!important;
+  border:0!important;
+  color:#82909d!important;
+  font-size:9px!important;
+  line-height:1.4!important;
+}
+
+body.ot-pdp-us:has(.ot-live-buybox) .product-description{
+  max-width:680px!important;
+  margin:0!important;
+  color:#586d80!important;
+  font-size:12.5px!important;
+  line-height:1.62!important;
+}
+
+body.ot-pdp-us:has(.ot-live-buybox) .facts{
+  margin-top:15px!important;
+}
+
+body.ot-pdp-us .product-copy>.ot-live-buybox .ot-live-label,
+body.ot-pdp-us .product-copy>.ot-live-buybox .ot-live-stock,
+body.ot-pdp-us .product-copy>.ot-live-buybox .status,
+body.ot-pdp-us .product-copy>.ot-live-buybox .ot-live-price-row,
+body.ot-pdp-us .product-copy>.ot-live-buybox .ot-live-breakdown{
+  display:none!important;
+}
+
+html[data-ot-theme="dark"] body.ot-pdp-us .product-copy>.ot-live-buybox .ot-live-price{
+  color:#eef5fb!important;
+}
+html[data-ot-theme="dark"] body.ot-pdp-us .product-copy>.ot-live-buybox [data-ot-add]{
+  background:#13263a!important;
+  border-color:#3a536b!important;
+  color:#eef5fb!important;
+}
+
+@media(max-width:980px){
+  body.ot-pdp-us:has(.ot-live-buybox) .product-layout{
+    grid-template-columns:1fr!important;
+  }
+}
+
+@media(max-width:780px){
+  body.ot-pdp-us:has(.ot-live-buybox) .product-copy{
+    padding:20px!important;
+  }
+  body.ot-pdp-us:has(.ot-live-buybox) .product-copy h1{
+    font-size:clamp(32px,9.5vw,40px)!important;
+  }
+  body.ot-pdp-us .product-copy>.ot-live-buybox .ot-live-actions{
+    grid-template-columns:1fr!important;
+  }
+}
