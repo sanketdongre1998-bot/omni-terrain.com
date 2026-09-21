@@ -29,7 +29,7 @@
   styleAssets.push(["otProductPageOptimizer", "/assets/product-page-optimizer.css?v=20260922-6"]);
   // Final type/colour layer intentionally loads last so legacy 800/900 rules cannot win.
   styleAssets.push(["otTypographyColorRefinement", "/assets/typography-color-refinement.css?v=20260922-1"]);
-  styleAssets.push(["otUkPdpStability", "/assets/uk-pdp-stability.css?v=20260922-1"]);
+  styleAssets.push(["otUkPdpStability", "/assets/uk-pdp-stability.css?v=20260922-2"]);
 
   const ensureStyles = () => {
     styleAssets.forEach(([key, href]) => {
