@@ -8,7 +8,8 @@
   const lang = String(document.documentElement.lang || "").toLowerCase();
   const isUSHome = path === "/" || file === "index.html";
   const isUKHome = file === "uk.html";
-  if (isUSHome || isUKHome) return;
+  const isFocusedCheckout = file === "checkout.html" || file === "us-order-success.html" || file === "uk-order-success.html";
+  if (isUSHome || isUKHome || isFocusedCheckout) return;
 
   const isUK = lang === "en-gb" || /(^|\/)uk(?:-|\.|\/)/.test(path) || /shield-autocare-uk/.test(path);
   const ROOT_ID = "otUnifiedHeaderShell";
