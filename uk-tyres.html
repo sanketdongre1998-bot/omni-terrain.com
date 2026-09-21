@@ -58,6 +58,6 @@
   Promise.all(FILES.map(u=>fetch(u,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(`Catalogue ${r.status}`);return r.json()}))).then(batches=>{all=batches.flatMap(normalise);if(all.length!==351)throw new Error(`Expected 351 tyres, loaded ${all.length}`);addOptions(brand,all.map(t=>t.brand));addOptions(width,all.map(t=>t.width));addOptions(rim,all.map(t=>t.rim));addOptions(vehicle,all.map(t=>t.vehicle_type));filtered=all;loading.hidden=true;render()}).catch(err=>{loading.textContent='Tyre catalogue is temporarily unavailable. Please try again shortly.';console.error(err)});
 })();
 </script>
-<script defer src="assets/theme-toggle.js?v=14"></script><script defer src="assets/storefront-performance.js?v=15"></script>
+<script defer src="assets/theme-toggle.js?v=15"></script><script defer src="assets/storefront-performance.js?v=15"></script>
 </body>
 </html>
