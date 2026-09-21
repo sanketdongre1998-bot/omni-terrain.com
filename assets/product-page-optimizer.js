@@ -183,7 +183,8 @@
     if (!dock) return;
     const price = firstText([".price",".ot-live-price",".product-price"]);
     const span = dock.querySelector(".ot-pdp-mobile-dock-copy span");
-    if (span) span.textContent = price || (region === "uk" ? "View price & order options" : "Price & availability");
+    const next = price || (region === "uk" ? "View price & order options" : "Price & availability");
+    if (span && span.textContent !== next) span.textContent = next;
   }
 
   function installMobileDock(region, schema) {
@@ -247,19 +248,14 @@
 
   [150,500,1100,2200].forEach(ms => setTimeout(run, ms));
 
-  if ("MutationObserver" in window) {
-    const observer = new MutationObserver(() => {
-      if (document.body?.classList.contains("ot-pdp")) {
-        const region = document.body.classList.contains("ot-pdp-uk") ? "uk" : "us";
-        installTrust(region);
-        syncMobileDock(region);
-      }
-    });
-    const start = () => {
-      if (!document.body) return;
-      observer.observe(document.body,{childList:true,subtree:true});
-      setTimeout(() => observer.disconnect(),5000);
-    };
-    if (document.body) start(); else document.addEventListener("DOMContentLoaded",start,{once:true});
-  }
+  // Live commerce can inject price/buybox after initial paint.
+  // Use a few bounded syncs instead of a subtree MutationObserver to avoid
+  // feedback loops and main-thread churn on large product pages.
+  [3000,4500,6500].forEach(ms => setTimeout(() => {
+    if (!document.body?.classList.contains("ot-pdp")) return;
+    const region = document.body.classList.contains("ot-pdp-uk") ? "uk" : "us";
+    installTrust(region);
+    syncMobileDock(region);
+  }, ms));
+
 })();
