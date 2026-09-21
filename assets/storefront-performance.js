@@ -183,9 +183,10 @@
       img.style.objectPosition = "left center";
     });
     if (document.querySelector(".product-layout") && document.querySelector(".product-copy") && document.querySelector(".product-visual")) {
-      addCss("otProductPremiumCss", "/assets/product-page-premium.css?v=retail-3");
+      // Product layout is owned by product-page-optimizer.css/js.
+      // Keep content enrichment only; do not load the legacy premium layer,
+      // which duplicated confidence/support UI and fought the CTA hierarchy.
       addCss("otProductEnrichmentCss", "/assets/product-content-enrichment.css?v=2");
-      addScript("otProductPremiumJs", "/assets/product-page-premium.js?v=2");
     }
   });
 
