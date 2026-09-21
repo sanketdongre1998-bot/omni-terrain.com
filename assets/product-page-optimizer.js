@@ -276,16 +276,22 @@
     if (info) info.setAttribute("data-ot-pdp-info", "true");
 
     softenLegacyDraftCopy();
-    normalizeLivePurchasePlacement();
-    document.querySelectorAll(".product-copy .button.secondary").forEach(button => {
-      if (/check\s+price\s*&?\s*availability/i.test(button.textContent || "")) button.textContent = "Check availability";
-    });
-    installTrust(region);
-    installJumps(region);
-    installMobileDock(region, schema);
+    if (region === "us") {
+      normalizeLivePurchasePlacement();
+      document.querySelectorAll(".product-copy .button.secondary").forEach(button => {
+        if (/check\s+price\s*&?\s*availability/i.test(button.textContent || "")) button.textContent = "Check availability";
+      });
+      installTrust(region);
+      installJumps(region);
+      installMobileDock(region, schema);
+      syncMobileDock(region);
+    } else {
+      // UK PDPs already ship with a native gallery, anchor navigation and purchase box.
+      // Do not inject a second nav/trust row/mobile dock over that layout.
+      document.querySelectorAll(".ot-pdp-jumps,.ot-pdp-trust,.ot-pdp-mobile-dock").forEach(node => node.remove());
+    }
     installBreadcrumbSchema(schema);
     installImageFallback(schema);
-    syncMobileDock(region);
 
     document.querySelectorAll(".product-visual img,.gallery-main img").forEach(img => {
       img.decoding = "async";
@@ -310,11 +316,10 @@
   // Use a few bounded syncs instead of a subtree MutationObserver to avoid
   // feedback loops and main-thread churn on large product pages.
   [3000,4500,6500].forEach(ms => setTimeout(() => {
-    if (!document.body?.classList.contains("ot-pdp")) return;
-    const region = document.body.classList.contains("ot-pdp-uk") ? "uk" : "us";
+    if (!document.body?.classList.contains("ot-pdp-us")) return;
     normalizeLivePurchasePlacement();
-    installTrust(region);
-    syncMobileDock(region);
+    installTrust("us");
+    syncMobileDock("us");
   }, ms));
 
 })();
