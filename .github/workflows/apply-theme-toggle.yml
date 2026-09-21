@@ -39,8 +39,14 @@ jobs:
               total += 1
               text = path.read_text(encoding='utf-8')
               text = re.sub(
-                  r'assets/us-live-commerce.js?v=6\?[^"\']*)?',
-                  'assets/us-live-commerce.js?v=5',
+                  r'assets/us-live-commerce\.js(?:\?[^"\']*)?',
+                  'assets/us-live-commerce.js?v=6',
+                  text,
+                  flags=re.I
+              )
+              text = re.sub(
+                  r'assets/storefront-performance\.js(?:\?[^"\']*)?',
+                  'assets/storefront-performance.js?v=15',
                   text,
                   flags=re.I
               )
