@@ -123,20 +123,24 @@
     relabelCartLinks();
     copy.querySelector(".notice")?.remove();
     copy.querySelectorAll(".product-price").forEach(node => node.remove());
+    copy.querySelectorAll("p").forEach(node => {
+      if (node.querySelector("a.button")) node.remove();
+    });
 
     let box = copy.querySelector(".ot-live-buybox");
     if (!box) {
       box = document.createElement("div");
       box.className = "ot-live-buybox";
-      const facts = copy.querySelector(".facts");
-      if (facts) copy.insertBefore(box, facts); else copy.appendChild(box);
     }
+    const titleNode = copy.querySelector("h1");
+    if (titleNode && titleNode.nextElementSibling !== box) titleNode.insertAdjacentElement("afterend", box);
+    else if (!titleNode && !box.parentElement) copy.prepend(box);
     const priceCents=Math.max(0,Math.round(Number(product.priceCents)||0));
     const shippingIncluded=product.shippingIncluded===true;
-    const breakdown = shippingIncluded
-      ? `<div class="ot-live-breakdown"><div class="ot-live-breakdown-row"><span>Product price</span><strong>${money(priceCents)}</strong></div><div class="ot-live-breakdown-row"><span>Standard US shipping</span><strong>Included</strong></div><div class="ot-live-breakdown-row total"><span>Total before tax</span><strong>${money(priceCents)}</strong></div></div>`
-      : `<div class="ot-live-shipping">Shipping is confirmed before payment.</div>`;
-    box.innerHTML = `<div class="ot-live-label">Omni Terrain online price</div><div class="ot-live-price">${money(priceCents)}</div>${breakdown}<div class="ot-live-actions"><button type="button" class="ot-live-button" data-ot-buy>Buy Now</button><button type="button" class="ot-live-button secondary" data-ot-add>Add to Cart</button></div><div class="ot-live-trust">Secure payment powered by Stripe · Your price and product availability are confirmed again before payment.</div>`;
+    const availabilityLine = shippingIncluded
+      ? '<div class="ot-live-shipping"><strong>In stock</strong> · Free standard US shipping</div>'
+      : '<div class="ot-live-shipping"><strong>In stock</strong> · Shipping confirmed before payment</div>';
+    box.innerHTML = `<div class="ot-live-label">Online price</div><div class="ot-live-price">${money(priceCents)}</div>${availabilityLine}<div class="ot-live-actions"><button type="button" class="ot-live-button" data-ot-buy>Buy Now</button><button type="button" class="ot-live-button secondary" data-ot-add>Add to Cart</button></div><div class="ot-live-trust">Secure Stripe checkout · Availability is confirmed again before payment.</div>`;
     box.querySelector("[data-ot-add]")?.addEventListener("click", event => {
       const quantity = addToCart(product.id, false);
       const button = event.currentTarget;
