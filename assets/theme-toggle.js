@@ -12,7 +12,6 @@
   const root = document.documentElement;
 
   const styleAssets = [
-    ["otDarkMode", "/assets/dark-mode.css?v=20260922-1"],
     ["otSubtleStorefront", "/assets/omni-subtle-storefront.css?v=20260912-1"],
     ["otSubtleEnhancements", "/assets/omni-subtle-enhancements.css?v=20260912-1"],
     ["otUiConsistency", "/assets/ui-consistency.css?v=20260917-1"],
@@ -23,6 +22,9 @@
   if (!isHome) styleAssets.push(["otInternalShellFinal", "/assets/internal-shell-final.css?v=20260917-1"]);
   if (isHome) styleAssets.push(["otHomepageCategorybarSync", "/assets/homepage-categorybar-sync.css?v=20260917-1"]);
   styleAssets.push(["otFinalResponsiveGuard", "/assets/final-responsive-guard.css?v=20260918-3"]);
+  styleAssets.push(["otTypography20260922", "/assets/typography-20260922.css?v=1"]);
+  // Dark mode must be last because legacy storefront files contain force-light !important rules.
+  styleAssets.push(["otDarkMode", "/assets/dark-mode.css?v=20260922-2"]);
 
   const ensureStyles = () => {
     styleAssets.forEach(([key, href]) => {
