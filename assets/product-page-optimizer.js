@@ -37,30 +37,40 @@
   }
 
   function installTrust(region) {
-    if (document.querySelector(".ot-pdp-trust")) return;
-    const host = document.querySelector(".purchase-box,.ot-live-buybox,.product-copy .notice,.product-copy .facts,.quick-cards");
-    if (!host) return;
+    const preferred = document.querySelector(".ot-live-buybox,.purchase-box");
+    let row = document.querySelector(".ot-pdp-trust");
 
-    const row = document.createElement("div");
-    row.className = "ot-pdp-trust";
-    row.setAttribute("aria-label", "Order support");
-    const items = region === "uk"
-      ? [
-          ["Fitment support", "Check application details before ordering"],
-          ["UK order help", "Product and order support available"],
-          ["Policy backed", "Shipping and returns terms shown on site"]
-        ]
-      : [
-          ["Fitment support", "Confirm application details before ordering"],
-          ["Product support", "Help with MPN and product questions"],
-          ["Policy backed", "Shipping and returns terms shown on site"]
-        ];
-    row.innerHTML = items.map(([title, copy]) =>
-      `<div class="ot-pdp-trust-item"><b>${title}</b><span>${copy}</span></div>`
-    ).join("");
+    if (!row) {
+      const fallbackHost = document.querySelector(".product-copy .notice,.product-copy .facts,.quick-cards");
+      const host = preferred || fallbackHost;
+      if (!host) return;
 
-    if (host.matches(".purchase-box,.ot-live-buybox")) host.insertAdjacentElement("afterend", row);
-    else host.insertAdjacentElement("beforebegin", row);
+      row = document.createElement("div");
+      row.className = "ot-pdp-trust";
+      row.setAttribute("aria-label", "Order support");
+      const items = region === "uk"
+        ? [
+            ["Fitment support", "Check application details before ordering"],
+            ["UK order help", "Product and order support available"],
+            ["Policy backed", "Shipping and returns terms shown on site"]
+          ]
+        : [
+            ["Fitment support", "Confirm application details before ordering"],
+            ["Product support", "Help with MPN and product questions"],
+            ["Policy backed", "Shipping and returns terms shown on site"]
+          ];
+      row.innerHTML = items.map(([title, copy]) =>
+        `<div class="ot-pdp-trust-item"><b>${title}</b><span>${copy}</span></div>`
+      ).join("");
+
+      if (preferred) preferred.insertAdjacentElement("afterend", row);
+      else fallbackHost.insertAdjacentElement("beforebegin", row);
+      return;
+    }
+
+    if (preferred && row.previousElementSibling !== preferred) {
+      preferred.insertAdjacentElement("afterend", row);
+    }
   }
 
   function installJumps(region) {
@@ -112,6 +122,70 @@
     });
   }
 
+  function installBreadcrumbSchema(schema) {
+    if (!schema || document.querySelector('script[data-ot-pdp-breadcrumb-schema]')) return;
+    const trail = document.querySelector(".breadcrumb,.crumbs");
+    if (!trail) return;
+
+    const anchors = [...trail.querySelectorAll("a")].map(a => ({
+      name: String(a.textContent || "").replace(/\s+/g, " ").trim(),
+      href: a.href
+    })).filter(x => x.name && x.href);
+    const current = firstText([".product-title",".product-copy h1"]) || schema.name || "";
+    if (!anchors.length || !current) return;
+
+    const list = anchors.map((x,index) => ({
+      "@type":"ListItem",
+      position:index+1,
+      name:x.name,
+      item:x.href
+    }));
+    list.push({
+      "@type":"ListItem",
+      position:list.length+1,
+      name:current,
+      item:location.href.split("#")[0]
+    });
+
+    const node = document.createElement("script");
+    node.type = "application/ld+json";
+    node.dataset.otPdpBreadcrumbSchema = "true";
+    node.textContent = JSON.stringify({
+      "@context":"https://schema.org",
+      "@type":"BreadcrumbList",
+      itemListElement:list
+    });
+    document.head.appendChild(node);
+  }
+
+  function installImageFallback(schema) {
+    const title = firstText([".product-title",".product-copy h1"]) || schema?.name || "Product";
+    const mpn = String(schema?.mpn || schema?.sku || "").trim();
+    document.querySelectorAll(".product-visual img,.gallery-main img").forEach(img => {
+      if (img.dataset.otPdpFallbackBound === "true") return;
+      img.dataset.otPdpFallbackBound = "true";
+      img.addEventListener("error", () => {
+        const host = img.closest(".product-visual,.gallery-main");
+        if (!host || host.querySelector(".ot-pdp-image-fallback")) return;
+        img.style.display = "none";
+        const fallback = document.createElement("div");
+        fallback.className = "ot-pdp-image-fallback";
+        fallback.innerHTML = '<div class="ot-pdp-image-fallback-inner"><b>Product image unavailable</b><div></div><span></span></div>';
+        fallback.querySelector("div div").textContent = title;
+        fallback.querySelector("span").textContent = mpn ? `MPN / SKU: ${mpn}` : "Please use the product details to confirm the exact item.";
+        host.appendChild(fallback);
+      });
+    });
+  }
+
+  function syncMobileDock(region) {
+    const dock = document.querySelector(".ot-pdp-mobile-dock");
+    if (!dock) return;
+    const price = firstText([".price",".ot-live-price",".product-price"]);
+    const span = dock.querySelector(".ot-pdp-mobile-dock-copy span");
+    if (span) span.textContent = price || (region === "uk" ? "View price & order options" : "Price & availability");
+  }
+
   function installMobileDock(region, schema) {
     if (document.querySelector(".ot-pdp-mobile-dock")) return;
     const title = firstText([".product-title",".product-copy h1"]) || schema?.name || "Product";
@@ -150,6 +224,9 @@
     installTrust(region);
     installJumps(region);
     installMobileDock(region, schema);
+    installBreadcrumbSchema(schema);
+    installImageFallback(schema);
+    syncMobileDock(region);
 
     document.querySelectorAll(".product-visual img,.gallery-main img").forEach(img => {
       img.decoding = "async";
@@ -175,6 +252,7 @@
       if (document.body?.classList.contains("ot-pdp")) {
         const region = document.body.classList.contains("ot-pdp-uk") ? "uk" : "us";
         installTrust(region);
+        syncMobileDock(region);
       }
     });
     const start = () => {
