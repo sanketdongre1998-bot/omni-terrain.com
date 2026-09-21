@@ -136,7 +136,7 @@
     const breakdown = shippingIncluded
       ? `<div class="ot-live-breakdown"><div class="ot-live-breakdown-row"><span>Product price</span><strong>${money(priceCents)}</strong></div><div class="ot-live-breakdown-row"><span>Standard US shipping</span><strong>Included</strong></div><div class="ot-live-breakdown-row total"><span>Total before tax</span><strong>${money(priceCents)}</strong></div></div>`
       : `<div class="ot-live-shipping">Shipping is confirmed before payment.</div>`;
-    box.innerHTML = `<div class="ot-live-label">Omni Terrain online price</div><div class="ot-live-price">${money(priceCents)}</div>${breakdown}<div class="ot-live-actions"><button type="button" class="ot-live-button" data-ot-add>Add to Cart</button><button type="button" class="ot-live-button secondary" data-ot-buy>Buy Now</button></div><div class="ot-live-trust">Secure payment powered by Stripe · Your price and product availability are confirmed again before payment.</div>`;
+    box.innerHTML = `<div class="ot-live-label">Omni Terrain online price</div><div class="ot-live-price">${money(priceCents)}</div>${breakdown}<div class="ot-live-actions"><button type="button" class="ot-live-button" data-ot-buy>Buy Now</button><button type="button" class="ot-live-button secondary" data-ot-add>Add to Cart</button></div><div class="ot-live-trust">Secure payment powered by Stripe · Your price and product availability are confirmed again before payment.</div>`;
     box.querySelector("[data-ot-add]")?.addEventListener("click", event => {
       const quantity = addToCart(product.id, false);
       const button = event.currentTarget;
