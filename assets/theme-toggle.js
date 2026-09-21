@@ -200,6 +200,7 @@
 
     const observer = new MutationObserver(queueMount);
     observer.observe(document.body, { childList: true, subtree: true });
+    setTimeout(() => observer.disconnect(), 6000);
 
     [120, 350, 800, 1600, 3000].forEach(ms => setTimeout(mountToggle, ms));
 
