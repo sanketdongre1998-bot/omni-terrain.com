@@ -1,0 +1,279 @@
+/* Omni Terrain typography + text-colour refinement — 2026-09-22
+   Final visual layer: calmer weights, softer text hierarchy, consistent storefront tone. */
+
+:root{
+  --ot-type-heading:#19344f;
+  --ot-type-body:#50657a;
+  --ot-type-body-strong:#314a63;
+  --ot-type-muted:#748597;
+  --ot-type-link:#1764b5;
+  --ot-type-price:#173b5f;
+  --ot-type-gold:#a97818;
+}
+
+/* General storefront text tone */
+html body{
+  color:var(--ot-type-body)!important;
+  font-family:var(--ot-font-body,Inter,"Helvetica Neue",Arial,sans-serif)!important;
+  font-weight:400!important;
+}
+
+html :is(p,li,dd,dt,.muted,.description,.product-description,.section-copy,.ot-ref-category-body,.ot-ref-product-body){
+  color:var(--ot-type-body)!important;
+  font-weight:400!important;
+}
+
+html :is(small,.eyebrow,.kicker,.meta,.microcopy,.caption,.breadcrumb,.crumbs){
+  color:var(--ot-type-muted)!important;
+}
+
+/* Headings: retain condensed character without the overly heavy/shouting feel. */
+html :is(h1,h2,h3,h4,h5,h6){
+  color:var(--ot-type-heading)!important;
+}
+
+html :is(
+  .hero h1,
+  .used-hero h1,
+  .ot-deals-hero h1,
+  .cp-hero-copy h1,
+  .page-hero h1,
+  .department-hero h1,
+  .product-copy h1,
+  .product-title
+){
+  font-family:var(--ot-font-display,"Barlow Condensed","Arial Narrow",sans-serif)!important;
+  font-weight:700!important;
+  letter-spacing:-.012em!important;
+}
+
+html :is(
+  .ot-ref-section-head h2,
+  .section-head h2,
+  .used-heading,
+  .used-results-head h2,
+  .product-detail-section h2,
+  .detail-card h2,
+  .section-title
+){
+  font-family:var(--ot-font-display,"Barlow Condensed","Arial Narrow",sans-serif)!important;
+  font-weight:700!important;
+  letter-spacing:-.008em!important;
+}
+
+html :is(
+  .ot-ref-product h3,
+  .ot-ref-category h3,
+  .card h3,
+  .product-card h3,
+  .feature h3,
+  .detail-card h3
+){
+  color:var(--ot-type-heading)!important;
+  font-weight:650!important;
+}
+
+/* Navigation and controls */
+html :is(
+  .ot-ref-nav,
+  .ot-ref-nav a,
+  .ot-ref-nav button,
+  .ot-unified-nav,
+  .ot-unified-nav a,
+  .ot-unified-nav button,
+  .nav,
+  .nav a,
+  .nav-links a,
+  .ot-unified-mobile-nav a,
+  .ot-mega-links a>strong
+){
+  color:var(--ot-type-body-strong)!important;
+  font-family:var(--ot-font-body,Inter,"Helvetica Neue",Arial,sans-serif)!important;
+  font-weight:600!important;
+}
+
+html :is(
+  button,
+  .button,
+  .btn,
+  .ot-live-button,
+  .ot-display-action,
+  [class*="cta"]
+){
+  font-family:var(--ot-font-body,Inter,"Helvetica Neue",Arial,sans-serif)!important;
+  font-weight:700!important;
+}
+
+/* Price typography: especially avoid the current ultra-bold $ treatment. */
+html :is(
+  .ot-live-price,
+  .product-price,
+  .price,
+  .sale-price,
+  .used-price,
+  .ot-ref-product-price,
+  .card-price strong,
+  .ot-live-inline-price,
+  .ot-hero-price strong
+){
+  color:var(--ot-type-price)!important;
+  font-family:var(--ot-font-display,"Barlow Condensed","Arial Narrow",sans-serif)!important;
+  font-weight:700!important;
+  letter-spacing:-.008em!important;
+}
+
+/* Product page — calmer hierarchy */
+body.ot-pdp :is(.product-copy h1,.product-title){
+  color:#1d3a58!important;
+  font-weight:700!important;
+}
+
+body.ot-pdp-us .product-copy>.ot-live-buybox .ot-live-price,
+body.ot-pdp .price{
+  color:#173b5f!important;
+  font-weight:700!important;
+}
+
+body.ot-pdp-us .product-copy>.ot-live-buybox .ot-live-shipping strong,
+body.ot-pdp .availability b{
+  font-weight:700!important;
+}
+
+body.ot-pdp :is(.fact strong,.quick-card span,.ot-pdp-trust-item b){
+  color:#36516a!important;
+  font-weight:600!important;
+}
+
+body.ot-pdp :is(.fact small,.quick-card b,.price-label,.ot-live-trust,.mini-note){
+  color:#7a8998!important;
+  font-weight:600!important;
+}
+
+/* Homepage — softer, premium, less saturated */
+html.ot-reference-home body{
+  color:#52677b!important;
+}
+
+html.ot-reference-home :is(
+  .ot-ref-hero h1,
+  .hero h1,
+  .ot-ref-section-head h2,
+  .ot-ref-category h3,
+  .ot-ref-product h3
+){
+  color:#1c3956!important;
+}
+
+html.ot-reference-home :is(.ot-ref-hero h1,.hero h1){
+  font-weight:700!important;
+  letter-spacing:-.012em!important;
+}
+
+html.ot-reference-home :is(.ot-ref-section-head h2,.ot-ref-category h3,.ot-ref-product h3){
+  font-weight:650!important;
+}
+
+html.ot-reference-home :is(
+  .ot-ref-hero p,
+  .ot-ref-category-body,
+  .ot-ref-product-body,
+  .ot-ref-section-head p,
+  .ot-ref-trust p,
+  .ot-ref-footer p
+){
+  color:#62768a!important;
+  font-weight:400!important;
+}
+
+html.ot-reference-home :is(.ot-ref-nav a,.ot-ref-nav button){
+  color:#2d455d!important;
+  font-weight:600!important;
+}
+
+html.ot-reference-home :is(.ot-ref-kicker,.eyebrow,.kicker){
+  color:#5f7690!important;
+  font-weight:650!important;
+}
+
+html.ot-reference-home .ot-ref-product-price{
+  color:#23496d!important;
+  font-weight:700!important;
+}
+
+html.ot-reference-home a:not(.button):not(.btn){
+  color:var(--ot-type-link);
+}
+
+/* Master dropdown typography refinement */
+html :is(.ot-mega-head h4,.ot-unified-dropdown .ot-mega-head h4,.ot-ref-menu .ot-mega-head h4){
+  color:#1e3b58!important;
+  font-weight:700!important;
+}
+
+html :is(.ot-mega-kicker,.ot-mega-links a>strong,.ot-unified-dropdown>a.all,.ot-ref-menu>a.all){
+  font-weight:650!important;
+}
+
+html :is(.ot-mega-head p,.ot-mega-links a>small){
+  color:#718395!important;
+  font-weight:400!important;
+}
+
+/* Footer / support text */
+html :is(.footer,.ot-ref-footer) :is(p,span,li){
+  font-weight:400!important;
+}
+
+/* Dark mode equivalent */
+html[data-ot-theme="dark"] body{
+  color:#aebdca!important;
+}
+
+html[data-ot-theme="dark"] :is(h1,h2,h3,h4,h5,h6){
+  color:#e1eaf2!important;
+}
+
+html[data-ot-theme="dark"] :is(
+  p,li,dd,dt,.muted,.description,.product-description,.section-copy,
+  .ot-ref-category-body,.ot-ref-product-body
+){
+  color:#a8b8c7!important;
+}
+
+html[data-ot-theme="dark"] :is(
+  .ot-live-price,.product-price,.price,.sale-price,.used-price,
+  .ot-ref-product-price,.card-price strong,.ot-live-inline-price,.ot-hero-price strong
+){
+  color:#e2ebf3!important;
+}
+
+html[data-ot-theme="dark"] :is(
+  .ot-ref-nav a,.ot-ref-nav button,
+  .ot-unified-nav a,.ot-unified-nav button,
+  .nav a,.nav-links a,.ot-unified-mobile-nav a
+){
+  color:#d2dee8!important;
+}
+
+html[data-ot-theme="dark"] :is(.ot-mega-head h4,.ot-unified-dropdown .ot-mega-head h4,.ot-ref-menu .ot-mega-head h4){
+  color:#e4edf5!important;
+}
+
+html[data-ot-theme="dark"] :is(.ot-mega-head p,.ot-mega-links a>small,.breadcrumb,.crumbs,small){
+  color:#95a6b6!important;
+}
+
+@media(max-width:780px){
+  html :is(
+    .hero h1,
+    .used-hero h1,
+    .ot-deals-hero h1,
+    .cp-hero-copy h1,
+    .page-hero h1,
+    .department-hero h1,
+    .product-copy h1,
+    .product-title
+  ){
+    font-weight:700!important;
+  }
+}
