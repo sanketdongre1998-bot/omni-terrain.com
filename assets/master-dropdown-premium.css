@@ -258,3 +258,80 @@ html[data-ot-theme="dark"] .ot-ref-menu>a.all{
   background:#12263a!important;
   color:#7bbaff!important;
 }
+
+
+/* Master navigation typography lock — consistent on homepage + internal shell */
+@media(min-width:861px){
+  html #otUnifiedHeaderShell .ot-unified-nav>.ot-unified-width>a,
+  html #otUnifiedHeaderShell .ot-unified-nav-item>button,
+  html.ot-reference-home .ot-ref-nav .ot-ref-nav-item>button,
+  html.ot-reference-home .ot-ref-nav .ot-ref-width>a,
+  html.ot-reference-home .ot-ref-nav .ot-ref-width>a:visited{
+    font-family:var(--ot-font-body,"Inter","Helvetica Neue",Arial,sans-serif)!important;
+    font-size:12px!important;
+    font-weight:700!important;
+    letter-spacing:-.005em!important;
+  }
+
+  html #otUnifiedHeaderShell .ot-unified-dropdown,
+  html.ot-reference-home .ot-ref-nav .ot-ref-menu{
+    font-family:var(--ot-font-body,"Inter","Helvetica Neue",Arial,sans-serif)!important;
+  }
+
+  html #otUnifiedHeaderShell .ot-unified-dropdown .ot-mega-head h4,
+  html.ot-reference-home .ot-ref-nav .ot-ref-menu .ot-mega-head h4{
+    font-family:var(--ot-font-display,"Barlow Condensed","Arial Narrow",Impact,sans-serif)!important;
+    font-size:30px!important;
+    font-weight:900!important;
+    letter-spacing:-.02em!important;
+    line-height:.92!important;
+  }
+
+  html #otUnifiedHeaderShell .ot-unified-dropdown .ot-mega-kicker,
+  html.ot-reference-home .ot-ref-nav .ot-ref-menu .ot-mega-kicker{
+    font-family:var(--ot-font-body,"Inter","Helvetica Neue",Arial,sans-serif)!important;
+    font-size:9px!important;
+    font-weight:800!important;
+    letter-spacing:.13em!important;
+  }
+
+  html #otUnifiedHeaderShell .ot-unified-dropdown .ot-mega-head p,
+  html.ot-reference-home .ot-ref-nav .ot-ref-menu .ot-mega-head p{
+    font-family:var(--ot-font-body,"Inter","Helvetica Neue",Arial,sans-serif)!important;
+    font-size:11px!important;
+    font-weight:500!important;
+    line-height:1.5!important;
+  }
+
+  html #otUnifiedHeaderShell .ot-unified-dropdown .ot-mega-links a>strong,
+  html.ot-reference-home .ot-ref-nav .ot-ref-menu .ot-mega-links a>strong{
+    font-family:var(--ot-font-body,"Inter","Helvetica Neue",Arial,sans-serif)!important;
+    font-size:12px!important;
+    font-weight:750!important;
+    letter-spacing:-.005em!important;
+  }
+
+  html #otUnifiedHeaderShell .ot-unified-dropdown .ot-mega-links a>small,
+  html.ot-reference-home .ot-ref-nav .ot-ref-menu .ot-mega-links a>small{
+    font-family:var(--ot-font-body,"Inter","Helvetica Neue",Arial,sans-serif)!important;
+    font-size:9.5px!important;
+    font-weight:500!important;
+    line-height:1.4!important;
+  }
+
+  html #otUnifiedHeaderShell .ot-unified-dropdown>a.all,
+  html.ot-reference-home .ot-ref-nav .ot-ref-menu>a.all{
+    font-family:var(--ot-font-body,"Inter","Helvetica Neue",Arial,sans-serif)!important;
+    font-size:11px!important;
+    font-weight:800!important;
+    letter-spacing:0!important;
+  }
+}
+
+@media(max-width:860px){
+  html #otUnifiedHeaderShell .ot-unified-mobile-nav a{
+    font-family:var(--ot-font-body,"Inter","Helvetica Neue",Arial,sans-serif)!important;
+    font-size:12px!important;
+    font-weight:700!important;
+  }
+}
