@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* Omni Terrain typography system — bold condensed display + clean commerce body */
+:root{
+  --ot-font-display:"Barlow Condensed","Arial Narrow","Helvetica Neue Condensed",Impact,sans-serif;
+  --ot-font-body:"Inter","Helvetica Neue",Arial,sans-serif;
+}
+
+html body{
+  font-family:var(--ot-font-body)!important;
+  font-kerning:normal;
+  text-rendering:optimizeLegibility;
+}
+html button,
+html input,
+html select,
+html textarea{
+  font-family:var(--ot-font-body)!important;
+}
+
+/* Strong industrial display treatment, inspired by the supplied reference. */
+html :is(
+  .hero h1,
+  .used-hero h1,
+  .ot-deals-hero h1,
+  .cp-hero-copy h1,
+  .page-hero h1,
+  .department-hero h1,
+  .ot-ref-section-head h2,
+  .used-heading,
+  .used-results-head h2,
+  .section-head h2,
+  .ot-deals-page h2,
+  .product-hero h1,
+  .product-detail h1,
+  .ot-product-title
+){
+  font-family:var(--ot-font-display)!important;
+  font-weight:800!important;
+  letter-spacing:-.018em!important;
+  line-height:.96!important;
+}
+
+/* Marketing/page hero headlines get the screenshot-like uppercase condensed look. */
+html :is(
+  .hero h1,
+  .used-hero h1,
+  .ot-deals-hero h1,
+  .cp-hero-copy h1,
+  .page-hero h1,
+  .department-hero h1
+){
+  text-transform:uppercase;
+  font-weight:900!important;
+  letter-spacing:-.025em!important;
+}
+
+/* Section headings: compact and bold, but not oversized. */
+html :is(
+  .ot-ref-section-head h2,
+  .used-heading,
+  .used-results-head h2,
+  .section-head h2,
+  .ot-deals-page h2
+){
+  font-size:clamp(26px,2.5vw,38px)!important;
+}
+
+/* Keep product/card copy highly readable for commerce. */
+html :is(
+  p,
+  li,
+  label,
+  .ot-ref-product-body,
+  .ot-ref-category-body,
+  .used-card,
+  .card-body,
+  .product-copy,
+  .product-description,
+  .description
+){
+  font-family:var(--ot-font-body)!important;
+}
+
+/* Prices benefit from the stronger condensed display face without forcing uppercase. */
+html :is(
+  .ot-ref-product-price,
+  .price,
+  .product-price,
+  .sale-price,
+  .used-price
+){
+  font-family:var(--ot-font-display)!important;
+  font-weight:800!important;
+  letter-spacing:-.01em!important;
+}
+
+/* Navigation/buttons remain crisp and practical. */
+html :is(
+  .ot-ref-nav,
+  .ot-unified-nav,
+  .used-nav,
+  .nav,
+  button,
+  .button,
+  .btn,
+  [class*="cta"]
+){
+  font-family:var(--ot-font-body)!important;
+}
+
+@media(max-width:760px){
+  html :is(
+    .hero h1,
+    .used-hero h1,
+    .ot-deals-hero h1,
+    .cp-hero-copy h1,
+    .page-hero h1,
+    .department-hero h1
+  ){
+    line-height:.98!important;
+    letter-spacing:-.02em!important;
+  }
+}
