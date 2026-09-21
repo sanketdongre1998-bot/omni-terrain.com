@@ -70,7 +70,7 @@ html :is(
   .detail-card h3
 ){
   color:var(--ot-type-heading)!important;
-  font-weight:650!important;
+  font-weight:600!important;
 }
 
 /* Navigation and controls */
@@ -170,7 +170,7 @@ html.ot-reference-home :is(.ot-ref-hero h1,.hero h1){
 }
 
 html.ot-reference-home :is(.ot-ref-section-head h2,.ot-ref-category h3,.ot-ref-product h3){
-  font-weight:650!important;
+  font-weight:600!important;
 }
 
 html.ot-reference-home :is(
@@ -192,7 +192,7 @@ html.ot-reference-home :is(.ot-ref-nav a,.ot-ref-nav button){
 
 html.ot-reference-home :is(.ot-ref-kicker,.eyebrow,.kicker){
   color:#5f7690!important;
-  font-weight:650!important;
+  font-weight:600!important;
 }
 
 html.ot-reference-home .ot-ref-product-price{
@@ -211,7 +211,7 @@ html :is(.ot-mega-head h4,.ot-unified-dropdown .ot-mega-head h4,.ot-ref-menu .ot
 }
 
 html :is(.ot-mega-kicker,.ot-mega-links a>strong,.ot-unified-dropdown>a.all,.ot-ref-menu>a.all){
-  font-weight:650!important;
+  font-weight:600!important;
 }
 
 html :is(.ot-mega-head p,.ot-mega-links a>small){
