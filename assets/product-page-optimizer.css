@@ -778,3 +778,8 @@ html[data-ot-theme="dark"] body.ot-pdp-us .product-copy>.ot-live-buybox .ot-live
   body.ot-pdp-us .product-copy>.ot-live-buybox [data-ot-buy]{order:1!important}
   body.ot-pdp-us .product-copy>.ot-live-buybox [data-ot-add]{order:2!important}
 }
+
+
+body.ot-pdp-us .product-copy>.ot-live-buybox .ot-live-breakdown{
+  display:none!important;
+}
