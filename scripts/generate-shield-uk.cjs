@@ -76,7 +76,7 @@ function footer(showEbayStore = false) {
 }
 
 function scripts() {
-  return `<script src="assets/shield-products.js"></script><script src="assets/uk-commerce.js"></script><script src="assets/shield-catalogue.js"></script><script defer src="assets/theme-toggle.js?v=6"></script></body></html>`;
+  return `<script src="assets/shield-products.js"></script><script src="assets/uk-commerce.js"></script><script src="assets/shield-catalogue.js"></script><script defer src="assets/theme-toggle.js?v=7"></script></body></html>`;
 }
 
 function formatPrice(price) {
