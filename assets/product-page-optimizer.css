@@ -593,3 +593,64 @@ body.ot-pdp :is(
 }
 html[data-ot-theme="dark"] .ot-pdp-image-fallback-inner{color:#a9bac9}
 html[data-ot-theme="dark"] .ot-pdp-image-fallback-inner b{color:#eef5fb}
+
+
+/* Purchase hierarchy: Buy Now first. Availability is only a fallback for non-live SKUs. */
+body.ot-pdp .product-copy>p:has(.button.secondary){
+  display:flex!important;
+  margin:10px 0 0!important;
+}
+body.ot-pdp .product-copy .button.secondary{
+  width:auto!important;
+  min-height:40px!important;
+  padding:9px 13px!important;
+  border:1px solid #b9cad9!important;
+  border-radius:8px!important;
+  background:#fff!important;
+  color:#35516a!important;
+  box-shadow:none!important;
+  font-size:10px!important;
+  font-weight:750!important;
+}
+body.ot-pdp .product-copy .button.secondary:hover{
+  border-color:#86add0!important;
+  background:#f4f8fc!important;
+  color:#075fca!important;
+}
+
+/* UK PDP: Buy Now is the dominant conversion action. */
+body.ot-pdp-uk .purchase-actions [data-uk-buy]{
+  order:1!important;
+  background:linear-gradient(180deg,#1179da,#075fca)!important;
+  border-color:#075fca!important;
+  color:#fff!important;
+  box-shadow:0 8px 18px rgba(7,95,202,.17)!important;
+  font-weight:850!important;
+}
+body.ot-pdp-uk .purchase-actions [data-uk-add]{
+  order:2!important;
+  background:#fff!important;
+  border:1px solid #b7c9d9!important;
+  color:#173754!important;
+  box-shadow:none!important;
+}
+body.ot-pdp-uk .purchase-actions a{
+  order:3!important;
+}
+html[data-ot-theme="dark"] body.ot-pdp .product-copy .button.secondary{
+  background:#13263a!important;
+  border-color:#36516a!important;
+  color:#c7d8e6!important;
+}
+html[data-ot-theme="dark"] body.ot-pdp-uk .purchase-actions [data-uk-add]{
+  background:#13263a!important;
+  border-color:#36516a!important;
+  color:#e1ebf4!important;
+}
+
+@media(max-width:780px){
+  body.ot-pdp .product-copy .button.secondary{
+    width:100%!important;
+    min-height:44px!important;
+  }
+}
