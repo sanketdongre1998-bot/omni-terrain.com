@@ -535,3 +535,61 @@ html[data-ot-theme="dark"] body.ot-pdp .ot-pdp-jumps a:hover{background:#172d43!
   html[data-ot-theme="dark"] .ot-pdp-mobile-dock-copy b{color:#eef5fb}
   html[data-ot-theme="dark"] .ot-pdp-mobile-dock-copy span{color:#9fb0c1}
 }
+
+
+/* Final PDP type normalization: neutralize legacy Manrope/DM Mono shorthands in product content. */
+body.ot-pdp :is(
+  .product-detail-section p,
+  .product-detail-section li,
+  .product-detail-section .spec-item strong,
+  .feature h3,
+  .feature p,
+  .spec-row,
+  .spec-row b,
+  .spec-row span,
+  .fitment-check span,
+  .fitment-panel p,
+  .fitment-copy>p,
+  .gallery-caption,
+  .availability,
+  .mini-note,
+  .source-note
+){
+  font-family:var(--ot-font-body,Inter,"Helvetica Neue",Arial,sans-serif)!important;
+}
+body.ot-pdp :is(
+  .product-detail-section .ot-product-detail-heading>span,
+  .product-detail-section .spec-item small
+){
+  font-family:var(--ot-font-body,Inter,"Helvetica Neue",Arial,sans-serif)!important;
+  font-weight:800!important;
+}
+
+.ot-pdp-image-fallback{
+  display:grid;
+  width:100%;
+  min-height:260px;
+  place-items:center;
+  padding:28px;
+  text-align:center;
+}
+.ot-pdp-image-fallback-inner{
+  max-width:300px;
+  color:#64788b;
+  font:600 12px/1.55 var(--ot-font-body,Inter,Arial,sans-serif);
+}
+.ot-pdp-image-fallback-inner b{
+  display:block;
+  margin-bottom:8px;
+  color:#173754;
+  font:900 28px/.95 var(--ot-font-display,"Barlow Condensed",sans-serif);
+  text-transform:uppercase;
+}
+.ot-pdp-image-fallback-inner span{
+  display:block;
+  margin-top:8px;
+  color:#8493a1;
+  font-size:10px;
+}
+html[data-ot-theme="dark"] .ot-pdp-image-fallback-inner{color:#a9bac9}
+html[data-ot-theme="dark"] .ot-pdp-image-fallback-inner b{color:#eef5fb}
