@@ -30,7 +30,7 @@ jobs:
           import re
 
           root = Path('.')
-          tag = '<script defer src="assets/theme-toggle.js?v=12"></script>'
+          tag = '<script defer src="assets/theme-toggle.js?v=13"></script>'
           pattern = re.compile(r'<script\b[^>]*\bsrc=["\'][^"\']*assets/theme-toggle\.js(?:\?[^"\']*)?["\'][^>]*></script>', re.I)
           changed = 0
           total = 0
@@ -39,7 +39,7 @@ jobs:
               total += 1
               text = path.read_text(encoding='utf-8')
               text = re.sub(
-                  r'assets/us-live-commerce\.js(?:\?[^"\']*)?',
+                  r'assets/us-live-commerce.js?v=6\?[^"\']*)?',
                   'assets/us-live-commerce.js?v=5',
                   text,
                   flags=re.I
