@@ -49,35 +49,24 @@
 
     box.querySelectorAll(".ot-live-label,.ot-live-stock,.status.buy,.status.stock,.stock-pill,.availability-pill").forEach(node => node.remove());
 
+    const price = box.querySelector(".ot-live-price");
+    const oldRow = box.querySelector(".ot-live-price-row");
+    if (oldRow && price) oldRow.insertAdjacentElement("beforebegin", price);
+
     const oldBreakdown = box.querySelector(".ot-live-breakdown");
     let shipping = box.querySelector(".ot-live-shipping");
+    const included = /free|included/i.test(String(oldBreakdown?.textContent || shipping?.textContent || ""));
     if (!shipping) {
       shipping = document.createElement("div");
       shipping.className = "ot-live-shipping";
-      const included = oldBreakdown && /standard\s+us\s+shipping\s*included/i.test(oldBreakdown.textContent || "");
-      shipping.innerHTML = included
-        ? "<strong>In stock</strong><span>Free standard US shipping</span>"
-        : "<strong>In stock</strong><span>Shipping confirmed before payment</span>";
-    } else {
-      const raw = String(shipping.textContent || "");
-      const included = /free|included/i.test(raw);
-      shipping.innerHTML = included
-        ? "<strong>In stock</strong><span>Free standard US shipping</span>"
-        : "<strong>In stock</strong><span>Shipping confirmed before payment</span>";
     }
+    shipping.innerHTML = included
+      ? "<strong>In stock</strong><span> · Free standard US shipping</span>"
+      : "<strong>In stock</strong><span> · Shipping confirmed before payment</span>";
 
-    const price = box.querySelector(".ot-live-price");
-    let row = box.querySelector(".ot-live-price-row");
-    if (!row && price) {
-      row = document.createElement("div");
-      row.className = "ot-live-price-row";
-      price.insertAdjacentElement("beforebegin", row);
-      row.append(price, shipping);
-    } else if (row && shipping.parentElement !== row) {
-      row.appendChild(shipping);
-    }
-
+    if (price && price.nextElementSibling !== shipping) price.insertAdjacentElement("afterend", shipping);
     oldBreakdown?.remove();
+    oldRow?.remove();
 
     const trust = box.querySelector(".ot-live-trust");
     if (trust && trust.textContent !== "Secure Stripe checkout · Availability is confirmed again before payment.") {
