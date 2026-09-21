@@ -138,9 +138,9 @@
     const priceCents=Math.max(0,Math.round(Number(product.priceCents)||0));
     const shippingIncluded=product.shippingIncluded===true;
     const availabilityLine = shippingIncluded
-      ? '<div class="ot-live-shipping"><strong>In stock</strong> · Free standard US shipping</div>'
-      : '<div class="ot-live-shipping"><strong>In stock</strong> · Shipping confirmed before payment</div>';
-    box.innerHTML = `<div class="ot-live-label">Online price</div><div class="ot-live-price">${money(priceCents)}</div>${availabilityLine}<div class="ot-live-actions"><button type="button" class="ot-live-button" data-ot-buy>Buy Now</button><button type="button" class="ot-live-button secondary" data-ot-add>Add to Cart</button></div><div class="ot-live-trust">Secure Stripe checkout · Availability is confirmed again before payment.</div>`;
+      ? '<div class="ot-live-shipping"><strong>In stock</strong><span>Free standard US shipping</span></div>'
+      : '<div class="ot-live-shipping"><strong>In stock</strong><span>Shipping confirmed before payment</span></div>';
+    box.innerHTML = `<div class="ot-live-price-row"><div class="ot-live-price">${money(priceCents)}</div>${availabilityLine}</div><div class="ot-live-actions"><button type="button" class="ot-live-button" data-ot-buy>Buy Now</button><button type="button" class="ot-live-button secondary" data-ot-add>Add to Cart</button></div><div class="ot-live-trust">Secure Stripe checkout · Availability is confirmed again before payment.</div>`;
     box.querySelector("[data-ot-add]")?.addEventListener("click", event => {
       const quantity = addToCart(product.id, false);
       const button = event.currentTarget;
