@@ -61,7 +61,7 @@
   const ensureScripts = () => {
     ensureScript('script[data-ot-subtle-storefront]', "/assets/omni-subtle-storefront.js?v=20260917-2", "otSubtleStorefront");
     ensureScript('script[data-ot-master-dropdown]', "/assets/master-dropdown.js?v=20260922-2", "otMasterDropdown");
-    ensureScript('script[data-ot-product-page-optimizer]', "/assets/product-page-optimizer.js?v=20260922-2", "otProductPageOptimizer");
+    ensureScript('script[data-ot-product-page-optimizer]', "/assets/product-page-optimizer.js?v=20260922-3", "otProductPageOptimizer");
     ensureScript('script[data-ot-marine-reman-nav]', "/assets/marine-reman-nav.js?v=20260918-1", "otMarineRemanNav");
     if (file === "marine-reman.html") {
       ensureScript('script[data-ot-marine-reman-form-priority]', "/assets/marine-reman-form-priority.js?v=20260918-1", "otMarineRemanFormPriority");
