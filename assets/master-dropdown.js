@@ -59,37 +59,42 @@
   }
 
   function usAutoMenu() {
-    return `<h4>Auto Parts</h4>
-      <a href="/automotive.html">New Auto Parts</a>
-      <a href="/used-auto-parts.html"><strong>Used OEM Auto Parts</strong></a>
-      <a href="/automotive.html">Exterior &amp; Body</a>
-      <a href="/automotive.html">Interior Parts</a>
-      <a href="/automotive.html">Performance</a>
-      <a href="/automotive.html">Towing &amp; Hauling</a>
-      <a href="/automotive.html">Replacement Parts</a>
-      <a class="all" href="/automotive.html">Shop New Auto Parts →</a>`;
+    return `<div class="ot-mega-head"><span class="ot-mega-kicker">VEHICLE PARTS</span><h4>Auto Parts</h4><p>New, used OEM and remanufactured parts with part-number-led shopping and fitment support.</p></div>
+      <div class="ot-mega-links">
+        <a href="/automotive.html"><strong>New Auto Parts</strong><small>New specialist parts and accessories</small></a>
+        <a class="ot-mega-feature" href="/used-auto-parts.html"><strong>Used OEM Parts</strong><small>Genuine used factory components</small></a>
+        <a href="/auto-reman.html"><strong>Remanufactured</strong><small>Selected rebuilt electronic and mechanical parts</small></a>
+        <a href="/automotive.html"><strong>Performance</strong><small>Upgrade and performance components</small></a>
+        <a href="/automotive.html"><strong>Towing &amp; Hauling</strong><small>Hitches, towing and load gear</small></a>
+        <a href="/automotive.html"><strong>Replacement Parts</strong><small>Repair and replacement essentials</small></a>
+      </div>
+      <a class="all" href="/automotive.html">Browse all Auto Parts <span>→</span></a>`;
   }
 
   function usMarineMenu() {
-    return `<h4>Marine</h4>
-      <a href="/marine.html">Marine Electronics</a>
-      <a href="/marine.html">Deck &amp; Hardware</a>
-      <a href="/marine.html">Lighting</a>
-      <a href="/marine.html">Anchoring &amp; Mooring</a>
-      <a href="/marine.html">Safety &amp; Navigation</a>
-      <a href="/marine.html">Boat Care &amp; Maintenance</a>
-      <a class="all" href="/marine.html">Shop All Marine →</a>`;
+    return `<div class="ot-mega-head"><span class="ot-mega-kicker">ON THE WATER</span><h4>Marine</h4><p>Marine parts, electronics and selected reman solutions for repair, maintenance and upgrades.</p></div>
+      <div class="ot-mega-links">
+        <a href="/marine.html"><strong>Marine Electronics</strong><small>Electronics, controls and accessories</small></a>
+        <a class="ot-mega-feature" href="/marine-reman.html"><strong>Marine Reman</strong><small>Selected rebuilt marine components</small></a>
+        <a href="/marine.html"><strong>Deck &amp; Hardware</strong><small>Deck fittings and marine hardware</small></a>
+        <a href="/marine.html"><strong>Lighting</strong><small>Interior, deck and navigation lighting</small></a>
+        <a href="/marine.html"><strong>Safety &amp; Navigation</strong><small>Safety and navigation essentials</small></a>
+        <a href="/marine.html"><strong>Care &amp; Maintenance</strong><small>Maintenance and boat-care products</small></a>
+      </div>
+      <a class="all" href="/marine.html">Browse all Marine <span>→</span></a>`;
   }
 
   function ukMenu(label) {
-    return `<h4>${label}</h4>
-      <a href="/shield-autocare-uk.html">Current UK range</a>
-      <a href="/shield-autocare-uk.html#fridges">Campervan Fridges</a>
-      <a href="/shield-autocare-uk.html#windows">Windows</a>
-      <a href="/shield-autocare-uk.html#blinds">Blinds &amp; Flyscreens</a>
-      <a href="/uk-tyres.html">Tyres</a>
-      <a href="/uk-contact.html">Product &amp; Fitment Help</a>
-      <a class="all" href="/shield-autocare-uk.html">Shop Available Products →</a>`;
+    return `<div class="ot-mega-head"><span class="ot-mega-kicker">UK STORE</span><h4>${label}</h4><p>Browse the current UK range with product and fitment support when you need it.</p></div>
+      <div class="ot-mega-links">
+        <a class="ot-mega-feature" href="/shield-autocare-uk.html"><strong>Current UK Range</strong><small>Products currently available to the UK store</small></a>
+        <a href="/shield-autocare-uk.html#fridges"><strong>Campervan Fridges</strong><small>Cooling for campervan and travel builds</small></a>
+        <a href="/shield-autocare-uk.html#windows"><strong>Windows</strong><small>Campervan windows and fitting options</small></a>
+        <a href="/shield-autocare-uk.html#blinds"><strong>Blinds &amp; Flyscreens</strong><small>Privacy, shade and ventilation solutions</small></a>
+        <a href="/uk-tyres.html"><strong>Tyres</strong><small>Browse the current UK tyre range</small></a>
+        <a href="/uk-contact.html"><strong>Product &amp; Fitment Help</strong><small>Get help before ordering</small></a>
+      </div>
+      <a class="all" href="/shield-autocare-uk.html">Browse available UK products <span>→</span></a>`;
   }
 
   function cleanupLegacy() {
