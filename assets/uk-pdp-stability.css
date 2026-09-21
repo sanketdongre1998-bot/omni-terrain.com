@@ -584,3 +584,30 @@ html[data-ot-theme="dark"] body.ot-pdp-uk .anchor-nav{
     grid-template-columns:105px 1fr!important;
   }
 }
+
+
+/* Explicit contrast protection against global typography overrides. */
+body.ot-pdp-uk .fitment-copy,
+body.ot-pdp-uk .fitment-panel{
+  color:#fff!important;
+}
+body.ot-pdp-uk .fitment-copy h2,
+body.ot-pdp-uk .fitment-panel h3{
+  color:#fff!important;
+}
+body.ot-pdp-uk .fitment-copy>p{
+  color:#cbd8e5!important;
+}
+body.ot-pdp-uk .fitment-check span{
+  color:#dce5ee!important;
+}
+body.ot-pdp-uk .fitment-check{
+  border-color:rgba(255,255,255,.13)!important;
+  background:rgba(255,255,255,.05)!important;
+}
+body.ot-pdp-uk .fitment-panel p{
+  color:rgba(255,255,255,.9)!important;
+}
+body.ot-pdp-uk .fitment-panel :is(.eyebrow,.source-note){
+  color:#fff3d4!important;
+}
