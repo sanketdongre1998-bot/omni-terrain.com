@@ -183,8 +183,13 @@
     if (!dock) return;
     const price = firstText([".price",".ot-live-price",".product-price"]);
     const span = dock.querySelector(".ot-pdp-mobile-dock-copy span");
-    const next = price || (region === "uk" ? "View price & order options" : "Price & availability");
+    const button = dock.querySelector("button");
+    const buyTarget = document.querySelector("[data-ot-buy],[data-uk-buy]");
+    const next = price || (buyTarget ? "Ready to order" : (region === "uk" ? "View price & order options" : "Price & availability"));
     if (span && span.textContent !== next) span.textContent = next;
+    const label = buyTarget ? "Buy Now" : "Check availability";
+    if (button && button.textContent !== label) button.textContent = label;
+    dock.dataset.otBuyReady = buyTarget ? "true" : "false";
   }
 
   function installMobileDock(region, schema) {
@@ -195,14 +200,20 @@
     dock.className = "ot-pdp-mobile-dock";
     dock.innerHTML = `
       <div class="ot-pdp-mobile-dock-copy"><b></b><span></span></div>
-      <button type="button">Purchase options</button>`;
+      <button type="button">Check availability</button>`;
     dock.querySelector("b").textContent = title;
     dock.querySelector("span").textContent = price || (region === "uk" ? "View price & order options" : "Price & availability");
     dock.querySelector("button").addEventListener("click", () => {
-      const target = document.querySelector(".purchase-box,.ot-live-buybox,.product-copy .notice,.product-copy .button.secondary");
+      const buyTarget = document.querySelector("[data-ot-buy],[data-uk-buy]");
+      if (buyTarget) {
+        buyTarget.click();
+        return;
+      }
+      const target = document.querySelector(".product-copy .button.secondary,.product-copy .notice,.purchase-box,.ot-live-buybox");
       target?.scrollIntoView({ behavior: "smooth", block: "center" });
     });
     document.body.appendChild(dock);
+    syncMobileDock(region);
   }
 
   function normalize(region) {
@@ -222,6 +233,9 @@
     if (info) info.setAttribute("data-ot-pdp-info", "true");
 
     softenLegacyDraftCopy();
+    document.querySelectorAll(".product-copy .button.secondary").forEach(button => {
+      if (/check\s+price\s*&?\s*availability/i.test(button.textContent || "")) button.textContent = "Check availability";
+    });
     installTrust(region);
     installJumps(region);
     installMobileDock(region, schema);
