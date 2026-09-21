@@ -47,6 +47,25 @@
       else copy.prepend(box);
     }
 
+    const label = box.querySelector(".ot-live-label");
+    if (label && label.textContent !== "Online price") label.textContent = "Online price";
+
+    const oldBreakdown = box.querySelector(".ot-live-breakdown");
+    let shipping = box.querySelector(".ot-live-shipping");
+    if (oldBreakdown && !shipping) {
+      shipping = document.createElement("div");
+      shipping.className = "ot-live-shipping";
+      shipping.innerHTML = /standard\s+us\s+shipping\s*included/i.test(oldBreakdown.textContent || "")
+        ? "<strong>In stock</strong> · Free standard US shipping"
+        : "<strong>In stock</strong> · Shipping confirmed before payment";
+      oldBreakdown.insertAdjacentElement("afterend", shipping);
+    }
+
+    const trust = box.querySelector(".ot-live-trust");
+    if (trust && trust.textContent !== "Secure Stripe checkout · Availability is confirmed again before payment.") {
+      trust.textContent = "Secure Stripe checkout · Availability is confirmed again before payment.";
+    }
+
     copy.querySelector(".notice")?.remove();
     copy.querySelectorAll("p").forEach(node => {
       if (node.querySelector("a.button")) node.remove();
