@@ -152,6 +152,7 @@
     const selectors = [
       ".ot-ref-actions",
       ".used-actions",
+      ".ot-unified-actions",
       ".ot-site-actions",
       ".header .actions",
       ".header-actions",
