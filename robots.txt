@@ -4,6 +4,8 @@ Allow: /
 # Explicit AI/search crawler access for product discovery and citations.
 User-agent: OAI-SearchBot
 Allow: /
+User-agent: OAI-AdsBot
+Allow: /
 User-agent: ChatGPT-User
 Allow: /
 User-agent: GPTBot
