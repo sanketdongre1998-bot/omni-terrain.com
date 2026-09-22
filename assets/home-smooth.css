@@ -347,3 +347,106 @@ html.ot-reference-home .ot-ref-product img{
     font-size:9px!important;
   }
 }
+
+
+/* 2026-09-23 final responsive + speed guard */
+html.ot-reference-home .ot-mobile-quick-link{display:none!important}
+html.ot-reference-home #otThemeToggle,
+html.ot-reference-home .ot-theme-toggle{min-width:40px!important;min-height:40px!important;width:40px!important;height:40px!important;padding:0!important}
+
+@media(max-width:760px){
+  html.ot-reference-home .ot-ref-finder .ot-ref-width,
+  html.ot-reference-home .ot-ref-finder-card,
+  html.ot-reference-home .ot-ref-finder-card>*,
+  html.ot-reference-home .ot-ref-finder-card>div:last-child,
+  html.ot-reference-home .ot-ref-finder-copy,
+  html.ot-reference-home .ot-ref-findtabs,
+  html.ot-reference-home .ot-ref-findform{
+    min-width:0!important;
+    max-width:100%!important;
+    width:100%!important;
+  }
+  html.ot-reference-home .ot-ref-finder-card{overflow:hidden!important}
+  html.ot-reference-home .ot-ref-findtabs{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    overflow:hidden!important;
+  }
+  html.ot-reference-home .ot-ref-findtabs span{
+    display:flex!important;
+    min-width:0!important;
+    width:100%!important;
+    padding:0 6px!important;
+    white-space:normal!important;
+    text-align:center!important;
+    line-height:1.15!important;
+  }
+  html.ot-reference-home .ot-ref-findform{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:8px!important;
+  }
+  html.ot-reference-home .ot-ref-findform select,
+  html.ot-reference-home .ot-ref-findform input,
+  html.ot-reference-home .ot-ref-findform button{
+    min-width:0!important;
+    max-width:100%!important;
+    width:100%!important;
+    box-sizing:border-box!important;
+  }
+  html.ot-reference-home .ot-ref-findform button{grid-column:auto!important}
+  html.ot-reference-home .ot-ref-header .ot-ref-nav>.ot-ref-width>*:not(.ot-mobile-quick-link){display:none!important}
+  html.ot-reference-home .ot-ref-header .ot-ref-nav>.ot-ref-width>.ot-mobile-quick-link{
+    display:flex!important;
+    min-width:0!important;
+    width:100%!important;
+    height:42px!important;
+    align-items:center!important;
+    justify-content:center!important;
+  }
+}
+
+@media(min-width:761px) and (max-width:860px){
+  html.ot-reference-home .ot-ref-mainbar .ot-ref-width{
+    grid-template-columns:160px minmax(260px,1fr) 180px!important;
+    gap:10px!important;
+  }
+  html.ot-reference-home .ot-ref-account{
+    display:flex!important;
+    min-width:48px!important;
+    min-height:40px!important;
+    align-items:center!important;
+    justify-content:center!important;
+  }
+  html.ot-reference-home .ot-ref-nav{
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    scrollbar-width:none!important;
+  }
+  html.ot-reference-home .ot-ref-nav::-webkit-scrollbar{display:none!important}
+  html.ot-reference-home .ot-ref-nav>.ot-ref-width{
+    display:flex!important;
+    width:max-content!important;
+    min-width:100%!important;
+    max-width:none!important;
+    margin:0!important;
+    padding:0!important;
+    justify-content:flex-start!important;
+  }
+  html.ot-reference-home .ot-ref-nav>.ot-ref-width>.ot-ref-nav-item,
+  html.ot-reference-home .ot-ref-nav>.ot-ref-width>a{
+    display:flex!important;
+    flex:0 0 auto!important;
+    width:auto!important;
+    min-width:0!important;
+  }
+  html.ot-reference-home .ot-ref-nav>.ot-ref-width>.ot-ref-nav-item>button,
+  html.ot-reference-home .ot-ref-nav>.ot-ref-width>a{
+    width:auto!important;
+    min-width:0!important;
+    height:44px!important;
+    padding:0 14px!important;
+    white-space:nowrap!important;
+  }
+  html.ot-reference-home .ot-mobile-quick-link{display:none!important}
+}
