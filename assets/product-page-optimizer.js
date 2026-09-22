@@ -165,6 +165,18 @@
     });
   }
 
+  function cleanupProductVisualChrome() {
+    document.querySelectorAll(".product-visual").forEach(visual => {
+      visual.querySelectorAll(".image-badge,.ot-launch-ribbon,.ot-live-stock,.stock-pill,.availability-pill").forEach(node => node.remove());
+      visual.querySelectorAll("button,a,span,small,div").forEach(node => {
+        if (node.querySelector("img")) return;
+        const text = String(node.textContent || "").replace(/\s+/g," ").trim().toLowerCase();
+        if (["product image","tap image to inspect","enlarge image"].includes(text)) node.remove();
+      });
+    });
+    document.querySelectorAll(".product-copy .ot-launch-ribbon,.product-copy .ot-live-stock,.product-copy .stock-pill,.product-copy .availability-pill").forEach(node => node.remove());
+  }
+
   function installBreadcrumbSchema(schema) {
     if (!schema || document.querySelector('script[data-ot-pdp-breadcrumb-schema]')) return;
     const trail = document.querySelector(".breadcrumb,.crumbs");
@@ -276,6 +288,7 @@
     if (info) info.setAttribute("data-ot-pdp-info", "true");
 
     softenLegacyDraftCopy();
+    cleanupProductVisualChrome();
     if (region === "us") {
       normalizeLivePurchasePlacement();
       document.querySelectorAll(".product-copy .button.secondary").forEach(button => {
@@ -315,8 +328,10 @@
   // Live commerce can inject price/buybox after initial paint.
   // Use a few bounded syncs instead of a subtree MutationObserver to avoid
   // feedback loops and main-thread churn on large product pages.
-  [3000,4500,6500].forEach(ms => setTimeout(() => {
-    if (!document.body?.classList.contains("ot-pdp-us")) return;
+  [1200,3000,4500,6500].forEach(ms => setTimeout(() => {
+    if (!document.body?.classList.contains("ot-pdp")) return;
+    cleanupProductVisualChrome();
+    if (!document.body.classList.contains("ot-pdp-us")) return;
     normalizeLivePurchasePlacement();
     installTrust("us");
     syncMobileDock("us");
