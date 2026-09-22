@@ -35,6 +35,7 @@
   styleAssets.push(["otFontColorContrast", "/assets/font-color-contrast.css?v=20260922-1"]);
   styleAssets.push(["otMasterDropdownStability", "/assets/master-dropdown-stability.css?v=20260922-2"]);
   styleAssets.push(["otFinalCleanup20260922", "/assets/final-cleanup-20260922.css?v=1"]);
+  if (isHome) styleAssets.push(["otHomePremium3BlockLate", "/assets/home-premium-3block.css?v=1"]);
 
   const ensureStyles = () => {
     styleAssets.forEach(([key, href]) => {
