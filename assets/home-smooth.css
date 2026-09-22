@@ -77,7 +77,18 @@ html.ot-reference-home button{touch-action:manipulation}
     gap:6px!important;
     min-width:0!important;
   }
-  html.ot-reference-home .ot-ref-account{display:none!important}
+  html.ot-reference-home .ot-ref-account{
+    display:flex!important;
+    min-width:44px!important;
+    min-height:40px!important;
+    align-items:center!important;
+    justify-content:center!important;
+    padding:4px 5px!important;
+    text-align:center!important;
+    white-space:nowrap!important;
+  }
+  html.ot-reference-home .ot-ref-account span{display:none!important}
+  html.ot-reference-home .ot-ref-account strong{margin:0!important;font-size:10px!important;line-height:1.1!important}
   html.ot-reference-home .ot-ref-cart{
     min-height:40px!important;
     padding:4px 6px!important;
