@@ -31,7 +31,7 @@
   styleAssets.push(["otTypographyColorRefinement", "/assets/typography-color-refinement.css?v=20260922-1"]);
   styleAssets.push(["otUkPdpStability", "/assets/uk-pdp-stability.css?v=20260922-2"]);
   styleAssets.push(["otAllDeviceResponsive", "/assets/all-device-responsive.css?v=20260922-2"]);
-  styleAssets.push(["otModernVisualPolish", "/assets/modern-visual-polish.css?v=20260922-1"]);
+  styleAssets.push(["otModernVisualPolish", "/assets/modern-visual-polish.css?v=20260922-2"]);
 
   const ensureStyles = () => {
     styleAssets.forEach(([key, href]) => {
