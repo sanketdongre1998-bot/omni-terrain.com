@@ -28,19 +28,28 @@ function head({ title, description, canonical, image, schema = [], robots = "ind
 <html lang="en-GB">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="description" content="${esc(description)}">
+  <meta name="format-detection" content="telephone=no">
   <meta name="theme-color" content="#071a30">
   <meta name="robots" content="${esc(robots)}">
   <title>${esc(title)}</title>
   <link rel="canonical" href="${esc(canonical)}">
+  <link rel="alternate" hreflang="en-GB" href="${esc(canonical)}">
+  <link rel="alternate" hreflang="x-default" href="${esc(canonical)}">
+  <link rel="alternate" type="text/plain" href="${site}/llms.txt" title="Omni Terrain LLM site guide">
+  <link rel="sitemap" type="application/xml" href="${site}/sitemap.xml">
   <meta property="og:site_name" content="Omni Terrain">
+  <meta property="og:locale" content="en_GB">
   <meta property="og:type" content="website">
   <meta property="og:title" content="${esc(title)}">
   <meta property="og:description" content="${esc(description)}">
   <meta property="og:url" content="${esc(canonical)}">
   <meta property="og:image" content="${esc(imageUrl)}">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${esc(title)}">
+  <meta name="twitter:description" content="${esc(description)}">
+  <meta name="twitter:image" content="${esc(imageUrl)}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&amp;family=DM+Mono:wght@400;500&amp;family=Manrope:wght@400;500;600;700;800&amp;family=Teko:wght@500;600;700&amp;display=swap" rel="stylesheet">
@@ -64,7 +73,7 @@ function header(active = "") {
   const links = nav.map(([id, href, label]) => `<a${id === active ? ' class="active" aria-current="page"' : ""} href="${href}">${label}</a>`).join("");
   return `<body>
 <div class="announcement"><div class="container"><span><strong>Omni Terrain UK:</strong> Practical parts and equipment with clear support before and after you buy.</span><a href="uk-contact.html">Need help choosing? →</a></div></div>
-<div class="market-strip"><div class="container"><span class="market-label">Store region</span><a href="index.html">United States</a><a class="market-link" href="uk.html">United Kingdom</a><span class="market-note">UK operator: PRASAD INC LTD · VAT registered</span></div></div>
+<div class="market-strip"><div class="container"><span class="market-label">Store region</span><a href="index.html">United States</a><a class="market-link" href="uk.html">United Kingdom</a><span class="market-note">UK storefront · Omni Terrain</span></div></div>
 <header id="header"><div class="container header-main">${wordmark()}<nav class="nav-links" aria-label="UK store navigation">${links}</nav><div class="header-actions"><a class="cart-link${active === "cart" ? " active" : ""}" href="uk-cart.html">Cart <span class="cart-count" data-uk-cart-count>0</span></a><a class="header-contact desktop-only" href="uk-contact.html">UK Help</a><button class="menu-btn" id="menuToggle" aria-expanded="false" aria-controls="mobileNav">Menu</button></div></div>
 <nav class="mobile-nav" id="mobileNav" aria-label="UK store mobile navigation"><a href="uk.html">UK Home</a><a href="shield-autocare-uk.html">Shop Available Products</a><a href="shield-autocare-uk.html#fridges">Campervan Fridges</a><a href="shield-autocare-uk.html#windows">Campervan Windows</a><a href="shield-autocare-uk.html#blinds">Blinds &amp; Flyscreens</a><a href="uk-cart.html">Cart <span data-uk-cart-count>0</span></a><a href="uk-contact.html">Contact &amp; Help</a></nav></header>
 <div class="draft-strip"><div class="container"><span class="draft-pill">Website shopping</span><span>Add products to your Omni Terrain cart and keep your buying journey on our website. Secure card checkout will be enabled when payment setup is live.</span></div></div>`;
@@ -72,11 +81,11 @@ function header(active = "") {
 
 function footer(showEbayStore = false) {
   const ebayStoreLink = showEbayStore ? `<a href="${sellerUrl}" target="_blank" rel="noopener">Visit eBay store ↗</a>` : "";
-  return `<footer><div class="container"><div class="footer-grid"><div>${wordmark()}<p class="footer-copy">Practical automotive, marine, campervan and power equipment with clear product information and customer support.</p><p class="legal-note"><strong>UK operator:</strong> PRASAD INC LTD trading as Omni Terrain · Company No. 07981226 · VAT GB 433306133 · EORI GB433306133000 · 19 Stones Avenue, Dartford, England, DA1 5GS</p></div><div><div class="footer-heading">Shop UK</div><div class="footer-links"><a href="shield-autocare-uk.html">Available Products</a><a href="shield-autocare-uk.html#fridges">Fridges</a><a href="shield-autocare-uk.html#windows">Windows</a><a href="shield-autocare-uk.html#blinds">Blinds &amp; Flyscreens</a><a href="uk-cart.html">Cart</a></div></div><div><div class="footer-heading">UK support</div><div class="footer-links"><a href="uk-contact.html">Contact &amp; Order Help</a><a href="mailto:support@omni-terrain.com">support@omni-terrain.com</a><a href="buyer-guides.html">Buyer Guides</a>${ebayStoreLink}</div></div><div><div class="footer-heading">UK policies</div><div class="footer-links"><a href="uk-shipping-delivery-policy.html">Shipping</a><a href="uk-returns-refunds-policy.html">Returns</a><a href="uk-privacy-policy.html">Privacy</a><a href="uk-terms-conditions.html">Terms</a></div></div></div><div class="footer-bottom"><span>© 2026 Omni Terrain. All rights reserved.</span><span>United Kingdom · Prices include VAT · Website-first shopping</span></div></div></footer>`;
+  return `<footer><div class="container"><div class="footer-grid"><div>${wordmark()}<p class="footer-copy">Practical automotive, marine, campervan and power equipment with clear product information and customer support.</p><p class="legal-note">Omni Terrain UK storefront · Customer support: support@omni-terrain.com</p></div><div><div class="footer-heading">Shop UK</div><div class="footer-links"><a href="shield-autocare-uk.html">Available Products</a><a href="shield-autocare-uk.html#fridges">Fridges</a><a href="shield-autocare-uk.html#windows">Windows</a><a href="shield-autocare-uk.html#blinds">Blinds &amp; Flyscreens</a><a href="uk-cart.html">Cart</a></div></div><div><div class="footer-heading">UK support</div><div class="footer-links"><a href="uk-contact.html">Contact &amp; Order Help</a><a href="mailto:support@omni-terrain.com">support@omni-terrain.com</a><a href="buyer-guides.html">Buyer Guides</a>${ebayStoreLink}</div></div><div><div class="footer-heading">UK policies</div><div class="footer-links"><a href="uk-shipping-delivery-policy.html">Shipping</a><a href="uk-returns-refunds-policy.html">Returns</a><a href="uk-privacy-policy.html">Privacy</a><a href="uk-terms-conditions.html">Terms</a></div></div></div><div class="footer-bottom"><span>© 2026 Omni Terrain. All rights reserved.</span><span>United Kingdom · Prices include VAT · Website-first shopping</span></div></div></footer>`;
 }
 
 function scripts() {
-  return `<script src="assets/shield-products.js"></script><script src="assets/uk-commerce.js"></script><script src="assets/shield-catalogue.js"></script><script defer src="assets/theme-toggle.js?v=27"></script></body></html>`;
+  return `<script src="assets/shield-products.js"></script><script src="assets/uk-commerce.js"></script><script src="assets/shield-catalogue.js"></script><script defer src="assets/theme-toggle.js?v=27"></script><script defer src="assets/storefront-performance.js?v=16"></script></body></html>`;
 }
 
 function formatPrice(price) {
