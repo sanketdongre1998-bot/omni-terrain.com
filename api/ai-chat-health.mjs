@@ -15,6 +15,6 @@ export function GET(request) {
     configured: gatewayKey || oidc || openai,
     auth: oidc ? "vercel-oidc" : gatewayKey ? "ai-gateway-key" : openai ? "openai-key" : "fallback-only",
     model: "openai/gpt-5.6-luna",
-    fallbackModel: "openai/gpt-5.6-sol",
+    fallbackModel: "openai/gpt-5.6-terra",
   }, 200, request);
 }
