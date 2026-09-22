@@ -281,3 +281,70 @@
     color:#79b8ff!important;
   }
 }
+
+
+/* Internal shell specificity lock — match homepage mega-menu rendering exactly. */
+@media(min-width:861px){
+  #otUnifiedHeaderShell .ot-unified-dropdown{
+    width:620px!important;
+    min-width:620px!important;
+    max-width:min(620px,calc(100vw - 40px))!important;
+    padding:0!important;
+    overflow:hidden!important;
+    display:block!important;
+  }
+  #otUnifiedHeaderShell .ot-unified-dropdown .ot-mega-head{
+    display:block!important;
+    width:100%!important;
+    padding:18px 20px 16px!important;
+  }
+  #otUnifiedHeaderShell .ot-unified-dropdown .ot-mega-links{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:8px!important;
+    width:100%!important;
+    padding:12px!important;
+  }
+  #otUnifiedHeaderShell .ot-unified-dropdown .ot-mega-links>a{
+    display:block!important;
+    width:auto!important;
+    min-width:0!important;
+    min-height:70px!important;
+    padding:12px 34px 11px 13px!important;
+    border:1px solid transparent!important;
+    border-radius:9px!important;
+    background:#fff!important;
+    color:#29445d!important;
+    white-space:normal!important;
+    box-shadow:none!important;
+  }
+  #otUnifiedHeaderShell .ot-unified-dropdown .ot-mega-links>a>strong,
+  #otUnifiedHeaderShell .ot-unified-dropdown .ot-mega-links>a>small{
+    display:block!important;
+    width:auto!important;
+    min-width:0!important;
+    white-space:normal!important;
+    word-break:normal!important;
+    overflow-wrap:normal!important;
+  }
+  #otUnifiedHeaderShell .ot-unified-dropdown .ot-mega-links>a>strong{
+    color:inherit!important;
+    font:600 12px/1.25 var(--ot-font-body,Inter,Arial,sans-serif)!important;
+  }
+  #otUnifiedHeaderShell .ot-unified-dropdown .ot-mega-links>a>small{
+    margin-top:4px!important;
+    color:#758697!important;
+    font:400 10px/1.4 var(--ot-font-body,Inter,Arial,sans-serif)!important;
+  }
+  #otUnifiedHeaderShell .ot-unified-dropdown>a.all{
+    display:flex!important;
+    width:auto!important;
+    min-height:44px!important;
+    margin:0 12px 12px!important;
+    padding:0 13px!important;
+    border:1px solid #d4e1ec!important;
+    border-radius:8px!important;
+    background:#f8fbfd!important;
+    color:#1764b5!important;
+  }
+}
