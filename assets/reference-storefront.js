@@ -17,6 +17,17 @@
     ['A1360828HD','us-air-lift-60828hd.html'], ['B5224066464','us-bilstein-24-066464.html']
   ];
 
+  const US_HOME_META = {
+    F37FTL5607:{title:'Fabtech FTL5607 1.5" Leveling Kit for 2024–2026 Toyota Tacoma & 2025–2026 4Runner',brand:'FABTECH',image:'https://vehiclepartimages.com/ImageServerAPI?File=FAB/Images/FTL5607_1.jpg&maxheight=820&maxwidth=1080'},
+    HUS81147:{title:'Husky Towing 81147 — 4-Bike Hitch Rack',brand:'HUSKY TOWING',image:'https://vehiclepartimages.com/ImageServerAPI?File=HUK/Images/HUS_81147_HITCH%20MOUNTED%20BIKE%20RACK_B2C_5.jpg&maxheight=820&maxwidth=1080'},
+    HUS81148:{title:'Husky Towing 81148 — 500 lb Hitch Cargo Carrier',brand:'HUSKY TOWING',image:'https://vehiclepartimages.com/ImageServerAPI?File=HUK/Images/HUS_81148_CARGO%20CARRIER_B2C_2.jpg&maxheight=820&maxwidth=1080'},
+    CCIN9010F:{title:'Coast to Coast IWCN9010F — 17-inch Front Wheel Simulator',brand:'COAST2COAST',image:'https://vehiclepartimages.com/ImageServerAPI?File=CTC/Images/CCI_IWCN9010F_Wheel%20Simulator_1.jpg&maxheight=820&maxwidth=1080'},
+    CCIN8010F:{title:'Coast to Coast IWCN8010F — 17-inch Front Wheel Simulator',brand:'COAST2COAST',image:'https://vehiclepartimages.com/ImageServerAPI?File=CTC/Images/IWCN8010F_updated.jpg&maxheight=820&maxwidth=1080'},
+    CCIIMP103X:{title:'Coast to Coast IWCIMP103X — 18-inch Chrome Wheel Skins',brand:'COAST2COAST',image:'https://vehiclepartimages.com/ImageServerAPI?File=CTC/Images/CCI_IWCIMP103X_IMPOSTOR%20WHEEL%20SKIN_B2C_1.jpg&maxheight=820&maxwidth=1080'},
+    A1360828HD:{title:'Air Lift 60828HD — Air Lift 1000HD Rear Air Spring Kit',brand:'AIR LIFT',image:'https://vehiclepartimages.com/ImageServerAPI?File=AIR/Images/60828HD_v3.jpg&maxheight=820&maxwidth=1080'},
+    B5224066464:{title:'Bilstein 24-066464 — B8 5100 Shock Absorber',brand:'BILSTEIN',image:'https://vehiclepartimages.com/ImageServerAPI?File=BLS/Images/24-066464_thu.jpg&maxheight=820&maxwidth=1080'}
+  };
+
   const IMG = {
     hero: '/assets/omni-main-hero-20260916.png',
     auto: '/assets/ot-cat-new-auto-final.jpg',
@@ -154,8 +165,8 @@
   async function loadUSProducts() {
     try {
       const [r1, r2] = await Promise.all([
-        fetch('/assets/us-live-products.json?v=ref-1', { cache: 'no-store' }),
-        fetch('/assets/us-stock-status.json?v=ref-1', { cache: 'no-store' })
+        fetch('/assets/us-live-products.json?v=ref-1', { cache: 'no-cache' }),
+        fetch('/assets/us-stock-status.json?v=ref-1', { cache: 'no-cache' })
       ]);
       if (!r1.ok) return [];
       const registry = await r1.json();
@@ -166,9 +177,10 @@
         const s = stock?.products?.[id];
         if (!p || p.enabled !== true || p.authorizationVerified !== true || Number(p.priceCents) <= 0) continue;
         if (s && s.checkoutReady === false) continue;
-        rows.push({ id, slug, row: p, price: Number(p.priceCents) / 100 });
+        const meta = US_HOME_META[id] || {};
+        rows.push({ id, slug, row: p, price: Number(p.priceCents) / 100, title: meta.title || p.mpn || 'Featured product', brand: meta.brand || 'Omni Terrain', image: meta.image || '' });
       }
-      return await Promise.all(rows.slice(0, 6).map(hydrateUS));
+      return rows.slice(0, 6);
     } catch (_) { return []; }
   }
 
