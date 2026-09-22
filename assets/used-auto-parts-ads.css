@@ -65,3 +65,20 @@
 .used-reman-bridge-inner span{display:block;margin-top:4px;color:#687e93;font-size:9.5px;line-height:1.45}
 .used-reman-bridge-inner a{display:inline-flex;min-height:42px;flex:0 0 auto;align-items:center;justify-content:center;padding:0 14px;border-radius:7px;background:#123f70;color:#fff;text-decoration:none;font-size:10px;font-weight:900}
 @media(max-width:720px){.used-reman-bridge-inner{align-items:stretch;flex-direction:column}.used-reman-bridge-inner a{width:100%}}
+
+
+/* Desktop first-fold height guard — keeps the Used OEM conversion hero compact without clipping content. */
+@media(min-width:1001px){
+  .used-hero{padding:19px 0 17px!important}
+  .used-hero-grid{gap:22px!important}
+  .used-hero-actions{margin-top:11px!important}
+  .used-hero-call-note{margin-top:6px!important}
+  .used-points{margin-top:11px!important;gap:7px!important}
+  .used-point{padding:9px!important}
+  .used-request{padding:14px 16px!important}
+  .used-request>p{margin-bottom:8px!important}
+  .used-request-call{min-height:44px!important;margin-bottom:8px!important;padding:6px 10px!important}
+  .used-request form{gap:6px!important}
+  .used-request input,.used-request select,.used-fitment-grid select{height:37px!important}
+  .used-request button,.used-request-secondary{min-height:39px!important}
+}
