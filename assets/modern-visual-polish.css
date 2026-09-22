@@ -1,0 +1,388 @@
+/* Omni Terrain modern visual polish — presentation only.
+   IMPORTANT: no layout/data/content/theme structure changes in this layer. */
+
+:root{
+  --ot-modern-radius-sm:9px;
+  --ot-modern-radius:13px;
+  --ot-modern-radius-lg:17px;
+  --ot-modern-border:#dfe7ee;
+  --ot-modern-border-strong:#cfdbe5;
+  --ot-modern-shadow:0 8px 24px rgba(17,45,73,.055);
+  --ot-modern-shadow-hover:0 14px 34px rgba(17,45,73,.10);
+  --ot-modern-shadow-soft:0 4px 14px rgba(17,45,73,.045);
+  --ot-modern-focus:0 0 0 3px rgba(31,94,213,.12);
+}
+
+/* Clean, consistent surface language */
+html :is(
+  .ot-ref-category,
+  .ot-ref-product,
+  .card,
+  .product-card,
+  .used-card,
+  .selection-card,
+  .commerce-card,
+  .policy-card,
+  .detail-card,
+  .quick-card,
+  .fact,
+  .uk-cart-panel,
+  .purchase-box,
+  .gallery-card,
+  .why-card,
+  .support-inner,
+  .ot-live-buybox
+){
+  border-color:var(--ot-modern-border)!important;
+  border-radius:var(--ot-modern-radius)!important;
+  box-shadow:var(--ot-modern-shadow-soft)!important;
+}
+
+/* Slightly more premium hero / finder / large panel treatment without changing geometry */
+html :is(
+  .ot-ref-finder-card,
+  .used-request,
+  .used-reman-bridge-inner,
+  .catalogue-hero-shell,
+  .commerce-shell,
+  .cart-hero-shell,
+  .policy-wrap
+){
+  border-color:var(--ot-modern-border)!important;
+  border-radius:var(--ot-modern-radius-lg)!important;
+  box-shadow:0 12px 32px rgba(17,45,73,.045)!important;
+}
+
+/* Product/image surfaces remain bright and commerce-first */
+html :is(
+  .media,
+  .product-image,
+  .product-visual,
+  .gallery-main,
+  .ot-ref-product-media
+){
+  border-color:#e5ebf0!important;
+}
+
+/* Header / nav: same structure, cleaner finish */
+html :is(
+  .ot-ref-header,
+  #otUnifiedHeaderShell,
+  .header,
+  .ot-site-header
+){
+  border-color:#e2e9ef!important;
+  box-shadow:0 5px 18px rgba(17,45,73,.055)!important;
+}
+
+html :is(
+  .ot-ref-search,
+  .ot-unified-search,
+  .used-search
+){
+  border-color:#cfdbe5!important;
+  border-radius:11px!important;
+  box-shadow:0 2px 8px rgba(17,45,73,.035)!important;
+  transition:border-color .18s ease,box-shadow .18s ease,background-color .18s ease!important;
+}
+
+html :is(
+  .ot-ref-search,
+  .ot-unified-search,
+  .used-search
+):focus-within{
+  border-color:#7fa9d5!important;
+  box-shadow:var(--ot-modern-focus)!important;
+}
+
+/* Modern controls without changing CTA hierarchy */
+html :is(
+  button,
+  .button,
+  .btn,
+  .ot-live-button,
+  .filter-button,
+  .menu-btn,
+  .ot-site-menu,
+  .ot-unified-menu-button,
+  .ot-home-mobile-menu-button
+){
+  border-radius:10px!important;
+  transition:
+    background-color .18s ease,
+    border-color .18s ease,
+    color .18s ease,
+    box-shadow .18s ease,
+    transform .18s ease!important;
+}
+
+html :is(
+  input,
+  select,
+  textarea
+){
+  border-color:#cfdbe5!important;
+  border-radius:10px!important;
+  box-shadow:inset 0 1px 1px rgba(17,45,73,.02)!important;
+  transition:border-color .18s ease,box-shadow .18s ease,background-color .18s ease!important;
+}
+
+html :is(input,select,textarea):focus{
+  border-color:#7fa9d5!important;
+  box-shadow:var(--ot-modern-focus)!important;
+  outline:0!important;
+}
+
+/* Main ecommerce CTAs: same blue, flatter/current treatment */
+html :is(
+  .button.primary,
+  .ot-live-button:not(.secondary),
+  [data-ot-buy],
+  [data-uk-buy],
+  .ot-ref-search button,
+  .ot-unified-search button,
+  .used-search button
+){
+  box-shadow:0 5px 14px rgba(31,94,213,.14)!important;
+}
+
+/* Secondary controls */
+html :is(
+  .button.light,
+  .button.secondary,
+  .ot-live-button.secondary,
+  [data-ot-add],
+  [data-uk-add]
+){
+  border-color:#c7d4df!important;
+  box-shadow:0 2px 6px rgba(17,45,73,.025)!important;
+}
+
+/* Navigation/dropdowns: less boxy, more refined */
+html :is(
+  .ot-ref-menu,
+  .ot-unified-dropdown,
+  .ot-mega-menu,
+  .ot-unified-mobile-nav,
+  .ot-home-mobile-nav,
+  .mobile-nav,
+  .ot-site-mobile-nav
+){
+  border-radius:14px!important;
+  box-shadow:0 18px 44px rgba(12,34,58,.14)!important;
+}
+
+html :is(
+  .ot-ref-menu a,
+  .ot-unified-dropdown a,
+  .ot-mega-links>a,
+  .ot-unified-mobile-nav a,
+  .ot-home-mobile-nav a
+){
+  border-radius:9px!important;
+  transition:background-color .16s ease,color .16s ease,border-color .16s ease!important;
+}
+
+/* Cards: visual polish only; no dimensions or grid changes */
+html :is(
+  .ot-ref-category,
+  .ot-ref-product,
+  .card,
+  .product-card,
+  .used-card,
+  .selection-card
+){
+  overflow:hidden;
+  background-image:linear-gradient(180deg,rgba(255,255,255,.94),rgba(250,252,254,.94))!important;
+  transition:
+    border-color .18s ease,
+    box-shadow .18s ease,
+    transform .18s ease,
+    background-color .18s ease!important;
+}
+
+/* Tags/status chips */
+html :is(
+  .status,
+  .status-chip,
+  .draft-pill,
+  .image-badge,
+  .used-kicker,
+  .kicker,
+  .eyebrow
+){
+  border-radius:999px!important;
+}
+
+/* Product page surfaces */
+body.ot-pdp :is(
+  .purchase-box,
+  .ot-live-buybox,
+  .product-detail-section,
+  .detail-card,
+  .gallery-card
+){
+  box-shadow:var(--ot-modern-shadow)!important;
+}
+
+body.ot-pdp :is(.quick-card,.fact,.spec-item){
+  border-radius:10px!important;
+  box-shadow:none!important;
+}
+
+body.ot-pdp .anchor-nav{
+  box-shadow:0 5px 16px rgba(17,45,73,.035)!important;
+}
+
+/* Checkout/cart/support panels */
+html :is(
+  .commerce-card,
+  .uk-cart-panel,
+  .policy-card
+){
+  background-image:linear-gradient(180deg,#fff,#fbfcfd)!important;
+}
+
+/* Footer and secondary surfaces */
+html :is(.ot-ref-footer,.footer,.ot-site-footer){
+  border-color:#e3e9ee!important;
+}
+
+html :is(.footer-links a,.ot-site-footer-links a,.ot-ref-footer nav a){
+  transition:color .16s ease,opacity .16s ease!important;
+}
+
+/* Theme toggle: cleaner control, same functionality */
+.ot-theme-toggle{
+  border-color:#d4dfe8!important;
+  border-radius:999px!important;
+  box-shadow:0 3px 10px rgba(17,45,73,.07)!important;
+  transition:background-color .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease!important;
+}
+
+/* Hover effects only where hover genuinely exists */
+@media(hover:hover) and (pointer:fine){
+  html :is(
+    .ot-ref-category,
+    .ot-ref-product,
+    .card,
+    .product-card,
+    .used-card,
+    .selection-card
+  ):hover{
+    border-color:#c8d7e3!important;
+    box-shadow:var(--ot-modern-shadow-hover)!important;
+    transform:translateY(-2px)!important;
+  }
+
+  html :is(
+    .button.primary,
+    .ot-live-button:not(.secondary),
+    [data-ot-buy],
+    [data-uk-buy]
+  ):hover{
+    box-shadow:0 8px 20px rgba(31,94,213,.20)!important;
+    transform:translateY(-1px)!important;
+  }
+
+  html :is(
+    .button.light,
+    .button.secondary,
+    .ot-live-button.secondary,
+    [data-ot-add],
+    [data-uk-add]
+  ):hover{
+    border-color:#aebfce!important;
+    box-shadow:0 5px 14px rgba(17,45,73,.07)!important;
+    transform:translateY(-1px)!important;
+  }
+
+  .ot-theme-toggle:hover{
+    border-color:#b8c8d5!important;
+    box-shadow:0 6px 16px rgba(17,45,73,.11)!important;
+    transform:translateY(-1px)!important;
+  }
+}
+
+/* Keep accessibility clean */
+html :is(
+  a,button,input,select,textarea
+):focus-visible{
+  outline:2px solid rgba(31,94,213,.52)!important;
+  outline-offset:2px!important;
+}
+
+/* Dark mode: same theme, only modernised surfaces */
+html[data-ot-theme="dark"]{
+  --ot-modern-border:#2b4155;
+  --ot-modern-border-strong:#365169;
+  --ot-modern-shadow:0 10px 28px rgba(0,0,0,.18);
+  --ot-modern-shadow-hover:0 16px 36px rgba(0,0,0,.26);
+  --ot-modern-shadow-soft:0 5px 16px rgba(0,0,0,.13);
+  --ot-modern-focus:0 0 0 3px rgba(101,173,255,.16);
+}
+
+html[data-ot-theme="dark"] :is(
+  .ot-ref-category,
+  .ot-ref-product,
+  .card,
+  .product-card,
+  .used-card,
+  .selection-card,
+  .commerce-card,
+  .policy-card,
+  .detail-card,
+  .quick-card,
+  .fact,
+  .uk-cart-panel,
+  .purchase-box,
+  .gallery-card
+){
+  border-color:#2a4055!important;
+  background-image:linear-gradient(180deg,rgba(16,31,49,.98),rgba(12,25,40,.98))!important;
+}
+
+html[data-ot-theme="dark"] :is(
+  input,select,textarea,
+  .ot-ref-search,
+  .ot-unified-search,
+  .used-search
+){
+  border-color:#355069!important;
+  box-shadow:none!important;
+}
+
+html[data-ot-theme="dark"] :is(
+  .button.light,
+  .button.secondary,
+  .ot-live-button.secondary,
+  [data-ot-add],
+  [data-uk-add]
+){
+  border-color:#3a536b!important;
+}
+
+html[data-ot-theme="dark"] :is(
+  .ot-ref-menu,
+  .ot-unified-dropdown,
+  .ot-mega-menu,
+  .ot-unified-mobile-nav,
+  .ot-home-mobile-nav,
+  .mobile-nav,
+  .ot-site-mobile-nav
+){
+  border-color:#2f465b!important;
+  box-shadow:0 20px 46px rgba(0,0,0,.28)!important;
+}
+
+/* Respect reduced-motion users */
+@media(prefers-reduced-motion:reduce){
+  html *,
+  html *::before,
+  html *::after{
+    scroll-behavior:auto!important;
+    transition-duration:.01ms!important;
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+  }
+}
