@@ -36,6 +36,7 @@
   styleAssets.push(["otMasterDropdownStability", "/assets/master-dropdown-stability.css?v=20260922-2"]);
   styleAssets.push(["otFinalCleanup20260922", "/assets/final-cleanup-20260922.css?v=1"]);
   styleAssets.push(["otSitewidePremiumDetailing", "/assets/sitewide-premium-detailing.css?v=1"]);
+  styleAssets.push(["otOmniAiChat", "/assets/omni-ai-chat.css?v=1"]);
   if (isHome) styleAssets.push(["otHomePremium3BlockLate", "/assets/home-premium-3block.css?v=1"]);
 
   const ensureStyles = () => {
@@ -73,6 +74,7 @@
     ensureScript('script[data-ot-master-dropdown]', "/assets/master-dropdown.js?v=20260922-2", "otMasterDropdown");
     ensureScript('script[data-ot-product-page-optimizer]', "/assets/product-page-optimizer.js?v=20260922-9", "otProductPageOptimizer");
     ensureScript('script[data-ot-marine-reman-nav]', "/assets/marine-reman-nav.js?v=20260918-1", "otMarineRemanNav");
+    ensureScript('script[data-ot-omni-ai-chat]', "/assets/omni-ai-chat.js?v=1", "otOmniAiChat");
     if (file === "marine-reman.html") {
       ensureScript('script[data-ot-marine-reman-form-priority]', "/assets/marine-reman-form-priority.js?v=20260918-1", "otMarineRemanFormPriority");
     }
