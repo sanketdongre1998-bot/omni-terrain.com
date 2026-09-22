@@ -1,0 +1,282 @@
+/* Omni Terrain sitewide premium detailing — 2026-09-22
+   Presentation-only refinement for shared strips / utility chrome.
+   No content, grid, page order, product data or core layout changes. */
+
+:root{
+  --ot-detail-navy-1:#071a2e;
+  --ot-detail-navy-2:#0b3156;
+  --ot-detail-navy-3:#0a2747;
+  --ot-detail-line:#dce6ee;
+  --ot-detail-soft:#f7fafc;
+  --ot-detail-text:#28455f;
+  --ot-detail-muted:#708294;
+  --ot-detail-blue:#1f5ed5;
+}
+
+/* Internal US + UK utility strip: match the premium homepage treatment. */
+#otUnifiedHeaderShell .ot-unified-utility{
+  position:relative!important;
+  background:
+    linear-gradient(90deg,var(--ot-detail-navy-1) 0%,var(--ot-detail-navy-2) 46%,var(--ot-detail-navy-3) 72%,var(--ot-detail-navy-1) 100%)!important;
+  border:0!important;
+  border-bottom:1px solid rgba(255,255,255,.10)!important;
+  box-shadow:
+    inset 0 -1px 0 rgba(255,255,255,.035),
+    0 3px 12px rgba(7,28,51,.10)!important;
+  color:#fff!important;
+}
+
+#otUnifiedHeaderShell .ot-unified-utility::after{
+  content:""!important;
+  position:absolute!important;
+  inset:auto 0 0!important;
+  height:1px!important;
+  background:linear-gradient(90deg,transparent,rgba(93,166,235,.45),transparent)!important;
+  pointer-events:none!important;
+}
+
+#otUnifiedHeaderShell .ot-unified-utility>.ot-unified-width{
+  min-height:30px!important;
+  gap:20px!important;
+}
+
+#otUnifiedHeaderShell :is(.ot-unified-utility-left,.ot-unified-utility-right){
+  gap:14px!important;
+}
+
+#otUnifiedHeaderShell .ot-unified-utility :is(span,a,.ot-unified-utility-center){
+  font-family:var(--ot-font-body,Inter,"Helvetica Neue",Arial,sans-serif)!important;
+  font-size:10px!important;
+  line-height:1!important;
+}
+
+#otUnifiedHeaderShell .ot-unified-utility-left>span:first-child{
+  color:rgba(255,255,255,.78)!important;
+  font-weight:500!important;
+}
+
+#otUnifiedHeaderShell .ot-unified-utility-center{
+  color:rgba(255,255,255,.94)!important;
+  font-weight:650!important;
+  letter-spacing:.035em!important;
+}
+
+#otUnifiedHeaderShell .ot-unified-utility-right a{
+  color:rgba(255,255,255,.78)!important;
+  font-weight:550!important;
+  transition:color .18s ease,opacity .18s ease!important;
+}
+
+#otUnifiedHeaderShell .ot-unified-utility-right a:hover{
+  color:#fff!important;
+}
+
+#otUnifiedHeaderShell .ot-unified-region{
+  gap:5px!important;
+}
+
+#otUnifiedHeaderShell .ot-unified-region a{
+  min-width:34px!important;
+  min-height:22px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:0 9px!important;
+  border:1px solid rgba(255,255,255,.16)!important;
+  border-radius:999px!important;
+  background:rgba(255,255,255,.075)!important;
+  color:rgba(255,255,255,.88)!important;
+  box-shadow:none!important;
+  font-size:9px!important;
+  font-weight:650!important;
+  letter-spacing:.02em!important;
+}
+
+#otUnifiedHeaderShell .ot-unified-region a.active{
+  border-color:#fff!important;
+  background:#fff!important;
+  color:#0b355f!important;
+  box-shadow:0 2px 8px rgba(0,0,0,.12)!important;
+}
+
+/* Legacy top strips that may flash or appear on isolated pages:
+   same visual language, no structural changes. */
+body>:is(.topbar,.market-strip,.announcement,.launch-strip,.draft-strip){
+  border-color:rgba(255,255,255,.10)!important;
+  background:
+    linear-gradient(90deg,var(--ot-detail-navy-1),var(--ot-detail-navy-2),var(--ot-detail-navy-1))!important;
+  color:#fff!important;
+  box-shadow:0 3px 12px rgba(7,28,51,.08)!important;
+}
+
+body>:is(.topbar,.market-strip,.announcement,.launch-strip,.draft-strip) :is(a,span,strong,small){
+  color:inherit!important;
+}
+
+/* Breadcrumbs / crumbs: cleaner, quieter navigation context. */
+:is(.breadcrumb,.crumbs){
+  color:#718294!important;
+  font-family:var(--ot-font-body,Inter,"Helvetica Neue",Arial,sans-serif)!important;
+  font-weight:500!important;
+}
+
+:is(.breadcrumb,.crumbs) a{
+  color:#4a6d8e!important;
+  text-decoration:none!important;
+}
+
+:is(.breadcrumb,.crumbs) a:hover{
+  color:#1764b5!important;
+}
+
+/* Small information / availability / support surfaces. */
+:is(
+  .notice,
+  .availability-strip,
+  .used-search-status,
+  .form-status,
+  .ot-buying-summary,
+  .used-trust-strip
+){
+  border-color:var(--ot-detail-line)!important;
+  border-radius:12px!important;
+  background:
+    linear-gradient(180deg,#fbfdff 0%,#f7fafc 100%)!important;
+  box-shadow:0 7px 20px rgba(17,45,73,.045)!important;
+  color:var(--ot-detail-text)!important;
+}
+
+:is(
+  .notice,
+  .availability-strip,
+  .used-search-status,
+  .form-status,
+  .ot-buying-summary,
+  .used-trust-strip
+) :is(p,span,small){
+  color:var(--ot-detail-muted)!important;
+}
+
+/* Status chips: modern capsule detail, same status/data. */
+.status-chip{
+  border:1px solid #d8e4ed!important;
+  border-radius:999px!important;
+  background:#f8fbfd!important;
+  color:#34536e!important;
+  box-shadow:none!important;
+  font-weight:600!important;
+  letter-spacing:.01em!important;
+}
+
+/* Product / UK anchor bars: same position and behaviour, cleaner surface. */
+.anchor-nav{
+  border-color:#dfe7ee!important;
+  background:rgba(255,255,255,.96)!important;
+  box-shadow:0 6px 18px rgba(17,45,73,.045)!important;
+  backdrop-filter:blur(12px)!important;
+}
+
+.anchor-nav :is(a,.anchor-links,.anchor-status){
+  color:#536d84!important;
+}
+
+.anchor-nav a:hover{
+  color:#1764b5!important;
+}
+
+/* Recurring trust items get subtle current-era detailing. */
+.used-trust-item{
+  border-color:#dfe7ee!important;
+  border-radius:11px!important;
+  background:linear-gradient(180deg,#fff,#fafcfd)!important;
+  box-shadow:0 5px 16px rgba(17,45,73,.04)!important;
+}
+
+/* Support/shipping mini-panels on product and commerce pages. */
+:is(
+  .shipping-box,
+  .support-box,
+  .delivery-box,
+  .fitment-help,
+  .summary-card
+){
+  border-color:#dfe7ee!important;
+  border-radius:12px!important;
+  box-shadow:0 7px 20px rgba(17,45,73,.04)!important;
+}
+
+/* Subtle interaction polish only. */
+@media(hover:hover) and (pointer:fine){
+  :is(.status-chip,.used-trust-item){
+    transition:border-color .18s ease,box-shadow .18s ease,background-color .18s ease!important;
+  }
+
+  .used-trust-item:hover{
+    border-color:#cad9e4!important;
+    box-shadow:0 9px 24px rgba(17,45,73,.07)!important;
+  }
+}
+
+/* Mobile: keep the same compact premium strap behaviour. */
+@media(max-width:640px){
+  #otUnifiedHeaderShell .ot-unified-utility-right{
+    display:none!important;
+  }
+
+  #otUnifiedHeaderShell .ot-unified-utility>.ot-unified-width{
+    grid-template-columns:minmax(0,1fr) auto!important;
+    gap:8px!important;
+  }
+
+  #otUnifiedHeaderShell .ot-unified-utility-center{
+    justify-self:end!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+    white-space:nowrap!important;
+    font-size:9px!important;
+  }
+}
+
+/* Dark-mode equivalents. */
+html[data-ot-theme="dark"] #otUnifiedHeaderShell .ot-unified-utility{
+  background:linear-gradient(90deg,#061220,#0a223a,#061724)!important;
+}
+
+html[data-ot-theme="dark"] :is(
+  .notice,
+  .availability-strip,
+  .used-search-status,
+  .form-status,
+  .ot-buying-summary,
+  .used-trust-strip,
+  .used-trust-item,
+  .shipping-box,
+  .support-box,
+  .delivery-box,
+  .fitment-help,
+  .summary-card
+){
+  border-color:#2b4257!important;
+  background:linear-gradient(180deg,#101f31,#0d1a29)!important;
+  box-shadow:0 8px 22px rgba(0,0,0,.13)!important;
+}
+
+html[data-ot-theme="dark"] :is(.breadcrumb,.crumbs){
+  color:#93a5b6!important;
+}
+
+html[data-ot-theme="dark"] :is(.breadcrumb,.crumbs) a{
+  color:#9fc8f1!important;
+}
+
+html[data-ot-theme="dark"] .status-chip{
+  border-color:#355069!important;
+  background:#13263a!important;
+  color:#dce7f0!important;
+}
+
+html[data-ot-theme="dark"] .anchor-nav{
+  border-color:#2a4055!important;
+  background:rgba(9,20,32,.96)!important;
+  box-shadow:0 6px 18px rgba(0,0,0,.18)!important;
+}
