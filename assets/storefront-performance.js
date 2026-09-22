@@ -30,6 +30,8 @@
   };
 
   addScript("otUiStabilityJs", "/assets/ui-stability.js?v=1");
+  addCss("otMobilePerformanceCss", "/assets/mobile-performance.css?v=2");
+  addCss("otMobileFinalStabilityCss", "/assets/mobile-final-stability.css?v=2");
 
   document.documentElement.classList.add("ot-executive");
   document.documentElement.dataset.otTheme = "light";
@@ -52,7 +54,7 @@
     addCss("otAdReadyStabilityCss", "/assets/ad-ready-stability.css?v=2");
 
     addScript("otAuthRetailJs", "/assets/firebase-auth.js?v=retail-3", "module");
-    addScript("otReferenceStorefrontJs", "/assets/reference-storefront.js?v=4");
+    addScript("otReferenceStorefrontJs", "/assets/reference-storefront.js?v=9");
     addScript("otReferenceStorefrontFidelityJs", "/assets/reference-storefront-fidelity.js?v=2");
 
     setTimeout(() => addScript("otAnalyticsJs", "/assets/analytics-events.js?v=2"), 650);
