@@ -140,7 +140,7 @@ async function gatewayCompletion(messages, system) {
     },
     body: JSON.stringify({
       model: "openai/gpt-5.6-luna",
-      models: ["openai/gpt-5.6-sol"],
+      models: ["openai/gpt-5.6-terra"],
       messages: [
         { role: "system", content: system },
         ...messages,
