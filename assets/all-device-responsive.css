@@ -563,3 +563,65 @@ table{
     color:#d8e4ee!important;
   }
 }
+
+
+/* Audit hardening: deterministic 4-item homepage phone nav. */
+@media(max-width:760px){
+  /* US: Auto + Marine category buttons, Used OEM, Deals = exactly four. */
+  html.ot-reference-home .ot-ref-nav>.ot-ref-width:has(>a.ot-ref-used-nav)>.ot-ref-nav-item{
+    display:flex!important;
+  }
+  html.ot-reference-home .ot-ref-nav>.ot-ref-width:has(>a.ot-ref-used-nav)>a{
+    display:none!important;
+  }
+  html.ot-reference-home .ot-ref-nav>.ot-ref-width:has(>a.ot-ref-used-nav)>a.ot-ref-used-nav,
+  html.ot-reference-home .ot-ref-nav>.ot-ref-width:has(>a.ot-ref-used-nav)>a.featured{
+    display:flex!important;
+  }
+
+  /* UK: Auto + Marine, first catalogue link, Deals = exactly four. */
+  html.ot-reference-home .ot-ref-nav>.ot-ref-width:not(:has(>a.ot-ref-used-nav))>.ot-ref-nav-item{
+    display:flex!important;
+  }
+  html.ot-reference-home .ot-ref-nav>.ot-ref-width:not(:has(>a.ot-ref-used-nav))>a{
+    display:none!important;
+  }
+  html.ot-reference-home .ot-ref-nav>.ot-ref-width:not(:has(>a.ot-ref-used-nav))>a:first-of-type,
+  html.ot-reference-home .ot-ref-nav>.ot-ref-width:not(:has(>a.ot-ref-used-nav))>a.featured{
+    display:flex!important;
+  }
+}
+
+/* Tablet homepage account control: preserve the auth trigger without clipping text. */
+@media(min-width:761px) and (max-width:860px){
+  html.ot-reference-home .ot-ref-actions{
+    gap:5px!important;
+  }
+  html.ot-reference-home .ot-ref-account{
+    width:58px!important;
+    min-width:58px!important;
+    height:44px!important;
+    min-height:44px!important;
+    padding:0 5px!important;
+    align-items:center!important;
+    justify-content:center!important;
+    overflow:hidden!important;
+    text-align:center!important;
+  }
+  html.ot-reference-home .ot-ref-account>span{
+    display:none!important;
+  }
+  html.ot-reference-home .ot-ref-account>strong{
+    display:block!important;
+    margin:0!important;
+    max-width:100%!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+    white-space:nowrap!important;
+    font-size:10px!important;
+    line-height:1!important;
+  }
+  html.ot-reference-home .ot-ref-cart{
+    min-width:48px!important;
+  }
+}
