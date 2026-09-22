@@ -192,7 +192,6 @@ html :is(
   .used-card,
   .selection-card
 ){
-  overflow:hidden;
   background-image:linear-gradient(180deg,rgba(255,255,255,.94),rgba(250,252,254,.94))!important;
   transition:
     border-color .18s ease,
