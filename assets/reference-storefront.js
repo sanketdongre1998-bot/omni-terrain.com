@@ -20,12 +20,12 @@
   const IMG = {
     hero: '/assets/omni-main-hero-20260916.png',
     auto: '/assets/ot-cat-new-auto-final.jpg',
-    used: '/assets/ot-cat-used-oem-hd-v2.webp',
-    marine: '/assets/ot-cat-marine-hd-v2.webp',
-    solar: '/assets/ot-cat-solar-hd-v2.webp',
-    overland: '/assets/ot-cat-overland-hd-v2.webp',
+    used: '/assets/ot-cat-used-oem-hd-v2.webp?v=5',
+    marine: '/assets/ot-cat-marine-hd-v2.webp?v=5',
+    solar: '/assets/ot-cat-solar-hd-v2.webp?v=5',
+    overland: '/assets/ot-cat-overland-hd-v2.webp?v=5',
     vehicle: '/assets/ot-cat-auto.webp',
-    deals: '/assets/ot-cat-deals-hd-v2.webp'
+    deals: '/assets/ot-cat-deals-hd-v2.webp?v=5'
   };
 
   function cartCount() {
