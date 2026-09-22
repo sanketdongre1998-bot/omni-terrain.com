@@ -30,6 +30,7 @@
   // Final type/colour layer intentionally loads last so legacy 800/900 rules cannot win.
   styleAssets.push(["otTypographyColorRefinement", "/assets/typography-color-refinement.css?v=20260922-1"]);
   styleAssets.push(["otUkPdpStability", "/assets/uk-pdp-stability.css?v=20260922-2"]);
+  styleAssets.push(["otAllDeviceResponsive", "/assets/all-device-responsive.css?v=20260922-1"]);
 
   const ensureStyles = () => {
     styleAssets.forEach(([key, href]) => {
@@ -74,7 +75,7 @@
     }
     if (isHome) {
       ensureScript('script[data-ot-homepage-categorybar-sync]', "/assets/homepage-categorybar-sync.js?v=20260917-2", "otHomepageCategorybarSync");
-      ensureScript('script[data-ot-home-mobile-menu]', "/assets/home-mobile-menu.js?v=20260918-2", "otHomeMobileMenu");
+      ensureScript('script[data-ot-home-mobile-menu]', "/assets/home-mobile-menu.js?v=20260922-3", "otHomeMobileMenu");
     }
   };
 
