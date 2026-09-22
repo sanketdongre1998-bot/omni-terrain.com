@@ -11,34 +11,34 @@
   const LEGACY_KEYS = ["omniTerrainTheme", "omni-theme"];
   const root = document.documentElement;
 
-  const styleAssets = [
+  const styleAssets = isHome ? [
+    ["otDarkMode", "/assets/dark-mode.css?v=20260922-2"],
+    ["otTypographyColorRefinement", "/assets/typography-color-refinement.css?v=20260922-1"],
+    ["otOmniAiChat", "/assets/omni-ai-chat.css?v=1"]
+  ] : [
     ["otSubtleStorefront", "/assets/omni-subtle-storefront.css?v=20260912-1"],
     ["otSubtleEnhancements", "/assets/omni-subtle-enhancements.css?v=20260912-1"],
     ["otUiConsistency", "/assets/ui-consistency.css?v=20260917-1"],
     ["otMasterDropdown", "/assets/master-dropdown.css?v=20260917-3"],
     ["otHeaderFirstPaintLock", "/assets/header-first-paint-lock.css?v=20260917-2"],
-    ["otMobilePerformance", "/assets/mobile-performance.css?v=20260917-1"]
+    ["otMobilePerformance", "/assets/mobile-performance.css?v=20260917-1"],
+    ["otInternalShellFinal", "/assets/internal-shell-final.css?v=20260917-1"],
+    ["otFinalResponsiveGuard", "/assets/final-responsive-guard.css?v=20260918-3"],
+    ["otMasterDropdownPremium", "/assets/master-dropdown-premium.css?v=20260922-2"],
+    ["otTypography20260922", "/assets/typography-20260922.css?v=1"],
+    ["otDarkMode", "/assets/dark-mode.css?v=20260922-2"],
+    ["otProductPageOptimizer", "/assets/product-page-optimizer.css?v=20260922-6"],
+    ["otTypographyColorRefinement", "/assets/typography-color-refinement.css?v=20260922-1"],
+    ["otUkPdpStability", "/assets/uk-pdp-stability.css?v=20260922-2"],
+    ["otAllDeviceResponsive", "/assets/all-device-responsive.css?v=20260922-2"],
+    ["otModernVisualPolish", "/assets/modern-visual-polish.css?v=20260922-2"],
+    ["otFontColorContrast", "/assets/font-color-contrast.css?v=20260922-1"],
+    ["otMasterDropdownStability", "/assets/master-dropdown-stability.css?v=20260922-2"],
+    ["otFinalCleanup20260922", "/assets/final-cleanup-20260922.css?v=1"],
+    ["otSitewidePremiumDetailing", "/assets/sitewide-premium-detailing.css?v=1"],
+    ["otOmniAiChat", "/assets/omni-ai-chat.css?v=1"],
+    ["otMobileFinalStability", "/assets/mobile-final-stability.css?v=1"]
   ];
-  if (!isHome) styleAssets.push(["otInternalShellFinal", "/assets/internal-shell-final.css?v=20260917-1"]);
-  if (isHome) styleAssets.push(["otHomepageCategorybarSync", "/assets/homepage-categorybar-sync.css?v=20260917-1"]);
-  styleAssets.push(["otFinalResponsiveGuard", "/assets/final-responsive-guard.css?v=20260918-3"]);
-  styleAssets.push(["otMasterDropdownPremium", "/assets/master-dropdown-premium.css?v=20260922-2"]);
-  styleAssets.push(["otTypography20260922", "/assets/typography-20260922.css?v=1"]);
-  // Dark mode wins legacy force-light rules; PDP optimizer then applies product-specific final polish.
-  styleAssets.push(["otDarkMode", "/assets/dark-mode.css?v=20260922-2"]);
-  styleAssets.push(["otProductPageOptimizer", "/assets/product-page-optimizer.css?v=20260922-6"]);
-  // Final type/colour layer intentionally loads last so legacy 800/900 rules cannot win.
-  styleAssets.push(["otTypographyColorRefinement", "/assets/typography-color-refinement.css?v=20260922-1"]);
-  styleAssets.push(["otUkPdpStability", "/assets/uk-pdp-stability.css?v=20260922-2"]);
-  styleAssets.push(["otAllDeviceResponsive", "/assets/all-device-responsive.css?v=20260922-2"]);
-  styleAssets.push(["otModernVisualPolish", "/assets/modern-visual-polish.css?v=20260922-2"]);
-  styleAssets.push(["otFontColorContrast", "/assets/font-color-contrast.css?v=20260922-1"]);
-  styleAssets.push(["otMasterDropdownStability", "/assets/master-dropdown-stability.css?v=20260922-2"]);
-  styleAssets.push(["otFinalCleanup20260922", "/assets/final-cleanup-20260922.css?v=1"]);
-  styleAssets.push(["otSitewidePremiumDetailing", "/assets/sitewide-premium-detailing.css?v=1"]);
-  styleAssets.push(["otOmniAiChat", "/assets/omni-ai-chat.css?v=1"]);
-  if (isHome) styleAssets.push(["otHomePremium3BlockLate", "/assets/home-premium-3block.css?v=1"]);
-  styleAssets.push(["otMobileFinalStability", "/assets/mobile-final-stability.css?v=1"]);
 
   const ensureStyles = () => {
     styleAssets.forEach(([key, href]) => {
@@ -71,21 +71,16 @@
   };
 
   const ensureScripts = () => {
+    ensureScript('script[data-ot-omni-ai-chat]', "/assets/omni-ai-chat.js?v=1", "otOmniAiChat");
+    if (isHome) return;
     ensureScript('script[data-ot-subtle-storefront]', "/assets/omni-subtle-storefront.js?v=20260917-2", "otSubtleStorefront");
     ensureScript('script[data-ot-master-dropdown]', "/assets/master-dropdown.js?v=20260922-2", "otMasterDropdown");
     ensureScript('script[data-ot-product-page-optimizer]', "/assets/product-page-optimizer.js?v=20260922-9", "otProductPageOptimizer");
     ensureScript('script[data-ot-marine-reman-nav]', "/assets/marine-reman-nav.js?v=20260918-1", "otMarineRemanNav");
-    ensureScript('script[data-ot-omni-ai-chat]', "/assets/omni-ai-chat.js?v=1", "otOmniAiChat");
     if (file === "marine-reman.html") {
       ensureScript('script[data-ot-marine-reman-form-priority]', "/assets/marine-reman-form-priority.js?v=20260918-1", "otMarineRemanFormPriority");
     }
-    if (!isHome) {
-      ensureScript('script[data-ot-internal-shell-final]', "/assets/internal-shell-final.js?v=20260917-6", "otInternalShellFinal");
-    }
-    if (isHome) {
-      ensureScript('script[data-ot-homepage-categorybar-sync]', "/assets/homepage-categorybar-sync.js?v=20260917-2", "otHomepageCategorybarSync");
-      ensureScript('script[data-ot-home-mobile-menu]', "/assets/home-mobile-menu.js?v=20260922-3", "otHomeMobileMenu");
-    }
+    ensureScript('script[data-ot-internal-shell-final]', "/assets/internal-shell-final.js?v=20260917-6", "otInternalShellFinal");
   };
 
   const normalizeTheme = value => value === "dark" ? "dark" : value === "light" ? "light" : "";
