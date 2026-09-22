@@ -1,0 +1,306 @@
+/* Omni Terrain final font-colour contrast layer — 2026-09-22
+   Colours only. No layout, content or theme-structure changes. */
+
+:root{
+  --ot-copy-heading:#18344f;
+  --ot-copy-body:#5d7082;
+  --ot-copy-muted:#7b8996;
+  --ot-copy-link:#1764b5;
+  --ot-copy-link-hover:#0f4f92;
+  --ot-copy-white:#ffffff;
+  --ot-copy-yellow:#16395f;
+}
+
+/* Clean neutral hierarchy on light surfaces */
+html body{
+  color:var(--ot-copy-body)!important;
+}
+
+html :is(h1,h2,h3,h4,h5,h6){
+  color:var(--ot-copy-heading)!important;
+}
+
+html :is(
+  p,li,dd,dt,.description,.product-description,.section-copy,
+  .ot-ref-category-body,.ot-ref-product-body,.footer-copy,.legal-note
+){
+  color:var(--ot-copy-body)!important;
+}
+
+html :is(
+  small,.muted,.caption,.microcopy,.breadcrumb,.crumbs,
+  .ot-ref-product-body small,.ot-ref-footer-bottom
+){
+  color:var(--ot-copy-muted)!important;
+}
+
+/* Homepage content surfaces */
+html.ot-reference-home :is(
+  .ot-ref-finder-copy h2,
+  .ot-ref-section-head h2,
+  .ot-ref-category strong,
+  .ot-ref-product-body h3,
+  .ot-ref-used-card h2,
+  .ot-ref-trust strong,
+  .ot-ref-footer h4
+){
+  color:#183b5e!important;
+}
+
+html.ot-reference-home :is(
+  .ot-ref-finder-copy p,
+  .ot-ref-category p,
+  .ot-ref-product-body small,
+  .ot-ref-used-card p,
+  .ot-ref-trust span,
+  .ot-ref-footer p,
+  .ot-ref-footer nav a
+){
+  color:#66798c!important;
+}
+
+html.ot-reference-home :is(
+  .ot-ref-section-head a,
+  .ot-ref-footer a,
+  .ot-ref-category,
+  .ot-ref-product
+){
+  color:var(--ot-copy-link)!important;
+}
+
+html.ot-reference-home .ot-ref-section-head a:hover,
+html.ot-reference-home .ot-ref-footer a:hover{
+  color:var(--ot-copy-link-hover)!important;
+}
+
+/* Utility strip must always retain high contrast */
+html.ot-reference-home .ot-ref-utility,
+html.ot-reference-home .ot-ref-utility :is(span,strong){
+  color:#fff!important;
+}
+
+html.ot-reference-home .ot-ref-utility a,
+html.ot-reference-home .ot-ref-utility-right a,
+html.ot-reference-home .ot-ref-utility-left a{
+  color:rgba(255,255,255,.94)!important;
+}
+
+html.ot-reference-home .ot-ref-utility a:hover{
+  color:#fff!important;
+}
+
+html.ot-reference-home .ot-ref-region a{
+  color:#fff!important;
+}
+
+html.ot-reference-home .ot-ref-region a.active{
+  color:#0b4e93!important;
+}
+
+/* Blue/action surfaces: text is always white */
+html :is(
+  .button.primary,
+  .btn-primary,
+  .ot-live-button:not(.secondary),
+  [data-ot-buy],
+  [data-uk-buy],
+  .ot-ref-search button,
+  .ot-unified-search button,
+  .used-search button,
+  .ot-ref-findform button,
+  .ot-ref-hero-tag,
+  .ot-ref-product-button,
+  .ot-ref-newsletter button,
+  .ot-home-launch-offer a,
+  .ot-ref-used-card>a
+){
+  color:#fff!important;
+}
+
+html :is(
+  .button.primary,
+  .btn-primary,
+  .ot-live-button:not(.secondary),
+  [data-ot-buy],
+  [data-uk-buy],
+  .ot-ref-search button,
+  .ot-unified-search button,
+  .used-search button,
+  .ot-ref-findform button,
+  .ot-ref-hero-tag,
+  .ot-ref-product-button,
+  .ot-ref-newsletter button,
+  .ot-home-launch-offer a,
+  .ot-ref-used-card>a
+) :is(span,strong,small){
+  color:inherit!important;
+}
+
+/* Finder selected tab */
+html.ot-reference-home .ot-ref-findtabs span:first-child{
+  color:#fff!important;
+}
+
+/* Yellow/gold actions need dark text */
+html.ot-reference-home .ot-ref-shopall{
+  color:#16395f!important;
+}
+
+html.ot-reference-home .ot-home-launch-kicker{
+  color:#6f5000!important;
+}
+
+/* Header/nav/account remain readable, not bright-blue everywhere */
+html.ot-reference-home :is(
+  .ot-ref-nav a,
+  .ot-ref-nav button,
+  .ot-ref-account,
+  .ot-ref-cart,
+  .ot-ref-account strong,
+  .ot-ref-cart strong
+){
+  color:#203b56!important;
+}
+
+html.ot-reference-home :is(
+  .ot-ref-account span,
+  .ot-ref-cart span
+){
+  color:#7a8896!important;
+}
+
+html.ot-reference-home .ot-ref-nav .featured{
+  color:#a56e08!important;
+}
+
+/* Category cards: dark title, muted copy */
+html.ot-reference-home .ot-ref-category{
+  color:#183b5e!important;
+}
+
+html.ot-reference-home .ot-ref-category strong{
+  color:#183b5e!important;
+}
+
+html.ot-reference-home .ot-ref-category p{
+  color:#697b8d!important;
+}
+
+/* Used OEM callout */
+html.ot-reference-home .ot-ref-used-eyebrow{
+  color:#225fc5!important;
+}
+
+html.ot-reference-home .ot-ref-used-card h2{
+  color:#183b5e!important;
+}
+
+html.ot-reference-home .ot-ref-used-card p{
+  color:#617486!important;
+}
+
+/* Trust row */
+html.ot-reference-home .ot-ref-trust-icon{
+  color:#1f5ed5!important;
+}
+
+html.ot-reference-home .ot-ref-trust strong{
+  color:#1d3c5c!important;
+}
+
+html.ot-reference-home .ot-ref-trust span{
+  color:#6e7f90!important;
+}
+
+/* Footer stays neutral */
+html.ot-reference-home .ot-ref-footer{
+  color:#5f7183!important;
+}
+
+html.ot-reference-home .ot-ref-footer h4{
+  color:#213d57!important;
+}
+
+html.ot-reference-home .ot-ref-footer nav a{
+  color:#5e7184!important;
+}
+
+html.ot-reference-home .ot-ref-footer-bottom{
+  color:#81909d!important;
+}
+
+/* Secondary white buttons */
+html :is(
+  .button.secondary,
+  .button.light,
+  .ot-live-button.secondary,
+  [data-ot-add],
+  [data-uk-add]
+){
+  color:#274660!important;
+}
+
+/* Dark mode equivalent */
+html[data-ot-theme="dark"] body{
+  color:#aebdca!important;
+}
+
+html[data-ot-theme="dark"] :is(h1,h2,h3,h4,h5,h6){
+  color:#e7eef5!important;
+}
+
+html[data-ot-theme="dark"] :is(
+  p,li,dd,dt,.description,.product-description,.section-copy,
+  .ot-ref-category-body,.ot-ref-product-body
+){
+  color:#a9b8c6!important;
+}
+
+html[data-ot-theme="dark"] :is(
+  .button.primary,
+  .btn-primary,
+  .ot-live-button:not(.secondary),
+  [data-ot-buy],
+  [data-uk-buy],
+  .ot-ref-search button,
+  .ot-unified-search button,
+  .used-search button,
+  .ot-ref-findform button,
+  .ot-ref-hero-tag,
+  .ot-ref-product-button,
+  .ot-ref-newsletter button,
+  .ot-home-launch-offer a,
+  .ot-ref-used-card>a
+){
+  color:#fff!important;
+}
+
+html[data-ot-theme="dark"] :is(
+  .button.secondary,
+  .button.light,
+  .ot-live-button.secondary,
+  [data-ot-add],
+  [data-uk-add]
+){
+  color:#dce7f1!important;
+}
+
+html[data-ot-theme="dark"].ot-reference-home :is(
+  .ot-ref-category strong,
+  .ot-ref-product-body h3,
+  .ot-ref-used-card h2,
+  .ot-ref-trust strong,
+  .ot-ref-footer h4
+){
+  color:#e3ecf4!important;
+}
+
+html[data-ot-theme="dark"].ot-reference-home :is(
+  .ot-ref-category p,
+  .ot-ref-used-card p,
+  .ot-ref-trust span,
+  .ot-ref-footer p,
+  .ot-ref-footer nav a
+){
+  color:#a5b5c4!important;
+}
