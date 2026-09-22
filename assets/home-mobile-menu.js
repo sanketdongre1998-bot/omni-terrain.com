@@ -89,6 +89,22 @@
     nav.innerHTML = menuLinks().map(([label, href, cls]) => `<a${cls ? ` class="${cls}"` : ""} href="${href}">${label}</a>`).join("");
     desktopNav.insertAdjacentElement("afterend", nav);
 
+    // The visible 4-item phone quick-nav uses the existing desktop nav markup.
+    // Convert category dropdown buttons into direct mobile destinations so every
+    // compact item is useful with one tap; the Menu button still exposes all links.
+    const quickButtons = [...desktopNav.querySelectorAll(":scope > .ot-ref-width > .ot-ref-nav-item > button")];
+    quickButtons.forEach((quickButton, index) => {
+      quickButton.addEventListener("click", event => {
+        if (window.innerWidth > 760) return;
+        event.preventDefault();
+        event.stopPropagation();
+        const label = String(quickButton.textContent || "").toLowerCase();
+        let href = isUK ? "/shield-autocare-uk.html" : "/automotive.html";
+        if (label.includes("marine")) href = isUK ? "/shield-autocare-uk.html" : "/marine.html";
+        location.href = href;
+      });
+    });
+
     const close = () => {
       nav.classList.remove("open");
       button.setAttribute("aria-expanded", "false");
