@@ -14,7 +14,10 @@
     .ot-home-mobile-menu-button,.ot-home-mobile-nav{display:none!important}
     @media(max-width:760px){
       .ot-reference-home .ot-ref-header{position:relative!important;overflow:visible!important}
-      .ot-reference-home .ot-ref-nav{display:none!important}
+      .ot-reference-home .ot-ref-nav{display:block!important;overflow:hidden!important}
+      .ot-reference-home .ot-ref-nav>.ot-ref-width{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;width:100%!important;max-width:none!important;margin:0!important;padding:0!important;gap:0!important}
+      .ot-reference-home .ot-ref-nav>.ot-ref-width>*:not(.ot-mobile-quick-link){display:none!important}
+      .ot-reference-home .ot-ref-nav>.ot-ref-width>.ot-mobile-quick-link{display:flex!important;min-width:0!important;width:100%!important;height:42px!important;align-items:center!important;justify-content:center!important;padding:0 4px!important;border-right:1px solid #e3ebf2!important;background:#fff!important;color:#12325a!important;text-decoration:none!important;font:800 10px/1.05 Arial,"Helvetica Neue",sans-serif!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
       .ot-reference-home .ot-ref-actions{gap:6px!important}
       .ot-reference-home .ot-home-mobile-menu-button{
         display:inline-flex!important;min-width:48px!important;min-height:38px!important;align-items:center!important;justify-content:center!important;
@@ -72,6 +75,28 @@
     const desktopNav = header?.querySelector(".ot-ref-nav");
     if (!header || !actions || !desktopNav) return false;
     if (header.querySelector(".ot-home-mobile-menu-button")) return true;
+
+    const quickHost = desktopNav.querySelector(":scope > .ot-ref-width");
+    if (quickHost && !quickHost.querySelector(".ot-mobile-quick-link")) {
+      const quickLinks = isUK ? [
+        ["Products", "/shield-autocare-uk.html"],
+        ["Fridges", "/shield-autocare-uk.html#fridges"],
+        ["Windows", "/shield-autocare-uk.html#windows"],
+        ["Support", "/uk-contact.html"]
+      ] : [
+        ["New Auto", "/automotive.html"],
+        ["Used OEM", "/used-auto-parts.html"],
+        ["Marine", "/marine.html"],
+        ["Deals", "/deals.html"]
+      ];
+      quickLinks.forEach(([label, href]) => {
+        const link = document.createElement("a");
+        link.className = "ot-mobile-quick-link";
+        link.href = href;
+        link.textContent = label;
+        quickHost.appendChild(link);
+      });
+    }
 
     const button = document.createElement("button");
     button.type = "button";
