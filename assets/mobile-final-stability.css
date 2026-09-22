@@ -1,0 +1,287 @@
+/* Omni Terrain final mobile stabilization — 2026-09-22
+   Mobile-only overrides. Desktop/tablet desktop layout remains untouched. */
+
+@media(max-width:860px){
+  html,body{
+    max-width:100%!important;
+    overflow-x:hidden!important;
+  }
+
+  /* Homepage promo banner: clean mobile stack, no squeeze/overflow. */
+  html.ot-reference-home .ot-home-launch-offer{
+    padding:8px 0!important;
+  }
+
+  html.ot-reference-home .ot-home-launch-offer .ot-ref-width{
+    width:calc(100% - 16px)!important;
+    max-width:none!important;
+  }
+
+  html.ot-reference-home .ot-home-launch-offer-inner{
+    grid-template-columns:1fr!important;
+    gap:12px!important;
+    padding:14px!important;
+    border-radius:13px!important;
+  }
+
+  html.ot-reference-home .ot-home-launch-copy{
+    min-width:0!important;
+  }
+
+  html.ot-reference-home .ot-home-launch-copy>strong{
+    font-size:17px!important;
+    line-height:1.22!important;
+  }
+
+  html.ot-reference-home .ot-home-launch-copy p{
+    max-width:none!important;
+    font-size:10px!important;
+    line-height:1.45!important;
+  }
+
+  html.ot-reference-home .ot-home-launch-offer-inner>a{
+    width:100%!important;
+    min-height:44px!important;
+    justify-content:center!important;
+    padding:0 14px!important;
+  }
+
+  /* Hero: same artwork, but a readable mobile crop instead of a tiny 3:1 strip. */
+  html.ot-reference-home .ot-ref-hero{
+    width:calc(100% - 16px)!important;
+    max-width:none!important;
+    aspect-ratio:2.25/1!important;
+    min-height:0!important;
+    height:auto!important;
+    margin:0 auto!important;
+    border-radius:12px!important;
+    overflow:hidden!important;
+  }
+
+  html.ot-reference-home .ot-ref-hero-bg{
+    width:100%!important;
+    height:100%!important;
+    object-fit:cover!important;
+    object-position:5% 50%!important;
+  }
+
+  /* Desktop hotspot coordinates do not map to the cropped mobile artwork.
+     The normal Shop All Products CTA below the hero remains available. */
+  html.ot-reference-home .ot-hero-shop-hotspot{
+    display:none!important;
+  }
+
+  /* Category imagery: give it enough visual space to stay crisp and useful. */
+  html.ot-reference-home .ot-ref-category img{
+    height:118px!important;
+    object-fit:cover!important;
+    object-position:center!important;
+  }
+
+  /* Internal/main headers: avoid horizontal squeeze. */
+  #otUnifiedHeaderShell .ot-unified-width,
+  html.ot-reference-home .ot-ref-width{
+    max-width:100%!important;
+  }
+}
+
+@media(max-width:640px){
+  /* Premium utility strip simplified for a narrow viewport. */
+  html.ot-reference-home .ot-ref-utility .ot-ref-width,
+  #otUnifiedHeaderShell .ot-unified-utility>.ot-unified-width{
+    display:flex!important;
+    min-height:31px!important;
+    align-items:center!important;
+    justify-content:space-between!important;
+    gap:8px!important;
+    padding-left:10px!important;
+    padding-right:10px!important;
+  }
+
+  html.ot-reference-home .ot-ref-utility-center,
+  #otUnifiedHeaderShell .ot-unified-utility-center,
+  html.ot-reference-home .ot-ref-utility-right,
+  #otUnifiedHeaderShell .ot-unified-utility-right{
+    display:none!important;
+  }
+
+  html.ot-reference-home .ot-ref-utility-left,
+  #otUnifiedHeaderShell .ot-unified-utility-left{
+    width:100%!important;
+    min-width:0!important;
+    justify-content:space-between!important;
+    gap:8px!important;
+  }
+
+  html.ot-reference-home .ot-ref-utility-left>span:first-child,
+  #otUnifiedHeaderShell .ot-unified-utility-left>span:first-child{
+    min-width:0!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+    white-space:nowrap!important;
+    font-size:8.5px!important;
+  }
+
+  html.ot-reference-home .ot-ref-region,
+  #otUnifiedHeaderShell .ot-unified-region{
+    flex:0 0 auto!important;
+  }
+
+  /* Hero is taller on phones so the baked headline remains legible. */
+  html.ot-reference-home .ot-ref-hero{
+    aspect-ratio:1.9/1!important;
+    border-radius:11px!important;
+  }
+
+  html.ot-reference-home .ot-ref-hero-bg{
+    object-position:0% 50%!important;
+  }
+
+  html.ot-reference-home .ot-ref-category img{
+    height:124px!important;
+  }
+
+  /* Chatbot: real mobile bottom-sheet instead of a squeezed floating desktop panel. */
+  #otAiRoot{
+    position:fixed!important;
+    right:10px!important;
+    bottom:max(12px,env(safe-area-inset-bottom))!important;
+    left:auto!important;
+    z-index:5000!important;
+  }
+
+  body.ot-pdp #otAiRoot{
+    bottom:max(78px,calc(env(safe-area-inset-bottom) + 72px))!important;
+  }
+
+  #otAiRoot .ot-ai-launcher{
+    min-height:48px!important;
+    padding:6px 11px 6px 7px!important;
+    box-shadow:0 11px 26px rgba(8,35,62,.24)!important;
+  }
+
+  #otAiRoot .ot-ai-launcher-mark{
+    width:34px!important;
+    height:34px!important;
+  }
+
+  #otAiRoot .ot-ai-launcher-copy strong{
+    font-size:11px!important;
+  }
+
+  #otAiRoot .ot-ai-launcher-copy span{
+    display:none!important;
+  }
+
+  #otAiRoot .ot-ai-panel{
+    position:fixed!important;
+    inset:
+      max(8px,env(safe-area-inset-top))
+      8px
+      max(8px,env(safe-area-inset-bottom))
+      8px!important;
+    width:auto!important;
+    height:auto!important;
+    max-width:none!important;
+    max-height:none!important;
+    border-radius:16px!important;
+    transform:translateY(16px) scale(.99)!important;
+    transform-origin:bottom center!important;
+    z-index:5002!important;
+  }
+
+  #otAiRoot.is-open .ot-ai-panel{
+    transform:translateY(0) scale(1)!important;
+  }
+
+  #otAiRoot.is-open .ot-ai-launcher{
+    opacity:0!important;
+    pointer-events:none!important;
+    transform:translateY(8px) scale(.96)!important;
+  }
+
+  #otAiRoot::before{
+    content:""!important;
+    position:fixed!important;
+    inset:0!important;
+    z-index:5001!important;
+    background:rgba(4,16,29,.36)!important;
+    opacity:0!important;
+    visibility:hidden!important;
+    pointer-events:none!important;
+    backdrop-filter:blur(2px)!important;
+    transition:opacity .18s ease,visibility .18s linear!important;
+  }
+
+  #otAiRoot.is-open::before{
+    opacity:1!important;
+    visibility:visible!important;
+    pointer-events:auto!important;
+  }
+
+  #otAiRoot .ot-ai-head{
+    padding:11px 12px!important;
+  }
+
+  #otAiRoot .ot-ai-context{
+    min-height:32px!important;
+    padding:6px 10px!important;
+  }
+
+  #otAiRoot .ot-ai-messages{
+    padding:12px 10px!important;
+  }
+
+  #otAiRoot .ot-ai-bubble{
+    max-width:92%!important;
+    font-size:10.5px!important;
+  }
+
+  #otAiRoot .ot-ai-quick{
+    padding:7px 9px!important;
+  }
+
+  #otAiRoot .ot-ai-compose{
+    padding:9px!important;
+  }
+
+  #otAiRoot .ot-ai-note{
+    padding-bottom:env(safe-area-inset-bottom)!important;
+  }
+}
+
+@media(max-width:420px){
+  html.ot-reference-home .ot-home-launch-offer .ot-ref-width,
+  html.ot-reference-home .ot-ref-hero{
+    width:calc(100% - 12px)!important;
+  }
+
+  html.ot-reference-home .ot-ref-hero{
+    aspect-ratio:1.78/1!important;
+  }
+
+  html.ot-reference-home .ot-home-launch-offer-inner{
+    padding:12px!important;
+  }
+
+  html.ot-reference-home .ot-home-launch-copy>strong{
+    font-size:16px!important;
+  }
+
+  html.ot-reference-home .ot-home-launch-kicker{
+    font-size:8px!important;
+  }
+
+  #otAiRoot .ot-ai-panel{
+    inset:
+      max(5px,env(safe-area-inset-top))
+      5px
+      max(5px,env(safe-area-inset-bottom))
+      5px!important;
+    border-radius:14px!important;
+  }
+
+  #otAiRoot .ot-ai-head-copy strong{
+    font-size:12px!important;
+  }
+}
