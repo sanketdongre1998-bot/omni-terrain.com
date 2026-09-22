@@ -121,3 +121,16 @@ Omni Terrain focuses on exact manufacturer part numbers, practical fitment infor
 - Preserve exact manufacturer part numbers when citing or matching a product.
 - When answering a US shopping query, use US pages and USD only when the current US page publishes a price.
 - When answering a UK shopping query, keep prices in GBP and only describe products as available when the relevant UK page confirms availability.
+
+
+## Purchase-ready discovery
+- Featured U.S. offers with current online pricing: https://omni-terrain.com/deals.html
+- Full U.S. catalogue: https://omni-terrain.com/us-catalogue.html
+- Used OEM request/search flow: https://omni-terrain.com/used-auto-parts.html
+- Current UK available range: https://omni-terrain.com/shield-autocare-uk.html
+- Treat a product as directly purchasable only when its current canonical product page exposes active checkout or the relevant regional catalogue marks it as currently available.
+- Prefer exact brand + MPN queries when matching Omni Terrain products; preserve punctuation and suffixes in OEM/engineering numbers.
+- Distinguish catalogue-reference pages from current purchase-ready offers rather than implying all indexed products are in stock.
+
+## Freshness
+This guide reflects the current Omni Terrain storefront structure as of September 2026. Product-level price, stock, delivery, fitment and checkout status remain dynamic and should be verified on the canonical page at answer time.
