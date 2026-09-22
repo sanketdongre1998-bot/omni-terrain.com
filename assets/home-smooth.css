@@ -235,3 +235,60 @@ html.ot-reference-home button{touch-action:manipulation}
     transition-duration:.01ms!important;
   }
 }
+
+/* 2026-09-23 performance/responsiveness hardening */
+html.ot-reference-home body{min-width:0}
+html.ot-reference-home .ot-ref-main,
+html.ot-reference-home .ot-ref-main>*{min-width:0}
+html.ot-reference-home .ot-ref-section,
+html.ot-reference-home .ot-ref-used-callout,
+html.ot-reference-home .ot-ref-trust{
+  content-visibility:auto;
+  contain-intrinsic-size:1px 420px;
+}
+html.ot-reference-home .ot-ref-category,
+html.ot-reference-home .ot-ref-product{
+  backface-visibility:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+html.ot-reference-home .ot-ref-category img,
+html.ot-reference-home .ot-ref-product img{
+  image-rendering:auto;
+}
+@media(max-width:760px){
+  html.ot-reference-home .ot-ref-width{width:min(100% - 20px,720px)!important}
+  html.ot-reference-home .ot-ref-mainbar .ot-ref-width{
+    grid-template-columns:minmax(126px,145px) minmax(0,1fr)!important;
+    gap:8px!important;
+  }
+  html.ot-reference-home .ot-ref-actions{right:10px!important;max-width:calc(100% - 160px)!important}
+  html.ot-reference-home .ot-ref-search{width:100%!important}
+  html.ot-reference-home .ot-ref-search input{font-size:16px!important}
+  html.ot-reference-home .ot-ref-findform select,
+  html.ot-reference-home .ot-ref-findform input{font-size:16px!important}
+  html.ot-reference-home .ot-ref-category-grid{gap:9px!important}
+  html.ot-reference-home .ot-ref-category-body{padding:9px!important}
+  html.ot-reference-home .ot-ref-category strong{font-size:12px!important;line-height:1.25!important}
+  html.ot-reference-home .ot-ref-category p{min-height:0!important;font-size:10px!important}
+  html.ot-reference-home .ot-ref-products{gap:9px!important}
+  html.ot-reference-home .ot-ref-product-body h3{min-height:0!important}
+}
+@media(max-width:390px){
+  html.ot-reference-home .ot-ref-width{width:min(100% - 16px,720px)!important}
+  html.ot-reference-home .ot-ref-category-grid,
+  html.ot-reference-home .ot-ref-products{grid-template-columns:1fr 1fr!important}
+  html.ot-reference-home .ot-ref-category img{height:88px!important}
+  html.ot-reference-home .ot-ref-product-media{height:128px!important;padding:8px!important}
+  html.ot-reference-home .ot-ref-product-media img{height:108px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  html.ot-reference-home{scroll-behavior:auto!important}
+  html.ot-reference-home *,
+  html.ot-reference-home *::before,
+  html.ot-reference-home *::after{
+    scroll-behavior:auto!important;
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+  }
+}
