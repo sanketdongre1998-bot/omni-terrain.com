@@ -2,6 +2,11 @@
 
 > Omni Terrain is a specialist ecommerce brand with separate United States and United Kingdom storefronts for automotive, towing, marine, RV, overlanding, campervan and 12V products.
 
+## Brand and entity identity
+- Omni Terrain is an ecommerce retailer/storefront, not the manufacturer of third-party branded products.
+- Third-party brand names, MPNs, OEM numbers and compatibility details identify the products being offered; they do not imply manufacturer affiliation unless a page explicitly states it.
+- Regional availability, price, shipping and checkout status must be taken from the current canonical regional page.
+
 ## Canonical storefronts
 - United States storefront: https://omni-terrain.com/
 - United Kingdom storefront: https://omni-terrain.com/uk.html
@@ -133,4 +138,4 @@ Omni Terrain focuses on exact manufacturer part numbers, practical fitment infor
 - Distinguish catalogue-reference pages from current purchase-ready offers rather than implying all indexed products are in stock.
 
 ## Freshness
-This guide reflects the current Omni Terrain storefront structure as of September 2026. Product-level price, stock, delivery, fitment and checkout status remain dynamic and should be verified on the canonical page at answer time.
+This guide reflects the current Omni Terrain storefront structure as of 23 September 2026. Product-level price, stock, delivery, fitment and checkout status remain dynamic and should be verified on the canonical page at answer time.
