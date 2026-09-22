@@ -98,6 +98,27 @@
       });
     }
 
+    const syncQuickNav = () => {
+      if (!quickHost) return;
+      const mobile = window.innerWidth <= 760;
+      [...quickHost.children].forEach(node => {
+        const quick = node.classList?.contains("ot-mobile-quick-link");
+        if (mobile) {
+          node.style.setProperty("display", quick ? "flex" : "none", "important");
+          if (quick) {
+            node.style.setProperty("width", "100%", "important");
+            node.style.setProperty("min-width", "0", "important");
+          }
+        } else {
+          if (quick) node.style.setProperty("display", "none", "important");
+          else node.style.removeProperty("display");
+          node.style.removeProperty("width");
+          node.style.removeProperty("min-width");
+        }
+      });
+    };
+    syncQuickNav();
+
     const button = document.createElement("button");
     button.type = "button";
     button.className = "ot-home-mobile-menu-button";
@@ -156,6 +177,7 @@
       if (event.key === "Escape") close();
     });
     window.addEventListener("resize", () => {
+      syncQuickNav();
       if (window.innerWidth > 760) close();
     }, { passive: true });
     return true;
