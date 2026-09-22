@@ -33,6 +33,7 @@
   styleAssets.push(["otAllDeviceResponsive", "/assets/all-device-responsive.css?v=20260922-2"]);
   styleAssets.push(["otModernVisualPolish", "/assets/modern-visual-polish.css?v=20260922-2"]);
   styleAssets.push(["otFontColorContrast", "/assets/font-color-contrast.css?v=20260922-1"]);
+  styleAssets.push(["otMasterDropdownStability", "/assets/master-dropdown-stability.css?v=20260922-1"]);
 
   const ensureStyles = () => {
     styleAssets.forEach(([key, href]) => {
