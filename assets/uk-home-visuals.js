@@ -13,10 +13,10 @@
   let sharpAutoRequested = false;
 
   const CATEGORY_IMAGES = {
-    'Marine': ['/assets/ot-cat-marine.webp?v=4', 'Marine equipment and accessories'],
-    'Campervan': ['/assets/ot-cat-overland.webp?v=4', 'Campervan and overlanding gear'],
-    '12V & Power': ['/assets/ot-cat-solar.webp?v=4', 'Solar and 12V power equipment'],
-    'Featured': ['/assets/ot-cat-deals.webp?v=4', 'Featured automotive and outdoor gear']
+    'Marine': ['/assets/ot-cat-marine-hd-v2.webp?v=5', 'Marine equipment and accessories'],
+    'Campervan': ['/assets/ot-cat-overland-hd-v2.webp?v=5', 'Campervan and overlanding gear'],
+    '12V & Power': ['/assets/ot-cat-solar-hd-v2.webp?v=5', 'Solar and 12V power equipment'],
+    'Featured': ['/assets/ot-cat-deals-hd-v2.webp?v=5', 'Featured automotive and outdoor gear']
   };
 
   const chunkedBlobUrl = async paths => {
