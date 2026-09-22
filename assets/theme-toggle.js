@@ -38,6 +38,7 @@
   styleAssets.push(["otSitewidePremiumDetailing", "/assets/sitewide-premium-detailing.css?v=1"]);
   styleAssets.push(["otOmniAiChat", "/assets/omni-ai-chat.css?v=1"]);
   if (isHome) styleAssets.push(["otHomePremium3BlockLate", "/assets/home-premium-3block.css?v=1"]);
+  styleAssets.push(["otMobileFinalStability", "/assets/mobile-final-stability.css?v=1"]);
 
   const ensureStyles = () => {
     styleAssets.forEach(([key, href]) => {
