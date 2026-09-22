@@ -148,7 +148,7 @@
   }
 
   function categoryCards() {
-    return categories().map(([title, copy, href, img]) => `<a class="ot-ref-category" href="${href}"><img src="${img}" alt="" loading="lazy"><div class="ot-ref-category-body"><strong>${esc(title)} →</strong><p>${esc(copy)}</p></div></a>`).join('');
+    return categories().map(([title, copy, href, img], index) => `<a class="ot-ref-category" href="${href}"><img src="${img}" alt="${esc(title)}" width="640" height="312" loading="${index < 3 ? 'eager' : 'lazy'}" decoding="async" fetchpriority="${index < 2 ? 'auto' : 'low'}"><div class="ot-ref-category-body"><strong>${esc(title)} →</strong><p>${esc(copy)}</p></div></a>`).join('');
   }
 
   async function loadUSProducts() {
