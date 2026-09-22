@@ -1,0 +1,151 @@
+/* Omni Terrain final cleanup pass — screenshot-specific polish only. */
+
+/* Product page: remove duplicate offer/status chrome and image helper clutter. */
+body.ot-pdp-us .product-copy .ot-launch-ribbon,
+body.ot-pdp-us .product-copy .ot-live-stock,
+body.ot-pdp-us .product-copy .stock-pill,
+body.ot-pdp-us .product-copy .availability-pill,
+body.ot-pdp-us .product-copy .status.buy,
+body.ot-pdp-us .product-copy .status.stock{
+  display:none!important;
+}
+
+body.ot-pdp-us .product-visual>.image-badge{
+  display:none!important;
+}
+
+body.ot-pdp-us .product-visual::before,
+body.ot-pdp-us .product-visual::after{
+  content:none!important;
+  display:none!important;
+}
+
+body.ot-pdp-us .product-visual{
+  padding-bottom:30px!important;
+}
+
+/* The useful product image remains the focus; runtime removes text helper buttons. */
+body.ot-pdp-us .product-visual img{
+  margin:auto!important;
+}
+
+/* Footer contrast on internal US pages */
+.ot-site-footer{
+  background:#08182d!important;
+  color:#dbe5ee!important;
+}
+
+.ot-site-footer .ot-site-footer-heading{
+  color:#d8c18e!important;
+  opacity:1!important;
+  font-weight:700!important;
+  letter-spacing:.09em!important;
+}
+
+.ot-site-footer .ot-site-footer-links a{
+  color:#e6edf4!important;
+}
+
+.ot-site-footer .ot-site-footer-links a:hover{
+  color:#f0cf7e!important;
+}
+
+.ot-site-footer .ot-site-footer-copy,
+.ot-site-footer .ot-site-legal{
+  color:#a7b6c4!important;
+}
+
+.ot-site-footer .ot-site-footer-bottom{
+  color:#8fa1b2!important;
+}
+
+.ot-site-footer .ot-site-brand,
+.ot-site-footer .ot-site-brand *{
+  color:#f4f7fa!important;
+}
+
+.ot-site-footer .ot-brand-logo-image,
+.ot-site-footer .ot-site-brand img{
+  filter:brightness(0) invert(1)!important;
+  opacity:.86!important;
+}
+
+/* Deals cards: reserve a clean badge rail instead of overlaying product imagery. */
+.ot-deal-media{
+  height:260px!important;
+  padding:56px 24px 18px!important;
+}
+
+.ot-deal-media img{
+  width:100%!important;
+  height:176px!important;
+  max-height:176px!important;
+  object-fit:contain!important;
+}
+
+.ot-deal-badge,
+.ot-deal-badge-free{
+  top:12px!important;
+  min-height:28px!important;
+  padding:0 10px!important;
+  font-size:9px!important;
+  box-shadow:0 3px 10px rgba(7,26,48,.10)!important;
+}
+
+.ot-deal-badge{left:12px!important}
+.ot-deal-badge-free{right:12px!important}
+
+/* Header: keep existing structure but tighten vertical rhythm and alignment. */
+html.ot-reference-home .ot-ref-utility .ot-ref-width,
+#otUnifiedHeaderShell .ot-unified-utility>.ot-unified-width{
+  min-height:30px!important;
+}
+
+html.ot-reference-home .ot-ref-mainbar .ot-ref-width,
+#otUnifiedHeaderShell .ot-unified-mainbar>.ot-unified-width{
+  min-height:76px!important;
+  align-items:center!important;
+}
+
+html.ot-reference-home .ot-ref-logo img,
+#otUnifiedHeaderShell .ot-unified-logo img{
+  object-fit:contain!important;
+  object-position:left center!important;
+}
+
+html.ot-reference-home .ot-ref-actions,
+#otUnifiedHeaderShell .ot-unified-actions{
+  align-items:center!important;
+}
+
+/* Category imagery: local HD assets should render untouched and crisp. */
+html.ot-reference-home .ot-ref-category img{
+  display:block!important;
+  width:100%!important;
+  height:105px!important;
+  object-fit:cover!important;
+  object-position:center!important;
+  filter:none!important;
+  image-rendering:auto!important;
+  transform:none!important;
+}
+
+/* Slightly cleaner category title/copy rhythm without changing layout. */
+html.ot-reference-home .ot-ref-category strong{
+  line-height:1.25!important;
+}
+html.ot-reference-home .ot-ref-category p{
+  line-height:1.45!important;
+}
+
+/* Mobile deals: keep badges clear without wasting too much image height. */
+@media(max-width:720px){
+  .ot-deal-media{
+    height:238px!important;
+    padding:50px 18px 16px!important;
+  }
+  .ot-deal-media img{
+    height:168px!important;
+    max-height:168px!important;
+  }
+}
