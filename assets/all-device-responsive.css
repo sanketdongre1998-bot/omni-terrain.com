@@ -1,0 +1,565 @@
+/* Omni Terrain all-device responsive layer — 2026-09-22
+   Final responsive authority for phone, tablet, laptop and large desktop. */
+
+*,*::before,*::after{box-sizing:border-box}
+
+html,body{
+  width:100%!important;
+  max-width:100%!important;
+  overflow-x:clip!important;
+}
+
+:where(main,section,article,aside,header,footer,nav,form,fieldset,div){
+  min-width:0;
+}
+
+:where(img,video,canvas,svg,iframe){
+  max-width:100%!important;
+}
+
+img,video{height:auto}
+
+:where(.container,.ot-ref-width,.ot-unified-width,.used-width){
+  max-width:100%!important;
+}
+
+:where(
+  .grid,.product-grid,.category-grid,.used-grid,.used-results-grid,
+  .selection-grid,.gate-grid,.uk-category-grid,.detail-grid,.form-grid,
+  .commerce-layout,.uk-cart-layout,.product-layout,.quick-cards,.facts,
+  .ot-ref-category-grid,.ot-ref-products,.ot-ref-finder-card
+)>*{
+  min-width:0!important;
+}
+
+:where(
+  .product-title,.product-copy h1,.product-info h1,.card h3,.product-card h3,
+  .mpn,.kicker,.spec-row span,.quick-card span,.fact strong,.policy-card,
+  .commerce-card,.uk-cart-panel
+){
+  overflow-wrap:anywhere!important;
+  word-break:normal!important;
+}
+
+:where(input,select,textarea,button,.button,.btn){
+  max-width:100%;
+}
+
+table{
+  max-width:100%;
+}
+
+/* Touch targets */
+@media(max-width:860px){
+  .ot-theme-toggle{
+    width:44px!important;
+    min-width:44px!important;
+    height:44px!important;
+    min-height:44px!important;
+    padding:0!important;
+  }
+
+  #otUnifiedHeaderShell .ot-unified-menu-button,
+  .ot-home-mobile-menu-button{
+    min-width:44px!important;
+    min-height:44px!important;
+  }
+
+  :where(
+    button,.button,.btn,input,select,
+    .ot-ref-cart,.ot-ref-account,
+    .cart-link,.menu-btn,.filter-button
+  ){
+    min-height:44px;
+  }
+}
+
+/* Homepage: compact, visible 4-item quick navigation on phones.
+   The separate Menu button still exposes the full catalogue navigation. */
+@media(max-width:760px){
+  html.ot-reference-home .ot-ref-header{
+    max-width:100%!important;
+    overflow:visible!important;
+  }
+
+  html.ot-reference-home .ot-ref-mainbar{
+    position:relative!important;
+  }
+
+  html.ot-reference-home .ot-ref-mainbar .ot-ref-width{
+    width:min(100% - 16px,744px)!important;
+    grid-template-columns:minmax(118px,1fr) auto!important;
+    grid-template-rows:auto auto!important;
+    gap:8px!important;
+    padding:7px 0 9px!important;
+  }
+
+  html.ot-reference-home .ot-ref-logo img{
+    width:132px!important;
+    height:42px!important;
+  }
+
+  html.ot-reference-home .ot-ref-actions{
+    position:static!important;
+    grid-column:2!important;
+    grid-row:1!important;
+    justify-self:end!important;
+    gap:4px!important;
+  }
+
+  html.ot-reference-home .ot-ref-cart{
+    display:inline-flex!important;
+    min-width:42px!important;
+    min-height:44px!important;
+    align-items:center!important;
+    justify-content:center!important;
+    padding:0 3px!important;
+  }
+
+  html.ot-reference-home .ot-ref-cart>span{
+    display:none!important;
+  }
+
+  html.ot-reference-home .ot-ref-search{
+    grid-column:1/-1!important;
+    grid-row:2!important;
+    width:100%!important;
+    margin:0!important;
+    grid-template-columns:minmax(0,1fr) 78px!important;
+  }
+
+  html.ot-reference-home .ot-ref-search input,
+  html.ot-reference-home .ot-ref-search button{
+    height:44px!important;
+    min-height:44px!important;
+  }
+
+  html.ot-reference-home .ot-ref-search input{
+    min-width:0!important;
+    padding-inline:12px!important;
+    font-size:16px!important;
+  }
+
+  html.ot-reference-home .ot-ref-search button{
+    padding:0 9px!important;
+    font-size:11px!important;
+  }
+
+  /* Override old inline rule that completely hid the navigation. */
+  html.ot-reference-home .ot-ref-nav{
+    display:block!important;
+    width:100%!important;
+    max-width:100%!important;
+    overflow:hidden!important;
+    border-top:1px solid #e3ebf2!important;
+    border-bottom:1px solid #dbe5ee!important;
+  }
+
+  html.ot-reference-home .ot-ref-nav>.ot-ref-width{
+    display:grid!important;
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    margin:0!important;
+    padding:0!important;
+    overflow:hidden!important;
+  }
+
+  html.ot-reference-home .ot-ref-nav>.ot-ref-width>*{
+    display:none!important;
+    min-width:0!important;
+  }
+
+  html.ot-reference-home .ot-ref-nav>.ot-ref-width>:nth-child(1),
+  html.ot-reference-home .ot-ref-nav>.ot-ref-width>:nth-child(2),
+  html.ot-reference-home .ot-ref-nav>.ot-ref-width>:nth-child(3),
+  html.ot-reference-home .ot-ref-nav>.ot-ref-width>.featured{
+    display:flex!important;
+    width:100%!important;
+  }
+
+  html.ot-reference-home .ot-ref-nav .ot-ref-nav-item{
+    position:static!important;
+    align-items:stretch!important;
+  }
+
+  html.ot-reference-home .ot-ref-nav .ot-ref-nav-item>button,
+  html.ot-reference-home .ot-ref-nav>.ot-ref-width>a{
+    display:flex!important;
+    width:100%!important;
+    min-width:0!important;
+    height:44px!important;
+    min-height:44px!important;
+    align-items:center!important;
+    justify-content:center!important;
+    padding:0 4px!important;
+    border:0!important;
+    border-right:1px solid #e5ecf3!important;
+    background:#fff!important;
+    color:#2f4a64!important;
+    overflow:hidden!important;
+    white-space:nowrap!important;
+    text-align:center!important;
+    text-decoration:none!important;
+    font-family:var(--ot-font-body,Inter,Arial,sans-serif)!important;
+    font-size:0!important;
+    font-weight:600!important;
+  }
+
+  /* US short labels */
+  html.ot-reference-home .ot-ref-nav>.ot-ref-width:has(.ot-ref-used-nav)>:nth-child(1)>button::before{content:"Auto";font-size:10px!important}
+  html.ot-reference-home .ot-ref-nav>.ot-ref-width:has(.ot-ref-used-nav)>:nth-child(2)::before{content:"Used OEM";font-size:9px!important}
+  html.ot-reference-home .ot-ref-nav>.ot-ref-width:has(.ot-ref-used-nav)>:nth-child(3)>button::before{content:"Marine";font-size:10px!important}
+
+  /* UK short labels */
+  html.ot-reference-home .ot-ref-nav>.ot-ref-width:not(:has(.ot-ref-used-nav))>:nth-child(1)>button::before{content:"Auto";font-size:10px!important}
+  html.ot-reference-home .ot-ref-nav>.ot-ref-width:not(:has(.ot-ref-used-nav))>:nth-child(2)>button::before{content:"Marine";font-size:10px!important}
+  html.ot-reference-home .ot-ref-nav>.ot-ref-width:not(:has(.ot-ref-used-nav))>:nth-child(3)::before{content:"Campervan";font-size:9px!important}
+
+  html.ot-reference-home .ot-ref-nav>.ot-ref-width>.featured::before{
+    content:"Deals"!important;
+    margin:0!important;
+    color:#9c6a0d!important;
+    font-size:10px!important;
+  }
+  html.ot-reference-home .ot-ref-nav>.ot-ref-width>.featured::after{content:none!important}
+
+  html.ot-reference-home .ot-ref-nav .ot-ref-menu{
+    display:none!important;
+  }
+
+  html.ot-reference-home .ot-home-mobile-menu-button{
+    min-width:44px!important;
+    min-height:44px!important;
+    padding:0 7px!important;
+    font-family:var(--ot-font-body,Inter,Arial,sans-serif)!important;
+    font-size:10px!important;
+    font-weight:600!important;
+  }
+
+  html.ot-reference-home .ot-home-mobile-nav a{
+    min-height:48px!important;
+    font-family:var(--ot-font-body,Inter,Arial,sans-serif)!important;
+    font-size:12px!important;
+    font-weight:600!important;
+  }
+
+  html.ot-reference-home .ot-ref-utility .ot-ref-width{
+    width:min(100% - 16px,744px)!important;
+  }
+
+  html.ot-reference-home .ot-ref-utility-left>span:first-child{
+    max-width:170px!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+    white-space:nowrap!important;
+  }
+
+  html.ot-reference-home .ot-ref-hero{
+    width:100%!important;
+    max-width:100%!important;
+    overflow:hidden!important;
+  }
+
+  html.ot-reference-home .ot-ref-hero-bg{
+    max-width:100%!important;
+  }
+
+  html.ot-reference-home .ot-ref-finder-card{
+    grid-template-columns:1fr!important;
+  }
+
+  html.ot-reference-home .ot-ref-findform{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+
+  html.ot-reference-home .ot-ref-findform button{
+    grid-column:1/-1!important;
+  }
+
+  html.ot-reference-home .ot-ref-category-grid,
+  html.ot-reference-home .ot-ref-products{
+    gap:10px!important;
+  }
+}
+
+/* Unified internal header */
+@media(max-width:860px){
+  #otUnifiedHeaderShell{
+    max-width:100%!important;
+    overflow:visible!important;
+  }
+
+  #otUnifiedHeaderShell .ot-unified-width{
+    width:min(100% - 16px,844px)!important;
+  }
+
+  #otUnifiedHeaderShell .ot-unified-mainbar>.ot-unified-width{
+    grid-template-columns:minmax(118px,1fr) auto!important;
+    grid-template-rows:auto auto!important;
+    gap:8px!important;
+  }
+
+  #otUnifiedHeaderShell .ot-unified-logo,
+  #otUnifiedHeaderShell .ot-unified-logo img{
+    width:132px!important;
+    max-width:132px!important;
+    height:42px!important;
+  }
+
+  #otUnifiedHeaderShell .ot-unified-actions{
+    grid-column:2!important;
+    grid-row:1!important;
+    gap:4px!important;
+  }
+
+  #otUnifiedHeaderShell .ot-unified-menu-button{
+    min-width:44px!important;
+    height:44px!important;
+    padding:0 9px!important;
+    font-family:var(--ot-font-body,Inter,Arial,sans-serif)!important;
+    font-weight:600!important;
+  }
+
+  #otUnifiedHeaderShell .ot-unified-search{
+    grid-column:1/-1!important;
+    grid-row:2!important;
+    width:100%!important;
+    grid-template-columns:minmax(0,1fr) 78px!important;
+  }
+
+  #otUnifiedHeaderShell .ot-unified-search input,
+  #otUnifiedHeaderShell .ot-unified-search button{
+    height:44px!important;
+    min-height:44px!important;
+  }
+
+  #otUnifiedHeaderShell .ot-unified-search input{
+    min-width:0!important;
+    font-size:16px!important;
+  }
+
+  #otUnifiedHeaderShell .ot-unified-mobile-nav{
+    max-height:min(72vh,560px)!important;
+    overflow-y:auto!important;
+    overscroll-behavior:contain!important;
+  }
+
+  #otUnifiedHeaderShell .ot-unified-mobile-nav a{
+    min-height:48px!important;
+  }
+
+  #otUnifiedHeaderShell .ot-unified-dropdown{
+    display:none!important;
+  }
+}
+
+/* Catalogues, cards and content grids */
+@media(max-width:900px){
+  :where(.commerce-layout,.uk-cart-layout,.policy-grid,.detail-grid,.fitment-box){
+    grid-template-columns:1fr!important;
+  }
+
+  :where(.grid,.product-grid,.category-grid,.used-grid,.used-results-grid,.selection-grid,.gate-grid,.uk-category-grid){
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+
+  :where(.commerce-card,.uk-cart-panel,.policy-card,.detail-card){
+    min-width:0!important;
+    max-width:100%!important;
+  }
+
+  :where(.product-layout){
+    max-width:100%!important;
+  }
+}
+
+@media(max-width:760px){
+  :where(.container){
+    width:min(100% - 24px,var(--max,1280px))!important;
+    max-width:100%!important;
+  }
+
+  :where(.hero,.commerce-hero,.cart-hero,.policy-hero,.catalogue-hero){
+    max-width:100%!important;
+    overflow:hidden!important;
+  }
+
+  :where(.commerce-card,.uk-cart-panel,.policy-card,.detail-card){
+    padding:20px!important;
+  }
+
+  :where(.form-grid){
+    grid-template-columns:1fr!important;
+  }
+
+  :where(.form-grid .full,.field.full){
+    grid-column:auto!important;
+  }
+
+  :where(input,select,textarea){
+    width:100%!important;
+    min-width:0!important;
+  }
+
+  :where(.button,.btn){
+    min-height:44px!important;
+  }
+
+  :where(.commerce-layout,.uk-cart-layout){
+    gap:14px!important;
+  }
+
+  table{
+    display:block!important;
+    width:100%!important;
+    max-width:100%!important;
+    overflow-x:auto!important;
+    -webkit-overflow-scrolling:touch!important;
+  }
+
+  :where(.section-head,.section-header){
+    min-width:0!important;
+    max-width:100%!important;
+  }
+
+  :where(.pagination){
+    max-width:100%!important;
+    overflow-x:auto!important;
+    padding-bottom:4px!important;
+  }
+
+  /* Used-parts page */
+  .used-hero-grid,
+  .used-footer-grid,
+  .used-trust-grid,
+  .used-how{
+    grid-template-columns:1fr!important;
+  }
+
+  .used-fitment-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+
+  .used-request-actions{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+  }
+
+  .used-mobile-conversion{
+    max-width:calc(100% - 16px)!important;
+  }
+}
+
+/* UK PDP mobile: no horizontal thumbnail carousel clipping.
+   Use a contained grid instead. */
+@media(max-width:780px){
+  body.ot-pdp-uk .gallery-thumbs{
+    display:grid!important;
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    gap:7px!important;
+    width:100%!important;
+    max-width:100%!important;
+    overflow:visible!important;
+    padding:9px!important;
+  }
+
+  body.ot-pdp-uk .gallery-thumb{
+    display:grid!important;
+    width:100%!important;
+    min-width:0!important;
+    height:auto!important;
+    min-height:64px!important;
+    aspect-ratio:1!important;
+    padding:4px!important;
+    overflow:hidden!important;
+  }
+
+  body.ot-pdp-uk .gallery-thumb img{
+    display:block!important;
+    width:100%!important;
+    max-width:100%!important;
+    height:100%!important;
+    min-width:0!important;
+    object-fit:contain!important;
+  }
+
+  body.ot-pdp-uk .gallery-main{
+    width:100%!important;
+    max-width:100%!important;
+  }
+
+  body.ot-pdp-uk .product-info,
+  body.ot-pdp-uk .purchase-box,
+  body.ot-pdp-uk .detail-card,
+  body.ot-pdp-uk .fitment-box{
+    width:100%!important;
+    max-width:100%!important;
+  }
+}
+
+@media(max-width:480px){
+  :where(.grid,.product-grid,.category-grid,.used-grid,.used-results-grid,.selection-grid,.gate-grid,.uk-category-grid){
+    grid-template-columns:1fr!important;
+  }
+
+  html.ot-reference-home .ot-ref-category-grid,
+  html.ot-reference-home .ot-ref-products{
+    grid-template-columns:1fr!important;
+  }
+
+  html.ot-reference-home .ot-ref-findform{
+    grid-template-columns:1fr!important;
+  }
+
+  html.ot-reference-home .ot-ref-findform button{
+    grid-column:auto!important;
+  }
+
+  .used-fitment-grid{
+    grid-template-columns:1fr!important;
+  }
+
+  body.ot-pdp-us .product-copy>.ot-live-buybox .ot-live-actions,
+  body.ot-pdp-uk .purchase-actions{
+    grid-template-columns:1fr!important;
+  }
+
+  body.ot-pdp-uk .gallery-thumbs{
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  }
+
+  :where(.ot-ref-footer-main,.footer-grid,.used-footer-grid){
+    grid-template-columns:1fr!important;
+  }
+}
+
+/* Large desktop: keep content readable instead of stretching indefinitely. */
+@media(min-width:1600px){
+  :where(.container,.ot-ref-width,.used-width,.ot-unified-width){
+    max-width:1440px!important;
+    margin-inline:auto!important;
+  }
+
+  body.ot-pdp :where(.product-layout){
+    max-width:1360px!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+  }
+}
+
+/* Dark theme mobile surfaces */
+@media(max-width:860px){
+  html[data-ot-theme="dark"] html.ot-reference-home .ot-ref-nav,
+  html[data-ot-theme="dark"] .ot-ref-nav{
+    border-color:#2a4055!important;
+  }
+
+  html[data-ot-theme="dark"] .ot-ref-nav .ot-ref-nav-item>button,
+  html[data-ot-theme="dark"] .ot-ref-nav>.ot-ref-width>a{
+    background:#101f31!important;
+    border-color:#2a4055!important;
+    color:#d8e4ee!important;
+  }
+}
