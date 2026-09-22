@@ -18,14 +18,14 @@
   ];
 
   const IMG = {
-    hero: 'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=2200&q=86',
-    auto: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=700&q=82',
-    used: 'https://images.unsplash.com/photo-1486006920555-c77dcf18193c?auto=format&fit=crop&w=700&q=82',
-    marine: 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?auto=format&fit=crop&w=700&q=82',
-    solar: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=700&q=82',
-    overland: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=700&q=82',
-    vehicle: 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=700&q=82',
-    deals: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=700&q=82'
+    hero: '/assets/omni-main-hero-20260916.png',
+    auto: '/assets/ot-cat-new-auto-final.jpg',
+    used: '/assets/ot-cat-used-oem-v3.jpg',
+    marine: '/assets/ot-cat-marine.webp',
+    solar: '/assets/ot-cat-solar.webp',
+    overland: '/assets/ot-cat-overland.webp',
+    vehicle: '/assets/ot-cat-auto.webp',
+    deals: '/assets/ot-cat-deals.webp'
   };
 
   function cartCount() {
