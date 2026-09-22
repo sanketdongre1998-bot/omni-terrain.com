@@ -292,3 +292,58 @@ html.ot-reference-home .ot-ref-product img{
     transition-duration:.01ms!important;
   }
 }
+
+
+/* Phone storefront: keep four high-intent category shortcuts visible; full navigation remains under Menu. */
+@media(max-width:760px){
+  html.ot-reference-home .ot-ref-header .ot-ref-nav{
+    display:block!important;
+    overflow:hidden!important;
+    border-top:1px solid #e5edf4!important;
+    border-bottom:1px solid #d9e4ee!important;
+    background:#fff!important;
+  }
+  html.ot-reference-home .ot-ref-header .ot-ref-nav>.ot-ref-width{
+    display:grid!important;
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    width:100%!important;
+    max-width:none!important;
+    margin:0!important;
+    gap:0!important;
+  }
+  html.ot-reference-home .ot-ref-header .ot-ref-nav>.ot-ref-width>:nth-child(n+5){
+    display:none!important;
+  }
+  html.ot-reference-home .ot-ref-header .ot-ref-nav>.ot-ref-width>.ot-ref-nav-item,
+  html.ot-reference-home .ot-ref-header .ot-ref-nav>.ot-ref-width>a{
+    display:flex!important;
+    min-width:0!important;
+    width:100%!important;
+  }
+  html.ot-reference-home .ot-ref-header .ot-ref-nav>.ot-ref-width>.ot-ref-nav-item>button,
+  html.ot-reference-home .ot-ref-header .ot-ref-nav>.ot-ref-width>a{
+    display:flex!important;
+    width:100%!important;
+    min-width:0!important;
+    min-height:42px!important;
+    height:42px!important;
+    align-items:center!important;
+    justify-content:center!important;
+    padding:0 5px!important;
+    border-right:1px solid #e3ebf2!important;
+    overflow:hidden!important;
+    text-align:center!important;
+    text-overflow:ellipsis!important;
+    white-space:nowrap!important;
+    font-size:10px!important;
+    line-height:1!important;
+  }
+  html.ot-reference-home .ot-ref-header .ot-ref-nav .ot-ref-menu{display:none!important}
+}
+@media(max-width:360px){
+  html.ot-reference-home .ot-ref-header .ot-ref-nav>.ot-ref-width>.ot-ref-nav-item>button,
+  html.ot-reference-home .ot-ref-header .ot-ref-nav>.ot-ref-width>a{
+    padding-inline:3px!important;
+    font-size:9px!important;
+  }
+}
