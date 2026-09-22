@@ -1,0 +1,283 @@
+/* Omni Terrain master dropdown stability layer — final authority.
+   Prevents desktop mega menus from collapsing under global responsive rules. */
+
+@media(min-width:861px){
+  html body #otUnifiedHeaderShell .ot-unified-nav-item{
+    position:relative!important;
+  }
+
+  html body #otUnifiedHeaderShell .ot-unified-nav-item>.ot-unified-dropdown,
+  html.ot-reference-home body .ot-ref-nav .ot-ref-nav-item>.ot-ref-menu{
+    position:absolute!important;
+    top:100%!important;
+    left:0!important;
+    right:auto!important;
+
+    width:620px!important;
+    min-width:620px!important;
+    max-width:min(620px,calc(100vw - 40px))!important;
+
+    padding:0!important;
+    margin:0!important;
+    box-sizing:border-box!important;
+    overflow:hidden!important;
+
+    display:block!important;
+    grid-template-columns:none!important;
+
+    border:1px solid #d8e3ec!important;
+    border-top:2px solid #1f5ed5!important;
+    border-radius:0 0 14px 14px!important;
+    background:#fff!important;
+    box-shadow:0 22px 52px rgba(15,40,66,.16)!important;
+
+    opacity:0!important;
+    visibility:hidden!important;
+    pointer-events:none!important;
+    transform:translateY(-6px)!important;
+    transform-origin:top left!important;
+    transition:opacity .15s ease,transform .15s ease,visibility .15s linear!important;
+    z-index:3000!important;
+  }
+
+  html body #otUnifiedHeaderShell .ot-unified-nav-item:hover>.ot-unified-dropdown,
+  html body #otUnifiedHeaderShell .ot-unified-nav-item:focus-within>.ot-unified-dropdown,
+  html body #otUnifiedHeaderShell .ot-unified-nav-item.is-open>.ot-unified-dropdown,
+  html.ot-reference-home body .ot-ref-nav .ot-ref-nav-item:hover>.ot-ref-menu,
+  html.ot-reference-home body .ot-ref-nav .ot-ref-nav-item:focus-within>.ot-ref-menu,
+  html.ot-reference-home body .ot-ref-nav .ot-ref-nav-item.is-open>.ot-ref-menu{
+    opacity:1!important;
+    visibility:visible!important;
+    pointer-events:auto!important;
+    transform:translateY(0)!important;
+  }
+
+  /* Marine / second category stays inside viewport. */
+  html body #otUnifiedHeaderShell .ot-unified-nav-item:nth-child(2)>.ot-unified-dropdown,
+  html.ot-reference-home body .ot-ref-nav .ot-ref-nav-item:nth-child(2)>.ot-ref-menu{
+    left:-120px!important;
+  }
+
+  html body :is(.ot-unified-dropdown,.ot-ref-menu) .ot-mega-head{
+    display:block!important;
+    width:100%!important;
+    min-width:0!important;
+    padding:18px 20px 16px!important;
+    margin:0!important;
+    border-bottom:1px solid #e0e8ef!important;
+    background:linear-gradient(115deg,#f8fbfd,#f2f7fb)!important;
+    box-sizing:border-box!important;
+  }
+
+  html body :is(.ot-unified-dropdown,.ot-ref-menu) .ot-mega-kicker{
+    display:block!important;
+    margin:0 0 5px!important;
+    color:#346a9f!important;
+    font-family:var(--ot-font-body,Inter,Arial,sans-serif)!important;
+    font-size:9px!important;
+    line-height:1.1!important;
+    font-weight:600!important;
+    letter-spacing:.11em!important;
+    text-transform:uppercase!important;
+  }
+
+  html body :is(.ot-unified-dropdown,.ot-ref-menu) .ot-mega-head h4{
+    display:block!important;
+    width:100%!important;
+    margin:0!important;
+    padding:0!important;
+    color:#1d3b58!important;
+    font-family:var(--ot-font-display,"Barlow Condensed","Arial Narrow",sans-serif)!important;
+    font-size:28px!important;
+    line-height:1!important;
+    font-weight:700!important;
+    letter-spacing:-.01em!important;
+    text-transform:none!important;
+    white-space:normal!important;
+  }
+
+  html body :is(.ot-unified-dropdown,.ot-ref-menu) .ot-mega-head p{
+    display:block!important;
+    max-width:520px!important;
+    margin:7px 0 0!important;
+    color:#687b8d!important;
+    font-family:var(--ot-font-body,Inter,Arial,sans-serif)!important;
+    font-size:11px!important;
+    line-height:1.5!important;
+    font-weight:400!important;
+    white-space:normal!important;
+    overflow-wrap:normal!important;
+  }
+
+  html body :is(.ot-unified-dropdown,.ot-ref-menu) .ot-mega-links{
+    display:grid!important;
+    width:100%!important;
+    min-width:0!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:8px!important;
+    padding:12px!important;
+    margin:0!important;
+    background:#fff!important;
+    box-sizing:border-box!important;
+  }
+
+  html body :is(.ot-unified-dropdown,.ot-ref-menu) .ot-mega-links>a{
+    position:relative!important;
+    display:block!important;
+    width:auto!important;
+    min-width:0!important;
+    min-height:70px!important;
+    margin:0!important;
+    padding:12px 34px 11px 13px!important;
+    border:1px solid transparent!important;
+    border-radius:9px!important;
+    background:#fff!important;
+    color:#29445d!important;
+    box-sizing:border-box!important;
+    text-decoration:none!important;
+    white-space:normal!important;
+    overflow:visible!important;
+  }
+
+  html body :is(.ot-unified-dropdown,.ot-ref-menu) .ot-mega-links>a:hover{
+    border-color:#d9e5ef!important;
+    background:#f6f9fc!important;
+    color:#165fae!important;
+  }
+
+  html body :is(.ot-unified-dropdown,.ot-ref-menu) .ot-mega-links>a::after{
+    content:"→"!important;
+    position:absolute!important;
+    top:50%!important;
+    right:12px!important;
+    transform:translateY(-50%)!important;
+    color:#91a1b0!important;
+    font-size:14px!important;
+    line-height:1!important;
+  }
+
+  html body :is(.ot-unified-dropdown,.ot-ref-menu) .ot-mega-links>a>strong{
+    display:block!important;
+    width:auto!important;
+    min-width:0!important;
+    margin:0!important;
+    padding:0!important;
+    color:inherit!important;
+    font-family:var(--ot-font-body,Inter,Arial,sans-serif)!important;
+    font-size:12px!important;
+    line-height:1.25!important;
+    font-weight:600!important;
+    letter-spacing:0!important;
+    white-space:normal!important;
+    overflow-wrap:normal!important;
+    word-break:normal!important;
+  }
+
+  html body :is(.ot-unified-dropdown,.ot-ref-menu) .ot-mega-links>a>small{
+    display:block!important;
+    width:auto!important;
+    min-width:0!important;
+    margin:4px 0 0!important;
+    padding:0!important;
+    color:#758697!important;
+    font-family:var(--ot-font-body,Inter,Arial,sans-serif)!important;
+    font-size:10px!important;
+    line-height:1.4!important;
+    font-weight:400!important;
+    white-space:normal!important;
+    overflow-wrap:normal!important;
+    word-break:normal!important;
+  }
+
+  html body :is(.ot-unified-dropdown,.ot-ref-menu) .ot-mega-feature{
+    border-color:#cfe0f0!important;
+    background:#f3f8fd!important;
+  }
+
+  html body :is(.ot-unified-dropdown,.ot-ref-menu) .ot-mega-feature::before{
+    content:"POPULAR"!important;
+    display:inline-block!important;
+    margin:0 0 6px!important;
+    padding:3px 6px!important;
+    border-radius:999px!important;
+    background:#1f5ed5!important;
+    color:#fff!important;
+    font-family:var(--ot-font-body,Inter,Arial,sans-serif)!important;
+    font-size:7px!important;
+    line-height:1!important;
+    font-weight:700!important;
+    letter-spacing:.07em!important;
+  }
+
+  html body :is(.ot-unified-dropdown,.ot-ref-menu)>a.all{
+    display:flex!important;
+    width:auto!important;
+    min-width:0!important;
+    min-height:44px!important;
+    align-items:center!important;
+    justify-content:space-between!important;
+    margin:0 12px 12px!important;
+    padding:0 13px!important;
+    border:1px solid #d4e1ec!important;
+    border-radius:8px!important;
+    background:#f8fbfd!important;
+    color:#1764b5!important;
+    font-family:var(--ot-font-body,Inter,Arial,sans-serif)!important;
+    font-size:11px!important;
+    font-weight:600!important;
+    text-decoration:none!important;
+    box-sizing:border-box!important;
+  }
+}
+
+/* Mobile uses the dedicated mobile nav, never the desktop mega panel. */
+@media(max-width:860px){
+  html body #otUnifiedHeaderShell .ot-unified-dropdown,
+  html.ot-reference-home body .ot-ref-nav .ot-ref-menu{
+    display:none!important;
+  }
+}
+
+/* Dark theme */
+@media(min-width:861px){
+  html[data-ot-theme="dark"] body :is(.ot-unified-dropdown,.ot-ref-menu){
+    border-color:#30485e!important;
+    border-top-color:#6baeff!important;
+    background:#101f31!important;
+    box-shadow:0 22px 54px rgba(0,0,0,.30)!important;
+  }
+
+  html[data-ot-theme="dark"] body :is(.ot-unified-dropdown,.ot-ref-menu) .ot-mega-head{
+    border-bottom-color:#2b4358!important;
+    background:linear-gradient(115deg,#13263a,#0f1e2e)!important;
+  }
+
+  html[data-ot-theme="dark"] body :is(.ot-unified-dropdown,.ot-ref-menu) .ot-mega-head h4{
+    color:#e6eef5!important;
+  }
+
+  html[data-ot-theme="dark"] body :is(.ot-unified-dropdown,.ot-ref-menu) .ot-mega-head p,
+  html[data-ot-theme="dark"] body :is(.ot-unified-dropdown,.ot-ref-menu) .ot-mega-links>a>small{
+    color:#9eafbf!important;
+  }
+
+  html[data-ot-theme="dark"] body :is(.ot-unified-dropdown,.ot-ref-menu) .ot-mega-links{
+    background:#101f31!important;
+  }
+
+  html[data-ot-theme="dark"] body :is(.ot-unified-dropdown,.ot-ref-menu) .ot-mega-links>a{
+    background:#101f31!important;
+    color:#dce7f0!important;
+  }
+
+  html[data-ot-theme="dark"] body :is(.ot-unified-dropdown,.ot-ref-menu) .ot-mega-links>a:hover{
+    border-color:#355069!important;
+    background:#172a3d!important;
+  }
+
+  html[data-ot-theme="dark"] body :is(.ot-unified-dropdown,.ot-ref-menu)>a.all{
+    border-color:#36516a!important;
+    background:#13263a!important;
+    color:#79b8ff!important;
+  }
+}
