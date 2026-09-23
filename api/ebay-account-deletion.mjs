@@ -4,22 +4,19 @@ const ENDPOINT =
   process.env.EBAY_DELETION_ENDPOINT ||
   "https://omni-terrain-uk-checkout.vercel.app/api/ebay-account-deletion";
 
+const DEFAULT_VERIFICATION_TOKEN = "g8Lvy8Rtq8ZiexGyyrK1ETk3rTRRtegcYchRkd_9rzVWDcu3";
+
 export function GET(request) {
   const url = new URL(request.url);
   const challengeCode = url.searchParams.get("challenge_code");
-  const verificationToken = process.env.EBAY_DELETION_VERIFICATION_TOKEN || "";
+  const verificationToken =
+    process.env.EBAY_DELETION_VERIFICATION_TOKEN ||
+    DEFAULT_VERIFICATION_TOKEN;
 
   if (!challengeCode) {
     return Response.json(
       { ok: true, service: "ebay-marketplace-account-deletion" },
       { status: 200, headers: { "Cache-Control": "no-store" } },
-    );
-  }
-
-  if (!verificationToken) {
-    return Response.json(
-      { error: "verification_token_not_configured" },
-      { status: 500, headers: { "Cache-Control": "no-store" } },
     );
   }
 
@@ -36,15 +33,9 @@ export function GET(request) {
 }
 
 export async function POST(request) {
-  // Acknowledge eBay marketplace account deletion/closure notifications immediately.
-  // The integration currently does not persist eBay marketplace user data in this endpoint.
-  // If persistence is added later, verify eBay's notification signature and delete/retain
-  // data according to eBay policy and applicable legal requirements.
   try {
     await request.text();
-  } catch (_) {
-    // Intentionally acknowledge even if the body cannot be parsed.
-  }
+  } catch (_) {}
 
   return new Response(null, {
     status: 204,
